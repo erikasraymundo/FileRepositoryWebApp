@@ -1,9 +1,9 @@
 # FileRepositoryWebApp
  
-CMD dapat 
-pip install virtualenv
-virtualenv python_web_app_env
-python_web_app_env\Scripts\activate
-para magdeactivate ng virtual environment:
-deactivate
-django-admin startproject sample_project
+CMD dapat<br>
+pip install virtualenv<br>
+virtualenv python_web_app_env<br>
+python_web_app_env\Scripts\activate<br>
+para magdeactivate ng virtual environment:<br>
+deactivate<br>
+django-admin startproject sample_project<br>
