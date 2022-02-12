@@ -21,6 +21,7 @@ from file_management.views import file_management
 from users_management.views import profile
 from users_management.views import manage_accounts
 from users_management.views import category_management
+from file_management.views import upload_file
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +31,5 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('manage-accounts/', manage_accounts, name='manage_accounts'),
     path('category-management/', category_management, name='category_management'),
+    path('upload/', upload_file, name='upload_file'),
 ]
