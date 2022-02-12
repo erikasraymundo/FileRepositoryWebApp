@@ -19,6 +19,7 @@ from login.views import login_page
 from registration.views import registration_page
 from file_management.views import file_management
 from users_management.views import profile
+from users_management.views import manage_accounts
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('registration/', registration_page, name='registration_page'),
     path('file-management/', file_management, name='file_management'),
     path('profile/', profile, name='profile'),
+    path('manage-accounts/', manage_accounts, name='manage_accounts'),
 ]
