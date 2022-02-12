@@ -24,16 +24,20 @@ from users_management.views import category_management
 from file_management.views import upload_file
 from file_management.views import archive_file
 from file_management.views import view_file
+from file_management.views import base
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('login/', login_page, name='login_page'),
     path('registration/', registration_page, name='registration_page'),
-    path('file-management/', file_management, name='file_management'),
+    
     path('profile/', profile, name='profile'),
     path('manage-accounts/', manage_accounts, name='manage_accounts'),
     path('category-management/', category_management, name='category_management'),
-    path('upload/', upload_file, name='upload_file'),
-    path('archive/', archive_file, name='archive_file'),
-    path('view/', view_file, name='view_file'),
+
+    path('file-management/', file_management, name='file_management'),
+    path('file-management/upload/', upload_file, name='upload_file'),
+    path('file-management/archive/', archive_file, name='archive_file'),
+    path('file-management/view/', view_file, name='view_file'),
 ]

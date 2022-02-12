@@ -10,7 +10,7 @@
     <!--APP-->
     <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/file-management.css' %}" />
 
-   <!--BULMA, JUST FOR THE STRUCTURE-->
+    <!--BULMA, JUST FOR THE STRUCTURE-->
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
    <style>
       .menu{
@@ -120,17 +120,12 @@
         </aside>
         <!--MAIN-->
         <main id="main-content">
-           <section class="file-management">
-               <div class="file-management--container">
-                <h1 class="h1">Viewing a File</h1>
-                      
-             
-               
-               </div>
-           </section>
+            {% block content %}
+            {% endblock %}
         </main>
      </div>
 
+    
      <script>
       const toggle = document.querySelector('#sidebar--toggle');
       const sidebar = document.querySelector('#aside');
