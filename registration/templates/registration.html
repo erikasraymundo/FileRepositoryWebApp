@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--DEPENDENCIES-->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'src/scss/global/global.css' %}" />
+    <!--APP-->
+    <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/registration.css' %}" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+      $( "#birthday" ).datepicker();
+    } );
+    </script>
+    <style>
+        .ui-widget-header {
+        background: #ddd;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+
+    <section class="register">
+        <div class="register-container">
+
+           <div class="register-text">
+            <h2 class="h2">Create an account</h2>
+            <h1 class="h1">Soar Academy</h1>
+            <h3 class="h3">English HS Department’s <span>common drive</span></h3>
+            <p>Already have an account? <span><a href="">Login.</a></span></p>
+           </div>
+
+           <form action="">
+               <div class="row">
+                   <div class="col-6">
+                    <input type="text" name="" id="" placeholder="Enter username*">
+                   </div>
+                   <div class="col-6">
+                    <input type="text" name="" id="" placeholder="Enter email*">
+                   </div>
+               </div>
+
+               <div class="row">
+                    <div class="col-6">
+                    <input type="text" name="" id="" placeholder="Enter firstname*">
+                    </div>
+                    <div class="col-6">
+                    <input type="text" name="" id="" placeholder="Enter middle name*">
+                </div>
+            </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" name="" id="" placeholder="Enter last name*"> 
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" name="" id="" placeholder="Enter address*"> 
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 birthday">
+                        <div class="icon-calendar">
+                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"/>
+                            </svg>
+                        </div>
+                        <input type="text" name="" id="birthday" placeholder="Select birthdate*"> 
+                    </div>
+                </div>
+
+                <fieldset class="gender" id="group">
+                    <p>Select gender*</p>
+                    <div>
+                        <input type="radio" id="Woman" name="group" value="Woman"
+                              >
+                        <label for="Woman">Woman</label>
+                      </div>
+                      
+                      <div>
+                        <input type="radio" id="Man" name="group" value="Man">
+                        <label for="Man">Man</label>
+                      </div>
+                      
+                      <div>
+                        <input type="radio" id="Others" name="group" value="Others">
+                        <label for="Others">Others</label>
+                      </div>
+                </fieldset>
+
+                <div class="row">
+                    <div class="col-6">
+                        <input type="text" name="" id="" placeholder="Enter password*"> 
+                    </div>
+                    <div class="col-6">
+                        <input type="text" name="" id="" placeholder="Confirm password*"> 
+                    </div>
+                </div>
+
+                <div class="btn-register-holder">
+                    <a class="btn-register">Register</a>
+                 </div>
+
+           </form>
+
+        </div>
+     </section>
+
+
+   
+</body>
+</html>
