@@ -18,10 +18,12 @@ from django.urls import path
 from login.views import login_page
 from registration.views import registration_page
 from file_management.views import file_management
+from users_management.views import profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login_page, name='login_page'),
     path('registration/', registration_page, name='registration_page'),
     path('file-management/', file_management, name='file_management'),
+    path('profile/', profile, name='profile'),
 ]
