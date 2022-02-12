@@ -1,0 +1,101 @@
+.login {
+    height: 100vh;
+    width: 100%;
+    background-image: url("/static/src/images/login-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center top;
+    @media(min-width: 1366px){
+      background-size: cover;
+      background-position: center;
+    }
+  }
+  .login-container {
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+  }
+  .login-col {
+    flex: 1 1 50%;
+    max-width: 50%;
+    padding: 71px 0;
+    display: grid;
+    align-items: center;
+  }
+  .login-holder{
+    width: 446px;
+    margin: 0 auto;
+  }
+  
+  .login {
+
+    .h1 {
+      font-family: Raleway;
+      font-weight: 800;
+      font-size: 48px;
+      color: white;
+      margin-bottom: 1rem;
+    }
+    .h2 {
+      font-family: Raleway;
+      font-size: 36px;
+      color: white;
+      font-weight: normal;
+      margin-bottom: 0.4rem;
+    }
+    .h3 {
+      font-family: Raleway;
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 25px;
+  
+      span {
+        font-weight: 800;
+      }
+    }
+    .h4 {
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 24px;
+      line-height: 28px;
+      margin-bottom: 0.5rem;
+      color: #8761f4;
+    }
+    .form-container {
+      min-height: 340px;
+      width: 100%;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
+      padding: 33px;
+  
+      p {
+        font-family: Raleway;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: #8761f4;
+        margin-bottom: 33px;
+
+        span{
+          a{
+            font-weight: 800;
+            text-decoration: none;
+            color: #8761f4;
+
+            &:hover{
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+  }
+  
+

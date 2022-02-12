@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--DEPENDENCIES-->
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'src/scss/login.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'src/scss/global/global.css' %}" />
+    <!--APP-->
+    <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/login.css' %}" />
     <title>Document</title>
 </head>
 <body>
@@ -21,7 +24,7 @@
                  </div>
                  <div class="form-container">
                     <h4 class="h4">Login to your account.</h4>
-                    <p>Don’t have an account, yet? <span><a class="reg" onclick="Register()">Register.</a></span></p>
+                    <p>Don’t have an account, yet? <span><a class="reg" href="/registration" onclick="Register()">Register.</a></span></p>
                     <form action="">
                        <input type="email" name="" id="" placeholder="Enter username or email">
                        <input type="password" name="" id="" placeholder="Enter password">
