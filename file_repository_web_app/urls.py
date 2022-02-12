@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from login.views import login_page
-from registration.views import registration_page
+from accounts.views import login
+from accounts.views import register
 from file_management.views import file_management
 from users_management.views import profile
 from users_management.views import manage_accounts
@@ -24,13 +24,13 @@ from users_management.views import category_management
 from file_management.views import upload_file
 from file_management.views import archive_file
 from file_management.views import view_file
-from file_management.views import base
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('login/', login_page, name='login_page'),
-    path('registration/', registration_page, name='registration_page'),
+    path('login/', login, name='login'),
+    path('registration/', register, name='register'),
     
     path('profile/', profile, name='profile'),
     path('manage-accounts/', manage_accounts, name='manage_accounts'),
