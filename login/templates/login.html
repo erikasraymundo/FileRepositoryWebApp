@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'src/scss/login.css' %}" />
+    <title>Document</title>
+</head>
+<body>
+
+    <section class="login">
+        <div class="login-container">
+           <div class="login-col">
+              <div class="login-holder">
+                 <div class="login-text">
+                    <h2 class="h2">Welcome to</h2>
+                    <h1 class="h1">Soar Academy</h1>
+                    <h3 class="h3">English HS Department’s <span>common drive</span></h3>
+                 </div>
+                 <div class="form-container">
+                    <h4 class="h4">Login to your account.</h4>
+                    <p>Don’t have an account, yet? <span><a class="reg" onclick="Register()">Register.</a></span></p>
+                    <form action="">
+                       <input type="email" name="" id="" placeholder="Enter username or email">
+                       <input type="password" name="" id="" placeholder="Enter password">
+                       <div class="btn-login-holder">
+                          <a class="btn-login">Login</a>
+                       </div>
+                    </form>
+                 </div>
+              </div>
+           </div> 
+        </div>
+     </section>
+
+</body>
+</html>
