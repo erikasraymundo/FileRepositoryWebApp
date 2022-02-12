@@ -154,10 +154,10 @@
                     </div>
                 </div>
 
-                 <div class="component1">
-                    <h4 class="h4">Uploaded Files</h4>
-                    <h4 class="h4 active">Archived</h4>
-                  </div>
+                <div class="component1">
+                  <h4 class="h4 "><a href="/file-management">Uploaded Files</a></h4>
+                  <h4 class="h4 active"><a href="/archive">Archived</a></h4>
+                </div>
 
 
                   <div class="file-management--controls">
@@ -268,6 +268,21 @@
         </main>
      </div>
 
-    <script src="src/js/script.js"></script>
+   
+     <script>
+      const toggle = document.querySelector('#sidebar--toggle');
+      const sidebar = document.querySelector('#aside');
+      const main = document.querySelector('#main-content');
+      toggle.addEventListener('click',function(){
+      if(sidebar.classList.contains('close--sidebar')){ 
+      sidebar.classList.remove('close--sidebar');
+      main.classList.remove('margins');
+      }
+      else{
+      sidebar.classList.add('close--sidebar');
+      main.classList.add('margins');
+      }});
+     </script>
+     
 </body>
 </html>

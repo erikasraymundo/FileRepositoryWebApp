@@ -63,7 +63,6 @@
                  </div>
                  <div class="menu">
                     <ul class="menu--links">
-                    
                        <li class="active">
                           <a href="">
                              <div class="icon">
@@ -155,8 +154,8 @@
                 </div>
 
                  <div class="component1">
-                    <h4 class="h4 active">Uploaded Files</h4>
-                    <h4 class="h4 ">Archived</h4>
+                    <h4 class="h4 active"><a href="/file-management">Uploaded Files</a></h4>
+                    <h4 class="h4 "><a href="/archive">Archived</a></h4>
                   </div>
 
 
@@ -205,7 +204,7 @@
                            <input type="text" class="search-input" placeholder="Search">
                         </div>
                         <div class="btn-dark">
-                            <a> <span class="iconify" data-icon="ic:baseline-upload"></span> Upload File</a>
+                            <a href="/upload"> <span class="iconify" data-icon="ic:baseline-upload"></span> Upload File</a>
                         </div>
                       </div>
                   </div>
@@ -271,6 +270,21 @@
         </main>
      </div>
 
-    <script src="src/js/script.js"></script>
+    
+     <script>
+      const toggle = document.querySelector('#sidebar--toggle');
+      const sidebar = document.querySelector('#aside');
+      const main = document.querySelector('#main-content');
+      toggle.addEventListener('click',function(){
+      if(sidebar.classList.contains('close--sidebar')){ 
+      sidebar.classList.remove('close--sidebar');
+      main.classList.remove('margins');
+      }
+      else{
+      sidebar.classList.add('close--sidebar');
+      main.classList.add('margins');
+      }});
+     </script>
+
 </body>
 </html>

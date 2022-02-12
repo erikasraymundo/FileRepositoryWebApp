@@ -10,8 +10,13 @@
     <!--APP-->
     <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/file-management.css' %}" />
 
-      <!--BULMA, JUST FOR THE STRUCTURE-->
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+   <!--BULMA, JUST FOR THE STRUCTURE-->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+   <style>
+      .menu{
+         font-size: unset !important;
+      }
+   </style>
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -126,6 +131,20 @@
         </main>
      </div>
 
-    <script src="src/js/script.js"></script>
+     <script>
+      const toggle = document.querySelector('#sidebar--toggle');
+      const sidebar = document.querySelector('#aside');
+      const main = document.querySelector('#main-content');
+      toggle.addEventListener('click',function(){
+      if(sidebar.classList.contains('close--sidebar')){ 
+      sidebar.classList.remove('close--sidebar');
+      main.classList.remove('margins');
+      }
+      else{
+      sidebar.classList.add('close--sidebar');
+      main.classList.add('margins');
+      }});
+     </script>
+
 </body>
 </html>
