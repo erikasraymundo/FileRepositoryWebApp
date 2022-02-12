@@ -2,14 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class CustomUser(AbstractUser):
+class User(AbstractUser):
     user_type = models.PositiveSmallIntegerField()
-    middle_name = models.CharField(max_length=200)
+    middle_name = models.CharField(max_length=200, null=True)
     gender = models.PositiveSmallIntegerField()
     birthdate = models.DateField()
     address = models.CharField(max_length=500)
-    profile_picture = models.CharField(max_length=500)
-    created_at = models.DateField()
-    updated_at = models.DateField()
-    deleted_at = models.DateField()
+    profile_picture = models.CharField(max_length=500, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(null=True)
 

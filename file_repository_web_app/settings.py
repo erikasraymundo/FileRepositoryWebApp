@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'file_management.apps.FileManagementConfig',
     'users_management.apps.UsersManagementConfig',
     'category_management.apps.CategoryManagementConfig',
+    'activity_log.apps.ActivityLogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-AUTH_USER_MODEL = 'users_management.CustomUser'  # new
+AUTH_USER_MODEL = 'users_management.User'  # new
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
