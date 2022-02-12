@@ -9,3 +9,6 @@ def upload_file(request):
 
 def archive_file(request):
     return render(request, 'archivefile.html')
+
+def view_file(request):
+    return render(request, 'viewfile.html')
