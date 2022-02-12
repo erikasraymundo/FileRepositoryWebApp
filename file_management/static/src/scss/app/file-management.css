@@ -1,0 +1,151 @@
+.file-management--header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: .5rem;
+}
+
+.file-management--categories {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 34px;
+}
+
+.file-management--categories > * {
+  min-height: 180px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 200px;
+          flex: 1 1 200px;
+  max-width: 200px;
+  border-radius: 10px;
+  padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.file-management--categories > * .icon-file {
+  margin-top: .4rem;
+  margin-bottom: 14px;
+}
+
+.file-management--categories > * h2 {
+  color: #00000080;
+  width: 70%;
+  margin-bottom: 12px;
+}
+
+.file-management--categories > * p {
+  text-align: right;
+}
+
+.file-management--categories_lesson-plan {
+  background: linear-gradient(46.27deg, #A4B7FF 38.59%, rgba(154, 175, 255, 0.1) 110.27%, rgba(164, 183, 255, 0.1) 110.27%);
+}
+
+.file-management--categories_grading-sheets {
+  background: linear-gradient(48.38deg, #8886FF 24.95%, rgba(136, 134, 255, 0.11875) 108.11%, rgba(151, 134, 255, 0.1) 109.88%);
+}
+
+.file-management--categories_other-files {
+  background: linear-gradient(52.3deg, #7BE680 30.96%, rgba(123, 229, 128, 0.1) 109.15%);
+}
+
+.file-management--controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 37px;
+}
+
+.file-management--controls_left {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  gap: 12px;
+}
+
+.file-management--controls_left div p {
+  margin-bottom: 7px;
+}
+
+.file-management--controls_right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 13px;
+}
+
+.file-management--controls_right div p {
+  margin-bottom: 7px;
+}
+
+.file-management--table-container {
+  margin-bottom: 31px;
+}
+
+.file-management--table-container table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+}
+
+.file-management--table-container table thead tr {
+  border: 1px solid #ddd;
+}
+
+.file-management--table-container table thead th {
+  font-size: 14px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background-color: #FAFAFA;
+  padding: 1rem;
+  color: #8761F4;
+  text-align: center;
+}
+
+.file-management--table-container table tr {
+  border: 1px solid #ddd;
+}
+
+.file-management--table-container table tbody tr td {
+  font-size: 14px;
+  padding: 1rem;
+}
+
+.file-management--table-container table tbody tr .actions .actions--container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1.3rem;
+}
+
+.file-management--table-container table tbody tr .actions .actions--container > * {
+  cursor: pointer;
+}
+/*# sourceMappingURL=file-management.css.map */

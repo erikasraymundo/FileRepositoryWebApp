@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from login.views import login_page
 from registration.views import registration_page
-
+from file_management.views import file_management
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login_page, name='login_page'),
     path('registration/', registration_page, name='registration_page'),
+    path('file-management/', file_management, name='file_management'),
 ]
