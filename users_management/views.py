@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 
 def profile(request):
-    return render(request, 'profile.html')
+    return render(request, 'profile/profile.html')
 
 def manage_accounts(request):
-    return render(request, 'manage-accounts.html')
+    return render(request, 'user-accounts/manage-accounts.html')
 

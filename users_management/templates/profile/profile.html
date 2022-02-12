@@ -1,0 +1,88 @@
+{% extends 'profile/base.html' %}
+
+{% block content %}
+{% load static %}
+   <h1 class="h1">My Profile</h1>
+   <section class="my-profile">
+      <div class="my-profile--container">
+            <div class="my-profile--image">
+               <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
+               <h4 class="h4">joy25</h4>
+               <p>username</p>
+            </div>
+            <div class="my-profile--info">
+               <div class="my-profile--info-container">
+                     <div class="text">
+                        <h4 class="h4">Personal Information</h4>
+                        <table>
+                           <tbody>
+                              <tr>
+                                    <td class="fw-700 title">Name</td>
+                                    <td class="fw-400">Dorothy Joy Franciso</td>
+                              </tr>
+                              <tr>
+                                    <td class="fw-700 title">Gender</td>
+                                    <td class="fw-400">Woman</td>
+                              </tr>
+                              <tr>
+                                    <td class="fw-700 title">Birthdate</td>
+                                    <td class="fw-400">January 01, 2000</td>
+                              </tr>
+                              <tr>
+                                    <td class="fw-700 title">Address</td>
+                                    <td class="fw-400">Malolos, Bulacan</td>
+                              </tr>
+                           </tbody>
+                        </table>
+
+                        <h4 class="h4">Contact Information</h4>
+                        <table>
+                        <tbody>
+                           <tr>
+                                 <td class="fw-700 title">Email</td>
+                                 <td class="fw-400">joyfrancisco@gmail.com</td>
+                           </tr>
+                        </tbody>
+                        </table>
+
+                        <h4 class="h4">Account Details</h4>
+                        <table>
+                        <tbody>
+                           <tr>
+                                 <td class="fw-700 title">Joined since</td>
+                                 <td class="fw-400">February 4, 2022</td>
+                           </tr>
+                           <tr>
+                                 <td class="fw-700 title">Last updated</td>
+                                 <td class="fw-400">1 week ago</td>
+                           </tr>
+                        </tbody>
+                        </table>
+
+                     </div>
+                     <div>
+                        <a class="btn-black">Edit Profile</a>
+                     </div>
+               </div>
+               <div class="cta-holder">
+                     <a class="btn-black">Change Password</a>
+                     <a class="btn-black">Delete Account</a>
+               </div>
+            </div>
+      </div>
+
+   <!--MODAL
+   <div class="modal-container">
+      <div class="modal-backdrop"></div>
+      <div class="change-password-modal">
+         <span class="close-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#323232"/>
+            </svg>
+         </span>
+      </div>
+   </div>
+   -->
+
+   </section>
+{% endblock %}
