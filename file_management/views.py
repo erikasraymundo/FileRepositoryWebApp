@@ -6,3 +6,6 @@ def file_management(request):
 
 def upload_file(request):
     return render(request, 'uploadfile.html')
+
+def archive_file(request):
+    return render(request, 'archivefile.html')

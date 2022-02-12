@@ -406,10 +406,13 @@ main{
     h4{
         padding: 14px 18px;
         margin-bottom: -1px;
-
-        &:first-child{
-            border-bottom: 2px solid #8761F4;
-        }
+        font-weight: 500;
+        color: #777777;
+    }
+    h4.active{
+        border-bottom: 2px solid #8761F4;
+        color:#8761F4;
+        font-weight: 500;
     }
 }
 
