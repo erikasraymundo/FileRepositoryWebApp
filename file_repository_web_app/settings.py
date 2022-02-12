@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'file_management.apps.FileManagementConfig',
     'users_management.apps.UsersManagementConfig',
+    'category_management.apps.CategoryManagementConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
