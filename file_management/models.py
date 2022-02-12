@@ -13,5 +13,11 @@ from django.db import models
 #     choice_text = models.CharField(max_length=200)
 #     votes = models.IntegerField(default=0)
 
-# class File(models.Model):
-#     file
+
+
+class File(models.Model):
+    name = models.CharField(max_length=200)
+    url = models.CharField(max_length=1000)
+    description = models.CharField(max_length = 200)
+    # created_at = 
+    # updated_at = AutoLastModifiedField(_('modified'))
