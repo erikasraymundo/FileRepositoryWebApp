@@ -20,7 +20,7 @@ from accounts.views import register
 from file_management.views import file_management
 from users_management.views import profile
 from users_management.views import manage_accounts
-from users_management.views import category_management
+from category_management.views import categoryManagement
 from file_management.views import upload_file
 from file_management.views import archive_file
 from file_management.views import view_file
@@ -34,7 +34,8 @@ urlpatterns = [
     
     path('profile/', profile, name='profile'),
     path('manage-accounts/', manage_accounts, name='manage_accounts'),
-    path('category-management/', category_management, name='category_management'),
+
+    path('category/', categoryManagement, name='categoryManagement'),
 
     path('file-management/', file_management, name='file_management'),
     path('file-management/upload/', upload_file, name='upload_file'),
