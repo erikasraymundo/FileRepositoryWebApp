@@ -123,4 +123,78 @@
   display: flex;
   gap: 1rem;
 }
+
+.archived-accounts--controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  margin-bottom: 33px;
+}
+
+.archived-accounts--controls-date p {
+  margin-bottom: 10px;
+}
+
+.archived-accounts--controls-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 13px;
+}
+
+.archived-accounts--table-container table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+}
+
+.archived-accounts--table-container table thead tr {
+  border: 1px solid #ddd;
+}
+
+.archived-accounts--table-container table thead th {
+  font-size: 14px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background-color: #FAFAFA;
+  padding: 1rem;
+  color: #8761F4;
+  text-align: center;
+}
+
+.archived-accounts--table-container table tr {
+  border: 1px solid #ddd;
+}
+
+.archived-accounts--table-container table tbody tr td {
+  font-size: 14px;
+  padding: 1rem;
+}
+
+.archived-accounts--table-container table tbody tr .actions .actions--container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+}
+
+.archived-accounts--table-container table tbody tr .actions .actions--container .icon-pen, .archived-accounts--table-container table tbody tr .actions .actions--container .icon-archive {
+  cursor: pointer;
+}
 /*# sourceMappingURL=manage-accounts.css.map */

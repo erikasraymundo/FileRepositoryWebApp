@@ -396,6 +396,7 @@ main{
 
 
 //LINE
+//LINE
 .component1{
     display: flex;
     justify-content: space-between;
@@ -406,10 +407,20 @@ main{
     h4{
         padding: 14px 18px;
         margin-bottom: -1px;
+        font-weight: 500;
+        color: #777777;
 
-        &:first-child{
-            border-bottom: 2px solid #8761F4;
+        a{
+            text-decoration: none;
+            color: #777777;
         }
+    }
+    h4.active{
+       a{
+        color:#8761F4;
+        font-weight: 500;
+       }
+       border-bottom: 2px solid #8761F4;
     }
 }
 

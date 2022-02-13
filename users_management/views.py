@@ -16,3 +16,6 @@ def edit_accounts(request):
 def archive_accounts(request):
     return render(request, 'user-accounts/archive-account.html')
 
+def view_accounts(request):
+    return render(request, 'user-accounts/view-account.html')
+

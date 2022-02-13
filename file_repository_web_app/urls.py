@@ -18,7 +18,7 @@ from django.urls import path
 from accounts.views import login
 from accounts.views import register
 from users_management.views import profile
-from users_management.views import manage_accounts, add_accounts, edit_accounts, archive_accounts
+from users_management.views import manage_accounts, add_accounts, edit_accounts, archive_accounts, view_accounts
 from category_management.views import categoryManagement
 from django.urls import include, path
 
@@ -36,4 +36,5 @@ urlpatterns = [
     path('add-accounts/', add_accounts, name='add_accounts'),
     path('edit-accounts/', edit_accounts, name='edit_accounts'),
     path('archive-accounts/', archive_accounts, name='archive_accounts'),
+    path('view-accounts/', view_accounts, name='view_accounts'),
 ]
