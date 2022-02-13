@@ -11,6 +11,7 @@ from users_management.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.files import File as DjangoFile
+from django.utils import timezone
 
 
 def index(request,  category_id=0, sort_by=1, query=None, success = 0):
@@ -126,7 +127,8 @@ def update(request, file_id):
 def archive(request, file_id):
 
     file = get_object_or_404(File, pk=file_id)
-    file.deleted_at = 
+    file.deleted_at = timezone.localtime(timezone.now())
+    file.save()
 
     return render(request, 'file_management/archive.html')
 

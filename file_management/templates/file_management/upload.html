@@ -8,7 +8,7 @@
       <form id="my_form" method="POST" action="{% url 'file-management:upload' %}" enctype="multipart/form-data">
          <div class="container">
             <div class="column">
-               <h4>You can upload a file of up to only 200mb max.</h4>
+               <h4>You can upload a file up to 500mb.</h4>
             </div>
          </div>
          {% csrf_token %}
@@ -157,6 +157,9 @@
          }
          return false;
       });
+
+      // archive
+      
    });
 </script>
 
