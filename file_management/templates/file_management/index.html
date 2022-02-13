@@ -252,7 +252,7 @@
                <div class="file-management--table-container">
                   
                   {% if file_list %}
-                  <table id="main-table">
+                  <table id="table">
                      <thead>
                         <tr>
                            <th scope="col">Name</th>
@@ -265,7 +265,7 @@
                      <tbody>
                         {% for file in file_list %}
                         
-                        <tr class=".file-row" data-fileid="{{file.id}}">
+                        <tr onclick="window.location.replace('{%url 'file-management:detail' 0%}'.replace(0, {{file.id}}))">
                            <td data-label="Name"> {{ file.getNewFileName }} </td>
                            <td data-label="Category"> {{ file.category_id.title }} </td>
                            <td data-label="Uploader"> {{ file.user_id.full_name }}</td>
@@ -441,12 +441,10 @@
                   });
           });
           
-          $(document).on('click', 'td', function() {
-             alert("secret!");
-               //var file_id = $(this).data("fileid");
-               //var location = "{% url 'file-management:detail' 0 %}".replace(0, file_id);
-               //window.location.replace(location);
-            });
+            $("#table").on('click','tr',function(e) { 
+               alert($(this).attr('id')); 
+            }); 
+            
           });
       });
 
