@@ -265,7 +265,7 @@
                      <tbody>
                         {% for file in file_list %}
                         
-                        <tr onclick="window.location.replace('{%url 'file-management:detail' 0%}'.replace(0, {{file.id}}))">
+                        <tr class=".file-row" onclick="window.location.replace('{%url 'file-management:detail' 0%}'.replace(0, {{file.id}}))">
                            <td data-label="Name"> {{ file.getNewFileName }} </td>
                            <td data-label="Category"> {{ file.category_id.title }} </td>
                            <td data-label="Uploader"> {{ file.user_id.full_name }}</td>
@@ -377,7 +377,7 @@
 
   
 
-   <script src="src/js/script.js"></script>
+  
    <script>
          $('#search').keypress(
                   function(e){

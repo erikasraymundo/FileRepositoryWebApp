@@ -611,6 +611,13 @@ form .birthday .icon-calendar {
   text-decoration: none;
   font-size: 14px;
   font-family: 'Raleway', sans-serif;
+  -webkit-transition: all ease-in-out 300ms;
+  transition: all ease-in-out 300ms;
+}
+
+.btn-black:hover {
+  background-color: #8761F4;
+  color: #fff;
 }
 
 .btn-purple {
@@ -662,9 +669,16 @@ form .birthday .icon-calendar {
   font-weight: 600 !important;
   font-size: 14px;
   font-family: 'Raleway', sans-serif;
+  -webkit-transition: all ease-in-out 300ms;
+  transition: all ease-in-out 300ms;
 }
 
 .btn-dark a span {
   font-size: 2rem;
+}
+
+.btn-dark a:hover {
+  background-color: #8761F4;
+  color: #fff;
 }
 /*# sourceMappingURL=global.css.map */

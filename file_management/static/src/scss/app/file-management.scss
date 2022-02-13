@@ -131,6 +131,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
           }
+          table tbody tr  {
+              transition: all 300ms ease-in-out;
+            &:hover{
+                background-color: #ececec;
+                cursor: pointer;
+            }
+          }
 
           table tbody tr .actions{
               .actions--container{
