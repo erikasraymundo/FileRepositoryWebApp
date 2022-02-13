@@ -10,18 +10,19 @@
          <div class="container">
             <div class="columns">
                <div class="column">
-                  <input id="name" class="input" type="text" placeholder="Text input" name="name">
+                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value={{ name }}>
                </div>
                <div class="column">
                   <input id="file" class="input" type="file" placeholder="Text input" name="file">
                </div>
             </div>
+
             <div class="columns">
                <div class="column">
                   <select name="category_id" id="category">
                      {% if category_list %}
                      {% for category in category_list %}
-                     <option value="{{category.id}}">{{category.title}}</option>
+                     <option value="{{category.id}}" {% if category_id == category.id %} selected {%endif%} >{{category.title}}</option>
                      {% endfor %}
                      {% else %}
                      <option value="0">No categories yet</option></a>
@@ -31,7 +32,7 @@
             </div>
             <div class="columns">
                <div class="column">
-                  <textarea class="textarea" placeholder="e.g. Hello world" name="description"></textarea>
+                  <textarea class="textarea" placeholder="e.g. Hello world" name="description">{{ description }}</textarea>
                </div>
             </div>
             <div class="columns">
@@ -50,7 +51,34 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+   
+   var alreadyPrompted = false;
+   var error = {{error}};
+
+
    $(document).ready(function () {
+
+      console.log("already prompted = " + alreadyPrompted);
+      console.log("error 1= " + error);
+      if (alreadyPrompted == false) {
+         if (error == 1) {
+            Swal.fire({
+               title: "That file name is already in used.",
+               buttons: false
+            })
+
+      console.log("error 2= " + error);
+            console.log("already prompted2 = " + alreadyPrompted);
+            alreadyPrompted = true;
+         }
+
+      console.log("error 3 " + error);
+         console.log("already prompted3 = " + alreadyPrompted);
+      }
+
+      console.log("error 4= " + error);
+      console.log("already prompted4 = " + alreadyPrompted);
 
       $("#my_form").submit(function(e){
          var name = $("#name").val();
@@ -85,7 +113,11 @@
             
             return false;
          }
-
+         
+         Swal.fire({
+            title: "Your file is being uploaded.",
+            buttons: false
+         })
          return true;
       });
    });
