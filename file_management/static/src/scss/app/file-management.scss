@@ -211,7 +211,42 @@
     }
 }
 
-
+.viewing-file{
+    &-container{
+        .flex-head{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .flex{
+            display: flex;
+            align-items: center;
+        }
+        .flex-description{
+            display: flex;
+        }
+        .spacing{
+          gap: 2rem;
+        }
+        
+        .mb-2{
+            margin-bottom: 2rem;
+        }
+        .mb-1{
+            margin-bottom: 1rem;
+        }
+        
+        .preview{
+            width: 100%;
+            background-color: rgb(184, 184, 184);
+            border-radius: 8px;
+            padding: 1rem;
+            display: grid;
+            place-items: center;
+            min-height: 500px;
+        }
+    }
+}
 
 .columns{
     display: flex;
