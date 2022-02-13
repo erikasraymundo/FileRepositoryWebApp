@@ -75,7 +75,7 @@ def upload(request):
         file.save()
 
         log = Log()
-        log.description = "Uploaded a file ("+name+")."
+        log.description = f"Uploaded a file ({file.id} - {file.name}) under {file.category_id.title}."
         log.user_id = user_id
         log.save()
 
@@ -112,6 +112,10 @@ def update(request, file_id):
         pass
     try:
         file.save()
+        log = Log()
+        log.description = f"Updated a file ({file.id} - {file.name}) under {file.category_id.title}."
+        log.user_id = user_id
+        log.save()
         return HttpResponseRedirect(reverse('file-management:success', args={2}))
     except:
         return render(request, 'file_management/upload.html',
