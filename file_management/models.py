@@ -6,7 +6,7 @@ from users_management.models import User
 
 class File(models.Model):
     name = models.CharField(max_length=200)
-    url = models.CharField(max_length=500)
+    url = models.FileField(max_length=254)
     description = models.CharField(max_length = 200, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

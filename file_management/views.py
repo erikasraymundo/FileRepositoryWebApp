@@ -1,11 +1,12 @@
 from unicodedata import category
+from webbrowser import get
 from django.shortcuts import render
 from django.views import generic
 from django.db.models import Q
-
-
 from category_management.models import Category
 from . models import File
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 
 def index(request,  category_id=0, sort_by=1, query=None):
@@ -46,8 +47,29 @@ class DetailView(generic.DetailView):
     model = File
     template_name = 'file_management/detail.html'
 
+def openUploadView(request):
+    return render(request, 'file_management/upload.html', {"category_list": Category.objects.all()})
+
 def upload(request):
-    return render(request, 'file_management/upload.html')
+
+    name = request.POST['name']
+    url = request.POST['url']
+    description = request.POST['description']
+    category_id = category.get=(request.POST['category_id'])
+    # user_id = request.POST['user_id']
+    user_id = 1
+
+    file = File()
+    file.name = name
+    file.url = url
+    file.description = description
+    file.category_id = category_id
+    file.user_id = user_id
+    file.save()
+
+    success = True
+    return HttpResponseRedirect(reverse('polls:results', args=(success,)))
 
 def archive(request):
     return render(request, 'file_management/archive.html')
+
