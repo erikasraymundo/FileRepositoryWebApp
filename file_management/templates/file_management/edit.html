@@ -3,44 +3,31 @@
 {% block content %}
 <section class="file-management">
    <div class="file-management--container">
-      <h1 class="h1">Uploading a File</h1>
+      <h1 class="h1">Editing a File</h1>
 
-      <form id="my_form" method="POST" action="{% url 'file-management:upload' %}" enctype="multipart/form-data">
-         <div class="container">
-            <div class="column">
-               <h4>You can upload a file of up to only 200mb max.</h4>
-            </div>
-         </div>
+      <form id="my_form" method="POST" action="{% url 'file-management:update' file.id %}" enctype="multipart/form-data">
          {% csrf_token %}
          <div class="container">
             <div class="columns">
                <div class="column">
                   <input id="name" class="input" type="text" placeholder="Text input" name="name" value="{{ file.name }}">
                </div>
-               <div class="column column-file" style="position: relative">
-                  <label class="file-placeholder">Choose a file (200mb max)</label>
-                  <div class="icon-file-upload">
-                     <svg width="22" height="15" viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.7375 5.6625C17.1142 2.42812 14.3367 0 11 0C8.35083 0 6.05 1.5375 4.90417 3.7875C2.145 4.0875 0 6.47813 0 9.375C0 12.4781 2.46583 15 5.5 15H17.4167C19.9467 15 22 12.9 22 10.3125C22 7.8375 20.1208 5.83125 17.7375 5.6625ZM12.8333 8.4375V12.1875H9.16667V8.4375H6.41667L10.6792 4.07813C10.8625 3.89063 11.1467 3.89063 11.33 4.07813L15.5833 8.4375H12.8333Z" fill="#8761F4"/>
-                        </svg>
-                  </div>
-                 <div class="column--inner">
+               <div class="column" style="position: relative">
                   <input id="file" class="input" type="file" placeholder="Text input" name="file" style="color:white">
-                  {% comment %} <input id="file-value" value="{{file.url.url}}" name="file_temp" hidden> {% endcomment %}
+                  <input id="file-value" value="{{file.url.url}}" name="file_temp" hidden>
                   {% comment %} <input type="file" name="uploadfile" id="img" style="display:none;"/> {% endcomment %}
                   <label for="file" id="file-value-placeholder" style="position: absolute; display: block;">
-                     {% comment %} {% if file%}
-                     {{file.url}}
-                     {% else %} {% endcomment %}
-                    
-                     {% comment %} {%endif%} {% endcomment %}
+                     {% if file%}
+                        {{file.url}}
+                     {% else %}
+                     You haven't selected a file yet
+                     {%endif%}
                   </label>
-                 </div>
                </div>
             </div>
 
             <div class="columns">
-               <div class="column column-dropdwon">
+               <div class="column">
                   <select name="category_id" id="category">
                      {% if category_list %}
                      {% for category in category_list %}
@@ -54,13 +41,13 @@
             </div>
             <div class="columns">
                <div class="column">
-                  <textarea class="textarea" placeholder="Enter details of the file uploaded (Optional)" name="description">{{ file.description }}</textarea>
+                  <textarea class="textarea" placeholder="e.g. Hello world" name="description">{{ file.description }}</textarea>
                </div>
             </div>
             <div class="columns">
-               <div class="column column-btn">
-                  <a href="{%url 'file-management:index' %}"><button class="btn-black" type="button">Cancel</button></a>
-                  <button class="btn-black" type="submit">Upload File</button>
+               <div class="column">
+                  <a href="{%url 'file-management:index' %}"><button class="button is-dark" type="button">Cancel</button></a>
+                  <button class="button is-dark" type="submit">Update file</button>
                </div>
             </div>
          </div>
@@ -97,9 +84,10 @@
          if (beingSubmitted) {
             return true;
          }
-
+         
          var name = $("#name").val();
          var file_length = $("#file").get(0).files.length;
+         var file_temp = $("#file_temp").val()
          var category = $("#category").val();
 
          if (name.trim() == "") {
@@ -108,24 +96,42 @@
                title: "Please enter a valid file name."
             })
          }
-         else if (file_length == 0) {
+         else if (file_length == 0 && file_temp == "") {
             Swal.fire({
                icon: 'error',
                title: "Ooops, you forgot to select a file!"
             })
-            
-         } else if (file_length != 0) {            
-            var file_size = $("#file").get(0).files[0].size;
-            if (file_size > 524288000) {
-               Swal.fire({
-                  icon: 'error',
-                  title: "Your file is too big, please no more than 500mb!"
-               });
-            } else {
+         } else if (file_length != 0) { 
+               var file_size = $("#file").get(0).files[0].size;
+               if (file_size > 524288000) {
+                  Swal.fire({
+                     icon: 'error',
+                     title: "Your file is too big, please no more than 500mb!"
+                  });
+
+                  return false;
+               } else {
+            checkForDuplicatedNameThenSubmit();
+               }
+         } else if (category == "0") {
+            Swal.fire({
+               icon: 'error',
+               title: "Please select a valid category."
+            })
+         } else {
+            checkForDuplicatedNameThenSubmit();
+         }
+
+         return false;
+      });
+   });
+
+   function checkForDuplicatedNameThenSubmit() {
+      
                $.get(
                   "{%url 'file-management:check_duplicate_name'%}",
                   {name: $("#name").val(),
-                   file_id: 0}, 
+                   file_id: {{file.id}}}, 
                   function(data, status) {
                      if (data == 1) {
                         Swal.fire({
@@ -134,7 +140,7 @@
                         });
                      } else {
                            Swal.fire({
-                              title: "Your file is being uploaded."
+                              title: "Your file is being updated."
                            })
 
                            $("#my_form").submit();
@@ -142,16 +148,8 @@
                      }
                   }
                );
-            }
-         } else if (category == "0") {
-            Swal.fire({
-               icon: 'error',
-               title: "Please select a valid category."
-            })
-         }
-         return false;
-      });
-   });
+   }
+
 </script>
 
 {% endblock %}

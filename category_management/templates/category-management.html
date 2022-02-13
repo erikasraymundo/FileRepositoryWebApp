@@ -8,7 +8,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'src/scss/global/global.css' %}" />
     <!--APP-->
-    <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/category-management.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/category-managements.css' %}" />
 
     <!--BULMA, JUST FOR THE STRUCTURE-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
@@ -119,30 +119,36 @@
            <section class="category-management">
                <div class="category-management--container">
 
-
+                  <form method='post' action='{% url "SaveACategory"  %}'>
+                     {% csrf_token %}
                    <div class="container mb-3">
                        <h1 class="is-size-3">Create a new category</h1>
                      <div class="columns">
                          <div class="column">
-                            <input class="input" type="text" placeholder="Text input">
+                            <input class="input" name='CategoryInput' type="text" placeholder="Text input">
                          </div>
                          <div class="column">
                             <button class="button is-dark">Save</button>
                          </div>
                      </div>
+                  </form>
                    </div>
                     <div class="container" style="margin-top: 2rem;">
                      <div class="is-flex" style="gap: 1rem;">
-                         <span class="button">document</span>
-                         <span class="button">document</span>
+                        {% for categoryNames in categories %}
+                        <span class="button">
+                        {{categoryNames.title}}
+                     </span>
+                        {% endfor %}
                      </div>
                    </div>
- 
-                   
                </div>
            </section>
         </main>
      </div>
+
+
+  
 
    <!--SIDEBAR TOGGLE-->
    <script>
