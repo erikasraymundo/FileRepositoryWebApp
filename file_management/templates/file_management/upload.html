@@ -5,20 +5,20 @@
       <div class="file-management--container">
          <h1 class="h1">Uploading a File</h1>
             
-            <form method="POST" action="{% url 'file-management:upload' %}" enctype="multipart/form-data">
+            <form id="form" method="POST" action="{% url 'file-management:upload' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="container">
                <div class="columns">
                   <div class="column">
-                     <input class="input" type="text" placeholder="Text input" name="name">
+                     <input id="f-name" class="input" type="text" placeholder="Text input" name="name">
                   </div>
                   <div class="column">
-                     <input class="input" type="file" placeholder="Text input" name="file">
+                     <input id="f-file" class="input" type="file" placeholder="Text input" name="file">
                   </div>
                </div>
                <div class="columns">
                   <div class="column">
-                     <select name="category_id">
+                     <select name="category_id" id="category">
                         {% if category_list %}
                            {% for category in category_list %}
                            <option value="{{category.id}}">{{category.title}}</option>
@@ -46,4 +46,16 @@
       
       </div>
    </section>
+
+
+   <script>
+      $('#myform').submit(function() {
+         var name = $('#f-name').val();
+         var file = $('#f-file').val();
+         var name = $('#category').val();
+         return true; // return false to cancel form action
+      });
+   </script>
+   
 {% endblock %}
+
