@@ -10,10 +10,10 @@
             <div class="container">
                <div class="columns">
                   <div class="column">
-                     <input id="f-name" class="input" type="text" placeholder="Text input" name="name">
+                     <input id="name" class="input" type="text" placeholder="Text input" name="name">
                   </div>
                   <div class="column">
-                     <input id="f-file" class="input" type="file" placeholder="Text input" name="file">
+                     <input id="file" class="input" type="file" placeholder="Text input" name="file">
                   </div>
                </div>
                <div class="columns">
@@ -24,7 +24,7 @@
                            <option value="{{category.id}}">{{category.title}}</option>
                            {% endfor %}
                         {% else %}
-                           <option value="-1">No categories yet</option></a>
+                           <option value="0">No categories yet</option></a>
                         {% endif %}
                         </select>
                   </div>
@@ -48,13 +48,38 @@
    </section>
 
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script>
-      $('#myform').submit(function() {
-         var name = $('#f-name').val();
-         var file = $('#f-file').val();
-         var name = $('#category').val();
-         return true; // return false to cancel form action
-      });
+      $('#form').submit(function() {
+         var name = $('#name').val();
+         var file = $('#file').files.length;
+         var category = $('#category').val();
+
+         if (name.trim() == "") {
+            Swal.fire({
+                  icon: 'error',
+                  title: "Please enter a file name."
+            })
+
+            return false;
+         } else if (file == 0) {
+            Swal.fire({
+                  icon: 'error',
+                  title: "Please upload a file!"
+            })
+
+            return false;
+         } else if (category == 0) {
+               Swal.fire({
+                     icon: 'error',
+                     title: "Please select a valid category."
+               })
+
+               return false;
+            }
+
+            return true; // return false to cancel form action
+         });
    </script>
    
 {% endblock %}
