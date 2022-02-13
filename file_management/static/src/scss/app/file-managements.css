@@ -73,16 +73,6 @@
   margin-bottom: 37px;
 }
 
-@media (max-width: 1450px) {
-  .file-management--controls {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    row-gap: 1rem;
-  }
-}
-
 .file-management--controls_left {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;

@@ -49,10 +49,7 @@
         justify-content: space-between;
         margin-bottom: 37px;
 
-        @media(max-width:1450px){
-          flex-direction: column;
-          row-gap: 1rem;
-        }
+      
 
         &_left{
           display: inline-flex;
