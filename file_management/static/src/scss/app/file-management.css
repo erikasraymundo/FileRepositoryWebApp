@@ -195,6 +195,9 @@
   top: 50% !important;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  width: 70% !important;
 }
 
 .column-file .icon-file-upload {
