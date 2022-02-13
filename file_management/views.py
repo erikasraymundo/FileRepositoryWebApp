@@ -32,13 +32,13 @@ def index(request,  category_id=0, sort_by=1, query=None, success = 0):
                 Q(name__icontains=query) | 
                 Q(category_id__title__icontains=query) |
                 Q(user_id__first_name__icontains=query),
-                category_id=category_id
+                category_id=category_id, deleted_at=None
             ).order_by(sort_column)
     else:
         file_list = File.objects.filter(
             Q(name__icontains=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query), deleted_at=None
             ).order_by(sort_column)
 
     return render(request, template_name, 
