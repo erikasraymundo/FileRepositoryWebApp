@@ -13,9 +13,7 @@
                   <input id="name" class="input" type="text" placeholder="Text input" name="name" value={{ file.name }}>
                </div>
                <div class="column" style="position: relative">
-                  <input id="file" class="input" type="file" placeholder="Text input" name="file" style="color:white">
-                  {% comment %} <input id="file-value" value="{{file.url.url}}" name="file_temp" hidden> {% endcomment %}
-                  {% comment %} <input type="file" name="uploadfile" id="img" style="display:none;"/> {% endcomment %}
+                  <input id="file" class="input" type="file" placeholder="Text input" name="file" style="color:white" value={{ file.url }}>
                   <label for="file" id="file-value-placeholder" style="position: absolute; display: block;">
                      {% comment %} {% if file%}
                      {{file.url}}
@@ -61,16 +59,16 @@
 
    $(document).ready(function () {
 
-      var alreadyPrompted = false;
-      var error_msg = {{ error }};
-      if (alreadyPrompted == false) {  
-         if (error_msg == 1) {
-            Swal.fire({
-               title: "That file name is already in used.",
-               buttons: false
-            });
+         var alreadyPrompted = false;
+         var error_msg = {{ error }};
+         if (alreadyPrompted == false) {  
+            if (error_msg == 1) {
+               Swal.fire({
+                  title: "That file name is already in used.",
+                  buttons: false
+               });
+            }
          }
-      }
       
       $("#file").change(function(e){
          $("#file-value-placeholder").html(this.value.replace("C:\\fakepath\\", ""));
@@ -79,6 +77,7 @@
       $("#my_form").submit(function(e){
          var name = $("#name").val();
          var file_length = $("#file").get(0).files.length;
+         var file_size = $("#file").get(0).files[0].size;
          var category = $("#category").val();
 
          if (name.trim() == "") {
@@ -87,25 +86,19 @@
                title: "Please enter a valid file name."
             })
             return false;
-         }
-         
-         else if (file_length == 0) {
+         } else if (file_length == 0) {
             Swal.fire({
                icon: 'error',
                title: "Ooops, you forgot to select a file!"
             })
             
             return false;
-         } else if (file_length != 0) {            
-            var file_size = $("#file").get(0).files[0].size;
-            if (file_size > 524288000) {
-               Swal.fire({
-                  icon: 'error',
-                  title: "Your file is too big, please no more than 500mb!"
-               });
-               
-               return false;
-            }
+         } else if (file_size > 524288000) {
+            Swal.fire({
+               icon: 'error',
+               title: "Your file is too big, please no more than 500mb!"
+            })
+            return false;
          } else if (category == "0") {
             Swal.fire({
                icon: 'error',
@@ -119,40 +112,7 @@
             title: "Your file is being uploaded.",
             buttons: false
          })
-
-
-         $.ajax({
-            type: 'POST',
-            url: "{% url 'file-management:check_duplicate_name' %}",
-            data: name,
-            success: function (response) {
-                // on successfull creating object
-                // 1. clear the form.
-                $("#friend-form").trigger('reset');
-                // 2. focus to nickname input 
-                $("#id_nick_name").focus();
-
-                // display the newly friend to table.
-                var instance = JSON.parse(response["instance"]);
-                var fields = instance[0]["fields"];
-                $("#my_friends tbody").prepend(
-                    `<tr>
-                    <td>${fields["nick_name"]||""}</td>
-                    <td>${fields["first_name"]||""}</td>
-                    <td>${fields["last_name"]||""}</td>
-                    <td>${fields["likes"]||""}</td>
-                    <td>${fields["dob"]||""}</td>
-                    <td>${fields["lives_in"]||""}</td>
-                    </tr>`
-                )
-            },
-            error: function (response) {
-                // alert the error if any error occured
-                alert(response["responseJSON"]["error"]);
-            }
-        })
-
-         return false;
+         return true;
       });
    });
 </script>

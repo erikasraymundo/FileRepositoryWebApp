@@ -14,5 +14,6 @@ urlpatterns = [
     path('<int:isAdded>', views.index, name='index'),
     path('file=<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('upload', views.openUploadView, name='openUploadView'),
+    path('edit/<int:file_id>/', views.openEditView, name='openEditView'),
     path('saveUpload', views.upload, name='upload')
 ]
