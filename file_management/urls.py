@@ -12,6 +12,10 @@ urlpatterns = [
     path('success/<int:success>/', views.index, name='success'),
     path('', views.index, name='index'),
     path('<int:isAdded>', views.index, name='index'),
+
+    path('archive-list', views.archiveIndex, name='archive-index'),
+
+
     path('file=<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('upload', views.openUploadView, name='openUploadView'),
     path('edit/<int:file_id>/', views.openEditView, name='openEditView'),
