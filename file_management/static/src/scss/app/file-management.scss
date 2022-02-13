@@ -8,8 +8,10 @@
         display: flex;
         gap: 15px;
         margin-bottom: 14px;
-        overflow: scroll; 
-        width: 60rem;
+        overflow-x: auto; 
+        width: 100%;
+
+       
 
         &>*{
             min-height: 180px;
