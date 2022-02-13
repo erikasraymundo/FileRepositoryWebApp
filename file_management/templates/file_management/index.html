@@ -202,7 +202,7 @@
                                  {% endfor %}
 
                               {% else %}
-                                 <option value="{% url 'file-management:filter' -1 sort_selected %}" {% if category_selected == 0 %} selected {%endif%} >No categories yet</option></a>
+                                 <option value="{% url 'file-management:filter' 0 sort_selected %}" {% if category_selected == 0 %} selected {%endif%} >No categories yet</option></a>
                               {% endif %}
                            </select>
                         </div>
