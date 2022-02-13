@@ -20,6 +20,7 @@ import os
 from django.http.response import HttpResponse
 # Import render module
 from django.shortcuts import render
+from django.http import FileResponse, Http404
 
 def index(request,  category_id=0, sort_by=1, query=None, success = 0):
     template_name = 'file_management/index.html'
@@ -175,6 +176,11 @@ def archive(request, file_id):
     file.deleted_at = timezone.localtime(timezone.now())
     file.save()
 
+    log = Log()
+    log.description = f"Archived a file ({file.id} - {file.name})."
+    log.user_id = file.user_id
+    log.save()
+
     return HttpResponseRedirect(reverse('file-management:archive-index'))
 
 # def checkDuplicateName(request):
@@ -190,6 +196,11 @@ def restore(request, file_id):
     file = get_object_or_404(File, pk=file_id)
     file.deleted_at = None
     file.save()
+
+    log = Log()
+    log.description = f"Restored a file ({file.id} - {file.name})."
+    log.user_id = file.user_id
+    log.save()
 
     return HttpResponseRedirect(reverse('file-management:archive-index'))
 
@@ -229,7 +240,28 @@ def download(request, file_id):
         # Set the HTTP header for sending to browser
         response['Content-Disposition'] = "attachment; filename=%s" % file.getNewFileName()
         # Return the response value
+
+        log = Log()
+        log.description = f"Downloaded a file ({file.id} - {file.name})."
+        log.user_id = file.user_id
+        log.save()
+
         return response
     else:
         # Load the template
-        return HttpResponse("Yon HINDI downloaded!")
+        # return HttpResponse("An error has oc!")
+        pass
+
+
+def pdf_view(request, file_id):
+    try:
+        file = get_object_or_404(File, pk=file_id)
+
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        filepath = BASE_DIR + file.getFileUrl()
+
+        return FileResponse(open(filepath, 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        # pass
+        # return HttpResponse("error")
+        raise Http404()

@@ -26,5 +26,6 @@ urlpatterns = [
     path('restore/<int:file_id>/', views.restore, name='restore'),
     path('download=<int:file_id>', views.download, name='download'),
     
-    path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name')
+    path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name'),
+    path('view/pdf/<int:file_id>/', views.pdf_view, name='pdf_view')
 ]

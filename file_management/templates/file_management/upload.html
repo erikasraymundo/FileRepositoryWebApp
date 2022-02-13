@@ -41,7 +41,7 @@
 
             <div class="columns">
                <div class="column column-dropdwon">
-                  <select name="category_id" id="category">
+                  <select name="category_id" id="category" style="color: #272727;" >
                      {% if category_list %}
                      {% for category in category_list %}
                      <option value="{{category.id}}" {% if file.category_id.id == category.id %} selected {%endif%} >{{category.title}}</option>

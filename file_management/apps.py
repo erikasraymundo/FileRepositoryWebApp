@@ -1,3 +1,4 @@
+from django import template
 from django.apps import AppConfig
 
 

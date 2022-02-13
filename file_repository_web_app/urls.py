@@ -41,3 +41,5 @@ urlpatterns = [
     path('view-accounts/', view_accounts, name='view_accounts'),
     path('activity-logs/', view_logs, name='view_logs'),
 ]
+urlpatterns += static(settings.MEDIA_URL,
+                      document_root=settings.MEDIA_ROOT)

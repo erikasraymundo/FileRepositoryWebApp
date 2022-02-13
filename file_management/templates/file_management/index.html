@@ -265,7 +265,7 @@
                      <tbody>
                         {% for file in file_list %}
                         
-                        <tr class=".file-row" onclick="window.location.replace('{%url 'file-management:detail' 0%}'.replace(0, {{file.id}}))">
+                        <tr class=".file-row" data-fileid={{file.id}}>
                            <td data-label="Name"> {{ file.getNewFileName }} </td>
                            <td data-label="Category"> {{ file.category_id.title }} </td>
                            <td data-label="Uploader"> {{ file.user_id.full_name }}</td>
@@ -326,8 +326,6 @@
                      PDF</a>
                </div>
 
-
-
                <div class="modal">
                   <div class="modal-backdrop" id="modal-view-backdrop" title="close"></div>
                   <div class="view-file-modal" id="modal-view">
@@ -345,8 +343,52 @@
                   </div>
                </div>
 
-               <script>
-                  const modal = document.querySelector('#modal-view');
+            </div>
+         </section>
+      </main>
+   </div>
+
+  
+
+  
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script>
+
+            {% if success == 1%}
+            Swal.fire({
+                  icon: 'success',
+                  title: "File has been successfully uploaded!"
+            })
+
+            window.history.pushState('somedata', 'Title', '/file-management/');
+
+            {% elif success == 2%}
+            Swal.fire({
+                  icon: 'success',
+                  title: "File has been successfully updated!"
+            })
+
+            window.history.pushState('somedata', 'Title', '/file-management/');
+         {% endif %}
+
+         $('#search').keypress(
+                  function(e){
+                     if (e.which == 13) {
+                        var textFromInput = $("#search").val();
+                        var url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
+
+                        if (textFromInput == '') {
+                           url_mask = "{% url 'file-management:filter' category_selected sort_selected %}";
+                        } else {
+                           url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
+                        }
+
+                        console.log(textFromInput);
+                        window.location.replace(url_mask);
+                     }
+               });
+
+               const modal = document.querySelector('#modal-view');
                   const shadow = document.querySelector('#modal-view-backdrop');
                   const toggle = document.querySelector('.icon-view');
                   const closeBtn = document.querySelector('#close-modal-view');
@@ -367,59 +409,8 @@
                      modal.classList.remove('show-modal');
                      shadow.classList.remove('shadow-modal');
                   });
-                 </script>
 
-
-            </div>
-         </section>
-      </main>
-   </div>
-
-  
-
-  
-   <script>
-         $('#search').keypress(
-                  function(e){
-                     if (e.which == 13) {
-                        var textFromInput = $("#search").val();
-                        var url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
-
-                        if (textFromInput == '') {
-                           url_mask = "{% url 'file-management:filter' category_selected sort_selected %}";
-                        } else {
-                           url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
-                        }
-
-                        console.log(textFromInput);
-                        window.location.replace(url_mask);
-                     }
-               });
-      
-   </script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <script>
-
-         $(document).ready(function() {
-         {% if success == 1%}
-        Swal.fire({
-            icon: 'success',
-            title: "File has been successfully uploaded!"
-        })
-
-        window.history.pushState('somedata', 'Title', '/file-management/');
-
-        {% elif success == 2%}
-        Swal.fire({
-            icon: 'success',
-            title: "File has been successfully updated!"
-        })
-
-        window.history.pushState('somedata', 'Title', '/file-management/');
-         {% endif %}
-
-
-          $(document).on('click', '#archive', function() {
+       $(document).on('click', '#archive', function() {
              
             var file_name = $(this).data("filename");
             var file_id = $(this).data("fileid");
@@ -432,7 +423,6 @@
                   denyButtonText: `Cancel`,
                   }).then((result) => {
                   if (result.isConfirmed) {
-
                      var location = "{% url 'file-management:archive' 0 %}".replace(0, file_id);
                      window.location.replace(location);
                   } else if (result.isDenied) {
@@ -442,14 +432,21 @@
           });
           
             $("#table").on('click','tr',function(e) { 
-               alert($(this).attr('id')); 
+               const file_id = $(this).data("fileid");
+
+               if(modal.classList.contains('show-modal') == false) {
+                  const location = "{% url 'file-management:detail' 0 %}".replace(0, file_id);
+                  window.location.replace(location);
+               }
+
             }); 
             
-          });
-      });
+
+   </script>
 
 
-      </script>
+
+
 <script>
    const toggle = document.querySelector('#sidebar--toggle');
    const sidebar = document.querySelector('#aside');

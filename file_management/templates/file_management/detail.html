@@ -8,10 +8,10 @@
         <div class="flex-head mb-2">
             <div>
                 <h4>{{file.getNewFileName}}</h4>
-                <small>250kb</small>
+                <small>{{ file.getSize }}</small>
             </div>
         <div class="btn-dark">
-            <a href=""><span class="iconify" data-icon="ic:baseline-upload"></span>Download File</a>
+            <a href="{% url 'file-management:download' file.id %}"><span class="iconify" data-icon="ic:baseline-download"></span>Download File</a>
         </div>
         </div>
 
@@ -54,9 +54,29 @@
         </div>
 
         <div class="preview">
-          preview
+            {% if file.getFileExtension in 'jpg, jpeg, png, webp' %}
+            <img src="{{file.url.url}}">
+            {% elif file.getFileExtension in 'mp4, mpeg, mkv' %}
+            <video controls="controls" src="{{file.url.url}}">
+               Your browser does not support the HTML5 Video element.
+            </video>
+            {% elif file.getFileExtension == 'pdf'%}
+            <p onclick='viewPdf()'>Click this to view the PDF document on your browser's PDF viewer.</p>
+            {% else %}
+            <p onclick='downloadFile()'>You may download this file instead.</p>
+            {% endif %}
         </div>
 
     </div>
+   <script>
+      function viewPdf() {
+         var link = "{% url 'file-management:pdf_view' 0 %}".replace("0", {{file.id}})
+         window.open(link);
+      }
+      function downloadFile() {
+         var link = "{% url 'file-management:download' 0 %}".replace("0", {{file.id}})
+         window.open(link);
+      }
+   </script>
 </section>
 {% endblock %}
