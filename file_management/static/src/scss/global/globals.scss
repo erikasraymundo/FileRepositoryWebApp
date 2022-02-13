@@ -504,6 +504,9 @@ main{
         -moz-appearance: none;
         font-size: 14px;
         font-weight: 500;
+        width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     &::after{
         content: "";

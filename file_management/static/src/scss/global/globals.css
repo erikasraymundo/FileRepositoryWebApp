@@ -590,6 +590,9 @@ form .birthday .icon-calendar {
   -moz-appearance: none;
   font-size: 14px;
   font-weight: 500;
+  width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .component4::after {
