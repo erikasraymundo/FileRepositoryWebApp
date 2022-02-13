@@ -1,0 +1,21 @@
+sir gabs: recom
+- push notifications
+- produce a cross-platform para pwede sa ios
+- implement: tutorial na step-by-step, instructions
+- how to's (by segment/part)
+
+sir jandell:
+- plain color lang yung diagrams
+- cross-platform din
+- creation of account: RSBSA-ID (oki na to)
+- tables and mapping: well-created
+- arrangements ng mapping
+- well-designed ang mga components
+- price monitoring
+
+maam lilibeth:
+- multiple figure per page pero isa lang caption, figure 11.a, figure 11.b
+- lagyan ng mga formula (ex: mt/ha) <-- sir jayson
+- definition of terms - operational definitions, kung paano sya ginamit sa operating system (chapter 1, after scope and limitations)
+- reports: walang contact info, phone num, email add, facebook, pagination
+- boundary lines ng san ildefonso
