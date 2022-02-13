@@ -119,51 +119,29 @@
            <section class="category-management">
                <div class="category-management--container">
 
-
+                  <form method='post' action='{% url "SaveACategory"  %}'>
+                     {% csrf_token %}
                    <div class="container mb-3">
                        <h1 class="is-size-3">Create a new category</h1>
                      <div class="columns">
                          <div class="column">
-                            <input class="input" type="text" placeholder="Text input">
+                            <input class="input" name='CategoryInput' type="text" placeholder="Text input">
                          </div>
                          <div class="column">
                             <button class="button is-dark">Save</button>
                          </div>
                      </div>
+                  </form>
                    </div>
                     <div class="container" style="margin-top: 2rem;">
                      <div class="is-flex" style="gap: 1rem;">
-                         <span class="button">document</span>
-                         <span class="button">document</span>
+                        {% for categoryNames in categories %}
+                        <span class="button">
+                        {{categoryNames.title}}
+                     </span>
+                        {% endfor %}
                      </div>
                    </div>
- 
-                   <div class="modal-container">
-                     <div class="modal-backdrop"></div>
-                     <div class="save-category-modal">
-                        <div class="header">
-                           <h4 class="text-purple fw-800">Change Password</h4>
-                           <span class="close-icon">
-                              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#323232"/>
-                              </svg>
-                           </span>
-                        </div>
-                        <form action="">
-                           <div class="row">
-                              <div class="col-12">
-                                 <input type="text">
-                              </div>
-                           </div>
-                           <div class="row">
-                              <div class="col-12">
-                                 <a class="btn-black">Save</a>
-                              </div>
-                           </div>
-                        </form>
-                     </div>
-                  </div>
-                   
                </div>
            </section>
         </main>
