@@ -12,7 +12,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.files import File as DjangoFile
 from django.utils import timezone
-
+# Import mimetypes module
+import mimetypes
+# import os module
+import os
+# Import HttpResponse module
+from django.http.response import HttpResponse
+# Import render module
+from django.shortcuts import render
 
 def index(request,  category_id=0, sort_by=1, query=None, success = 0):
     template_name = 'file_management/index.html'
@@ -168,7 +175,7 @@ def archive(request, file_id):
     file.deleted_at = timezone.localtime(timezone.now())
     file.save()
 
-    return render(request, 'file_management/archive.html')
+    return HttpResponseRedirect(reverse('file-management:archive-index'))
 
 # def checkDuplicateName(request):
 #     # return HttpResponse(1)
@@ -178,6 +185,13 @@ def archive(request, file_id):
 #     else:
 #         return HttpResponse(1)
 
+
+def restore(request, file_id):
+    file = get_object_or_404(File, pk=file_id)
+    file.deleted_at = None
+    file.save()
+
+    return HttpResponseRedirect(reverse('file-management:archive-index'))
 
 def checkDuplicateName(request):
     file_id = int(request.GET['file_id'])
@@ -192,3 +206,30 @@ def checkDuplicateName(request):
         return HttpResponse(0)
     else:
         return HttpResponse(1)
+
+# Define function to download pdf file using template
+
+
+def download(request, file_id):
+
+    file = get_object_or_404(File, pk=file_id)
+    filename = file.getFileUrl()
+
+    if filename != '':
+        # Define Django project base directory
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # Define the full file path
+        filepath = BASE_DIR + filename
+        # Open the file for reading content
+        path = open(filepath, 'rb')
+        # Set the mime type
+        mime_type, _ = mimetypes.guess_type(filepath)
+        # Set the return value of the HttpResponse
+        response = HttpResponse(path, content_type=mime_type)
+        # Set the HTTP header for sending to browser
+        response['Content-Disposition'] = "attachment; filename=%s" % file.getNewFileName()
+        # Return the response value
+        return response
+    else:
+        # Load the template
+        return HttpResponse("Yon HINDI downloaded!")

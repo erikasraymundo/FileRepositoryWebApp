@@ -262,12 +262,13 @@
                      <tbody>
                         {% for file in file_list %}
                         <tr>
-                           <td data-label="Name"> {{ file.name }} </td>
+                           <td data-label="Name"> {{ file.getNewFileName }} </td>
                            <td data-label="Category"> {{ file.category_id.title }} </td>
                            <td data-label="Uploader"> {{ file.user_id.full_name }}</td>
                            <td data-label="Uploaded"> {{ file.created_at }} </td>
                            <td data-label="Actions" class="actions">
                               <div class="actions--container">
+                                 <a href="{% url 'file-management:download' file.id %}">
                                  <div class="icon-download" title="download">
                                     <svg width="12" height="13" viewBox="0 0 12 13" fill="none"
                                        xmlns="http://www.w3.org/2000/svg">
@@ -276,7 +277,8 @@
                                           fill="#777777" />
                                     </svg>
                                  </div>
-                                 <div class="icon-restore" title="Restore" id="restore" data-fileid={{file.id}} data-filename="{{file.name}}">
+                              </a>
+                                 <div class="icon-restore" title="Restore" id="restore" data-fileid={{file.id}} data-filename="{{file.getNewFileName}}">
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                        xmlns="http://www.w3.org/2000/svg">
                                        <path
@@ -349,21 +351,21 @@
          {% endif %}
 
 
-          $(document).on('click', '#archive', function() {
+          $(document).on('click', '#restore', function() {
              
             var file_name = $(this).data("filename");
             var file_id = $(this).data("fileid");
 
              Swal.fire({
                   icon: 'warning',
-                  title: 'Do you want to archive ' + file_name +'?',
+                  title: 'Do you want to restore ' + file_name +'?',
                   showDenyButton: true,
-                  confirmButtonText: 'Yes, archive',
+                  confirmButtonText: 'Yes, restore',
                   denyButtonText: `Cancel`,
                   }).then((result) => {
                   if (result.isConfirmed) {
 
-                     var location = "{% url 'file-management:archive' 0 %}".replace(0, file_id);
+                     var location = "{% url 'file-management:restore' 0 %}".replace(0, file_id);
                      window.location.replace(location);
                   } else if (result.isDenied) {
 

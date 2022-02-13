@@ -22,5 +22,9 @@ urlpatterns = [
     path('archive/<int:file_id>/', views.archive, name='archive'),
     path('saveUpload', views.upload, name='upload'),
     path('updateFile/<int:file_id>/', views.update, name='update'),
+
+    path('restore/<int:file_id>/', views.restore, name='restore'),
+    path('download=<int:file_id>', views.download, name='download'),
+    
     path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name')
 ]
