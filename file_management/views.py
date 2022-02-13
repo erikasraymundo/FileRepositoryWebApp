@@ -22,7 +22,7 @@ def index(request,  category_id=0, sort_by=1, query=None, isAdded=0):
     elif (sort_by == 3):
         sort_column = "user_id__first_name"
     elif (sort_by == 4):
-        sort_column = "created_at"
+        sort_column = "-created_at"
 
     if (category_id > 0):
             file_list = File.objects.filter(
@@ -43,6 +43,7 @@ def index(request,  category_id=0, sort_by=1, query=None, isAdded=0):
      "category_selected" : category_id,
      "sort_selected": sort_by,
      "search_value": query,
+     "isAdded": isAdded,
      "category_list": Category.objects.all()})
 
 class DetailView(generic.DetailView):
@@ -57,13 +58,12 @@ def upload(request):
     name = request.POST['name']
     description = request.POST['description']
     category_id = Category.objects.get(pk=request.POST['category_id'])
-    # user_id = request.POST['user_id']
     user_id = User.objects.get(pk=1)
 
-    # f = open("C:\Users\erika\Documents\farmer.txt")
-    # myfile = C:\Users\erika\Documents\
-
     file = File()
+
+    
+
     file.name = name
     file.url = request.FILES['file']
     file.description = description
