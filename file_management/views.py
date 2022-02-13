@@ -104,7 +104,7 @@ def update(request, file_id):
         pass
     try:
         file.save()
-        return HttpResponseRedirect(reverse('file-management:success', args={1}))
+        return HttpResponseRedirect(reverse('file-management:success', args={2}))
     except:
         return render(request, 'file_management/upload.html',
                       {"category_list": Category.objects.all(),
@@ -124,10 +124,11 @@ def archive(request):
 
 
 def checkDuplicateName(request):
-    file_id = request.GET['file_id']
+    file_id = int(request.GET['file_id'])
+    duplicated_list = File.objects.filter(name__iexact=request.GET['name']).exclude(id=file_id)
 
     if file_id != 0:
-        duplicated_list = File.objects.filter(name__iexact=request.GET['name']).exclude(id=5)
+        duplicated_list = File.objects.filter(~Q(id=file_id), name__iexact=request.GET['name'])
     else:
         duplicated_list = File.objects.filter(name__iexact=request.GET['name'])
 
