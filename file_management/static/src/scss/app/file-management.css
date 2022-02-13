@@ -13,7 +13,9 @@
   display: -ms-flexbox;
   display: flex;
   gap: 15px;
-  margin-bottom: 34px;
+  margin-bottom: 14px;
+  overflow: scroll;
+  width: 60rem;
 }
 
 .file-management--categories > * {
@@ -46,17 +48,24 @@
 
 .file-management--categories > * p {
   text-align: right;
+  -webkit-margin-before: auto;
+          margin-block-start: auto;
 }
 
-.file-management--categories_lesson-plan {
+.file-management--categories_card {
+  min-width: 200px;
+  margin-bottom: 1.3rem;
+}
+
+.file-management--categories_card:nth-child(3n + 1) {
   background: linear-gradient(46.27deg, #A4B7FF 38.59%, rgba(154, 175, 255, 0.1) 110.27%, rgba(164, 183, 255, 0.1) 110.27%);
 }
 
-.file-management--categories_grading-sheets {
+.file-management--categories_card:nth-child(3n + 2) {
   background: linear-gradient(48.38deg, #8886FF 24.95%, rgba(136, 134, 255, 0.11875) 108.11%, rgba(151, 134, 255, 0.1) 109.88%);
 }
 
-.file-management--categories_other-files {
+.file-management--categories_card:nth-child(3n + 3) {
   background: linear-gradient(52.3deg, #7BE680 30.96%, rgba(123, 229, 128, 0.1) 109.15%);
 }
 
@@ -133,6 +142,8 @@
 .file-management--table-container table tbody tr td {
   font-size: 14px;
   padding: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .file-management--table-container table tbody tr .actions .actions--container {
