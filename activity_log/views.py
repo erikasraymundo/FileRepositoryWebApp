@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def view_logs(request):
+    return render(request, 'activity_log/logs.html')
