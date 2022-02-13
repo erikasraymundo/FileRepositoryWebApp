@@ -241,7 +241,7 @@
                                  fill="#AAAAAA" />
                            </svg>
                         </div>
-                        <input type="text" class="search-input" placeholder="Search">
+                        <input id="search" type="text" class="search-input" placeholder="Search" value="{{ search_value }}">
                      </div>
                      <div class="btn-dark">
                         <a> <span class="iconify" data-icon="ic:baseline-upload"></span> Upload File</a>
@@ -327,6 +327,18 @@
    </div>
 
    <script src="src/js/script.js"></script>
+   <script>
+         $('#search').keypress(
+                  function(e){
+                     if (e.which == 13) {
+                        var textFromInput = $("#search").val();
+                        console.log(textFromInput);
+                        var url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
+                        window.location.replace(url_mask);
+                     }
+               });
+      
+   </script>
 </body>
 
 </html>
