@@ -1,4 +1,4 @@
-.manage-accounts--controls {
+.activity-logs--controls {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11,11 +11,11 @@
   margin-bottom: 33px;
 }
 
-.manage-accounts--controls-date p {
+.activity-logs--controls-date p {
   margin-bottom: 10px;
 }
 
-.manage-accounts--controls-right {
+.activity-logs--controls-right {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -25,7 +25,11 @@
   gap: 13px;
 }
 
-.manage-accounts--table-container table {
+.activity-logs--table-container {
+  margin-bottom: 1rem;
+}
+
+.activity-logs--table-container table {
   border: 1px solid #ccc;
   border-collapse: collapse;
   margin: 0;
@@ -35,11 +39,11 @@
   text-align: center;
 }
 
-.manage-accounts--table-container table thead tr {
+.activity-logs--table-container table thead tr {
   border: 1px solid #ddd;
 }
 
-.manage-accounts--table-container table thead th {
+.activity-logs--table-container table thead th {
   font-size: 14px;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -49,16 +53,16 @@
   text-align: center;
 }
 
-.manage-accounts--table-container table tr {
+.activity-logs--table-container table tr {
   border: 1px solid #ddd;
 }
 
-.manage-accounts--table-container table tbody tr td {
+.activity-logs--table-container table tbody tr td {
   font-size: 14px;
   padding: 1rem;
 }
 
-.manage-accounts--table-container table tbody tr .actions .actions--container {
+.activity-logs--table-container table tbody tr .actions .actions--container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -68,7 +72,7 @@
   gap: 1rem;
 }
 
-.manage-accounts--table-container table tbody tr .actions .actions--container .icon-pen, .manage-accounts--table-container table tbody tr .actions .actions--container .icon-archive {
+.activity-logs--table-container table tbody tr .actions .actions--container .icon-pen, .activity-logs--table-container table tbody tr .actions .actions--container .icon-archive {
   cursor: pointer;
 }
 
@@ -197,4 +201,4 @@
 .archived-accounts--table-container table tbody tr .actions .actions--container .icon-pen, .archived-accounts--table-container table tbody tr .actions .actions--container .icon-archive {
   cursor: pointer;
 }
-/*# sourceMappingURL=manage-accounts.css.map */
+/*# sourceMappingURL=activity_logs.css.map */

@@ -1,17 +1,17 @@
 {% extends 'user-accounts/base.html' %}
 
 {% block content %}
-<h1 class="h1">Manage Accounts</h1>
-<section class="manage-accounts">
-<div class="manage-accounts--container">
+<h1 class="h1">Archived Accounts</h1>
+<section class="archived-accounts">
+<div class="archived-accounts--container">
 
       <div class="component1">
-      <h4 class="active"><a href="">Active Accounts</a></h4>
-      <h4 class=""><a href="">Archived</a></h4>
+      <h4 class=""><a href="">Active Accounts</a></h4>
+      <h4 class="active"><a href="">Archived</a></h4>
       </div>
 
-      <div class="manage-accounts--controls">
-         <div class="manage-accounts--controls-date">
+      <div class="archived-accounts--controls">
+         <div class="archived-accounts--controls-date">
             <p class="text-small fw-600">Date created</p>
             <div class="component2">
                <div class="start-date">
@@ -23,7 +23,7 @@
                </div>
             </div>
          </div>
-         <div class="manage-accounts--controls-right">
+         <div class="archived-accounts--controls-right">
             <div class="component3">
                   <div class="icon">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +38,7 @@
          </div>
       </div>
 
-   <div class="manage-accounts--table-container">
+   <div class="archived-accounts--table-container">
       <table>
          <thead>
             <tr>
@@ -83,3 +83,7 @@
 </div>
 </section>
 {% endblock %}
+
+
+
+

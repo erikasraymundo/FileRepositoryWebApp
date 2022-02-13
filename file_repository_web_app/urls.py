@@ -18,8 +18,9 @@ from django.urls import path
 from accounts.views import login
 from accounts.views import register
 from users_management.views import profile
-from users_management.views import manage_accounts
+from users_management.views import manage_accounts, add_accounts, edit_accounts, archive_accounts, view_accounts
 from category_management.views import categoryManagement
+from activity_log.views import view_logs
 from django.urls import include, path
 
 from django.conf import settings
@@ -33,4 +34,9 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('manage-accounts/', manage_accounts, name='manage_accounts'),
     path('category/', categoryManagement, name='categoryManagement'),
+    path('add-accounts/', add_accounts, name='add_accounts'),
+    path('edit-accounts/', edit_accounts, name='edit_accounts'),
+    path('archive-accounts/', archive_accounts, name='archive_accounts'),
+    path('view-accounts/', view_accounts, name='view_accounts'),
+    path('activity-logs/', view_logs, name='view_logs'),
 ]

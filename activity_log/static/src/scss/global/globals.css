@@ -473,10 +473,22 @@ form .birthday .icon-calendar {
 .component1 h4 {
   padding: 14px 18px;
   margin-bottom: -1px;
+  font-weight: 500;
+  color: #777777;
 }
 
-.component1 h4:first-child {
+.component1 h4 a {
+  text-decoration: none;
+  color: #777777;
+}
+
+.component1 h4.active {
   border-bottom: 2px solid #8761F4;
+}
+
+.component1 h4.active a {
+  color: #8761F4;
+  font-weight: 500;
 }
 
 .component2 {
@@ -654,4 +666,4 @@ form .birthday .icon-calendar {
 .btn-dark a span {
   font-size: 2rem;
 }
-/*# sourceMappingURL=global.css.map */
+/*# sourceMappingURL=globals.css.map */

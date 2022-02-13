@@ -1,5 +1,5 @@
 
-.manage-accounts{
+.activity-logs{
     &--container{
 
     }
@@ -22,7 +22,7 @@
         }
     }
     &--table-container{
-
+         margin-bottom: 1rem;
         table {
             border: 1px solid #ccc;
             border-collapse: collapse;

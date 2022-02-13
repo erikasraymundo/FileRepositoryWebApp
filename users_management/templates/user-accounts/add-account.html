@@ -1,0 +1,92 @@
+{% extends 'user-accounts/base.html' %}
+
+{% block content %}
+{% load static %}
+<h1 class="h1">Adding an accounts</h1>
+<section class="add-accounts">
+    <div class="add-accounts--container">
+          <div class="my-profile--image">
+             <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
+             <h4 class="h4">joy25</h4>
+             <p>username</p>
+          </div>
+          <div class="add-accounts--form-container">
+              
+            <form action="">
+                <div class="row">
+                    <div class="col-12">
+                      <h4>Fill up all the information.</h4>
+                    </div>
+                </div>
+                <div class="row">
+                   <div class="col-12">
+                    <input type="text" value="erikasong"> 
+                   </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                     <input type="text" placeholder="Enter first name"> 
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-12">
+                     <input type="text" placeholder="Enter middle name"> 
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-12">
+                     <input type="text" placeholder="Enter last name"> 
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-12">
+                     <input type="text" placeholder="Enter address"> 
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-12">
+                     <input type="text" placeholder="Enter email address"> 
+                    </div>
+                 </div>
+
+                <div class="row">
+                    <div class="col-12 birthday">
+                        <div class="icon-calendar">
+                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"/>
+                            </svg>
+                        </div>
+                        <input type="text" name="" id="birthday" placeholder="Select birthdate*"> 
+                    </div>
+                </div>
+
+                <fieldset class="gender" id="group">
+                    <p>Select gender*</p>
+                    <div>
+                        <input type="radio" id="Woman" name="group" value="Woman"
+                              >
+                        <label for="Woman">Woman</label>
+                      </div>
+                      
+                      <div>
+                        <input type="radio" id="Man" name="group" value="Man">
+                        <label for="Man">Man</label>
+                      </div>
+                      
+                      <div>
+                        <input type="radio" id="Others" name="group" value="Others">
+                        <label for="Others">Others</label>
+                      </div>
+                </fieldset>
+                <div class="row">
+                   <div class="col-12 btn-holder">
+                    <a href="" class="btn-black">Cancel</a>
+                    <a href="" class="btn-black">Save Account</a>
+                   </div>
+                </div>
+            </form>
+            
+          </div>
+    </div>
+ </section>
+{% endblock %}
