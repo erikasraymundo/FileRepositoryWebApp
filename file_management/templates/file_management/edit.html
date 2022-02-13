@@ -59,16 +59,16 @@
 
    $(document).ready(function () {
 
-         var alreadyPrompted = false;
-         var error_msg = {{ error }};
-         if (alreadyPrompted == false) {  
-            if (error_msg == 1) {
-               Swal.fire({
-                  title: "That file name is already in used.",
-                  buttons: false
-               });
-            }
+      var alreadyPrompted = false;
+      var error_msg = {{ error }};
+      if (alreadyPrompted == false) {  
+         if (error_msg == 1) {
+            Swal.fire({
+               title: "That file name is already in used.",
+               buttons: false
+            });
          }
+      }
       
       $("#file").change(function(e){
          $("#file-value-placeholder").html(this.value.replace("C:\\fakepath\\", ""));
