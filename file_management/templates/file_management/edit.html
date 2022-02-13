@@ -3,23 +3,25 @@
 {% block content %}
 <section class="file-management">
    <div class="file-management--container">
-      <h1 class="h1">Uploading a File</h1>
+      <h1 class="h1">Editing a File</h1>
 
-      <form id="my_form" method="POST" action="{% url 'file-management:upload' %}" enctype="multipart/form-data">
+      <form id="my_form" method="POST" action="{% url 'file-management:update' file.id %}" enctype="multipart/form-data">
          {% csrf_token %}
          <div class="container">
             <div class="columns">
                <div class="column">
-                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value={{ file.name }}>
+                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value="{{ file.name }}">
                </div>
                <div class="column" style="position: relative">
-                  <input id="file" class="input" type="file" placeholder="Text input" name="file" style="color:white" value={{ file.url }}>
+                  <input id="file" class="input" type="file" placeholder="Text input" name="file" style="color:white">
+                  <input id="file-value" value="{{file.url.url}}" name="file_temp" hidden>
+                  {% comment %} <input type="file" name="uploadfile" id="img" style="display:none;"/> {% endcomment %}
                   <label for="file" id="file-value-placeholder" style="position: absolute; display: block;">
-                     {% comment %} {% if file%}
-                     {{file.url}}
-                     {% else %} {% endcomment %}
+                     {% if file%}
+                        {{file.url}}
+                     {% else %}
                      You haven't selected a file yet
-                     {% comment %} {%endif%} {% endcomment %}
+                     {%endif%}
                   </label>
                </div>
             </div>
@@ -45,7 +47,7 @@
             <div class="columns">
                <div class="column">
                   <a href="{%url 'file-management:index' %}"><button class="button is-dark" type="button">Cancel</button></a>
-                  <button class="button is-dark" type="submit">Upload File</button>
+                  <button class="button is-dark" type="submit">Update file</button>
                </div>
             </div>
          </div>
@@ -57,27 +59,35 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
+   var beingSubmitted = false;
+
    $(document).ready(function () {
 
-         var alreadyPrompted = false;
-         var error_msg = {{ error }};
-         if (alreadyPrompted == false) {  
-            if (error_msg == 1) {
-               Swal.fire({
-                  title: "That file name is already in used.",
-                  buttons: false
-               });
-            }
+      var alreadyPrompted = false;
+      var error_msg = {{ error }};
+      if (alreadyPrompted == false) {  
+         if (error_msg == 1) {
+            Swal.fire({
+               icon: 'error',
+               title: "An error has been encounter while uploading your file, please try again later."
+            });
          }
+      }
       
       $("#file").change(function(e){
          $("#file-value-placeholder").html(this.value.replace("C:\\fakepath\\", ""));
       });
 
       $("#my_form").submit(function(e){
+
+         
+         if (beingSubmitted) {
+            return true;
+         }
+         
          var name = $("#name").val();
          var file_length = $("#file").get(0).files.length;
-         var file_size = $("#file").get(0).files[0].size;
+         var file_temp = $("#file_temp").val()
          var category = $("#category").val();
 
          if (name.trim() == "") {
@@ -85,36 +95,61 @@
                icon: 'error',
                title: "Please enter a valid file name."
             })
-            return false;
-         } else if (file_length == 0) {
+         }
+         else if (file_length == 0 && file_temp == "") {
             Swal.fire({
                icon: 'error',
                title: "Ooops, you forgot to select a file!"
             })
-            
-            return false;
-         } else if (file_size > 524288000) {
-            Swal.fire({
-               icon: 'error',
-               title: "Your file is too big, please no more than 500mb!"
-            })
-            return false;
+         } else if (file_length != 0) { 
+               var file_size = $("#file").get(0).files[0].size;
+               if (file_size > 524288000) {
+                  Swal.fire({
+                     icon: 'error',
+                     title: "Your file is too big, please no more than 500mb!"
+                  });
+
+                  return false;
+               } else {
+            checkForDuplicatedNameThenSubmit();
+               }
          } else if (category == "0") {
             Swal.fire({
                icon: 'error',
                title: "Please select a valid category."
             })
-            
-            return false;
+         } else {
+            checkForDuplicatedNameThenSubmit();
          }
-         
-         Swal.fire({
-            title: "Your file is being uploaded.",
-            buttons: false
-         })
-         return true;
+
+         return false;
       });
    });
+
+   function checkForDuplicatedNameThenSubmit() {
+      
+               $.get(
+                  "{%url 'file-management:check_duplicate_name'%}",
+                  {name: $("#name").val(),
+                   file_id: {{file.id}}}, 
+                  function(data, status) {
+                     if (data == 1) {
+                        Swal.fire({
+                           title: "That file name is already in used.",
+                           button: false
+                        });
+                     } else {
+                           Swal.fire({
+                              title: "Your file is being updated."
+                           })
+
+                           $("#my_form").submit();
+                           beingSubmitted = true;
+                     }
+                  }
+               );
+   }
+
 </script>
 
 {% endblock %}

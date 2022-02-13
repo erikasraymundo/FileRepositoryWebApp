@@ -67,65 +67,72 @@ def upload(request):
     file.description = description
     file.category_id = category_id
     file.user_id = user_id
+    file.url = request.FILES['file']
 
-    # check if name already exists
-    duplicated_list = File.objects.filter(name__iexact=name)
-    if not duplicated_list:
-        try:
-            file.url = request.FILES['file']
-            file.save()
-            return HttpResponseRedirect(reverse('file-management:success', args={1}))
-        except:
-            return render(request, 'file_management/upload.html',
-                        {"category_list": Category.objects.all(),
-                        "file" : file,
-                        "error": 2})  # 2 means general error
-
-    else:
-
-        
-        return render(request, 'file_management/upload.html', 
-        {"category_list": Category.objects.all(), 
-         "file" : file,
-         "error": 1}) # 1 means duplicated name
+    try:
+        file.save()
+        return HttpResponseRedirect(reverse('file-management:success', args={1}))
+    except:
+        return render(request, 'file_management/upload.html',
+            {"category_list": Category.objects.all(),
+            "file" : file,
+            "error": 1})  # 2 means general error
 
 def openEditView(request, file_id):
     file = File.objects.get(pk=file_id)
     return render(request, 'file_management/edit.html', 
         {"category_list": Category.objects.all(), 
-        "file": file})
+         "file": file,
+         "error": 0})
 
-def edit(request, file_id):
+def update(request, file_id):
+
     name = request.POST['name']
     description = request.POST['description']
-    cat_id = request.POST['category_id']
     category_id = Category.objects.get(pk=request.POST['category_id'])
+    user_id = User.objects.get(pk=1)
 
-    # check if name already exists
-    duplicated_list = File.objects.filter(name__iexact=name).exclude(id=file_id)
-    if not duplicated_list:
-        file = File.objects.get(pk=file_id)
-        file.name = name
+    file = File.objects.get(pk=file_id)
+    file.name = name
+    file.description = description
+    file.category_id = category_id
+    file.user_id = user_id
+
+    try:
         file.url = request.FILES['file']
-        file.description = description
-        file.category_id = category_id
-
-        try:
-            file.save()
-            return HttpResponseRedirect(reverse('file-management:success', args={1}))
-        except:
-            return render(request, 'file_management/upload.html',
-                          {"category_list": Category.objects.all(),
-                           "file": file,
-                           "error": 2})  # 2 means general error
-
-    else:
+    except:
+        pass
+    try:
+        file.save()
+        return HttpResponseRedirect(reverse('file-management:success', args={2}))
+    except:
         return render(request, 'file_management/upload.html',
                       {"category_list": Category.objects.all(),
                        "file": file,
-                       "error": 1})  # 1 means duplicated name
-
+                       "error": 1})  # 2
 
 def archive(request):
     return render(request, 'file_management/archive.html')
 
+# def checkDuplicateName(request):
+#     # return HttpResponse(1)
+#     duplicated_list = File.objects.filter(name__iexact=request.GET['name'])
+#     if not duplicated_list:
+#         return HttpResponse(0)
+#     else:
+#         return HttpResponse(1)
+
+
+def checkDuplicateName(request):
+    file_id = int(request.GET['file_id'])
+    duplicated_list = File.objects.filter(name__iexact=request.GET['name']).exclude(id=file_id)
+
+    if file_id != 0:
+        duplicated_list = File.objects.filter(~Q(id=file_id), name__iexact=request.GET['name'])
+    else:
+        duplicated_list = File.objects.filter(name__iexact=request.GET['name'])
+
+    if not duplicated_list:
+        return HttpResponse(0)
+    else:
+        return HttpResponse(1)

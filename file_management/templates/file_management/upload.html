@@ -15,7 +15,7 @@
          <div class="container">
             <div class="columns">
                <div class="column">
-                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value={{ file.name }}>
+                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value="{{ file.name }}">
                </div>
                <div class="column column-file" style="position: relative">
                   <label class="file-placeholder">Choose a file (200mb max)</label>
@@ -72,6 +72,8 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
+   var beingSubmitted = false;
+
    $(document).ready(function () {
 
       var alreadyPrompted = false;
@@ -79,8 +81,8 @@
       if (alreadyPrompted == false) {  
          if (error_msg == 1) {
             Swal.fire({
-               title: "That file name is already in used.",
-               buttons: false
+               icon: 'error',
+               title: "An error has been encounter while uploading your file, please try again later."
             });
          }
       }
@@ -90,6 +92,12 @@
       });
 
       $("#my_form").submit(function(e){
+
+         
+         if (beingSubmitted) {
+            return true;
+         }
+
          var name = $("#name").val();
          var file_length = $("#file").get(0).files.length;
          var category = $("#category").val();
@@ -99,16 +107,13 @@
                icon: 'error',
                title: "Please enter a valid file name."
             })
-            return false;
          }
-         
          else if (file_length == 0) {
             Swal.fire({
                icon: 'error',
                title: "Ooops, you forgot to select a file!"
             })
             
-            return false;
          } else if (file_length != 0) {            
             var file_size = $("#file").get(0).files[0].size;
             if (file_size > 524288000) {
@@ -116,26 +121,34 @@
                   icon: 'error',
                   title: "Your file is too big, please no more than 500mb!"
                });
-               
-               return false;
+            } else {
+               $.get(
+                  "{%url 'file-management:check_duplicate_name'%}",
+                  {name: $("#name").val(),
+                   file_id: 0}, 
+                  function(data, status) {
+                     if (data == 1) {
+                        Swal.fire({
+                           title: "That file name is already in used.",
+                           button: false
+                        });
+                     } else {
+                           Swal.fire({
+                              title: "Your file is being uploaded."
+                           })
+
+                           $("#my_form").submit();
+                           beingSubmitted = true;
+                     }
+                  }
+               );
             }
          } else if (category == "0") {
             Swal.fire({
                icon: 'error',
                title: "Please select a valid category."
             })
-            
-            return false;
          }
-         
-         Swal.fire({
-            title: "Your file is being uploaded.",
-            buttons: false
-         })
-
-
-         
-
          return false;
       });
    });

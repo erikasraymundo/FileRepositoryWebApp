@@ -342,17 +342,25 @@
       
    </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {% if success == 1%}
       <script>
+
+         {% if success == 1%}
         Swal.fire({
             icon: 'success',
             title: "File has been successfully uploaded!"
         })
 
         window.history.pushState('somedata', 'Title', '/file-management/');
+
+        {% elif success == 2%}
+        Swal.fire({
+            icon: 'success',
+            title: "File has been successfully updated!"
+        })
+
+        window.history.pushState('somedata', 'Title', '/file-management/');
+         {% endif %}
       </script>
-      
-   {% endif %}
 
 </body>
 
