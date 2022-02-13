@@ -22,7 +22,6 @@ from users_management.views import manage_accounts, add_accounts, edit_accounts,
 from category_management.views import categoryManagement, SaveACategory
 from activity_log.views import view_logs
 from django.urls import include, path
-
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -40,6 +39,6 @@ urlpatterns = [
     path('archive-accounts/', archive_accounts, name='archive_accounts'),
     path('view-accounts/', view_accounts, name='view_accounts'),
     path('printpdf/', printpdf, name='printpdf'),
-    path('printusers/', printusers, name='printusers')
+    path('printusers/', printusers, name='printusers'),
     path('activity-logs/', view_logs, name='view_logs')
     ]
