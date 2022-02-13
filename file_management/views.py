@@ -5,11 +5,12 @@ from django.views import generic
 from django.db.models import Q
 from category_management.models import Category
 from . models import File
+from users_management.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 
-def index(request,  category_id=0, sort_by=1, query=None):
+def index(request,  category_id=0, sort_by=1, query=None, isAdded=0):
     template_name = 'file_management/index.html'
 
     if query == None: query = ""
@@ -55,9 +56,9 @@ def upload(request):
     name = request.POST['name']
     url = request.POST['url']
     description = request.POST['description']
-    category_id = category.get=(request.POST['category_id'])
+    category_id = Category.objects.get(pk=request.POST['category_id'])
     # user_id = request.POST['user_id']
-    user_id = 1
+    user_id = User.objects.get(pk=1)
 
     file = File()
     file.name = name
@@ -67,8 +68,8 @@ def upload(request):
     file.user_id = user_id
     file.save()
 
-    success = True
-    return HttpResponseRedirect(reverse('polls:results', args=(success,)))
+    isAdded = 1
+    return HttpResponseRedirect(reverse('file-management:index', args=(isAdded,)))
 
 def archive(request):
     return render(request, 'file_management/archive.html')
