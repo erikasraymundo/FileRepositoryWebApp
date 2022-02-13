@@ -72,3 +72,49 @@
     }
 
 }
+.add-accounts{
+  &--container{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+    .my-profile--image{
+      text-align: center;
+    }
+  }
+  &--form-container{
+    form{
+      h4{
+        margin-bottom: 1.5rem;
+      }
+      .btn-holder{
+        margin-top: 1.3rem;
+        justify-content: flex-end;
+        display: flex;
+        gap: 1rem;
+      }
+    }
+  }
+}
+.edit-accounts{
+  &--container{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+    .my-profile--image{
+      text-align: center;
+    }
+  }
+  &--form-container{
+    form{
+      h4{
+        margin-bottom: 1.5rem;
+      }
+      .btn-holder{
+        margin-top: 1.3rem;
+        justify-content: flex-end;
+        display: flex;
+        gap: 1rem;
+      }
+    }
+  }
+}

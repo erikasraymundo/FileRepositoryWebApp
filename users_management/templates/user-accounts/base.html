@@ -9,6 +9,19 @@
       <link rel="stylesheet" type="text/css" href="{% static 'src/scss/global/global.css' %}" />
       <!--APP-->
       <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/manage-accounts.css' %}" />
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+      <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+      <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+      <script>
+         $(function () {
+            $("#birthday").datepicker();
+         });
+      </script>
+      <style>
+         .ui-widget-header {
+            background: #ddd;
+         }
+      </style>
     <title>Document</title>
 </head>
 <body>
@@ -45,19 +58,6 @@
                  </div>
                  <div class="menu">
                     <ul class="menu--links">
-                       <li class="">
-                          <a href="/">
-                             <div class="icon">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6.9375 2.68221e-07H1.3125C0.58875 2.68221e-07 2.68221e-07 0.58875 2.68221e-07 1.3125V4.6875C2.68221e-07 5.41125 0.58875 6 1.3125 6H6.9375C7.66125 6 8.25 5.41125 8.25 4.6875V1.3125C8.25 0.58875 7.66125 2.68221e-07 6.9375 2.68221e-07Z" fill="#272727"/>
-                                    <path d="M6.9375 7.5H1.3125C0.58875 7.5 0 8.08875 0 8.8125V16.6875C0 17.4113 0.58875 18 1.3125 18H6.9375C7.66125 18 8.25 17.4113 8.25 16.6875V8.8125C8.25 8.08875 7.66125 7.5 6.9375 7.5Z" fill="#272727"/>
-                                    <path d="M16.6875 12H11.0625C10.3388 12 9.75 12.5888 9.75 13.3125V16.6875C9.75 17.4113 10.3388 18 11.0625 18H16.6875C17.4113 18 18 17.4113 18 16.6875V13.3125C18 12.5888 17.4113 12 16.6875 12Z" fill="#272727"/>
-                                    <path d="M16.6875 0H11.0625C10.3388 0 9.75 0.58875 9.75 1.3125V9.1875C9.75 9.91125 10.3388 10.5 11.0625 10.5H16.6875C17.4113 10.5 18 9.91125 18 9.1875V1.3125C18 0.58875 17.4113 0 16.6875 0Z" fill="#272727"/>
-                                </svg>
-                             </div>
-                             <span>Dashboard</span>
-                          </a>
-                       </li>
                        <li>
                           <a href="">
                              <div class="icon">

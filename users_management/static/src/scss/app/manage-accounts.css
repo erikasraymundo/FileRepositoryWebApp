@@ -71,4 +71,56 @@
 .manage-accounts--table-container table tbody tr .actions .actions--container .icon-pen, .manage-accounts--table-container table tbody tr .actions .actions--container .icon-archive {
   cursor: pointer;
 }
+
+.add-accounts--container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
+}
+
+.add-accounts--container .my-profile--image {
+  text-align: center;
+}
+
+.add-accounts--form-container form h4 {
+  margin-bottom: 1.5rem;
+}
+
+.add-accounts--form-container form .btn-holder {
+  margin-top: 1.3rem;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+}
+
+.edit-accounts--container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
+}
+
+.edit-accounts--container .my-profile--image {
+  text-align: center;
+}
+
+.edit-accounts--form-container form h4 {
+  margin-bottom: 1.5rem;
+}
+
+.edit-accounts--form-container form .btn-holder {
+  margin-top: 1.3rem;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+}
 /*# sourceMappingURL=manage-accounts.css.map */
