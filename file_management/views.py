@@ -168,7 +168,7 @@ def archive(request, file_id):
     file.deleted_at = timezone.localtime(timezone.now())
     file.save()
 
-    return render(request, 'file_management/archive.html')
+    return HttpResponseRedirect(reverse('file-management:archive-index'))
 
 # def checkDuplicateName(request):
 #     # return HttpResponse(1)
@@ -178,6 +178,13 @@ def archive(request, file_id):
 #     else:
 #         return HttpResponse(1)
 
+
+def restore(request, file_id):
+    file = get_object_or_404(File, pk=file_id)
+    file.deleted_at = None
+    file.save()
+
+    return HttpResponseRedirect(reverse('file-management:archive-index'))
 
 def checkDuplicateName(request):
     file_id = int(request.GET['file_id'])

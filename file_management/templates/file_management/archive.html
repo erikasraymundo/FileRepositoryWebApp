@@ -349,21 +349,21 @@
          {% endif %}
 
 
-          $(document).on('click', '#archive', function() {
+          $(document).on('click', '#restore', function() {
              
             var file_name = $(this).data("filename");
             var file_id = $(this).data("fileid");
 
              Swal.fire({
                   icon: 'warning',
-                  title: 'Do you want to archive ' + file_name +'?',
+                  title: 'Do you want to restore ' + file_name +'?',
                   showDenyButton: true,
-                  confirmButtonText: 'Yes, archive',
+                  confirmButtonText: 'Yes, restore',
                   denyButtonText: `Cancel`,
                   }).then((result) => {
                   if (result.isConfirmed) {
 
-                     var location = "{% url 'file-management:archive' 0 %}".replace(0, file_id);
+                     var location = "{% url 'file-management:restore' 0 %}".replace(0, file_id);
                      window.location.replace(location);
                   } else if (result.isDenied) {
 
