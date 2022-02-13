@@ -477,7 +477,7 @@ main{
         outline: none;
         border: none;
         padding: .7rem 1rem;
-        padding-left: 3rem;
+        padding-left: 2.5rem;
         border: 1px solid #ddd;
         width: 186px;
         font-size: 14px;
@@ -504,6 +504,9 @@ main{
         -moz-appearance: none;
         font-size: 14px;
         font-weight: 500;
+        width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     &::after{
         content: "";
