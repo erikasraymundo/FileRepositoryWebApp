@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from category_management.models import Category
 from . models import File
+from activity_log.models import Log
 from users_management.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -72,6 +73,12 @@ def upload(request):
 
     try:
         file.save()
+
+        log = Log()
+        log.description = "Uploaded a file ("+name+")."
+        log.user_id = user_id
+        log.save()
+
         return HttpResponseRedirect(reverse('file-management:success', args={1}))
     except:
         return render(request, 'file_management/upload.html',
