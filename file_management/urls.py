@@ -11,7 +11,7 @@ urlpatterns = [
          views.index, name='search'),
     path('', views.index, name='index'),
     path('<int:isAdded>', views.index, name='index'),
-    path('int<pk>', views.DetailView.as_view(), name='detail'),
+    path('file=<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('upload', views.openUploadView, name='openUploadView'),
     path('saveUpload', views.upload, name='upload')
 ]
