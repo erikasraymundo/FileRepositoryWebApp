@@ -12,3 +12,5 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)
 
+    def full_name(self):
+        return self.first_name + " " + self.last_name
