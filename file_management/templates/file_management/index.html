@@ -339,6 +339,15 @@
                });
       
    </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if isAdded == 1 %}
+      <script>
+        Swal.fire({
+            icon: 'success',
+            title: "File has been successfully uploaded!"
+        })
+      </script>
+   {% endif %}
 </body>
 
 </html>
