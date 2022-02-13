@@ -179,6 +179,13 @@
   color: #777;
 }
 
+.column-file #file-value-placeholder {
+  position: absolute;
+  top: 50% !important;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
 .column-file .icon-file-upload {
   position: absolute;
   right: 2.5rem;
