@@ -265,7 +265,7 @@
                      <tbody>
                         {% for file in file_list %}
                         
-                        <tr class=".file-row" data-fileid="{{file.id}}">
+                        <tr class=".file-row" data-fileid="{{file.id}}" onclick="window.location='/file-management/file/1'">
                            <td data-label="Name"> {{ file.getNewFileName }} </td>
                            <td data-label="Category"> {{ file.category_id.title }} </td>
                            <td data-label="Uploader"> {{ file.user_id.full_name }}</td>
@@ -377,7 +377,13 @@
 
   
 
-   <script src="src/js/script.js"></script>
+   <script> 
+      jQuery(document).ready(function($) {
+         $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+         });
+      });
+   </script>
    <script>
          $('#search').keypress(
                   function(e){
