@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def categoryManagement(request):
+    return render(request, 'category-management.html')

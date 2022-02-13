@@ -4,6 +4,7 @@ from django.views import generic
 from category_management.models import Category
 from . models import File
 
+<<<<<<< HEAD
 class IndexView(generic.ListView):
     template_name = 'file_management/index.html'
     context_object_name = 'file_list'
@@ -26,3 +27,19 @@ def upload(request):
 
 def archive(request):
     return render(request, 'file_management/archive.html')
+=======
+def base(request):
+    return render(request, 'file-management/base.html')
+
+def file_management(request):
+    return render(request, 'file-management/file-management.html')
+
+def upload_file(request):
+    return render(request, 'file-management/uploadfile.html')
+
+def archive_file(request):
+    return render(request, 'file-management/archivefile.html')
+
+def view_file(request):
+    return render(request, 'file-management/viewfile.html')
+>>>>>>> 9e454f40c9a44a1f345c1009591ce66bf7361312
