@@ -264,13 +264,15 @@
                      </thead>
                      <tbody>
                         {% for file in file_list %}
-                        <tr>
+                        
+                        <tr class=".file-row" data-fileid="{{file.id}}">
                            <td data-label="Name"> {{ file.getNewFileName }} </td>
                            <td data-label="Category"> {{ file.category_id.title }} </td>
                            <td data-label="Uploader"> {{ file.user_id.full_name }}</td>
                            <td data-label="Uploaded"> {{ file.created_at }} </td>
                            <td data-label="Actions" class="actions">
                               <div class="actions--container">
+                                 
                                  <div class="icon-view" title="view">
                                     <svg width="18" height="11" viewBox="0 0 18 11" fill="none"
                                        xmlns="http://www.w3.org/2000/svg">
@@ -393,6 +395,14 @@
 
                   }
                   });
+          });
+          
+          $(document).on('click', '.file-row', function() {
+             
+               var file_id = $(this).data("fileid");
+               var location = "{% url 'file-management:detail' 0 %}".replace(0, file_id);
+               window.location.replace(location);
+            });
           });
       });
 

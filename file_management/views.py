@@ -56,6 +56,11 @@ def index(request,  category_id=0, sort_by=1, query=None, success = 0):
      "success": success,
      "category_list": Category.objects.all()})
 
+def detail(request, file_id):
+    template_name = 'file_management/detail.html'
+    file = get_object_or_404(File, pk=file_id)
+    return render(request, template_name, {"file": file})
+
 
 def archiveIndex(request,  category_id=0, sort_by=1, query=None, success=0):
     template_name = 'file_management/archive.html'
@@ -92,11 +97,6 @@ def archiveIndex(request,  category_id=0, sort_by=1, query=None, success=0):
                    "search_value": query,
                    "success": success,
                    "category_list": Category.objects.all()})
-
-
-class DetailView(generic.DetailView):
-    model = File
-    template_name = 'file_management/detail.html'
 
 def openUploadView(request):
     return render(request, 'file_management/upload.html', 

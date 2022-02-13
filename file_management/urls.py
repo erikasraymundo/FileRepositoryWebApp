@@ -16,7 +16,7 @@ urlpatterns = [
     path('archive-list', views.archiveIndex, name='archive-index'),
 
 
-    path('file=<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path('file/<int:file_id>/', views.detail, name='detail'),
     path('upload', views.openUploadView, name='openUploadView'),
     path('edit/<int:file_id>/', views.openEditView, name='openEditView'),
     path('archive/<int:file_id>/', views.archive, name='archive'),
