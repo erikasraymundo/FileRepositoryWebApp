@@ -455,7 +455,7 @@ main{
             border-radius: 100px;
             outline: none;
             border: none;
-            width: 110px;
+            width: 80px;
             font-size: 14px;
             font-weight: 500;
         }
@@ -530,6 +530,7 @@ main{
     cursor: pointer;
     display: inline-block;
     text-decoration: none;
+    font-size: 14px;
  }
  .btn-purple{
     display: inline-block;
@@ -544,6 +545,7 @@ main{
         align-items: center;
         gap: 12px;
         cursor: pointer;
+        font-size: 14px;
         
         span{
             font-size: 2rem;
@@ -564,6 +566,7 @@ main{
         gap: 12px;
         cursor: pointer;
         font-weight: 600 !important;
+        font-size: 14px;
         
         span{
             font-size: 2rem;
