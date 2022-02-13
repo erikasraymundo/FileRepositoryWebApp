@@ -252,7 +252,7 @@
                <div class="file-management--table-container">
                   
                   {% if file_list %}
-                  <table>
+                  <table id="main-table">
                      <thead>
                         <tr>
                            <th scope="col">Name</th>
@@ -397,11 +397,11 @@
                   });
           });
           
-          $(document).on('click', '.file-row', function() {
-             
-               var file_id = $(this).data("fileid");
-               var location = "{% url 'file-management:detail' 0 %}".replace(0, file_id);
-               window.location.replace(location);
+          $(document).on('click', 'td', function() {
+             alert("secret!");
+               //var file_id = $(this).data("fileid");
+               //var location = "{% url 'file-management:detail' 0 %}".replace(0, file_id);
+               //window.location.replace(location);
             });
           });
       });
