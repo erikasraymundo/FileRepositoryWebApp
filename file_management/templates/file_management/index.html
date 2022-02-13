@@ -192,19 +192,17 @@
                      <div>
                         <p class="text-black text-small">Category</p>
                         <div class="component4">
-                           <select>
+                           <select onchange="location = this.value;">
                               {% if category_list %}
-                              
-                                 <option value="0">All</option>
+                           
+                                 <option value="{% url 'file-management:filter' 0 sort_selected %}" {% if category_selected == 0 %} selected {%endif%} >All</option>
 
                                  {% for category in category_list %}
-                                    <option value="{{category.id}}">{{category.title}}</option>
+                                 <option value="{% url 'file-management:filter' category.id sort_selected %}" {% if category_selected == category.id %} selected {%endif%}>{{category.title}}</option>
                                  {% endfor %}
 
                               {% else %}
-
-                                 <option value="-1">No categories yet</option>
-
+                                 <option value="{% url 'file-management:filter' -1 sort_selected %}" {% if category_selected == 0 %} selected {%endif%} >No categories yet</option></a>
                               {% endif %}
                            </select>
                         </div>
@@ -212,11 +210,11 @@
                      <div>
                         <p class="text-black text-small">Sort by</p>
                         <div class="component4">
-                           <select>
-                              <option value="">Name</option>
-                              <option value="">Category</option>
-                              <option value="">Uploader</option>
-                              <option value="">Date uploaded</option>
+                           <select onchange="location = this.value;">
+                              <option value="{% url 'file-management:filter' category_selected 1 %}" {% if sort_selected == 1 %} selected {%endif%} >Name</option>
+                              <option value="{% url 'file-management:filter' category_selected 2 %}" {% if sort_selected == 2 %} selected {%endif%} >Category</option>
+                              <option value="{% url 'file-management:filter' category_selected 3 %}" {% if sort_selected == 3 %} selected {%endif%} >Uploader</option>
+                              <option value="{% url 'file-management:filter' category_selected 4 %}" {% if sort_selected == 4 %} selected {%endif%} >Date uploaded</option>
                            </select>
                         </div>
                      </div>
@@ -316,7 +314,7 @@
                   {% endif %}
                </div>
 
-               <div class="btn-dark">``
+               <div class="btn-dark">
                   <a href=""><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to
                      PDF</a>
                </div>

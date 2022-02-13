@@ -1,21 +1,32 @@
+from unicodedata import category
 from django.shortcuts import render
 from django.views import generic
 
 from category_management.models import Category
 from . models import File
 
-<<<<<<< HEAD
-class IndexView(generic.ListView):
-    template_name = 'file_management/index.html'
-    context_object_name = 'file_list'
 
-    def get_queryset(self):
-        return File.objects.order_by("-id")
-
-def index(request):
+def index(request,  category_id=0, sort_by=1):
     template_name = 'file_management/index.html'
+
+    sort_column = "name"
+
+    if (sort_by == 2):
+        sort_column = "category_id__title"
+    elif (sort_by == 3):
+        sort_column = "user_id__first_name"
+    elif (sort_by == 4):
+        sort_column = "created_at"
+
+    if (category_id > 0):
+        file_list = File.objects.filter(category_id=category_id).order_by(sort_column)
+    else:
+        file_list = File.objects.filter().order_by(sort_column)
+
     return render(request, template_name, 
-    {"file_list": File.objects.order_by("-id"),
+    {"file_list": file_list,
+     "category_selected" : category_id,
+     "sort_selected": sort_by,
      "category_list": Category.objects.all()})
 
 class DetailView(generic.DetailView):
@@ -27,19 +38,3 @@ def upload(request):
 
 def archive(request):
     return render(request, 'file_management/archive.html')
-=======
-def base(request):
-    return render(request, 'file-management/base.html')
-
-def file_management(request):
-    return render(request, 'file-management/file-management.html')
-
-def upload_file(request):
-    return render(request, 'file-management/uploadfile.html')
-
-def archive_file(request):
-    return render(request, 'file-management/archivefile.html')
-
-def view_file(request):
-    return render(request, 'file-management/viewfile.html')
->>>>>>> 9e454f40c9a44a1f345c1009591ce66bf7361312
