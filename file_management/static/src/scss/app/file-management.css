@@ -169,7 +169,7 @@
 
 .column-file .file-placeholder {
   position: absolute;
-  top: 40%;
+  top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   left: 2.5rem;
@@ -182,7 +182,7 @@
 .column-file .icon-file-upload {
   position: absolute;
   right: 2.5rem;
-  top: 40%;
+  top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
 }
