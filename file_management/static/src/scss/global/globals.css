@@ -553,7 +553,7 @@ form .birthday .icon-calendar {
   padding: .7rem 1rem;
   padding-left: 3rem;
   border: 1px solid #ddd;
-  width: 242px;
+  width: 186px;
   font-size: 14px;
   font-weight: 500;
 }
@@ -607,7 +607,7 @@ form .birthday .icon-calendar {
 }
 
 .btn-black {
-  font-weight: 700;
+  font-weight: 600;
   color: #fff;
   background-color: #272727;
   padding: 12px 25px;
@@ -661,9 +661,10 @@ form .birthday .icon-calendar {
           align-items: center;
   gap: 12px;
   cursor: pointer;
+  font-weight: 600 !important;
 }
 
 .btn-dark a span {
   font-size: 2rem;
 }
-/*# sourceMappingURL=global.css.map */
+/*# sourceMappingURL=globals.css.map */
