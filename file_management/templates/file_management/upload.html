@@ -8,14 +8,14 @@
       <form id="my_form" method="POST" action="{% url 'file-management:upload' %}" enctype="multipart/form-data">
          <div class="container">
             <div class="column">
-               <h4>You can upload a file up to 500mb.</h4>
+               <h4>You can upload a file of up to only 200mb max.</h4>
             </div>
          </div>
          {% csrf_token %}
          <div class="container">
             <div class="columns">
                <div class="column">
-                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value="{{ file.name }}">
+                  <input id="name" class="input" type="text" placeholder="Enter a file name" name="name" value="{{ file.name }}">
                </div>
                <div class="column column-file" style="position: relative">
                   <label class="file-placeholder">Choose a file (200mb max)</label>
@@ -157,9 +157,6 @@
          }
          return false;
       });
-
-      // archive
-      
    });
 </script>
 
