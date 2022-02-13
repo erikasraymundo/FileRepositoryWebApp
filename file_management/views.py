@@ -123,7 +123,11 @@ def update(request, file_id):
                        "file": file,
                        "error": 1})  # 2
 
-def archive(request):
+def archive(request, file_id):
+
+    file = get_object_or_404(File, pk=file_id)
+    file.deleted_at = 
+
     return render(request, 'file_management/archive.html')
 
 # def checkDuplicateName(request):
