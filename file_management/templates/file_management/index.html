@@ -279,7 +279,7 @@
                                           fill="#777777" />
                                     </svg>
                                  </div>
-                                 
+                                  
                                  <a href="{% url 'file-management:download' file.id %}">
                                  <div class="icon-download" title="download">
                                     <svg width="12" height="13" viewBox="0 0 12 13" fill="none"
@@ -326,10 +326,54 @@
 
 
 
+               <div class="modal">
+                  <div class="modal-backdrop" id="modal-view-backdrop" title="close"></div>
+                  <div class="view-file-modal" id="modal-view">
+                     <div class="header">
+                        <h4 class="text-purple fw-800">FileName.jpg</h4>
+                        <span class="close-modal-icon" id="close-modal-view">
+                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#323232"/>
+                           </svg>
+                        </span>
+                     </div>
+                      <div class="file--container"> 
+                              <h4 class="text-white">Preview</h4>
+                      </div>
+                  </div>
+               </div>
+
+               <script>
+                  const modal = document.querySelector('#modal-view');
+                  const shadow = document.querySelector('#modal-view-backdrop');
+                  const toggle = document.querySelector('.icon-view');
+                  const closeBtn = document.querySelector('#close-modal-view');
+                  toggle.addEventListener('click',function(){
+                  if(modal.classList.contains('show-modal')){ 
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  }
+                  else{
+                     modal.classList.add('show-modal');
+                     shadow.classList.add('shadow-modal');
+                  }});
+                  shadow.addEventListener('click',function(){
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  });
+                  closeBtn.addEventListener('click',function(){
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  });
+                 </script>
+
+
             </div>
          </section>
       </main>
    </div>
+
+  
 
    <script src="src/js/script.js"></script>
    <script>
@@ -412,6 +456,8 @@
    main.classList.add('margins');
    }});
   </script>
+
+ 
 
 </body>
 
