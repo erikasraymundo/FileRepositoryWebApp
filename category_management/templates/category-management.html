@@ -9,10 +9,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'src/scss/global/global.css' %}" />
     <!--APP-->
     <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/category-management.css' %}" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <title>Document</title>
 </head>
 <body>
-
     <div class="global--container">
         <!--SIDEBAR-->
         <aside class="aside" id="aside">
@@ -97,7 +99,7 @@
             <h1 class="h1">Category Management</h1>
            <section class="category-management">
                <div class="category-management--container">
-                  <form method='post' action='{% url "SaveACategory"  %}'>
+                  <form method='post' action='{% url "AddCategory"  %}'>
                      {% csrf_token %}
                    <div class="container mb-3">
                       <div class="columns">
@@ -107,7 +109,7 @@
                       </div>
                      <div class="columns">
                          <div class="column is-7">
-                            <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)">
+                            <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)" value=>
                          </div>
                          <div class="column">
                             <button class="btn-black">Save</button>
@@ -130,14 +132,18 @@
 
                            <div class="columns space2 flex-wrap">
                               {% for categoryNames in categories %}
+                              <form method='POST' action='{% url "DeleteCategory"%}' id='{{categoryNames.title}}'>
+                                 {% csrf_token %}
                               <span class="button category">
-                              {{categoryNames.title}}
-                              <div class="icon-delete" title="delete">
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7 11V13H17V11H7ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="white"/>
+                                 <input type='text' name='ID' style='display:none' value='{{categoryNames.pk}}'>
+                               <div onClick='openModal("{{categoryNames.pk}}", "{{categoryNames.title}}")'> {{categoryNames.title}} </div>  
+                                  <div class="icon-delete" title="delete" onClick='deleteCateg("{{categoryNames.title}}")'>
+                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M7 11V13H17V11H7ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="white"/>
                                  </svg>
-                              </div>
+                                 </div>
                              </span>
+                           </form>
                               {% endfor %}
                            </div>
                            
@@ -145,42 +151,38 @@
                      </div>
                    </div>
 
-                   <!--
-                   <div class="modal-container">
+                   <div class="modal-container" id='ModalForEdittingCategory'>
                      <div class="modal-backdrop"></div>
                      <div class="edit-modal">
                         <div class="header">
                            <h4 class="text-purple fw-800">Edit Category</h4>
-                           <span class="close-modal-icon">
+                           <span class="close-modal-icon" id='CloseModalForEditCategory'>
                               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#323232"/>
                               </svg>
                            </span>
                         </div>
-                        <form action="">
+                        <form action='{% url "UpdateCategory"%}' method = 'POST'>
+                           {% csrf_token %}
                            <div class="row">
                               <div class="col-12">
-                                 <input type="text">
+                                 <input type="text" name='newCategoryName' id='newCategoryName'>
+                                 <input type="text" name = 'categoryID'id='categoryID' style='display:none'>
                               </div>
                            </div>
                            <div class="row">
                               <div class="col-12">
-                                 <a class="btn-black">Save</a>
+                                 <button class="btn-black">Save</button>
                               </div>
                            </div>
                         </form>
                      </div>
                   </div>
-                  -->
                   
                </div>
            </section>
         </main>
      </div>
-
-
-     
-  
 
    <!--SIDEBAR TOGGLE-->
    <script>
@@ -196,6 +198,25 @@
     sidebar.classList.add('close--sidebar');
     main.classList.add('margins');
     }});
+
+    function deleteCateg(ID){
+       document.getElementById(ID).submit();
+    }
+
+    document.getElementById('ModalForEdittingCategory').style.display = 'none';
+    
+    document.getElementById('CloseModalForEditCategory').style.cursor='pointer';
+    document.getElementById('CloseModalForEditCategory').onclick = function(e){
+    document.getElementById('ModalForEdittingCategory').style.display = 'none';
+    }
+
+    function openModal(ID, title){
+      document.getElementById('ModalForEdittingCategory').style.display = 'block';
+      document.getElementById('newCategoryName').value = title;
+      document.getElementById('categoryID').value = ID;
+
+   }
+
    </script>
 
 </body>
