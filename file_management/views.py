@@ -8,6 +8,7 @@ from . models import File
 from users_management.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.core.files import File as DjangoFile
 
 
 def index(request,  category_id=0, sort_by=1, query=None, isAdded=0):
@@ -54,15 +55,17 @@ def openUploadView(request):
 def upload(request):
 
     name = request.POST['name']
-    url = request.POST['url']
     description = request.POST['description']
     category_id = Category.objects.get(pk=request.POST['category_id'])
     # user_id = request.POST['user_id']
     user_id = User.objects.get(pk=1)
 
+    # f = open("C:\Users\erika\Documents\farmer.txt")
+    # myfile = C:\Users\erika\Documents\
+
     file = File()
     file.name = name
-    file.url = url
+    file.url = request.FILES['file']
     file.description = description
     file.category_id = category_id
     file.user_id = user_id
