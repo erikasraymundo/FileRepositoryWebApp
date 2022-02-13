@@ -12,7 +12,14 @@
                <div class="column">
                   <input id="name" class="input" type="text" placeholder="Text input" name="name" value="{{ file.name }}">
                </div>
-               <div class="column" style="position: relative">
+               <div class="column column-file" style="position: relative">
+                  <!--<label class="file-placeholder">Choose a file (200mb max)</label>-->
+                  <div class="icon-file-upload">
+                     <svg width="22" height="15" viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.7375 5.6625C17.1142 2.42812 14.3367 0 11 0C8.35083 0 6.05 1.5375 4.90417 3.7875C2.145 4.0875 0 6.47813 0 9.375C0 12.4781 2.46583 15 5.5 15H17.4167C19.9467 15 22 12.9 22 10.3125C22 7.8375 20.1208 5.83125 17.7375 5.6625ZM12.8333 8.4375V12.1875H9.16667V8.4375H6.41667L10.6792 4.07813C10.8625 3.89063 11.1467 3.89063 11.33 4.07813L15.5833 8.4375H12.8333Z" fill="#8761F4"/>
+                        </svg>
+                  </div>
+                 <div class="column--inner">
                   <input id="file" class="input" type="file" placeholder="Text input" name="file" style="color:white">
                   <input id="file-value" value="{{file.url.url}}" name="file_temp" hidden>
                   {% comment %} <input type="file" name="uploadfile" id="img" style="display:none;"/> {% endcomment %}
@@ -23,11 +30,12 @@
                      You haven't selected a file yet
                      {%endif%}
                   </label>
+                 </div>
                </div>
             </div>
 
             <div class="columns">
-               <div class="column">
+               <div class="column column-dropdwon">
                   <select name="category_id" id="category">
                      {% if category_list %}
                      {% for category in category_list %}
@@ -45,9 +53,9 @@
                </div>
             </div>
             <div class="columns">
-               <div class="column">
-                  <a href="{%url 'file-management:index' %}"><button class="button is-dark" type="button">Cancel</button></a>
-                  <button class="button is-dark" type="submit">Update file</button>
+               <div class="column column-btn">
+                  <a href="{%url 'file-management:index' %}"><button class="btn-black" type="button">Cancel</button></a>
+                  <button class="btn-black" type="submit">Update file</button>
                </div>
             </div>
          </div>
