@@ -89,6 +89,12 @@
       
       $("#file").change(function(e){
          $("#file-value-placeholder").html(this.value.replace("C:\\fakepath\\", ""));
+         var value = $("#file-value-placeholder").html();
+         if (value == '') {
+            $(".file-placeholder").show();
+         } else {
+            $(".file-placeholder").hide();
+         }
       });
 
       $("#my_form").submit(function(e){

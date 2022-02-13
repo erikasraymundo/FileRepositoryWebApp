@@ -3,6 +3,7 @@ from webbrowser import get
 from django.shortcuts import render
 from django.views import generic
 from django.db.models import Q
+from django.shortcuts import render, get_object_or_404
 from category_management.models import Category
 from . models import File
 from users_management.models import User
@@ -79,7 +80,7 @@ def upload(request):
             "error": 1})  # 2 means general error
 
 def openEditView(request, file_id):
-    file = File.objects.get(pk=file_id)
+    file = get_object_or_404(File, pk=file_id)
     return render(request, 'file_management/edit.html', 
         {"category_list": Category.objects.all(), 
          "file": file,
