@@ -297,7 +297,7 @@
                                        </svg>
                                  </div>
                                     </a>
-                                 <div class="icon-archive" title="Archive" onclick="archive({{file.id}})">
+                                 <div class="icon-archive" title="Archive" id="archive" data-fileid={{file.id}} data-filename="{{file.name}}">
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                        xmlns="http://www.w3.org/2000/svg">
                                        <path
@@ -334,8 +334,15 @@
                   function(e){
                      if (e.which == 13) {
                         var textFromInput = $("#search").val();
-                        console.log(textFromInput);
                         var url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
+
+                        if (textFromInput == '') {
+                           url_mask = "{% url 'file-management:filter' category_selected sort_selected %}";
+                        } else {
+                           url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
+                        }
+
+                        console.log(textFromInput);
                         window.location.replace(url_mask);
                      }
                });
@@ -362,30 +369,32 @@
         window.history.pushState('somedata', 'Title', '/file-management/');
          {% endif %}
 
-         // Archive
-         function archive(file_id) {
-            console.log("Working");
-               Swal.fire({
-                  title: 'Do you want to archive this file?',
+
+          $(document).on('click', '#archive', function() {
+             
+            var file_name = $(this).data("filename");
+            var file_id = $(this).data("fileid");
+
+             Swal.fire({
+                  icon: 'warning',
+                  title: 'Do you want to archive ' + file_name +'?',
                   showDenyButton: true,
                   confirmButtonText: 'Yes, archive',
                   denyButtonText: `Cancel`,
                   }).then((result) => {
                   if (result.isConfirmed) {
 
-
-
+                     var location = "{% url 'file-management:archive' 0 %}".replace(0, file_id);
+                     window.location.replace(location);
                   } else if (result.isDenied) {
 
                   }
                   });
-         }
-
+          });
       });
 
 
       </script>
-
 <script>
    const toggle = document.querySelector('#sidebar--toggle');
    const sidebar = document.querySelector('#aside');
