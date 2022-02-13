@@ -180,7 +180,7 @@
 }
 
 .column-file #file-value-placeholder {
-  position: absolute;
+  position: absolute !important;
   top: 50% !important;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
