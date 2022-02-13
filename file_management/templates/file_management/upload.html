@@ -10,7 +10,7 @@
          <div class="container">
             <div class="columns">
                <div class="column">
-                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value={{ file.name }}>
+                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value="{{ file.name }}">
                </div>
                <div class="column" style="position: relative">
                   <input id="file" class="input" type="file" placeholder="Text input" name="file" style="color:white">
@@ -110,8 +110,9 @@
                });
             } else {
                $.get(
-                  "{%url 'file-management:check_duplicate_name' %}",
-                  {name: $("#name").val()}, 
+                  "{%url 'file-management:check_duplicate_name'%}",
+                  {name: $("#name").val(),
+                   file_id: 0}, 
                   function(data, status) {
                      if (data == 1) {
                         Swal.fire({

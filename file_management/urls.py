@@ -16,5 +16,6 @@ urlpatterns = [
     path('upload', views.openUploadView, name='openUploadView'),
     path('edit/<int:file_id>/', views.openEditView, name='openEditView'),
     path('saveUpload', views.upload, name='upload'),
+    path('updateFile/<int:file_id>/', views.update, name='update'),
     path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name')
 ]
