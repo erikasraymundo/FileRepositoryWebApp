@@ -55,7 +55,7 @@ def index(request,  category_id=0, sort_by=1, query=None, success = 0):
      "sort_selected": sort_by,
      "search_value": query,
      "success": success,
-     "category_list": Category.objects.all()})
+     "category_list": Category.objects.filter(isArchived = False)})
 
 def detail(request, file_id):
     template_name = 'file_management/detail.html'
@@ -97,11 +97,11 @@ def archiveIndex(request,  category_id=0, sort_by=1, query=None, success=0):
                    "sort_selected": sort_by,
                    "search_value": query,
                    "success": success,
-                   "category_list": Category.objects.all()})
+                   "category_list": Category.objects.filter(isArchived = False)})
 
 def openUploadView(request):
     return render(request, 'file_management/upload.html', 
-    {"category_list": Category.objects.all(),
+    {"category_list": Category.objects.filter(isArchived = False),
     "error" : 0})
 
 def upload(request):
@@ -129,14 +129,14 @@ def upload(request):
         return HttpResponseRedirect(reverse('file-management:success', args={1}))
     except:
         return render(request, 'file_management/upload.html',
-            {"category_list": Category.objects.all(),
+            {"category_list": Category.objects.filter(isArchived = False),
             "file" : file,
             "error": 1})  # 2 means general error
 
 def openEditView(request, file_id):
     file = get_object_or_404(File, pk=file_id)
     return render(request, 'file_management/edit.html', 
-        {"category_list": Category.objects.all(), 
+        {"category_list": Category.objects.filter(isArchived = False), 
          "file": file,
          "error": 0})
 
@@ -166,7 +166,7 @@ def update(request, file_id):
         return HttpResponseRedirect(reverse('file-management:success', args={2}))
     except:
         return render(request, 'file_management/upload.html',
-                      {"category_list": Category.objects.all(),
+                      {"category_list": Category.objects.filter(isArchived = False),
                        "file": file,
                        "error": 1})  # 2
 
@@ -181,7 +181,7 @@ def archive(request, file_id):
     log.user_id = file.user_id
     log.save()
 
-    return HttpResponseRedirect(reverse('file-management:archive-index'))
+    return HttpResponseRedirect(reverse('file-management:index'))
 
 # def checkDuplicateName(request):
 #     # return HttpResponse(1)
