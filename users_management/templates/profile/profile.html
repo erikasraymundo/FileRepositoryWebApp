@@ -2,12 +2,16 @@
 
 {% block content %}
 {% load static %}
+{% for detail in details %}
    <h1 class="h1">My Profile</h1>
    <section class="my-profile">
       <div class="my-profile--container">
             <div class="my-profile--image">
-               <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
-               <h4 class="h4">joy25</h4>
+               <input type='text' value=" {{ detail.profile_picture }}" style='display:none' id='holderOfImageFromDB'>
+               <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
+               <h4 class="h4"> 
+                  {{ detail.username }}
+               </h4>
                <p>username</p>
             </div>
             <div class="my-profile--info">
@@ -18,19 +22,19 @@
                            <tbody>
                               <tr>
                                     <td class="fw-700 title">Name</td>
-                                    <td class="fw-400">Dorothy Joy Franciso</td>
+                                    <td class="fw-400">{{ detail.first_name }} {{ detail.last_name }}</td>
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Gender</td>
-                                    <td class="fw-400">Woman</td>
+                                    <td class="fw-400">{{ detail.gender }}</td>
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Birthdate</td>
-                                    <td class="fw-400">January 01, 2000</td>
+                                    <td class="fw-400">{{ detail.birthdate }}</td>
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Address</td>
-                                    <td class="fw-400">Malolos, Bulacan</td>
+                                    <td class="fw-400">{{ detail.address }}</td>
                               </tr>
                            </tbody>
                         </table>
@@ -40,7 +44,7 @@
                         <tbody>
                            <tr>
                                  <td class="fw-700 title">Email</td>
-                                 <td class="fw-400">joyfrancisco@gmail.com</td>
+                                 <td class="fw-400">{{ detail.email }}</td>
                            </tr>
                         </tbody>
                         </table>
@@ -50,64 +54,200 @@
                         <tbody>
                            <tr>
                                  <td class="fw-700 title">Joined since</td>
-                                 <td class="fw-400">February 4, 2022</td>
+                                 <td class="fw-400">{{ detail.date_joined }}</td>
                            </tr>
                            <tr>
                                  <td class="fw-700 title">Last updated</td>
-                                 <td class="fw-400">1 week ago</td>
+                                 <td class="fw-400">{{ detail.updated_at }}</td>
                            </tr>
                         </tbody>
                         </table>
 
                      </div>
                      <div>
-                        <a class="btn-black">Edit Profile</a>
+                        <a class="btn-black" onclick='openModalForEditAccount()'>Edit Profile</a>
                      </div>
                </div>
                <div class="cta-holder">
-                     <a class="btn-black">Change Password</a>
-                     <a class="btn-black">Delete Account</a>
+                     <a class="btn-black" onclick='openModalForChangePassword()'>Change Password</a>
+                     <a class="btn-black" id='DeleteAdminAccountButton'>Delete Account</a>
                </div>
             </div>
       </div>
-
    
-   <div class="modal-container">
+   <div class="modal-container" id='ModalForChangePasswordOfAdmin' style='display:none'>
       <div class="modal-backdrop"></div>
       <div class="change-password-modal">
          <div class="header">
             <h4 class="text-purple fw-800">Change Password</h4>
-            <span class="close-icon">
+            <span class="close-icon" id='closeModalForChangePasswordOfAdmin'>
                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#323232"/>
                </svg>
             </span>
          </div>
-         <form action="">
+         <form action="{% url 'UpdatePassword' %}" method="POST" id='FORMUpdateAdminPassword'>
+            {% csrf_token %}
             <div class="row">
                <div class="col-12">
-                  <input type="text">
+                  <input type="password" placeholder='Enter Current Password' id='FCurrPassword'>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <input type="text">
+                  <input type="password" name='newPassword' placeholder='Enter New Password'  id='FNewPassword'>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <input type="text">
+                  <input type="password"  placeholder='Confirm New Password'  id='FNew2Password'>
                </div>
             </div>
+            <p style='text-align: center; color:red; visibility: hidden; display:block' id='ErrorMessageSenderPChangePassword'></p>
             <div class="row">
                <div class="col-12">
-                  <a class="btn-black">Save</a>
+                  <a class="btn-black" onclick='updatePassword("{{detail.password}}")'>Save</a>
                </div>
             </div>
          </form>
       </div>
    </div>
-  
+   
+   <div class="modal-container" id='ModalForEditingAdminProfilePo' style='display:none'>
+      <div class="modal-backdrop"></div>
+      <div class="change-password-modal">
+         <div class="header">
+            <h4 class="text-purple fw-800">Edit Account</h4>
+            <span class="close-icon" id='closeModalForEditingAdminProfilePo'>
+               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#323232"/>
+               </svg>
+            </span>
+         </div>
+         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts'>
+            {% csrf_token %}
+            <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
+            <div class="row">
+               <div class="col-12">
+                  <input type="text" name='username' id='editUserAccountUsername' value='{{ detail.username }}'>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <input type="text" name='first_name' id='editUserFirstName' value='{{ detail.first_name }}'>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <input type="text" name='last_name' id='editUserLastName' value='{{ detail.last_name }}'>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <input type="text" name='address' id='editUserAccountAddress' value='{{ detail.address }}'>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <input type="text" name='email' id='editUserAccountEmail' value='{{ detail.email }}'>
+               </div>
+            </div>
+            <p style='text-align: center; color:red; visibility: hidden; display:block' id='ErrorMessageSenderEditUserAccountCurrent'></p>
+            <div class="row">
+               <div class="col-12">
+                  <a class="btn-black" onclick='updateUserAccount()'>Save Changes</a>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+   <form action='{% url "DeleteAccount" %}' id='ProceedDeletionOfAdminAccount', method="POST">
+      {% csrf_token %}
+      <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
+   </form>
 
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+   if(document.getElementById('holderOfImageFromDB').value == ' None'){
+      document.getElementById('ChangeThisToProfilePicture').src = "{% static 'src/images/profile-image-large.png' %}";
+   }else{
+      document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
+   }
+   document.getElementById('closeModalForChangePasswordOfAdmin').style.cursor = 'pointer';
+   document.getElementById('closeModalForEditingAdminProfilePo').style.cursor = 'pointer';
+   /////////
+
+   function openModalForChangePassword(){
+    document.getElementById('ModalForChangePasswordOfAdmin').style.display = 'block';
+   }
+
+   document.getElementById('closeModalForChangePasswordOfAdmin').onclick = function(e){ 
+      document.getElementById('ModalForChangePasswordOfAdmin').style.display = 'none';
+   }
+
+   function openModalForEditAccount(){
+      document.getElementById('ModalForEditingAdminProfilePo').style.display = 'block';
+     }
+  
+     document.getElementById('closeModalForEditingAdminProfilePo').onclick = function(e){ 
+        document.getElementById('ModalForEditingAdminProfilePo').style.display = 'none';
+     }
+
+   function updatePassword(currentPassword){
+      var curr = document.getElementById('FCurrPassword').value;
+      var newPass = document.getElementById('FNewPassword').value;
+      var newPass2 = document.getElementById('FNew2Password').value;
+
+      //check if all are not blank
+      if(curr == '' || newPass == '' || newPass2 == ''){
+         document.getElementById('ErrorMessageSenderPChangePassword').textContent = 'All fields are required.'
+         document.getElementById('ErrorMessageSenderPChangePassword').style.visibility = 'visible';
+      }else{
+         if(curr == currentPassword){
+            if(newPass == newPass2){
+            //Save to Database
+            document.getElementById('FORMUpdateAdminPassword').submit();
+            }else{
+               document.getElementById('ErrorMessageSenderPChangePassword').textContent = 'Your new passwords does not match.'
+               document.getElementById('ErrorMessageSenderPChangePassword').style.visibility = 'visible';
+            }
+         }else{
+            document.getElementById('ErrorMessageSenderPChangePassword').textContent = 'Password does not match with your current password.'
+            document.getElementById('ErrorMessageSenderPChangePassword').style.visibility = 'visible';         }
+      }
+   }
+
+   document.getElementById('DeleteAdminAccountButton').onclick = function(e){
+      Swal.fire({
+         icon: 'warning',
+         showCancelButton: true,
+         title: "Are you sure you want to delete your account?.",
+         confirmButtonText: 'Yes',
+         cancelButtonText: 'Cancel',
+      }).then((result) => {
+         if(result.isConfirmed){
+            document.getElementById('ProceedDeletionOfAdminAccount').submit();
+         }
+      })
+   }
+
+   function updateUserAccount(){
+      var username = document.getElementById('editUserAccountUsername').value;
+      var firstname = document.getElementById('editUserFirstName').value;
+      var lastname = document.getElementById('editUserLastName').value;
+      var address = document.getElementById('editUserAccountAddress').value;
+      var email = document.getElementById('editUserAccountEmail').value;
+      // Validate
+
+      if(username == '' || firstname == '' || lastname == '' || address == '' || email == ''){
+         document.getElementById('ErrorMessageSenderEditUserAccountCurrent').textContent = 'All fields are required.'
+         document.getElementById('ErrorMessageSenderEditUserAccountCurrent').style.visibility = 'visible';
+      }else{
+         document.getElementById('FormEditUserAccounts').submit();
+      }
+   }
+</script>
+  
+ {% endfor %}
    </section>
 {% endblock %}

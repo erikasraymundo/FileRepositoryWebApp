@@ -17,9 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from accounts.views import login
 from accounts.views import register
-from users_management.views import profile
-from users_management.views import manage_accounts, add_accounts, edit_accounts, archive_accounts, view_accounts
-from category_management.views import categoryManagement, SaveACategory
+from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, ManageAccounts, ArchiveAccounts, AddAccount, EditAccount, ViewAccount, ArchieveUserAccount, RestoreUserAccount
+from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory
 from activity_log.views import view_logs
 from django.urls import include, path
 
@@ -32,13 +31,20 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('registration/', register, name='register'),
     path('profile/', profile, name='profile'),
-    path('manage-accounts/', manage_accounts, name='manage_accounts'),
+    path('profile/update-password', UpdatePassword, name='UpdatePassword'),
+    path('profile/delete-account', DeleteAccount, name='DeleteAccount'),
+    path('profile/update-account', UpdateAccountDetails, name='UpdateAccountDetails'),
+    path('manage-accounts/', ManageAccounts, name='ManageAccounts'),
+    path('manage-accounts/archived-a-user', ArchieveUserAccount, name='ArchieveUserAccount'),
+    path('manage-accounts/restore-a-user', RestoreUserAccount, name='RestoreUserAccount'),
+    path('manage-accounts/Add', AddAccount, name='AddAccount'),
+    path('manage-accounts/Edit', EditAccount, name='EditAccount'),
+    path('manage-accounts/View', ViewAccount, name='ViewAccount'),
+    path('manage-accounts/archived', ArchiveAccounts, name='ArchiveAccounts'),
     path('category/', categoryManagement, name='categoryManagement'),
-    path('category', SaveACategory, name='SaveACategory'),
-    path('add-accounts/', add_accounts, name='add_accounts'),
-    path('edit-accounts/', edit_accounts, name='edit_accounts'),
-    path('archive-accounts/', archive_accounts, name='archive_accounts'),
-    path('view-accounts/', view_accounts, name='view_accounts'),
+    path('category/add', AddCategory, name='AddCategory'),
+    path('category/update', UpdateCategory, name='UpdateCategory'),
+    path('category/delete', DeleteCategory, name='DeleteCategory'),
     path('activity-logs/', view_logs, name='view_logs'),
 ]
 urlpatterns += static(settings.MEDIA_URL,
