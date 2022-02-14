@@ -1,12 +1,22 @@
+from tkinter import CENTER
+from tkinter.ttk import Style
 from django.shortcuts import render
 
 import csv
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
 import io
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+from category_management.models import Category
 from users_management.models import User
+from reportlab.platypus import Paragraph, Spacer
+from reportlab.lib.units import cm
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus import TableStyle
+from reportlab.platypus import Table
+from reportlab.lib import colors
 
 def profile(request):
     return render(request, 'profile/profile.html')
@@ -30,30 +40,40 @@ def printpdf(request):
     return render(request, 'profile/print.html')
 
 def printusers(request):
-    buf = io.BytesIO()
-    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
-    text = c.beginText()
-    text.setTextOrigin(inch, inch)
-    text.setFont("Helvetica", 12)
-
-    # lines = ["1", "2", "3"]
-
+    filename = "reports/users.pdf"
+    pdf = SimpleDocTemplate(
+    filename,
+    pagesize=letter
+)
+    data = [
+    ['Username', 'Name', 'Email', 'Created At']
+]
     
-    lines = []
-
-
     users = User.objects.all()
     for user in users:
-        lines.append(user.user_type)
-        lines.append(user.full_name())
-        lines.append(user.gender)
+        data.append([user.username, user.first_name+" "+user.last_name, user.email, user.created_at])
+        
+    table = Table(data)
 
-    for line in lines:
-        text.textLine(line)
+    ts = TableStyle(
+    [
+    ('GRID',(0,0),(-1,-1),2,colors.black),
+    ('ALIGN',(0,0),(-1,-1),"CENTER")
+    ]
+)
+    title = "List of Users"
+    table.setStyle(ts)    
+    # elems = []
+    # elems.append(title, height)
+    # elems.append(table)
 
-    c.drawText(text)
-    c.showPage()
-    c.save()
-    buf.seek(0)
+    styles = getSampleStyleSheet()
+    flowables = [
+        Paragraph(title, styles['Title']),
+        table,
+        Spacer(1 * cm, 1 * cm),
+        Paragraph('text after spacer')
+    ]
 
-    return FileResponse(buf, as_attachment=True, filename="users.pdf")
+
+    pdf.build(flowables)

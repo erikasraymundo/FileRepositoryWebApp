@@ -19,7 +19,7 @@ from accounts.views import login
 from accounts.views import register
 from users_management.views import printpdf, printusers, profile
 from users_management.views import manage_accounts, add_accounts, edit_accounts, archive_accounts, view_accounts
-from category_management.views import categoryManagement, SaveACategory
+from category_management.views import categoryManagement, SaveACategory, printcategories
 from activity_log.views import view_logs
 from django.urls import include, path
 from django.conf import settings
@@ -40,5 +40,6 @@ urlpatterns = [
     path('view-accounts/', view_accounts, name='view_accounts'),
     path('printpdf/', printpdf, name='printpdf'),
     path('printusers/', printusers, name='printusers'),
-    path('activity-logs/', view_logs, name='view_logs')
+    path('activity-logs/', view_logs, name='view_logs'),
+    path('printcateg/', printcategories, name='print_categ')
     ]
