@@ -356,126 +356,115 @@
       </main>
    </div>
 
-  
 
-  
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script>
 
-            {% if success == 1%}
-            Swal.fire({
-                  icon: 'success',
-                  title: "File has been successfully uploaded!"
-            })
+      {% if success == 1%}
+      Swal.fire({
+         icon: 'success',
+         title: "File has been successfully uploaded!"
+      })
 
-            window.history.pushState('somedata', 'Title', '/file-management/');
+      window.history.pushState('somedata', 'Title', '/file-management/');
 
-            {% elif success == 2%}
-            Swal.fire({
-                  icon: 'success',
-                  title: "File has been successfully updated!"
-            })
+      {% elif success == 2%}
+      Swal.fire({
+         icon: 'success',
+         title: "File has been successfully updated!"
+      })
 
-            window.history.pushState('somedata', 'Title', '/file-management/');
-         {% endif %}
+      window.history.pushState('somedata', 'Title', '/file-management/');
+      {% endif %}
 
-         $('#search').keypress(
-                  function(e){
-                     if (e.which == 13) {
-                        var textFromInput = $("#search").val();
-                        var url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
+      $('#search').keypress(
+         function(e){
+            if (e.which == 13) {
+               var textFromInput = $("#search").val();
+               var url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
 
-                        if (textFromInput == '') {
-                           url_mask = "{% url 'file-management:filter' category_selected sort_selected %}";
-                        } else {
-                           url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
-                        }
-
-                        console.log(textFromInput);
-                        window.location.replace(url_mask);
-                     }
-               });
-
-       $(document).on('click', '#archive', function() {
-             
-            var file_name = $(this).data("filename");
-            var file_id = $(this).data("fileid");
-
-             Swal.fire({
-                  icon: 'warning',
-                  title: 'Do you want to archive ' + file_name +'?',
-                  showDenyButton: true,
-                  confirmButtonText: 'Yes, archive',
-                  denyButtonText: `Cancel`,
-                  }).then((result) => {
-                  if (result.isConfirmed) {
-                     var location = "{% url 'file-management:archive' 0 %}".replace(0, file_id);
-                     window.location.replace(location);
-                  } else if (result.isDenied) {
-
-                  }
-                  });
-          });
-          
-
-            $("td:not(:last-child)").on('click', function() { 
-               const file_id = $(this).data("fileid");
-
-               if(modal.classList.contains('show-modal') == false) {
-                  const location = "{% url 'file-management:detail' 0 %}".replace(0, file_id);
-                  window.location.replace(location);
+               if (textFromInput == '') {
+                  url_mask = "{% url 'file-management:filter' category_selected sort_selected %}";
+               } else {
+                  url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
                }
 
-            }); 
+              console.log(textFromInput);
+              window.location.replace(url_mask);
+            }
+      });
 
-               
+      $(document).on('click', '#archive', function() {
+             
+         var file_name = $(this).data("filename");
+         var file_id = $(this).data("fileid");
 
-               const modal = document.querySelector('#modal-view');
-                  const shadow = document.querySelector('#modal-view-backdrop');
-                  const toggle = document.querySelector('.icon-view');
-                  const closeBtn = document.querySelector('#close-modal-view');
+         Swal.fire({
+            icon: 'warning',
+            title: 'Do you want to archive ' + file_name +'?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes, archive',
+            denyButtonText: `Cancel`,
+            }).then((result) => {
+            if (result.isConfirmed) {
+               var location = "{% url 'file-management:archive' 0 %}".replace(0, file_id);
+               window.location.replace(location);
+            } else if (result.isDenied) {
+
+            }
+            });
+      });
+          
+      $("td:not(:last-child)").on('click', function() { 
+         const file_id = $(this).data("fileid");
+
+         if(modal.classList.contains('show-modal') == false) {
+            const location = "{% url 'file-management:detail' 0 %}".replace(0, file_id);
+            window.location.replace(location);
+         }
+
+      }); 
+
+      const modal = document.querySelector('#modal-view');
+      const shadow = document.querySelector('#modal-view-backdrop');
+      const toggle = document.querySelector('.icon-view');
+      const closeBtn = document.querySelector('#close-modal-view');
             
-            $(".icon-view").on('click', function() { 
+      $(".icon-view").on('click', function() { 
                
-                  if(modal.classList.contains('show-modal')){ 
-                     modal.classList.remove('show-modal');
-                     shadow.classList.remove('shadow-modal');
-                  }
-                  else{
-                     modal.classList.add('show-modal');
-                     shadow.classList.add('shadow-modal');
-                  }}
-            ); 
+         if(modal.classList.contains('show-modal')){ 
+            modal.classList.remove('show-modal');
+            shadow.classList.remove('shadow-modal');
+         }
+         else{
+            modal.classList.add('show-modal');
+            shadow.classList.add('shadow-modal');
+         }}
+      ); 
 
- shadow.addEventListener('click',function(){
-                     modal.classList.remove('show-modal');
-                     shadow.classList.remove('shadow-modal');
-                  });
-                  closeBtn.addEventListener('click',function(){
-                     modal.classList.remove('show-modal');
-                     shadow.classList.remove('shadow-modal');
-                  });
+      shadow.addEventListener('click',function(){
+            modal.classList.remove('show-modal');
+            shadow.classList.remove('shadow-modal');
+      });
+      
+      closeBtn.addEventListener('click',function(){
+            modal.classList.remove('show-modal');
+            shadow.classList.remove('shadow-modal');
+      });
+
+      const toggle = document.querySelector('#sidebar--toggle');
+      const sidebar = document.querySelector('#aside');
+      const main = document.querySelector('#main-content');
+      toggle.addEventListener('click',function(){
+      if(sidebar.classList.contains('close--sidebar')){
+      sidebar.classList.remove('close--sidebar');
+      main.classList.remove('margins');
+      }
+      else{
+      sidebar.classList.add('close--sidebar');
+      main.classList.add('margins');
+      }});
    </script>
-
-
-
-
-<script>
-   const toggle = document.querySelector('#sidebar--toggle');
-   const sidebar = document.querySelector('#aside');
-   const main = document.querySelector('#main-content');
-   toggle.addEventListener('click',function(){
-   if(sidebar.classList.contains('close--sidebar')){ 
-   sidebar.classList.remove('close--sidebar');
-   main.classList.remove('margins');
-   }
-   else{
-   sidebar.classList.add('close--sidebar');
-   main.classList.add('margins');
-   }});
-  </script>
-
- 
 
 </body>
 
