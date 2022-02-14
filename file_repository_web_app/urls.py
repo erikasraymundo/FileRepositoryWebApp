@@ -39,6 +39,7 @@ urlpatterns = [
     path('manage-accounts/', ManageAccounts, name='ManageAccounts'),
     path('manage-accounts/archived-a-user', ArchieveUserAccount, name='ArchieveUserAccount'),
     path('manage-accounts/restore-a-user', RestoreUserAccount, name='RestoreUserAccount'),
+    path('manage-accounts/add-a-user', AddUserAccount, name='AddUserAccount'),
     path('manage-accounts/Add', AddAccount, name='AddAccount'),
     path('manage-accounts/Edit', EditAccount, name='EditAccount'),
     path('manage-accounts/View', ViewAccount, name='ViewAccount'),

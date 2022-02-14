@@ -129,7 +129,7 @@
   margin: 0;
   padding: 0;
   width: 100%;
-  table-layout: fixed;
+  table-layout: fixed !important;
   text-align: center;
 }
 
@@ -183,12 +183,14 @@
 }
 
 .file-management--container .modal .modal-backdrop {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background-color: #0000007a;
-  position: absolute;
+  position: fixed !important;
   top: 0;
   left: 0;
+  bottom: 0;
+  right: 0;
   overflow: hidden;
   visibility: hidden;
   opacity: 0;
@@ -204,7 +206,7 @@
 .file-management--container .view-file-modal {
   width: 730px;
   background-color: #fff;
-  position: absolute;
+  position: fixed !important;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -234,6 +236,10 @@
 
 .file-management--container .view-file-modal .close-modal-icon {
   cursor: pointer;
+}
+
+.file-management--container .view-file-modal .holder {
+  margin: 1rem 0;
 }
 
 .file-management--container .show-modal {
@@ -296,7 +302,38 @@
   display: -ms-grid;
   display: grid;
   place-items: center;
-  min-height: 500px;
+  margin: 0 auto;
+}
+
+.viewing-file-container .preview {
+  min-height: 350px;
+}
+
+.viewing-file-container .preview p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 42px;
+  color: #f6f6f6;
+  width: 90%;
+  cursor: pointer;
+  -webkit-transition: all ease-in 300ms;
+  transition: all ease-in 300ms;
+}
+
+.viewing-file-container .preview p:hover {
+  color: white;
+}
+
+.viewing-file-container .preview video {
+  width: 100%;
+  height: 100%;
+}
+
+.viewing-file-container .preview img {
+  width: 100%;
+  height: 100%;
 }
 
 .columns {
@@ -352,12 +389,27 @@
   border: 1.25px solid #ddd;
   padding: .96rem 1.5rem;
   width: 100%;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 
 .column-file .column--inner input {
   background: transparent;
   outline: none;
   opacity: 0;
+  border: none;
+}
+
+.column-file .column--inner input:hover {
+  border: none;
+}
+
+.column-file .column--inner:focus {
+  border-color: #8761F4;
+}
+
+.column-file .column--inner:hover {
+  border-color: #8761F4;
 }
 
 .column-dropdwon {
@@ -379,6 +431,8 @@
   font-family: 'Raleway', sans-serif;
   color: #777;
   position: relative;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 
 .column-dropdwon select option {
@@ -386,6 +440,14 @@
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
   color: #777;
+}
+
+.column-dropdwon select:focus {
+  border-color: #8761F4;
+}
+
+.column-dropdwon select:hover {
+  border-color: #8761F4;
 }
 
 .column-dropdwon::after {
@@ -411,10 +473,30 @@
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
   min-height: 11rem;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.column textarea:focus {
+  border: 1.25px solid #8761F4;
+}
+
+.column textarea:hover {
+  border: 1.25px solid #8761F4;
 }
 
 .column input {
   margin: 0 !important;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.column input:focus {
+  border: 1.25px solid #8761F4;
+}
+
+.column input:hover {
+  border: 1.25px solid #8761F4;
 }
 
 .column-btn {
@@ -441,4 +523,4 @@
   font-size: 14px;
   font-family: 'Raleway', sans-serif;
 }
-/*# sourceMappingURL=file-management.css.map */
+/*# sourceMappingURL=file-managements.css.map */

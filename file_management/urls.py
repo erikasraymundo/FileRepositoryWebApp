@@ -7,13 +7,21 @@ urlpatterns = [
     path('sort/<int:sort_by>/', views.index, name='sortBy'),
     path('category/<int:category_id>/sort/<int:sort_by>',
          views.index, name='filter'),
+    path('category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',
+         views.index, name='filter1'),
+    path('category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>/search=<str:query>',
+         views.index, name='filter2'),
     path('category/<int:category_id>/sort/<int:sort_by>/search=<str:query>',
          views.index, name='search'),
     path('success/<int:success>/', views.index, name='success'),
     path('', views.index, name='index'),
     path('<int:isAdded>', views.index, name='index'),
 
-    path('archive-list', views.archiveIndex, name='archive-index'),
+    path('archived', views.archivedIndex, name='archived-index'),
+    path('archived/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',
+         views.archivedIndex, name='archived-filter1'),
+    path('archived/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>/search=<str:query>',
+         views.archivedIndex, name='archived-filter2'),
 
 
     path('file/<int:file_id>/', views.detail, name='detail'),

@@ -4,7 +4,7 @@
 <section class="file-management">
    <div class="file-management--container">
       <h1 class="h1">Editing a File</h1>
-
+  
       <form id="my_form" method="POST" action="{% url 'file-management:update' file.id %}" enctype="multipart/form-data">
          {% csrf_token %}
          <div class="container">

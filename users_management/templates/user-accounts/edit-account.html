@@ -2,12 +2,13 @@
 
 {% block content %}
 {% load static %}
+{% for detail in users %}
 <h1 class="h1">Editing an account</h1>
 <section class="edit-accounts">
     <div class="edit-accounts--container">
           <div class="my-profile--image">
              <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
-             <h4 class="h4">joy25</h4>
+             <h4 class="h4">{{ detail.username }}</h4>
              <p>username</p>
           </div>
           <div class="edit-accounts--form-container">
@@ -19,32 +20,32 @@
                 </div>
                 <div class="row">
                    <div class="col-12">
-                    <input type="text" value="erikasong"> 
+                    <input type="text" value="{{ detail.username }}"> 
                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter first name"> 
+                     <input type="text" placeholder="Enter first name"  value="{{ detail.first_name }}"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter middle name"> 
+                     <input type="text" placeholder="Enter middle name"  value="{{ detail.middle_name }}"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter last name"> 
+                     <input type="text" placeholder="Enter last name"  value="{{ detail.last_name }}"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter address"> 
+                     <input type="text" placeholder="Enter address"  value="{{ detail.address }}"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter email address"> 
+                     <input type="text" placeholder="Enter email address"  value="{{ detail.email }}"> 
                     </div>
                  </div>
 
@@ -87,4 +88,6 @@
           </div>
     </div>
  </section>
+ 
+{% endfor %}
 {% endblock %}

@@ -21,8 +21,11 @@ from django.http.response import HttpResponse
 # Import render module
 from django.shortcuts import render
 from django.http import FileResponse, Http404
+from datetime import datetime
+from time import strptime
+import datetime
 
-def index(request,  category_id=0, sort_by=1, query=None, success = 0):
+def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success = 0):
     template_name = 'file_management/index.html'
 
     if query == None: query = ""
@@ -34,28 +37,52 @@ def index(request,  category_id=0, sort_by=1, query=None, success = 0):
         sort_column = "user_id__first_name"
     elif (sort_by == 4):
         sort_column = "-created_at"
+    elif (sort_by == 5):
+        sort_column = "created_at"
+
+    if fromDate == None:
+        FromDate = File.objects.order_by('id').first().created_at
+        fromDate = FromDate.strftime("%Y-%m-%d")
+
+        ToDate = datetime.date.today()
+        toDate = ToDate.strftime("%Y-%m-%d")
 
     if (category_id > 0):
-            file_list = File.objects.filter(
-                Q(name__icontains=query) | 
-                Q(category_id__title__icontains=query) |
-                Q(user_id__first_name__icontains=query),
-                category_id=category_id, deleted_at=None
-            ).order_by(sort_column)
-    else:
+        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+        date2 = datetime.datetime.strptime(
+            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
         file_list = File.objects.filter(
             Q(name__icontains=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query), deleted_at=None
-            ).order_by(sort_column)
+            Q(user_id__first_name__icontains=query),
+            created_at__gte=date1,
+            created_at__lte=date2,
+            category_id=category_id, deleted_at=None
+        ).order_by(sort_column)
+
+    else:
+        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+        date2 = datetime.datetime.strptime(toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
+        file_list = File.objects.filter(
+            Q(name__icontains=query) |
+            Q(category_id__title__icontains=query) |
+            Q(user_id__first_name__icontains=query),
+            created_at__gte=date1,
+            created_at__lte=date2,
+            deleted_at=None
+        ).order_by(sort_column)
 
     return render(request, template_name, 
     {"file_list": file_list,
      "category_selected" : category_id,
      "sort_selected": sort_by,
      "search_value": query,
+     "from_date": fromDate,
+     "to_date": toDate,
      "success": success,
-     "category_list": Category.objects.all()})
+     "category_list": Category.objects.filter(isArchived = False)})
 
 def detail(request, file_id):
     template_name = 'file_management/detail.html'
@@ -63,11 +90,11 @@ def detail(request, file_id):
     return render(request, template_name, {"file": file})
 
 
-def archiveIndex(request,  category_id=0, sort_by=1, query=None, success=0):
+def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success=0):
+
     template_name = 'file_management/archive.html'
 
-    if query == None:
-        query = ""
+    if query == None: query = ""
     sort_column = "name"
 
     if (sort_by == 2):
@@ -76,32 +103,58 @@ def archiveIndex(request,  category_id=0, sort_by=1, query=None, success=0):
         sort_column = "user_id__first_name"
     elif (sort_by == 4):
         sort_column = "-created_at"
+    elif (sort_by == 5):
+        sort_column = "created_at"
+
+    if fromDate == None:
+        FromDate = File.objects.order_by('id').first().created_at
+        fromDate = FromDate.strftime("%Y-%m-%d")
+
+        ToDate = datetime.date.today()
+        toDate = ToDate.strftime("%Y-%m-%d")
 
     if (category_id > 0):
+        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+        date2 = datetime.datetime.strptime(
+            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
         file_list = File.objects.filter(
             Q(name__icontains=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query), ~Q(deleted_at=None),
-            category_id=category_id, 
-        ).order_by(sort_column)
-    else:
-        file_list = File.objects.filter(
-            Q(name__icontains=query) |
-            Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query), ~Q(deleted_at=None)
+            Q(user_id__first_name__icontains=query),
+            ~Q(deleted_at=None),
+            created_at__gte=date1,
+            created_at__lte=date2,
+            category_id=category_id
         ).order_by(sort_column)
 
-    return render(request, template_name,
-                  {"file_list": file_list,
-                   "category_selected": category_id,
-                   "sort_selected": sort_by,
-                   "search_value": query,
-                   "success": success,
-                   "category_list": Category.objects.all()})
+    else:
+        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+        date2 = datetime.datetime.strptime(toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
+        file_list = File.objects.filter(
+            Q(name__icontains=query) |
+            Q(category_id__title__icontains=query) |
+            Q(user_id__first_name__icontains=query),
+            ~Q(deleted_at=None),
+            created_at__gte=date1,
+            created_at__lte=date2
+        ).order_by(sort_column)
+
+    return render(request, template_name, 
+    {"file_list": file_list,
+     "category_selected" : category_id,
+     "sort_selected": sort_by,
+     "search_value": query,
+     "from_date": fromDate,
+     "to_date": toDate,
+     "success": success,
+     "category_list": Category.objects.filter(isArchived = False)})
+
 
 def openUploadView(request):
     return render(request, 'file_management/upload.html', 
-    {"category_list": Category.objects.all(),
+    {"category_list": Category.objects.filter(isArchived = False),
     "error" : 0})
 
 def upload(request):
@@ -129,14 +182,14 @@ def upload(request):
         return HttpResponseRedirect(reverse('file-management:success', args={1}))
     except:
         return render(request, 'file_management/upload.html',
-            {"category_list": Category.objects.all(),
+            {"category_list": Category.objects.filter(isArchived = False),
             "file" : file,
             "error": 1})  # 2 means general error
 
 def openEditView(request, file_id):
     file = get_object_or_404(File, pk=file_id)
     return render(request, 'file_management/edit.html', 
-        {"category_list": Category.objects.all(), 
+        {"category_list": Category.objects.filter(isArchived = False), 
          "file": file,
          "error": 0})
 
@@ -166,7 +219,7 @@ def update(request, file_id):
         return HttpResponseRedirect(reverse('file-management:success', args={2}))
     except:
         return render(request, 'file_management/upload.html',
-                      {"category_list": Category.objects.all(),
+                      {"category_list": Category.objects.filter(isArchived = False),
                        "file": file,
                        "error": 1})  # 2
 
@@ -181,7 +234,7 @@ def archive(request, file_id):
     log.user_id = file.user_id
     log.save()
 
-    return HttpResponseRedirect(reverse('file-management:archive-index'))
+    return HttpResponseRedirect(reverse('file-management:index'))
 
 # def checkDuplicateName(request):
 #     # return HttpResponse(1)
