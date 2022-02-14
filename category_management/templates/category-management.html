@@ -185,6 +185,8 @@
      </div>
 
    <!--SIDEBAR TOGGLE-->
+   
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script>
     const toggle = document.querySelector('#sidebar--toggle');
     const sidebar = document.querySelector('#aside');
@@ -200,7 +202,17 @@
     }});
 
     function deleteCateg(ID){
-       document.getElementById(ID).submit();
+      Swal.fire({
+         icon: 'warning',
+         showCancelButton: true,
+         title: "Are you sure you want to delete this category?.",
+         confirmButtonText: 'Yes',
+         cancelButtonText: 'Cancel',
+      }).then((result) => {
+         if(result.isConfirmed){
+          document.getElementById(ID).submit();
+         }
+      })
     }
 
     document.getElementById('ModalForEdittingCategory').style.display = 'none';
