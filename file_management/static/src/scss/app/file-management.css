@@ -13,7 +13,9 @@
   display: -ms-flexbox;
   display: flex;
   gap: 15px;
-  margin-bottom: 34px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  width: 100%;
 }
 
 .file-management--categories > * {
@@ -46,17 +48,36 @@
 
 .file-management--categories > * p {
   text-align: right;
+  -webkit-margin-before: auto;
+          margin-block-start: auto;
 }
 
-.file-management--categories_lesson-plan {
+.file-management--categories_card {
+  min-width: 200px;
+  margin-bottom: 1.3rem;
+}
+
+.file-management--categories_card:nth-child(1) {
   background: linear-gradient(46.27deg, #A4B7FF 38.59%, rgba(154, 175, 255, 0.1) 110.27%, rgba(164, 183, 255, 0.1) 110.27%);
 }
 
-.file-management--categories_grading-sheets {
+.file-management--categories_card:nth-child(2) {
   background: linear-gradient(48.38deg, #8886FF 24.95%, rgba(136, 134, 255, 0.11875) 108.11%, rgba(151, 134, 255, 0.1) 109.88%);
 }
 
-.file-management--categories_other-files {
+.file-management--categories_card:nth-child(3) {
+  background: linear-gradient(52.3deg, #7BE680 30.96%, rgba(123, 229, 128, 0.1) 109.15%);
+}
+
+.file-management--categories_card:nth-child(3n + 1) {
+  background: linear-gradient(46.27deg, #A4B7FF 38.59%, rgba(154, 175, 255, 0.1) 110.27%, rgba(164, 183, 255, 0.1) 110.27%);
+}
+
+.file-management--categories_card:nth-child(3n + 2) {
+  background: linear-gradient(48.38deg, #8886FF 24.95%, rgba(136, 134, 255, 0.11875) 108.11%, rgba(151, 134, 255, 0.1) 109.88%);
+}
+
+.file-management--categories_card:nth-child(3n + 3) {
   background: linear-gradient(52.3deg, #7BE680 30.96%, rgba(123, 229, 128, 0.1) 109.15%);
 }
 
@@ -133,6 +154,18 @@
 .file-management--table-container table tbody tr td {
   font-size: 14px;
   padding: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-management--table-container table tbody tr {
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.file-management--table-container table tbody tr:hover {
+  background-color: #ececec;
+  cursor: pointer;
 }
 
 .file-management--table-container table tbody tr .actions .actions--container {
@@ -147,6 +180,123 @@
 
 .file-management--table-container table tbody tr .actions .actions--container > * {
   cursor: pointer;
+}
+
+.file-management--container .modal .modal-backdrop {
+  height: 100vh;
+  width: 100%;
+  background-color: #0000007a;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all ease-in 200ms;
+  transition: all ease-in 200ms;
+}
+
+.file-management--container .modal .shadow-modal {
+  visibility: visible;
+  opacity: 1;
+}
+
+.file-management--container .view-file-modal {
+  width: 730px;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 32px;
+  -webkit-box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all ease-in 200ms;
+  transition: all ease-in 200ms;
+}
+
+.file-management--container .view-file-modal .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.file-management--container .view-file-modal .close-modal-icon {
+  cursor: pointer;
+}
+
+.file-management--container .show-modal {
+  visibility: visible;
+  opacity: 1;
+}
+
+.file-management--container .file--container {
+  min-height: 300px;
+  background-color: #777;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.viewing-file-container .flex-head {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.viewing-file-container .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.viewing-file-container .flex-description {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.viewing-file-container .spacing {
+  gap: 2rem;
+}
+
+.viewing-file-container .mb-2 {
+  margin-bottom: 2rem;
+}
+
+.viewing-file-container .mb-1 {
+  margin-bottom: 1rem;
+}
+
+.viewing-file-container .preview {
+  width: 100%;
+  background-color: #b8b8b8;
+  border-radius: 8px;
+  padding: 1rem;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  min-height: 500px;
 }
 
 .columns {
@@ -177,6 +327,16 @@
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
   color: #777;
+}
+
+.column-file #file-value-placeholder {
+  position: absolute !important;
+  top: 50% !important;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  width: 70% !important;
 }
 
 .column-file .icon-file-upload {
@@ -272,11 +432,13 @@
   border: none;
   text-decoration: none;
   font-size: 14px;
+  font-family: 'Raleway', sans-serif;
 }
 
 .column-btn button {
   border: none;
   text-decoration: none;
   font-size: 14px;
+  font-family: 'Raleway', sans-serif;
 }
 /*# sourceMappingURL=file-management.css.map */

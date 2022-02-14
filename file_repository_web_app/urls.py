@@ -20,6 +20,8 @@ from accounts.views import register
 from users_management.views import printpdf, printusers, profile
 from users_management.views import manage_accounts, add_accounts, edit_accounts, archive_accounts, view_accounts
 from category_management.views import categoryManagement, SaveACategory, printcategories
+from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, ManageAccounts, ArchiveAccounts, AddAccount, EditAccount, ViewAccount, ArchieveUserAccount, RestoreUserAccount
+from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory
 from activity_log.views import view_logs
 from django.urls import include, path
 from django.conf import settings
@@ -31,7 +33,16 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('registration/', register, name='register'),
     path('profile/', profile, name='profile'),
-    path('manage-accounts/', manage_accounts, name='manage_accounts'),
+    path('profile/update-password', UpdatePassword, name='UpdatePassword'),
+    path('profile/delete-account', DeleteAccount, name='DeleteAccount'),
+    path('profile/update-account', UpdateAccountDetails, name='UpdateAccountDetails'),
+    path('manage-accounts/', ManageAccounts, name='ManageAccounts'),
+    path('manage-accounts/archived-a-user', ArchieveUserAccount, name='ArchieveUserAccount'),
+    path('manage-accounts/restore-a-user', RestoreUserAccount, name='RestoreUserAccount'),
+    path('manage-accounts/Add', AddAccount, name='AddAccount'),
+    path('manage-accounts/Edit', EditAccount, name='EditAccount'),
+    path('manage-accounts/View', ViewAccount, name='ViewAccount'),
+    path('manage-accounts/archived', ArchiveAccounts, name='ArchiveAccounts'),
     path('category/', categoryManagement, name='categoryManagement'),
     path('category', SaveACategory, name='SaveACategory'),
     path('add-accounts/', add_accounts, name='add_accounts'),
@@ -41,5 +52,12 @@ urlpatterns = [
     path('printpdf/', printpdf, name='printpdf'),
     path('printusers/', printusers, name='printusers'),
     path('activity-logs/', view_logs, name='view_logs'),
-    path('printcateg/', printcategories, name='print_categ')
-    ]
+    path('printcateg/', printcategories, name='print_categ'),
+    path('category/add', AddCategory, name='AddCategory'),
+    path('category/update', UpdateCategory, name='UpdateCategory'),
+    path('category/delete', DeleteCategory, name='DeleteCategory'),
+    path('activity-logs/', view_logs, name='view_logs')]
+
+
+urlpatterns += static(settings.MEDIA_URL,
+                      document_root=settings.MEDIA_ROOT)

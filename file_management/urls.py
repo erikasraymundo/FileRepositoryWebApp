@@ -12,10 +12,20 @@ urlpatterns = [
     path('success/<int:success>/', views.index, name='success'),
     path('', views.index, name='index'),
     path('<int:isAdded>', views.index, name='index'),
-    path('file=<int:pk>/', views.DetailView.as_view(), name='detail'),
+
+    path('archive-list', views.archiveIndex, name='archive-index'),
+
+
+    path('file/<int:file_id>/', views.detail, name='detail'),
     path('upload', views.openUploadView, name='openUploadView'),
     path('edit/<int:file_id>/', views.openEditView, name='openEditView'),
+    path('archive/<int:file_id>/', views.archive, name='archive'),
     path('saveUpload', views.upload, name='upload'),
     path('updateFile/<int:file_id>/', views.update, name='update'),
-    path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name')
+
+    path('restore/<int:file_id>/', views.restore, name='restore'),
+    path('download=<int:file_id>', views.download, name='download'),
+    
+    path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name'),
+    path('view/pdf/<int:file_id>/', views.pdf_view, name='pdf_view')
 ]

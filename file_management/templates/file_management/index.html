@@ -7,9 +7,9 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!--DEPENDENCIES-->
    {% load static %}
-   <link rel="stylesheet" type="text/css" href="{% static 'src/scss/global/globals.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'src/scss/global/global.css' %}" />
    <!--APP-->
-   <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/file-managements.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'src/scss/app/file-management.css' %}" />
 
    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -144,7 +144,7 @@
                <div class="file-management--categories">
 
                   {% for category in category_list %}
-                  <div class="file-management--categories_lesson-plan">
+                  <div class="file-management--categories_card">
                      <div class="icon-file">
                         <svg width="20" height="25" viewBox="0 0 20 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path
@@ -182,8 +182,8 @@
                </div>
 
                <div class="component1">
-                  <h4 class="h4 active">Uploaded Files</h4>
-                  <h4 class="h4 ">Archived</h4>
+                  <h4 class="h4 active"><a href="{% url 'file-management:index' %}">Uploaded Files</a></h4>
+                  <h4 class="h4 "><a href="{% url 'file-management:archive-index' %}">Archived</a></h4>
                </div>
 
 
@@ -252,7 +252,7 @@
                <div class="file-management--table-container">
                   
                   {% if file_list %}
-                  <table>
+                  <table id="table">
                      <thead>
                         <tr>
                            <th scope="col">Name</th>
@@ -264,13 +264,15 @@
                      </thead>
                      <tbody>
                         {% for file in file_list %}
-                        <tr>
-                           <td data-label="Name"> {{ file.name }} </td>
+                        
+                        <tr class=".file-row" data-fileid={{file.id}}>
+                           <td data-label="Name"> {{ file.getNewFileName }} </td>
                            <td data-label="Category"> {{ file.category_id.title }} </td>
                            <td data-label="Uploader"> {{ file.user_id.full_name }}</td>
                            <td data-label="Uploaded"> {{ file.created_at }} </td>
                            <td data-label="Actions" class="actions">
                               <div class="actions--container">
+                                 
                                  <div class="icon-view" title="view">
                                     <svg width="18" height="11" viewBox="0 0 18 11" fill="none"
                                        xmlns="http://www.w3.org/2000/svg">
@@ -279,6 +281,8 @@
                                           fill="#777777" />
                                     </svg>
                                  </div>
+                                  
+                                 <a href="{% url 'file-management:download' file.id %}">
                                  <div class="icon-download" title="download">
                                     <svg width="12" height="13" viewBox="0 0 12 13" fill="none"
                                        xmlns="http://www.w3.org/2000/svg">
@@ -287,17 +291,18 @@
                                           fill="#777777" />
                                     </svg>
                                  </div>
-                                 <div class="icon-pen" title="Edit">
+                              </a>
                                     <a href="{% url 'file-management:openEditView' file.id %}">
-                                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                          xmlns="http://www.w3.org/2000/svg">
-                                          <path
-                                             d="M0.25 10.9375V13.75H3.0625L11.3575 5.45504L8.545 2.64254L0.25 10.9375ZM13.5325 3.28004C13.825 2.98754 13.825 2.51504 13.5325 2.22254L11.7775 0.467544C11.485 0.175044 11.0125 0.175044 10.72 0.467544L9.3475 1.84004L12.16 4.65254L13.5325 3.28004Z"
-                                             fill="#272727" fill-opacity="0.5" />
-                                       </svg>
+                                    <div class="icon-pen" title="Edit">
+                                          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                             <path
+                                                d="M0.25 10.9375V13.75H3.0625L11.3575 5.45504L8.545 2.64254L0.25 10.9375ZM13.5325 3.28004C13.825 2.98754 13.825 2.51504 13.5325 2.22254L11.7775 0.467544C11.485 0.175044 11.0125 0.175044 10.72 0.467544L9.3475 1.84004L12.16 4.65254L13.5325 3.28004Z"
+                                                fill="#272727" fill-opacity="0.5" />
+                                          </svg>
+                                    </div>
                                     </a>
-                                 </div>
-                                 <div class="icon-archive" title="Archive">
+                                 <div class="icon-archive" title="Archive" id="archive" data-fileid={{file.id}} data-filename="{{file.getNewFileName}}">
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                        xmlns="http://www.w3.org/2000/svg">
                                        <path
@@ -321,46 +326,151 @@
                      PDF</a>
                </div>
 
-
+               <div class="modal">
+                  <div class="modal-backdrop" id="modal-view-backdrop" title="close"></div>
+                  <div class="view-file-modal" id="modal-view">
+                     <div class="header">
+                        <h4 class="text-purple fw-800">FileName.jpg</h4>
+                        <span class="close-modal-icon" id="close-modal-view">
+                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#323232"/>
+                           </svg>
+                        </span>
+                     </div>
+                      <div class="file--container"> 
+                              <h4 class="text-white">Preview</h4>
+                      </div>
+                      <div class="holder" style="margin: 1.5rem 0 0 0;display: flex;justify-content: center;">
+                        <div class="btn-dark">
+                           <a href=""><span class="iconify" data-icon="ic:baseline-download"></span>Download File</a>
+                       </div>
+                     </div>
+                  </div>
+                  <div class="holder">
+                     
+                  </div>
+               </div>
 
             </div>
          </section>
       </main>
    </div>
 
-   <script src="src/js/script.js"></script>
+  
+
+  
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script>
+
+            {% if success == 1%}
+            Swal.fire({
+                  icon: 'success',
+                  title: "File has been successfully uploaded!"
+            })
+
+            window.history.pushState('somedata', 'Title', '/file-management/');
+
+            {% elif success == 2%}
+            Swal.fire({
+                  icon: 'success',
+                  title: "File has been successfully updated!"
+            })
+
+            window.history.pushState('somedata', 'Title', '/file-management/');
+         {% endif %}
+
          $('#search').keypress(
                   function(e){
                      if (e.which == 13) {
                         var textFromInput = $("#search").val();
-                        console.log(textFromInput);
                         var url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
+
+                        if (textFromInput == '') {
+                           url_mask = "{% url 'file-management:filter' category_selected sort_selected %}";
+                        } else {
+                           url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
+                        }
+
+                        console.log(textFromInput);
                         window.location.replace(url_mask);
                      }
                });
-      
+
+               const modal = document.querySelector('#modal-view');
+                  const shadow = document.querySelector('#modal-view-backdrop');
+                  const toggle = document.querySelector('.icon-view');
+                  const closeBtn = document.querySelector('#close-modal-view');
+                  toggle.addEventListener('click',function(){
+                  if(modal.classList.contains('show-modal')){ 
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  }
+                  else{
+                     modal.classList.add('show-modal');
+                     shadow.classList.add('shadow-modal');
+                  }});
+                  shadow.addEventListener('click',function(){
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  });
+                  closeBtn.addEventListener('click',function(){
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  });
+
+       $(document).on('click', '#archive', function() {
+             
+            var file_name = $(this).data("filename");
+            var file_id = $(this).data("fileid");
+
+             Swal.fire({
+                  icon: 'warning',
+                  title: 'Do you want to archive ' + file_name +'?',
+                  showDenyButton: true,
+                  confirmButtonText: 'Yes, archive',
+                  denyButtonText: `Cancel`,
+                  }).then((result) => {
+                  if (result.isConfirmed) {
+                     var location = "{% url 'file-management:archive' 0 %}".replace(0, file_id);
+                     window.location.replace(location);
+                  } else if (result.isDenied) {
+
+                  }
+                  });
+          });
+          
+            $("#table").on('click','tr',function(e) { 
+               const file_id = $(this).data("fileid");
+
+               if(modal.classList.contains('show-modal') == false) {
+                  const location = "{% url 'file-management:detail' 0 %}".replace(0, file_id);
+                  window.location.replace(location);
+               }
+
+            }); 
+            
+
    </script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <script>
 
-         {% if success == 1%}
-        Swal.fire({
-            icon: 'success',
-            title: "File has been successfully uploaded!"
-        })
 
-        window.history.pushState('somedata', 'Title', '/file-management/');
 
-        {% elif success == 2%}
-        Swal.fire({
-            icon: 'success',
-            title: "File has been successfully updated!"
-        })
 
-        window.history.pushState('somedata', 'Title', '/file-management/');
-         {% endif %}
-      </script>
+<script>
+   const toggle = document.querySelector('#sidebar--toggle');
+   const sidebar = document.querySelector('#aside');
+   const main = document.querySelector('#main-content');
+   toggle.addEventListener('click',function(){
+   if(sidebar.classList.contains('close--sidebar')){ 
+   sidebar.classList.remove('close--sidebar');
+   main.classList.remove('margins');
+   }
+   else{
+   sidebar.classList.add('close--sidebar');
+   main.classList.add('margins');
+   }});
+  </script>
+
+ 
 
 </body>
 

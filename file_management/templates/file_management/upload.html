@@ -15,7 +15,7 @@
          <div class="container">
             <div class="columns">
                <div class="column">
-                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value="{{ file.name }}">
+                  <input id="name" class="input" type="text" placeholder="Enter a file name" name="name" value="{{ file.name }}">
                </div>
                <div class="column column-file" style="position: relative">
                   <label class="file-placeholder">Choose a file (200mb max)</label>
@@ -41,7 +41,7 @@
 
             <div class="columns">
                <div class="column column-dropdwon">
-                  <select name="category_id" id="category">
+                  <select name="category_id" id="category" style="color: #272727;" >
                      {% if category_list %}
                      {% for category in category_list %}
                      <option value="{{category.id}}" {% if file.category_id.id == category.id %} selected {%endif%} >{{category.title}}</option>
@@ -89,6 +89,12 @@
       
       $("#file").change(function(e){
          $("#file-value-placeholder").html(this.value.replace("C:\\fakepath\\", ""));
+         var value = $("#file-value-placeholder").html();
+         if (value == '') {
+            $(".file-placeholder").show();
+         } else {
+            $(".file-placeholder").hide();
+         }
       });
 
       $("#my_form").submit(function(e){
@@ -133,9 +139,6 @@
                            button: false
                         });
                      } else {
-                           Swal.fire({
-                              title: "Your file is being uploaded."
-                           })
 
                            $("#my_form").submit();
                            beingSubmitted = true;

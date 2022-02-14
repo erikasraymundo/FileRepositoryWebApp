@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
 }
 
 //FONT
@@ -365,7 +366,7 @@ form{
 //MAIN CONTAINER STYLINGS
 main{
     flex: 1;
-    width: 100%;
+    width: calc(100% - 250px);
     padding: 65px;
     margin-left: 250px;
     transition: all 0.5s ease;
@@ -381,18 +382,6 @@ main{
 }
 
 
-//MODALS
-.modal-container{
-    .modal-backdrop{
-        height: 100vh;
-        width: 100%;
-        background-color: #0000007a;
-        position: absolute;
-        top: 0;
-        left: 0;
-        overflow: hidden;
-    }
-}
 
 
 //LINE
@@ -534,6 +523,13 @@ main{
     display: inline-block;
     text-decoration: none;
     font-size: 14px;
+    font-family: 'Raleway', sans-serif;
+    transition: all ease-in-out 300ms;
+
+    &:hover{
+        background-color: #8761F4;
+        color: #fff;
+    }
  }
 
  .btn-purple{
@@ -550,6 +546,7 @@ main{
         gap: 12px;
         cursor: pointer;
         font-size: 14px;
+        font-family: 'Raleway', sans-serif;
         
         span{
             font-size: 2rem;
@@ -571,9 +568,16 @@ main{
         cursor: pointer;
         font-weight: 600 !important;
         font-size: 14px;
+        font-family: 'Raleway', sans-serif;
+         transition: all ease-in-out 300ms;
         
         span{
             font-size: 2rem;
+        }
+
+        &:hover{
+            background-color: #8761F4;
+            color: #fff;
         }
     }
 }

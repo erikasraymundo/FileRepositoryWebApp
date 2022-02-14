@@ -2,6 +2,9 @@
 
 {% block content %}
 {% load static %}
+
+
+{% for detail in users %}
    <h1 class="h1">Viewing an Account</h1>
    <section class="my-profile">
       <div class="my-profile--container">
@@ -18,19 +21,19 @@
                            <tbody>
                               <tr>
                                     <td class="fw-700 title">Name</td>
-                                    <td class="fw-400">Dorothy Joy Franciso</td>
+                                    <td class="fw-400">{{ detail.first_name }} {{ detail.last_name }}</td>
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Gender</td>
-                                    <td class="fw-400">Woman</td>
+                                    <td class="fw-400">{{ detail.gender }}</td>
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Birthdate</td>
-                                    <td class="fw-400">January 01, 2000</td>
+                                    <td class="fw-400"> {{ detail.birthdate }}</td>
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Address</td>
-                                    <td class="fw-400">Malolos, Bulacan</td>
+                                    <td class="fw-400"> {{ detail.address }}</td>
                               </tr>
                            </tbody>
                         </table>
@@ -40,7 +43,7 @@
                         <tbody>
                            <tr>
                                  <td class="fw-700 title">Email</td>
-                                 <td class="fw-400">joyfrancisco@gmail.com</td>
+                                 <td class="fw-400"> {{ detail.email }}</td>
                            </tr>
                         </tbody>
                         </table>
@@ -50,29 +53,85 @@
                         <tbody>
                            <tr>
                                  <td class="fw-700 title">Joined since</td>
-                                 <td class="fw-400">February 4, 2022</td>
+                                 <td class="fw-400"> {{ detail.created_at }}</td>
                            </tr>
                            <tr>
                                  <td class="fw-700 title">Last updated</td>
-                                 <td class="fw-400">1 week ago</td>
+                                 <td class="fw-400"> {{ detail.updated_at }}</td>
                            </tr>
                         </tbody>
                         </table>
-
+       <form action='{% url "EditAccount" %}' id='EditUserAccountFromHereThis', method="POST">
+               {% csrf_token %}
+               <input type='text' value='{{detail.pk}}' style='display:none' name='PK'>
+            </form>
+            <form action='{% url "ArchieveUserAccount" %}' id='archiveThisAccountHiddenForm', method="POST">
+                  {% csrf_token %}
+                  <input type='text' value='{{detail.pk}}' style='display:none' name='ID'>
+               </form>
+               <form action='{% url "RestoreUserAccount" %}' id='restoreThisAccountHiddenForm', method="POST">
+                  {% csrf_token %}
+                  <input type='text' value='{{detail.pk}}' style='display:none' name='ID'>
+               </form>
                      </div>
                      <div>
-                        <a class="btn-black">Edit Profile</a>
+                        <a class="btn-black" onclick='EditThisUserAccount()'>Edit Profile</a>
                      </div>
                </div>
                <div class="cta-holder">
-                     <a class="btn-black">Delete Account</a>
+                  <a href="javascript:history.back()" class="btn-black">Cancel</a>
+                  <input type='text' value='{{detail.is_active}}' style='display:none' id='IDChecker'>
+                     <a class="btn-black" onclick='archiveThisAccount()' id='DeleteAccountRenameIfArchived'></a>
                </div>
             </div>
       </div>
-
-   
- 
   
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+         if(document.getElementById('IDChecker').value == 'True'){
+            document.getElementById('DeleteAccountRenameIfArchived').textContent= 'Delete Account';
+         }else{
+            document.getElementById('DeleteAccountRenameIfArchived').textContent= 'Restore Account';
+         }
+
+         function archiveThisAccount(){
+            if(document.getElementById('IDChecker').value == 'True'){
+               Swal.fire({
+                  icon: 'warning',
+                  showCancelButton: true,
+                  title: "Are you sure you want to archive this account?.",
+                  confirmButtonText: 'Yes',
+                  cancelButtonText: 'Cancel',
+               }).then((result) => {
+                  if(result.isConfirmed){
+                     document.getElementById('archiveThisAccountHiddenForm').submit();
+                  }
+               })
+            }else{
+               Swal.fire({
+                  icon: 'warning',
+                  showCancelButton: true,
+                  title: "Are you sure you want to restore this account?.",
+                  confirmButtonText: 'Yes',
+                  cancelButtonText: 'Cancel',
+               }).then((result) => {
+                  if(result.isConfirmed){
+                     document.getElementById('restoreThisAccountHiddenForm').submit();
+                  }
+               })
+            }
+         }
+   
+         function EditThisUserAccount(){
+            document.getElementById('EditUserAccountFromHereThis').submit();
+         }
+   
+      </script>
 
    </section>
+
+   
+  
+ {% endfor %}
+
 {% endblock %}
