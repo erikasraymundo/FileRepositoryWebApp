@@ -50,3 +50,16 @@ class File(models.Model):
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         # Define the full file path
         return BASE_DIR + self.getFileUrl()
+
+    def getFileType(self):
+        file_ext = self.getFileExtension()
+        images = ('jpg', 'jpeg', 'gif', 'png', 'webp')
+        videos = ('mpeg', 'mp4', 'ogg', 'mkv')
+        if file_ext in images:
+            return 1
+        elif file_ext in videos:
+            return 2
+        elif file_ext == 'pdf':
+            return 3
+        else:
+            return 4
