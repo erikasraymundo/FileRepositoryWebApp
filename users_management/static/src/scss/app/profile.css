@@ -65,7 +65,6 @@
 .my-profile .change-password-modal {
   width: 446px;
   background-color: #fff;
-  height: 371px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -89,4 +88,4 @@
           justify-content: space-between;
   margin-bottom: 1.5rem;
 }
-/*# sourceMappingURL=profiles.css.map */
+/*# sourceMappingURL=profile.css.map */
