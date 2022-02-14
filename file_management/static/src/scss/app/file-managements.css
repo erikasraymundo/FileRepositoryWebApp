@@ -302,7 +302,28 @@
   display: -ms-grid;
   display: grid;
   place-items: center;
-  min-height: 500px;
+  margin: 0 auto;
+}
+
+.viewing-file-container .preview {
+  min-height: 350px;
+}
+
+.viewing-file-container .preview p {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 42px;
+  color: #f6f6f6;
+  width: 90%;
+  cursor: pointer;
+  -webkit-transition: all ease-in 300ms;
+  transition: all ease-in 300ms;
+}
+
+.viewing-file-container .preview p:hover {
+  color: white;
 }
 
 .viewing-file-container .preview video {

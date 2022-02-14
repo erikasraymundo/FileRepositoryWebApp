@@ -255,10 +255,26 @@
             padding: 1rem;
             display: grid;
             place-items: center;
-            min-height: 500px;
+            margin: 0 auto;
         }
 
         .preview{
+            min-height: 350px;
+            p{
+                font-family: Raleway;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 36px;
+                line-height: 42px;
+                color: #f6f6f6;
+                width: 90%;
+                cursor: pointer;
+                transition: all ease-in 300ms;
+
+                &:hover{
+                    color: white;
+                }
+            }
             video{
                 width: 100%;
                 height: 100%;
