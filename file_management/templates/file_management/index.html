@@ -201,7 +201,7 @@
                   <div class="modal-backdrop" id="modal-view-backdrop" title="close"></div>
                   <div class="view-file-modal" id="modal-view">
                      <div class="header">
-                        <h4 class="text-purple fw-800">FileName.jpg</h4>
+                        <h4 class="text-purple fw-800" id="modal-filename">FileName.jpg</h4>
                         <span class="close-modal-icon" id="close-modal-view">
                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#323232"/>
@@ -212,8 +212,8 @@
                               <h4 class="text-white">Preview</h4>
                       </div>
                       <div class="holder" style="margin: 1.5rem 0 0 0;display: flex;justify-content: center;">
-                        <div class="btn-dark">
-                           <a href=""><span class="iconify" data-icon="ic:baseline-download"></span>Download File</a>
+                        <div class="btn-dark" id="modal-download-button">
+                           <span class="iconify" data-icon="ic:baseline-download"></span>Download File
                        </div>
                      </div>
                   </div>
