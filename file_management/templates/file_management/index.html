@@ -291,9 +291,9 @@
          var category = $("#select-category").val();
          var sort = $("#select-sort").val();
 
-         var url_mask = "{% url 'file-management:filter1' 0 1 'date1' 'date2' %}"
-         .replace(0, category)
-         .replace(1, sort)
+         var url_mask = "{% url 'file-management:filter1' 111111 222222 'date1' 'date2' %}"
+         .replace(/111111/, category)
+         .replace(/222222/, sort)
          .replace(/date1/, fromDateText)
          .replace(/date2/, toDateText);
 
@@ -319,9 +319,9 @@
          var sort = $("#select-sort").val();
          var query = $("#search").val();
 
-         var url_mask = "{% url 'file-management:filter2' 0 1 'date1' 'date2' 'query' %}"
-                        .replace(0, category)
-                        .replace(1, sort)
+         var url_mask = "{% url 'file-management:filter2' 111111 222222 'date1' 'date2' 'query' %}"
+                        .replace(/111111/, category)
+                        .replace(/222222/, sort)
                         .replace(/query/, query)
                         .replace(/date1/, fromDateText)
                         .replace(/date2/, toDateText);
@@ -465,18 +465,6 @@
             body.style.overflow = "unset";
       });
 
-      const toggle = document.querySelector('#sidebar--toggle');
-      const sidebar = document.querySelector('#aside');
-      const main = document.querySelector('#main-content');
-      toggle.addEventListener('click',function(){
-      if(sidebar.classList.contains('close--sidebar')){ 
-      sidebar.classList.remove('close--sidebar');
-      main.classList.remove('margins');
-      }
-      else{
-      sidebar.classList.add('close--sidebar');
-      main.classList.add('margins');
-      }});
    </script>
 
 
