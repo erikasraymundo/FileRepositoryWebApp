@@ -73,6 +73,8 @@ form input[type="email"], form input[type="text"], form input[type="password"] {
   font-size: 16px;
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
+  -webkit-transition: all ease 300ms;
+  transition: all ease 300ms;
 }
 
 form input[type="email"]::-webkit-input-placeholder, form input[type="text"]::-webkit-input-placeholder, form input[type="password"]::-webkit-input-placeholder {
@@ -104,11 +106,11 @@ form input[type="email"]::placeholder, form input[type="text"]::placeholder, for
 }
 
 form input[type="email"]:focus, form input[type="text"]:focus, form input[type="password"]:focus {
-  border: 1.25px solid #8761F4;
+  border-color: #8761F4;
 }
 
 form input[type="email"]:hover, form input[type="text"]:hover, form input[type="password"]:hover {
-  border: 1.25px solid #8761F4;
+  border-color: #8761F4;
 }
 
 form .btn-login-holder {
@@ -435,7 +437,7 @@ form .birthday .icon-calendar {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  width: calc(100% - 250px);
+  width: 100%;
   padding: 65px;
   margin-left: 250px;
   -webkit-transition: all 0.5s ease;
@@ -449,6 +451,16 @@ form .birthday .icon-calendar {
 
 .global--container .margins {
   margin-left: 113px;
+}
+
+.modal-container .modal-backdrop {
+  height: 100%;
+  width: 100%;
+  background-color: #0000007a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
 }
 
 .component1 {
@@ -500,12 +512,32 @@ form .birthday .icon-calendar {
   border: 1px solid #ddd;
   border-radius: 100px;
   padding: .7rem 1rem;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+
+.component2 .start-date:hover {
+  border-color: #8761F4;
+}
+
+.component2 .start-date:focus {
+  border-color: #8761F4;
 }
 
 .component2 .end-date {
   border: 1px solid #ddd;
   border-radius: 100px;
   padding: .7rem 1rem;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+
+.component2 .end-date:hover {
+  border-color: #8761F4;
+}
+
+.component2 .end-date:focus {
+  border-color: #8761F4;
 }
 
 .component2 .start-date, .component2 .end-date {
@@ -514,7 +546,7 @@ form .birthday .icon-calendar {
 
 .component2 .start-date::after, .component2 .end-date::after {
   content: "";
-  background-image: url("/static/src/images/icons/dropdown.png");
+  background-image: url("/src/images/icons/dropdown.png");
   height: 10px;
   width: 10px;
   display: inline-block;
@@ -524,9 +556,11 @@ form .birthday .icon-calendar {
   border-radius: 100px;
   outline: none;
   border: none;
-  width: 80px;
+  width: 110px;
   font-size: 14px;
   font-weight: 500;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
 }
 
 .component3 {
@@ -546,11 +580,13 @@ form .birthday .icon-calendar {
   outline: none;
   border: none;
   padding: .7rem 1rem;
-  padding-left: 2.5rem;
+  padding-left: 3rem;
   border: 1px solid #ddd;
-  width: 186px;
+  width: 242px;
   font-size: 14px;
   font-weight: 500;
+  -webkit-transition: all 300ms ease;
+  transition: all 300ms ease;
 }
 
 .component3 .search-input::-webkit-input-placeholder {
@@ -569,6 +605,14 @@ form .birthday .icon-calendar {
   font-size: 16px;
 }
 
+.component3 .search-input:hover {
+  border-color: #8761F4;
+}
+
+.component3 .search-input:focus {
+  border-color: #8761F4;
+}
+
 .component4 {
   position: relative;
   display: inline-block;
@@ -585,14 +629,11 @@ form .birthday .icon-calendar {
   -moz-appearance: none;
   font-size: 14px;
   font-weight: 500;
-  width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .component4::after {
   content: "";
-  background-image: url("/static/src/images/icons/dropdown.png");
+  background-image: url("/src/images/icons/dropdown.png");
   height: 10px;
   width: 10px;
   display: inline-block;
@@ -605,7 +646,7 @@ form .birthday .icon-calendar {
 }
 
 .btn-black {
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
   background-color: #272727;
   padding: 12px 25px;
@@ -613,15 +654,12 @@ form .birthday .icon-calendar {
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
-  font-size: 14px;
-  font-family: 'Raleway', sans-serif;
-  -webkit-transition: all ease-in-out 300ms;
-  transition: all ease-in-out 300ms;
+  -webkit-transition: all ease 300ms;
+  transition: all ease 300ms;
 }
 
 .btn-black:hover {
   background-color: #8761F4;
-  color: #fff;
 }
 
 .btn-purple {
@@ -643,12 +681,16 @@ form .birthday .icon-calendar {
           align-items: center;
   gap: 12px;
   cursor: pointer;
-  font-size: 14px;
-  font-family: 'Raleway', sans-serif;
+  -webkit-transition: all ease 300ms;
+  transition: all ease 300ms;
 }
 
 .btn-purple a span {
   font-size: 2rem;
+}
+
+.btn-purple a:hover {
+  background-color: #272727;
 }
 
 .btn-dark {
@@ -670,11 +712,8 @@ form .birthday .icon-calendar {
           align-items: center;
   gap: 12px;
   cursor: pointer;
-  font-weight: 600 !important;
-  font-size: 14px;
-  font-family: 'Raleway', sans-serif;
-  -webkit-transition: all ease-in-out 300ms;
-  transition: all ease-in-out 300ms;
+  -webkit-transition: all ease 300ms;
+  transition: all ease 300ms;
 }
 
 .btn-dark a span {
@@ -683,6 +722,316 @@ form .birthday .icon-calendar {
 
 .btn-dark a:hover {
   background-color: #8761F4;
-  color: #fff;
 }
-/*# sourceMappingURL=global.css.map */
+
+.my-profile--container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
+}
+
+.my-profile--image {
+  text-align: center;
+}
+
+.my-profile--image img {
+  margin-bottom: 23px;
+}
+
+.my-profile--image h4 {
+  margin-bottom: 8px;
+}
+
+.my-profile--info-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.my-profile--info-container .text {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.my-profile--info-container .text h4 {
+  margin-bottom: 30px;
+}
+
+.my-profile--info-container .text table {
+  width: 100%;
+  table-layout: fixed;
+  margin-bottom: 40px;
+}
+
+.my-profile--info-container .text table tbody tr {
+  padding: .5rem 0;
+  display: block;
+}
+
+.my-profile--info-container .text table tbody tr td {
+  display: inline-block;
+}
+
+.my-profile--info-container .text table tbody tr .title {
+  width: 20%;
+}
+
+.my-profile--info .cta-holder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  gap: 15px;
+}
+
+.my-profile .change-password-modal {
+  width: 446px;
+  background-color: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 32px;
+  -webkit-box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.my-profile .change-password-modal .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.manage-accounts--controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  margin-bottom: 33px;
+}
+
+.manage-accounts--controls-date p {
+  margin-bottom: 10px;
+}
+
+.manage-accounts--controls-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 13px;
+}
+
+.manage-accounts--table-container table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+}
+
+.manage-accounts--table-container table thead tr {
+  border: 1px solid #ddd;
+}
+
+.manage-accounts--table-container table thead th {
+  font-size: 14px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background-color: #FAFAFA;
+  padding: 1rem;
+  color: #8761F4;
+  text-align: center;
+}
+
+.manage-accounts--table-container table tr {
+  border: 1px solid #ddd;
+}
+
+.manage-accounts--table-container table tbody tr td {
+  font-size: 14px;
+  padding: 1rem;
+}
+
+.manage-accounts--table-container table tbody tr {
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.manage-accounts--table-container table tbody tr:hover {
+  background-color: #ececec;
+  cursor: pointer;
+}
+
+.manage-accounts--table-container table tbody tr .actions .actions--container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+}
+
+.manage-accounts--table-container table tbody tr .actions .actions--container .icon-pen, .manage-accounts--table-container table tbody tr .actions .actions--container .icon-archive {
+  cursor: pointer;
+}
+
+.add-accounts--container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
+}
+
+.add-accounts--container .my-profile--image {
+  text-align: center;
+}
+
+.add-accounts--form-container form h4 {
+  margin-bottom: 1.5rem;
+}
+
+.add-accounts--form-container form .btn-holder {
+  margin-top: 1.3rem;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+}
+
+.edit-accounts--container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
+}
+
+.edit-accounts--container .my-profile--image {
+  text-align: center;
+}
+
+.edit-accounts--form-container form h4 {
+  margin-bottom: 1.5rem;
+}
+
+.edit-accounts--form-container form .btn-holder {
+  margin-top: 1.3rem;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+}
+
+.archived-accounts--controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  margin-bottom: 33px;
+}
+
+.archived-accounts--controls-date p {
+  margin-bottom: 10px;
+}
+
+.archived-accounts--controls-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 13px;
+}
+
+.archived-accounts--table-container table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+}
+
+.archived-accounts--table-container table thead tr {
+  border: 1px solid #ddd;
+}
+
+.archived-accounts--table-container table thead th {
+  font-size: 14px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background-color: #FAFAFA;
+  padding: 1rem;
+  color: #8761F4;
+  text-align: center;
+}
+
+.archived-accounts--table-container table tr {
+  border: 1px solid #ddd;
+}
+
+.archived-accounts--table-container table tbody tr td {
+  font-size: 14px;
+  padding: 1rem;
+}
+
+.archived-accounts--table-container table tbody tr {
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.archived-accounts--table-container table tbody tr:hover {
+  background-color: #ececec;
+  cursor: pointer;
+}
+
+.archived-accounts--table-container table tbody tr .actions .actions--container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+}
+
+.archived-accounts--table-container table tbody tr .actions .actions--container .icon-pen, .archived-accounts--table-container table tbody tr .actions .actions--container .icon-archive {
+  cursor: pointer;
+}
+/*# sourceMappingURL=style.css.map */
