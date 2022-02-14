@@ -266,10 +266,10 @@
                         {% for file in file_list %}
                         
                         <tr class=".file-row">
-                           <td class=".file-column" data-label="Name" data-fileid={{file.id}}> {{ file.getNewFileName }} </td>
-                           <td class=".file-column" data-label="Category" data-fileid={{file.id}}> {{ file.category_id.title }} </td>
-                           <td class=".file-column" data-label="Uploader" data-fileid={{file.id}}> {{ file.user_id.full_name }}</td>
-                           <td class=".file-column" data-label="Uploaded" data-fileid={{file.id}}> {{ file.created_at }} </td>
+                           <td data-label="Name" data-fileid={{file.id}}> {{ file.getNewFileName }} </td>
+                           <td data-label="Category" data-fileid={{file.id}}> {{ file.category_id.title }} </td>
+                           <td data-label="Uploader" data-fileid={{file.id}}> {{ file.user_id.full_name }}</td>
+                           <td data-label="Uploaded" data-fileid={{file.id}}> {{ file.created_at }} </td>
                            <td data-label="Actions" class="actions">
                               <div class="actions--container">
                                  
