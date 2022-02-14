@@ -368,12 +368,27 @@
   border: 1.25px solid #ddd;
   padding: .96rem 1.5rem;
   width: 100%;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 
 .column-file .column--inner input {
   background: transparent;
   outline: none;
   opacity: 0;
+  border: none;
+}
+
+.column-file .column--inner input:hover {
+  border: none;
+}
+
+.column-file .column--inner:focus {
+  border-color: #8761F4;
+}
+
+.column-file .column--inner:hover {
+  border-color: #8761F4;
 }
 
 .column-dropdwon {
@@ -395,6 +410,8 @@
   font-family: 'Raleway', sans-serif;
   color: #777;
   position: relative;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 
 .column-dropdwon select option {
@@ -402,6 +419,14 @@
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
   color: #777;
+}
+
+.column-dropdwon select:focus {
+  border-color: #8761F4;
+}
+
+.column-dropdwon select:hover {
+  border-color: #8761F4;
 }
 
 .column-dropdwon::after {
@@ -427,10 +452,30 @@
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
   min-height: 11rem;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.column textarea:focus {
+  border: 1.25px solid #8761F4;
+}
+
+.column textarea:hover {
+  border: 1.25px solid #8761F4;
 }
 
 .column input {
   margin: 0 !important;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.column input:focus {
+  border: 1.25px solid #8761F4;
+}
+
+.column input:hover {
+  border: 1.25px solid #8761F4;
 }
 
 .column-btn {
