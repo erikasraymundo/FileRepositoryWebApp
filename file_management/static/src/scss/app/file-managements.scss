@@ -255,6 +255,17 @@
             place-items: center;
             min-height: 500px;
         }
+
+        .preview{
+            video{
+                width: 100%;
+                height: 100%;
+            }
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 }
 
