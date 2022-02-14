@@ -12,13 +12,14 @@ from category_management.models import Category
 from users_management.models import User
 from reportlab.platypus import Paragraph, Spacer
 from reportlab.lib.units import cm
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate
 from reportlab.platypus import TableStyle
 from reportlab.platypus import Table
 from reportlab.lib import colors
 from .models import User
 from django.utils import timezone
+from activity_log.models import Log
 
 def profile(request):
     return render(request, 'profile/profile.html', {
@@ -123,9 +124,52 @@ def printusers(request):
     # elems.append(title, height)
     # elems.append(table)
 
+    ps = ParagraphStyle
+
     styles = getSampleStyleSheet()
     flowables = [
         Paragraph(title, styles['Title']),
+        table,
+        Spacer(1 * cm, 1 * cm),
+        Paragraph('text after spacer')
+    ]
+
+
+    pdf.build(flowables)
+
+def printactivitylogs(request):
+    filename = "reports/Activity Logs.pdf"
+    pdf = SimpleDocTemplate(
+    filename,
+    pagesize=letter
+)
+    data = [
+    ['Event', 'Date/Time', 'Responsible user']
+]
+    
+    logs = Log.objects.all()
+    for log in logs:
+        data.append([log.description, log.created_at, log.user_id])
+        
+    table = Table(data)
+
+    ts = TableStyle(
+    [
+    ('GRID',(0,0),(-1,-1),2,colors.black),
+    ('ALIGN',(0,0),(-1,-1),"CENTER")
+    ]
+)
+    title = "Activity Log"
+    systemName = "Soar Academy File Repository System"
+    table.setStyle(ts)    
+    # elems = []
+    # elems.append(title, height)
+    # elems.append(table)
+
+    styles = getSampleStyleSheet()
+    flowables = [
+        Paragraph(title, styles['Title']),
+        Paragraph(systemName, styles['Heading1']),
         table,
         Spacer(1 * cm, 1 * cm),
         Paragraph('text after spacer')

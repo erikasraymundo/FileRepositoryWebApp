@@ -36,43 +36,30 @@
       </div>
 
    <div class="activity-logs--table-container">
+      {% if log_list %}
       <table>
          <thead>
             <tr>
-               <th scope="col">Username</th>
-               <th scope="col">Name</th>
-               <th scope="col">Email</th>
+               <th scope="col">Log ID</th>
+               <th scope="col">User</th>
+               <th scope="col">Description</th>
                <th scope="col">Date Created</th>
-               <th scope="col">Actions</th>
             </tr>
          </thead>
          <tbody>
-
+            {% for log in log_list %}
             <tr>
-               <td data-label="Username">erikasong</td>
-               <td data-label="Name">Erika Simbulan Raymundo</td>
-               <td data-label="Email">erikaraymundo@gmail.com</td>
-               <td data-label="Date Created">02/11/2021</td>
-               <td data-label="Actions" class="actions">
-                  <div class="actions--container">
-                  <div class="icon-pen" title="Edit">
-                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M0.25 10.9375V13.75H3.0625L11.3575 5.45504L8.545 2.64254L0.25 10.9375ZM13.5325 3.28004C13.825 2.98754 13.825 2.51504 13.5325 2.22254L11.7775 0.467544C11.485 0.175044 11.0125 0.175044 10.72 0.467544L9.3475 1.84004L12.16 4.65254L13.5325 3.28004Z" fill="#272727" fill-opacity="0.5"/>
-                     </svg>
-                  </div>
-                  <div class="icon-archive" title="Archive">
-                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M13.405 1.9225L12.3625 0.6625C12.16 0.4075 11.8525 0.25 11.5 0.25H2.5C2.1475 0.25 1.84 0.4075 1.63 0.6625L0.595 1.9225C0.3775 2.1775 0.25 2.515 0.25 2.875V12.25C0.25 13.075 0.925 13.75 1.75 13.75H12.25C13.075 13.75 13.75 13.075 13.75 12.25V2.875C13.75 2.515 13.6225 2.1775 13.405 1.9225ZM7 11.125L2.875 7H5.5V5.5H8.5V7H11.125L7 11.125ZM1.84 1.75L2.4475 1H11.4475L12.1525 1.75H1.84Z" fill="#272727" fill-opacity="0.5"/>
-                     </svg>
-                  </div>
-                  </div>
-               </td>
+               <td data-label="Log ID">{{log.id}}</td>
+               <td data-label="User">{{log.user_id.full_name}}</td>
+               <td data-label="Description">{{log.description}}</td>
+               <td data-label="Date Created">{{log.created_at}}</td>
             </tr>
-            
+            {% endfor %}
             
 
          </tbody>
          </table>
+         {% endif %}
    </div>
 
             <div class="btn-dark">
