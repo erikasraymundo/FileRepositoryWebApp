@@ -32,9 +32,6 @@
                   </div>
                <input type="text" class="search-input" placeholder="Search">
             </div>
-            <div class="btn-purple">
-                  <a href=""><span class="iconify" data-icon="akar-icons:plus"></span>Account</a>
-            </div>
          </div>
       </div>
 
@@ -51,19 +48,36 @@
          </thead>
          <tbody>
             {% for user in users %}
+
+            
+            <form action='{% url "RestoreUserAccount" %}' id='archiveThisAccountHiddenForm', method="POST">
+               {% csrf_token %}
+               <input type='text' value='{{user.pk}}' style='display:none' name='ID'>
+            </form>
+
+            <form action='{% url "EditAccount" %}' id='EditUserAccountFromHereThis', method="POST">
+               {% csrf_token %}
+               <input type='text' value='{{user.pk}}' style='display:none' name='PK'>
+            </form>
+
+            <form action='{% url "ViewAccount" %}' id='ViewAccountHinddenForm', method="POST">
+               {% csrf_token %}
+               <input type='text' value='{{user.pk}}' style='display:none' name='PK'>
+            </form>
+
             <tr>
-               <td data-label="Username">{{ user.username }}</td>
-               <td data-label="Name">{{ user.first_name }} {{ user.last_name }}</td>
-               <td data-label="Email">{{ user.email }}</td>
-               <td data-label="Date Created">{{ user.created_at }}</td>
-               <td data-label="Actions" class="actions">
+               <td onclick='ViewTThisUserAccount()' style='cursor:pointer;' data-label="Username">{{ user.username }}</td>
+               <td onclick='ViewTThisUserAccount()'  style='cursor:pointer;' data-label="Name">{{ user.first_name }} {{ user.last_name }}</td>
+               <td onclick='ViewTThisUserAccount()' style='cursor:pointer;'  data-label="Email">{{ user.email }}</td>
+               <td onclick='ViewTThisUserAccount()'  style='cursor:pointer;' data-label="Date Created">{{ user.created_at }}</td>
+              <td data-label="Actions" class="actions">
                   <div class="actions--container">
-                  <div class="icon-pen" title="Edit">
+                  <div class="icon-pen" title="Edit" onclick='EditThisUserAccount()'>
                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path d="M0.25 10.9375V13.75H3.0625L11.3575 5.45504L8.545 2.64254L0.25 10.9375ZM13.5325 3.28004C13.825 2.98754 13.825 2.51504 13.5325 2.22254L11.7775 0.467544C11.485 0.175044 11.0125 0.175044 10.72 0.467544L9.3475 1.84004L12.16 4.65254L13.5325 3.28004Z" fill="#272727" fill-opacity="0.5"/>
                      </svg>
                   </div>
-                  <div class="icon-archive" title="Archive">
+                  <div class="icon-archive" title="Archive" onclick='archiveThisAccount()'>
                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path d="M13.405 1.9225L12.3625 0.6625C12.16 0.4075 11.8525 0.25 11.5 0.25H2.5C2.1475 0.25 1.84 0.4075 1.63 0.6625L0.595 1.9225C0.3775 2.1775 0.25 2.515 0.25 2.875V12.25C0.25 13.075 0.925 13.75 1.75 13.75H12.25C13.075 13.75 13.75 13.075 13.75 12.25V2.875C13.75 2.515 13.6225 2.1775 13.405 1.9225ZM7 11.125L2.875 7H5.5V5.5H8.5V7H11.125L7 11.125ZM1.84 1.75L2.4475 1H11.4475L12.1525 1.75H1.84Z" fill="#272727" fill-opacity="0.5"/>
                      </svg>
@@ -72,13 +86,40 @@
                </td>
             </tr>
 
+            {% endfor %}
          </tbody>
          </table>
    </div>
-
-
-
 </div>
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+   function archiveThisAccount(){
+      Swal.fire({
+         icon: 'warning',
+         showCancelButton: true,
+         title: "Are you sure you want to restore this account?.",
+         confirmButtonText: 'Yes',
+         cancelButtonText: 'Cancel',
+      }).then((result) => {
+         if(result.isConfirmed){
+            document.getElementById('archiveThisAccountHiddenForm').submit();
+         }
+      })
+   }
+
+   function EditThisUserAccount(){
+      document.getElementById('EditUserAccountFromHereThis').submit();
+   }
+
+   function ViewTThisUserAccount(){
+      document.getElementById('ViewAccountHinddenForm').submit();
+   }
+
+</script>
+
 </section>
 {% endblock %}
 

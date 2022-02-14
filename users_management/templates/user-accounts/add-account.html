@@ -20,7 +20,7 @@
                 </div>
                 <div class="row">
                    <div class="col-12">
-                    <input type="text" value="erikasong"> 
+                    <input type="text" placeholder='Enter username'> 
                    </div>
                 </div>
                 <div class="row">
@@ -80,13 +80,19 @@
                 </fieldset>
                 <div class="row">
                    <div class="col-12 btn-holder">
-                    <a href="" class="btn-black">Cancel</a>
-                    <a href="" class="btn-black">Save Account</a>
+                    <a href="javascript:history.back()" class="btn-black">Cancel</a>
+                    <a href="" class="btn-black" onclick='onSaveClicked({})'>Save Account</a>
                    </div>
                 </div>
             </form>
-            
           </div>
     </div>
+
+    <script>
+      function onSaveClicked(list){
+
+      }
+    </script>
+
  </section>
 {% endblock %}
