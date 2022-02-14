@@ -500,12 +500,32 @@ form .birthday .icon-calendar {
   border: 1px solid #ddd;
   border-radius: 100px;
   padding: .7rem 1rem;
+  -webkit-transition: all ease 300ms;
+  transition: all ease 300ms;
+}
+
+.component2 .start-date:hover {
+  border-color: #8761F4;
+}
+
+.component2 .start-date:focus {
+  border-color: #8761F4;
 }
 
 .component2 .end-date {
   border: 1px solid #ddd;
   border-radius: 100px;
   padding: .7rem 1rem;
+  -webkit-transition: all ease 300ms;
+  transition: all ease 300ms;
+}
+
+.component2 .end-date:hover {
+  border-color: #8761F4;
+}
+
+.component2 .end-date:focus {
+  border-color: #8761F4;
 }
 
 .component2 .start-date, .component2 .end-date {
@@ -551,6 +571,8 @@ form .birthday .icon-calendar {
   width: 186px;
   font-size: 14px;
   font-weight: 500;
+  -webkit-transition: all ease 300ms;
+  transition: all ease 300ms;
 }
 
 .component3 .search-input::-webkit-input-placeholder {
@@ -573,6 +595,10 @@ form .birthday .icon-calendar {
   border-color: #8761F4;
 }
 
+.component3 .search-input:focus {
+  border-color: #8761F4;
+}
+
 .component4 {
   position: relative;
   display: inline-block;
@@ -592,6 +618,16 @@ form .birthday .icon-calendar {
   width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
+  -webkit-transition: all ease 300ms;
+  transition: all ease 300ms;
+}
+
+.component4 select:hover {
+  border-color: #8761F4;
+}
+
+.component4 select:focus {
+  border-color: #8761F4;
 }
 
 .component4::after {
