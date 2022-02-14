@@ -255,10 +255,26 @@
             padding: 1rem;
             display: grid;
             place-items: center;
-            min-height: 500px;
+            margin: 0 auto;
         }
 
         .preview{
+            min-height: 350px;
+            p{
+                font-family: Raleway;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 36px;
+                line-height: 42px;
+                color: #f6f6f6;
+                width: 90%;
+                cursor: pointer;
+                transition: all ease-in 300ms;
+
+                &:hover{
+                    color: white;
+                }
+            }
             video{
                 width: 100%;
                 height: 100%;
@@ -312,11 +328,23 @@
         border: 1.25px solid #ddd;
         padding: .96rem 1.5rem;
         width: 100%;
+        transition: all 300ms ease-in-out;
         input{
             background: transparent;
             outline: none;
             opacity: 0;
+            border: none;
+            &:hover{
+                border: none;
+              }
        }
+       &:focus{
+        border-color:#8761F4;
+      }
+      &:hover{
+        border-color:#8761F4;
+      }
+       
     }
 }
 .column-dropdwon{
@@ -336,6 +364,7 @@
         font-family: 'Raleway', sans-serif;
         color:#777;
         position: relative;
+        transition: all 300ms ease-in-out;
 
         option{
             font-size: 16px;
@@ -343,6 +372,13 @@
             font-family: 'Raleway', sans-serif;
             color:#777;
         }
+
+        &:focus{
+            border-color:#8761F4;
+          }
+          &:hover{
+            border-color:#8761F4;
+          }
     }
 
     &::after{
@@ -368,9 +404,25 @@
         font-weight: 600;
         font-family: 'Raleway', sans-serif;
         min-height: 11rem;
+        transition: all 300ms ease-in-out;
+
+        &:focus{
+            border: 1.25px solid #8761F4;
+        }
+        &:hover{
+            border: 1.25px solid #8761F4;
+        }
     }
     input{
         margin: 0 !important;
+        transition: all 300ms ease-in-out;
+
+        &:focus{
+            border: 1.25px solid #8761F4;
+        }
+        &:hover{
+            border: 1.25px solid #8761F4;
+        }
     }
 }
 .column-btn{

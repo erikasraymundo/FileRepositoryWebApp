@@ -12,7 +12,8 @@
           </div>
           <div class="add-accounts--form-container">
               
-            <form action="">
+            <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase'>
+               {% csrf_token %} 
                 <div class="row">
                     <div class="col-12">
                       <h4>Fill up all the information.</h4>
@@ -20,35 +21,34 @@
                 </div>
                 <div class="row">
                    <div class="col-12">
-                    <input type="text" placeholder='Enter username'> 
+                    <input type="text" placeholder='Enter username' id='Add-Account-Username' name='username'>  
                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter first name"> 
+                     <input type="text" placeholder="Enter first name"  id='Add-Account-first' name='first_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter middle name"> 
+                     <input type="text" placeholder="Enter middle name"  id='Add-Account-middle' name='middle_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter last name"> 
+                     <input type="text" placeholder="Enter last name"  id='Add-Account-last' name='last_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter address"> 
+                     <input type="text" placeholder="Enter address"  id='Add-Account-address' name='address'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter email address"> 
+                     <input type="text" placeholder="Enter email address"  id='Add-Account-email' name='email'> 
                     </div>
-                 </div>
-
+                  </div>
                 <div class="row">
                     <div class="col-12 birthday">
                         <div class="icon-calendar">
@@ -56,32 +56,32 @@
                                 <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"/>
                             </svg>
                         </div>
-                        <input type="text" name="" id="birthday" placeholder="Select birthdate*"> 
+                        <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" name='bday'> 
                     </div>
                 </div>
 
                 <fieldset class="gender" id="group">
                     <p>Select gender*</p>
                     <div>
-                        <input type="radio" id="Woman" name="group" value="Woman"
+                        <input type="radio" id="Woman" name="group" value="1"
                               >
                         <label for="Woman">Woman</label>
                       </div>
                       
                       <div>
-                        <input type="radio" id="Man" name="group" value="Man">
+                        <input type="radio" id="Man" name="group" value="2">
                         <label for="Man">Man</label>
                       </div>
-                      
                       <div>
-                        <input type="radio" id="Others" name="group" value="Others">
+                        <input type="radio" id="Others" name="group" value="3">
                         <label for="Others">Others</label>
                       </div>
                 </fieldset>
+                <p style='text-align: center; color:red; visibility: hidden; display:block' id='ErrerMessageDuplicateEmail'></p>
                 <div class="row">
                    <div class="col-12 btn-holder">
                     <a href="javascript:history.back()" class="btn-black">Cancel</a>
-                    <a href="" class="btn-black" onclick='onSaveClicked({})'>Save Account</a>
+                    <a href="#" class="btn-black" onclick='validateAddAccount({{ username }})'>Save Account</a>
                    </div>
                 </div>
             </form>
@@ -89,8 +89,39 @@
     </div>
 
     <script>
-      function onSaveClicked(list){
-
+     function validateAddAccount(list2){
+        var username = document.getElementById('Add-Account-Username').value;
+        var first = document.getElementById('Add-Account-first').value;
+        var middle = document.getElementById('Add-Account-middle').value;
+        var last = document.getElementById('Add-Account-last').value;
+        var address = document.getElementById('Add-Account-address').value;
+        var email = document.getElementById('Add-Account-email').value;
+        if(username == '' || first == '' || middle == '' || last == '' || address == '' || email == ''){
+          document.getElementById('ErrerMessageDuplicateEmail').textContent = 'All fields are required';
+          document.getElementById('ErrerMessageDuplicateEmail').style.visibility = 'visible';
+        }else{
+          var isDuplicate = false;
+          for(var i = 0 ; i < list2.length; i++){
+            if(i+1 == list2.length){
+              //last index
+              if(list2[i] == username){
+                isDuplicate = true;
+              }
+                if(!isDuplicate){
+                  //Save To DB
+                  document.getElementById('FormForAddingANewUserToTheDatabase').submit();
+                }else{
+                  //Error Message
+                  document.getElementById('ErrerMessageDuplicateEmail').textContent = 'Username is already taken';
+                  document.getElementById('ErrerMessageDuplicateEmail').style.visibility = 'visible';
+                }
+            }else{
+              if(list2[i] == username){
+                isDuplicate = true;
+              }
+            }
+          }
+        }
       }
     </script>
 
