@@ -183,7 +183,7 @@
 }
 
 .file-management--container .modal .modal-backdrop {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background-color: #0000007a;
   position: fixed !important;
