@@ -81,6 +81,9 @@ form{
         &:focus{
             border: 1.25px solid #8761F4;
         }
+        &:hover{
+            border: 1.25px solid #8761F4;
+        }
     }
     .btn-login-holder{
         display: flex;

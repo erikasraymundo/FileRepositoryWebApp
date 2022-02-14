@@ -107,6 +107,10 @@ form input[type="email"]:focus, form input[type="text"]:focus, form input[type="
   border: 1.25px solid #8761F4;
 }
 
+form input[type="email"]:hover, form input[type="text"]:hover, form input[type="password"]:hover {
+  border: 1.25px solid #8761F4;
+}
+
 form .btn-login-holder {
   display: -webkit-box;
   display: -ms-flexbox;
