@@ -396,28 +396,6 @@
                      }
                });
 
-               const modal = document.querySelector('#modal-view');
-                  const shadow = document.querySelector('#modal-view-backdrop');
-                  const toggle = document.querySelector('.icon-view');
-                  const closeBtn = document.querySelector('#close-modal-view');
-                  toggle.addEventListener('click',function(){
-                  if(modal.classList.contains('show-modal')){ 
-                     modal.classList.remove('show-modal');
-                     shadow.classList.remove('shadow-modal');
-                  }
-                  else{
-                     modal.classList.add('show-modal');
-                     shadow.classList.add('shadow-modal');
-                  }});
-                  shadow.addEventListener('click',function(){
-                     modal.classList.remove('show-modal');
-                     shadow.classList.remove('shadow-modal');
-                  });
-                  closeBtn.addEventListener('click',function(){
-                     modal.classList.remove('show-modal');
-                     shadow.classList.remove('shadow-modal');
-                  });
-
        $(document).on('click', '#archive', function() {
              
             var file_name = $(this).data("filename");
@@ -450,6 +428,33 @@
 
             }); 
 
+               
+
+               const modal = document.querySelector('#modal-view');
+                  const shadow = document.querySelector('#modal-view-backdrop');
+                  const toggle = document.querySelector('.icon-view');
+                  const closeBtn = document.querySelector('#close-modal-view');
+            
+            $(".icon-view").on('click', function() { 
+               
+                  if(modal.classList.contains('show-modal')){ 
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  }
+                  else{
+                     modal.classList.add('show-modal');
+                     shadow.classList.add('shadow-modal');
+                  }}
+            ); 
+
+ shadow.addEventListener('click',function(){
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  });
+                  closeBtn.addEventListener('click',function(){
+                     modal.classList.remove('show-modal');
+                     shadow.classList.remove('shadow-modal');
+                  });
    </script>
 
 
