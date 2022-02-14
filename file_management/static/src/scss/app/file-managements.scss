@@ -160,7 +160,7 @@
                 height: 100vh;
                 width: 100%;
                 background-color: #0000007a;
-                position: absolute;
+                position: fixed;
                 top: 0;
                 left: 0;
                 overflow: hidden;
@@ -180,7 +180,7 @@
         .view-file-modal{
             width: 730px;
             background-color: #fff;
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
