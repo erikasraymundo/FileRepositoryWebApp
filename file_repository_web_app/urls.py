@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from accounts.views import login
 from accounts.views import register
-from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails
+from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, ManageAccounts, ArchiveAccounts, AddAccount, EditAccount, ViewAccount
 from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory
 from activity_log.views import view_logs
 from django.urls import include, path
@@ -34,6 +34,11 @@ urlpatterns = [
     path('profile/update-password', UpdatePassword, name='UpdatePassword'),
     path('profile/delete-account', DeleteAccount, name='DeleteAccount'),
     path('profile/update-account', UpdateAccountDetails, name='UpdateAccountDetails'),
+    path('manage-accounts/', ManageAccounts, name='ManageAccounts'),
+    path('manage-accounts/Add', AddAccount, name='AddAccount'),
+    path('manage-accounts/Edit', EditAccount, name='EditAccount'),
+    path('manage-accounts/View', ViewAccount, name='ViewAccount'),
+    path('manage-accounts/archived', ArchiveAccounts, name='ArchiveAccounts'),
     path('category/', categoryManagement, name='categoryManagement'),
     path('category/add', AddCategory, name='AddCategory'),
     path('category/update', UpdateCategory, name='UpdateCategory'),

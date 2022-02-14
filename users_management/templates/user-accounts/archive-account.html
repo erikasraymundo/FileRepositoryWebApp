@@ -6,8 +6,8 @@
 <div class="archived-accounts--container">
 
       <div class="component1">
-      <h4 class=""><a href="">Active Accounts</a></h4>
-      <h4 class="active"><a href="">Archived</a></h4>
+      <h4 class=""><a href="/manage-accounts">Active Accounts</a></h4>
+      <h4 class="active"><a  href="/manage-accounts/archived">Archived</a></h4>
       </div>
 
       <div class="archived-accounts--controls">
@@ -50,12 +50,12 @@
             </tr>
          </thead>
          <tbody>
-
+            {% for user in users %}
             <tr>
-               <td data-label="Username">erikasong</td>
-               <td data-label="Name">Erika Simbulan Raymundo</td>
-               <td data-label="Email">erikaraymundo@gmail.com</td>
-               <td data-label="Date Created">02/11/2021</td>
+               <td data-label="Username">{{ user.username }}</td>
+               <td data-label="Name">{{ user.first_name }} {{ user.last_name }}</td>
+               <td data-label="Email">{{ user.email }}</td>
+               <td data-label="Date Created">{{ user.created_at }}</td>
                <td data-label="Actions" class="actions">
                   <div class="actions--container">
                   <div class="icon-pen" title="Edit">
@@ -71,8 +71,6 @@
                   </div>
                </td>
             </tr>
-            
-            
 
          </tbody>
          </table>

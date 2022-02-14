@@ -36,3 +36,24 @@ def UpdateAccountDetails(request):
     return render(request, 'profile/profile.html', {
         'details' : User.objects.filter(pk =1, deleted_at__isnull = True),
     })
+
+def ManageAccounts(request):
+    return render(request, 'user-accounts/manage-accounts.html', {
+        'users' : User.objects.filter(deleted_at__isnull = True),
+    })
+
+def ArchiveAccounts(request):
+    return render(request, 'user-accounts/manage-accounts.html', {
+        'users' : User.objects.filter(deleted_at__isnull = False),
+    })
+
+def AddAccount(request):
+    return render(request, 'user-accounts/add-account.html')
+
+    
+def EditAccount(request):
+    return render(request, 'user-accounts/edit-account.html')
+
+    
+def ViewAccount(request):
+    return render(request, 'user-accounts/view-account.html')
