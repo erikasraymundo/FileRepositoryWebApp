@@ -300,27 +300,32 @@
       const shadow = document.querySelector('#modal-view-backdrop');
       const toggle = document.querySelector('.icon-view');
       const closeBtn = document.querySelector('#close-modal-view');
+      const body = document.querySelector('body');
             
       $(".icon-view").on('click', function() { 
                
          if(modal.classList.contains('show-modal')){ 
             modal.classList.remove('show-modal');
             shadow.classList.remove('shadow-modal');
+            body.style.overflow = "unset";
          }
          else{
             modal.classList.add('show-modal');
             shadow.classList.add('shadow-modal');
+            body.style.overflow = "hidden";
          }}
       ); 
 
       shadow.addEventListener('click',function(){
             modal.classList.remove('show-modal');
             shadow.classList.remove('shadow-modal');
+            body.style.overflow = "unset";
       });
       
       closeBtn.addEventListener('click',function(){
             modal.classList.remove('show-modal');
             shadow.classList.remove('shadow-modal');
+            body.style.overflow = "unset";
       });
    </script>
 
