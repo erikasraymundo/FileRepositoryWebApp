@@ -7,7 +7,7 @@
    <section class="my-profile">
       <div class="my-profile--container">
             <div class="my-profile--image">
-               <form enctype="multipart/form-data" method='POST' action='{%url "UploadProfilePicture" %}' id='formToUploadProfilePic'>
+               <form enctype="multipart/form-data" method='POST' action='{%url "UploadProfilePicture" %}' id='formToUploadProfilePic' autocomplete='off'>
                   {% csrf_token %}
                   <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
                <input type='text' value=" {{ detail.is_superuser }}" style='display:none' id='ForCheckingIfAdmin'>
@@ -99,7 +99,7 @@
                </svg>
             </span>
          </div>
-         <form action="{% url 'UpdatePassword' %}" method="POST" id='FORMUpdateAdminPassword'>
+         <form action="{% url 'UpdatePassword' %}" method="POST" id='FORMUpdateAdminPassword' autocomplete='off'>
             {% csrf_token %}
             <div class="row">
                <div class="col-12">
@@ -136,7 +136,7 @@
                </svg>
             </span>
          </div>
-         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts'>
+         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts' autocomplete='off'>
             {% csrf_token %}
             <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
             <div class="row">
