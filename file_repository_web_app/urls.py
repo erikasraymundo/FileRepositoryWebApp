@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from accounts.views import login
 from accounts.views import register
-from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, ManageAccounts, ArchiveAccounts, AddUserAccount, AddAccount, EditAccount, ViewAccount, ArchieveUserAccount, RestoreUserAccount
+from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, ManageAccounts, ArchiveAccounts, AddUserAccount, AddAccount, EditAccount, ViewAccount, ArchieveUserAccount, RestoreUserAccount, SaveChangesOnEditUserAccount
 from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory, printcategories, archiveCategory, RestoreCategory, UpdateArchivedCategory
 from users_management.views import printpdf, printusers, printactivitylogs
 from activity_log.views import view_logs
@@ -41,6 +41,7 @@ urlpatterns = [
     path('manage-accounts/restore-a-user', RestoreUserAccount, name='RestoreUserAccount'),
     path('manage-accounts/add-a-user', AddUserAccount, name='AddUserAccount'),
     path('manage-accounts/Add', AddAccount, name='AddAccount'),
+    path('manage-accounts/Add/success', SaveChangesOnEditUserAccount, name='SaveChangesOnEditUserAccount'),
     path('manage-accounts/Edit', EditAccount, name='EditAccount'),
     path('manage-accounts/View', ViewAccount, name='ViewAccount'),
     path('category/', categoryManagement, name='categoryManagement'),

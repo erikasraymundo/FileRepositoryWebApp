@@ -17,6 +17,8 @@ from activity_log.models import Log
 from django.db.models import Q
 import datetime
 from io import BytesIO
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 from reportlab.lib.units import mm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -419,7 +421,6 @@ def AddAccount(request):
     users = User.objects.all()
     for user in users:
         list.append(user.username)
-    
     return render(request, 'user-accounts/add-account.html', {
         'users' : User.objects.all(),
         'username' : list,
@@ -441,14 +442,34 @@ def AddUserAccount(request):
     user.is_staff = False
     user.user_type = 1
     user.save()
-    return render(request, 'user-accounts/manage-accounts.html', {
-        'users' : User.objects.filter(is_active = 1),
-    })
+    return HttpResponseRedirect(reverse('users-management:index'))
     
 def EditAccount(request):
+    list = []
+    users = User.objects.exclude(pk = request.POST['PK'])
+    for user in users:
+        list.append(user.username)
+    user = User.objects.get(pk = request.POST['PK'])
+    asd = user.birthdate
+    date = asd.isoformat()
     return render(request, 'user-accounts/edit-account.html', {
         'users' : User.objects.filter(pk = request.POST['PK']),
+        'bday' : date,
+        'invalidUsernames' : list,
     })
+
+def SaveChangesOnEditUserAccount(request):
+    user = User.objects.get(pk = request.POST['PK'])
+    user.username = request.POST['username']
+    user.first_name = request.POST['first_name']
+    user.last_name = request.POST['last_name']
+    user.middle_name = request.POST['middle_name']
+    user.address = request.POST['address']
+    user.email = request.POST['email']
+    user.gender = request.POST['group']
+    user.birthdate = request.POST['bday']
+    user.save()
+    return HttpResponseRedirect(reverse('users-management:index'))
 
 def ViewAccount(request):
     return render(request, 'user-accounts/view-account.html', {
@@ -461,7 +482,6 @@ def ArchieveUserAccount(request):
     admin.deleted_at = timezone.now()
     admin.updated_at = timezone.now()
     admin.save() 
-
     return HttpResponseRedirect(reverse('users-management:index'))
 
 
@@ -542,5 +562,4 @@ def RestoreUserAccount(request):
     admin.deleted_at = None
     admin.updated_at = timezone.now()
     admin.save()
-
     return HttpResponseRedirect(reverse('users-management:archived-index'))
