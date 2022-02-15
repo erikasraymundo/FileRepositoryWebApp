@@ -1,3 +1,4 @@
+from fileinput import filename
 from unicodedata import category
 from webbrowser import get
 from django.shortcuts import render
@@ -325,24 +326,65 @@ def pdf_view(request, file_id):
         raise Http404()
 
 
+
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import Table
+from reportlab.platypus import TableStyle
+from reportlab.lib import colors
+
 def getpdf(request):
-    # Create a file-like buffer to receive PDF data.
-    buffer = io.BytesIO()
 
-    # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer)
-    text = p.beginText()
-    text.setTextOrigin(inch, inch)
-    text.setFont("Helvetica", 12)
-    text.setFont("Times-Roman", 55)
-    text.textLine('hello')
-    p.drawText(text)
-    
-    # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
+    file_list = File.objects.all()
 
-    # FileResponse sets the Content-Disposition header so that browsers
-    # present the option to save the file.
-    buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
+    data = [
+        ['ID', 'Name', 'Category', 'Uploader', 'Date Uploaded']
+    ]
+
+    for file in file_list:
+        list = [file.id, file.getNewFileName(), file.category_id.title, file.user_id.full_name(), file.created_at]
+        data.append(list)
+
+    fileName = 'file_management.pdf'
+
+    pdf = SimpleDocTemplate(
+        fileName,
+        pagesize = letter 
+    )
+
+    table = Table(data)
+
+    style  = TableStyle([
+        ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
+        ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+        ('ALIGN', (0,0), (-1, -1), 'CENTER'),
+        ('FONTSIZE', (0,0), (-1,-1), 11),
+        ('TOPPADDING', (0,0), (-1,-1), 5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 8)
+    ])
+
+    table.setStyle(style)
+
+    rowNumber = len(data)
+    for i in range(1, rowNumber):
+        if i % 2 == 0:
+            bc = colors.white
+        else:
+            bc = colors.HexColor("#DDDDDD")
+        ts = TableStyle(
+            [('BACKGROUND', (0,i), (-1,i), bc)]
+        )
+        table.setStyle(ts)
+
+    borderStyle = TableStyle([
+        ('BOX', (0,0), (-1,-1), .5, colors.HexColor("#777777")),
+        ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
+    ])
+
+    table.setStyle(borderStyle)
+    elems = []
+    elems.append(table)
+
+    pdf.build(elems)
+
+    return HttpResponse('Pdf is created!')
