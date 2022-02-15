@@ -123,17 +123,17 @@
                          </div>
                      </div>
                      <div class="columns">
-                        
+                     
                         <div class="column">
 
                            <div class="columns space2 flex-wrap">
                               {% for categoryNames in categories %}
-                              <form method='POST' action='{% url "DeleteCategory"%}' id='{{categoryNames.title}}'>
+                              <form method='POST' action='{% url "RestoreCategory"%}' id='{{categoryNames.title}}'>
                                  {% csrf_token %}
                               <span class="button category">
                                  <input type='text' name='ID' style='display:none' value='{{categoryNames.pk}}'>
                                <div onClick='openModal("{{categoryNames.pk}}", "{{categoryNames.title}}")'> {{categoryNames.title}} </div>  
-                                  <div class="icon-delete" title="delete" onClick='deleteCateg("{{categoryNames.title}}")'>
+                                  <div class="icon-delete" title="delete" onClick='restoreCateg("{{categoryNames.title}}")'>
                                     <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M14.5562 3.6975L13.5717 2.5075C13.3733 2.27375 13.0829 2.125 12.75 2.125H4.25C3.91708 2.125 3.62667 2.27375 3.43542 2.51458L2.45083 3.6975C2.24542 3.94542 2.125 4.25708 2.125 4.60417V13.4583C2.125 14.2375 2.75542 14.875 3.54167 14.875H13.4583C14.2375 14.875 14.875 14.2375 14.875 13.4583V4.60417C14.875 4.25708 14.7546 3.94542 14.5562 3.6975ZM8.5 6.72917L12.3958 10.625H9.91667V12.0417H7.08333V10.625H4.60417L8.5 6.72917ZM3.62667 3.54167L4.2075 2.83333H12.7075L13.3663 3.54167H3.62667Z" fill="white"/>
                                     </svg>
@@ -158,7 +158,7 @@
                               </svg>
                            </span>
                         </div>
-                        <form action='{% url "UpdateCategory"%}' method = 'POST'>
+                        <form action='{% url "UpdateArchivedCategory"%}' method = 'POST'>
                            {% csrf_token %}
                            <div class="row">
                               <div class="col-12">
@@ -197,11 +197,11 @@
     main.classList.add('margins');
     }});
 
-    function deleteCateg(ID){
+    function restoreCateg(ID){
       Swal.fire({
-         icon: 'warning',
+         icon: 'question',
          showCancelButton: true,
-         title: "Are you sure you want to delete this category?.",
+         title: "Are you sure you want to restore this category?.",
          confirmButtonText: 'Yes',
          cancelButtonText: 'Cancel',
       }).then((result) => {
@@ -704,11 +704,22 @@
    padding: 14px 18px;
    margin-bottom: -1px;
    }
-   .component1 a {
-   text-decoration: none;
-   color: #8761F4;
+   .component1 h4  a{
+      text-decoration: none;
+      color: #777;
+      font-weight: 600;
+      
    }
 
+   .component1 h4.active {
+   border-bottom: 2px solid #8761F4;
+   
+   }
+   .component1 h4.active a {
+   color: #8761F4;
+   font-weight: 600;
+   
+   }
    .component1 h4.active {
    border-bottom: 2px solid #8761F4;
    }

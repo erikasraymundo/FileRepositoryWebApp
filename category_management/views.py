@@ -101,4 +101,32 @@ def printcategories(request):
 
 
 def archiveCategory(request):
-    return render(request, 'archive.html')
+    return render(request, 'archive.html', {
+        'categories' : Category.objects.filter(isArchived = True),
+    })
+
+def RestoreCategory(request):
+    entry = Category.objects.get(pk = request.POST['ID'])
+    entry.isArchived = False
+    entry.save()
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = entry.title + ' has been moved to the active categories from the archive'
+    log.save()
+    return render(request, 'archive.html', {
+        'categories' : Category.objects.filter(isArchived = True),
+    })
+
+def UpdateArchivedCategory(request):
+    entry = Category.objects.get(pk = request.POST['categoryID'])
+    entry.title = request.POST['newCategoryName']
+    entry.save()
+
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'Category named ' + Category.objects.get(pk = request.POST['categoryID']).title + ' was renamed to ' + request.POST['newCategoryName']
+    log.save()
+    return render(request, 'archive.html', {
+        'categories' : Category.objects.filter(isArchived = True),
+    })
+
