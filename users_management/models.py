@@ -7,7 +7,6 @@ class User(AbstractUser):
     gender = models.PositiveSmallIntegerField()
     birthdate = models.DateField()
     address = models.CharField(max_length=500)
-    profile_picture = models.CharField(max_length=500, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)

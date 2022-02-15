@@ -294,6 +294,7 @@
             Swal.fire({
                icon: 'success',
                title: "User has been restored successfully",
+               allowOutsideClick: false,
                confirmButtonText: 'Great',
             }).then((result)=> {
                document.getElementById('archiveThisAccountHiddenForm').submit();

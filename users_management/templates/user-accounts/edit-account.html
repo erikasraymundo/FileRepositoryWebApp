@@ -138,7 +138,15 @@
               }
                 if(!isDuplicate){
                   //Save To DB
-                  document.getElementById('SaveChangesForm').submit()
+                  Swal.fire({
+                     icon: 'success',
+                     allowOutsideClick: false,
+                     title: "Changes has been saved",
+                     confirmButtonText: 'Great',
+                  }).then(() => {
+                     document.getElementById('SaveChangesForm').submit()
+                  })
+                  
                 }else{
                   //Error Message
                   Swal.fire({

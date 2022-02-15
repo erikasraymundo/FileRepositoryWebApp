@@ -290,6 +290,7 @@
                Swal.fire({
                   icon: 'success',
                   title: "User has been moved to the archive",
+                  allowOutsideClick: false,
                   confirmButtonText: 'Great',
                }).then((result) => {
                   document.getElementById('archiveThisAccountHiddenForm').submit();

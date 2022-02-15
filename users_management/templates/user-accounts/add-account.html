@@ -115,7 +115,14 @@
                 }
                   if(!isDuplicate){
                     //Save To DB
+                    Swal.fire({
+                      icon: 'success',
+                      allowOutsideClick: false,
+                      title: "Changes has been saved",
+                      confirmButtonText: 'Great',
+                   }).then(() => {
                     document.getElementById('FormForAddingANewUserToTheDatabase').submit();
+                   })
                   }else{
                     //Error Message
                     Swal.fire({
