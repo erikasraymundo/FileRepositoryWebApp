@@ -12,7 +12,8 @@
              <p>username</p>
           </div>
           <div class="edit-accounts--form-container">
-            <form action="">
+            <form action="{%  url 'SaveChangesOnEditUserAccount' %}" method="POST" id='SaveChangesForm'>
+              {% csrf_token %}
                 <div class="row">
                     <div class="col-12">
                       <h4>Fill up all the information.</h4>
@@ -20,74 +21,143 @@
                 </div>
                 <div class="row">
                    <div class="col-12">
-                    <input type="text" value="{{ detail.username }}"> 
+                    <input type="text" value="{{ detail.username }}"  name='username' id ='username'>
+                    <input type="text" value="{{ detail.pk }}" name='PK' style="display:none"> 
                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter first name"  value="{{ detail.first_name }}"> 
+                     <input type="text" placeholder="Enter first name"  value="{{ detail.first_name }}"  name='first_name'
+                     id ='first_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter middle name"  value="{{ detail.middle_name }}"> 
+                     <input type="text" placeholder="Enter middle name"  value="{{ detail.middle_name }}"  name='middle_name'
+                     id ='middle_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter last name"  value="{{ detail.last_name }}"> 
+                     <input type="text" placeholder="Enter last name"  value="{{ detail.last_name }}"  name='last_name'
+                     id ='last_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter address"  value="{{ detail.address }}"> 
+                     <input type="text" placeholder="Enter address"  value="{{ detail.address }}"  name='address'
+                     id ='address'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter email address"  value="{{ detail.email }}"> 
+                     <input type="text" placeholder="Enter email address"  value="{{ detail.email }}"  name='email'
+                     id ='email'> 
                     </div>
                  </div>
 
                 <div class="row">
                     <div class="col-12 birthday">
-                        <div class="icon-calendar">
-                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"/>
-                            </svg>
-                        </div>
-                        <input type="text" name="" id="birthday" placeholder="Select birthdate*"> 
+                        <input type="date" name="bday" id="birthday" placeholder="Select birthdate*" value='{{ bday }}'> 
                     </div>
                 </div>
-
+                <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none'>
                 <fieldset class="gender" id="group">
                     <p>Select gender*</p>
                     <div>
-                        <input type="radio" id="Woman" name="group" value="Woman"
+                        <input type="radio" id="Woman" name="group" value="1"
                               >
                         <label for="Woman">Woman</label>
                       </div>
                       
                       <div>
-                        <input type="radio" id="Man" name="group" value="Man">
+                        <input type="radio" id="Man" name="group" value="2">
                         <label for="Man">Man</label>
                       </div>
                       
                       <div>
-                        <input type="radio" id="Others" name="group" value="Others">
+                        <input type="radio" id="Others" name="group" value="3">
                         <label for="Others">Others</label>
                       </div>
                 </fieldset>
                 <div class="row">
                    <div class="col-12 btn-holder">
                     <a href="javascript:history.back()" class="btn-black">Cancel</a>
-                    <a href="" class="btn-black">Save Account</a>
+                    <div class="btn-black" onclick ='onClickSaveButton({{ invalidUsernames }})'>Save Account</div>
                    </div>
                 </div>
             </form>
           </div>
     </div>
  </section>
+
+
+ <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+   //for gender (edit)
+   if(document.getElementById('hiddeGender').value == 1){
+      document.getElementById('Woman').checked = true;
+      document.getElementById('renaethisforgender').textContent = 'Woman';
+   }
+   else if (document.getElementById('hiddeGender').value == 2){
+      document.getElementById('Man').checked = true;
+      document.getElementById('renaethisforgender').textContent = 'Man';
+   }
+   else{
+      document.getElementById('Others').checked = true;
+      document.getElementById('renaethisforgender').textContent = 'Others';
+   }
+
+   //end gender
+
+   //save Changes
+  function onClickSaveButton(listOfUsernames) {
+    //validate
+    var username = document.getElementById('username').value;
+    var firstname = document.getElementById('first_name').value;
+    var middleName = document.getElementById('middle_name').value;
+    var lastname = document.getElementById('last_name').value;
+    var address = document.getElementById('address').value;
+    var email = document.getElementById('email').value;
+      // Validate
+      if(username == '' || firstname == '' || lastname == '' || address == '' || middleName == '' || email == ''){
+         Swal.fire({
+            icon: 'warning',
+            title: "All fields are required",
+            confirmButtonText: 'Ok',
+         })
+      }else{
+         //check if username is duplicated
+         var isDuplicate = false;
+          for(var i = 0 ; i < listOfUsernames.length; i++){
+            if(i+1 == listOfUsernames.length){
+              //last index
+              if(listOfUsernames[i] == username){
+                isDuplicate = true;
+              }
+                if(!isDuplicate){
+                  //Save To DB
+                  document.getElementById('SaveChangesForm').submit()
+                }else{
+                  //Error Message
+                  Swal.fire({
+                     icon: 'error',
+                     title: "Username is already taken.",
+                     confirmButtonText: 'Ok',
+                  })
+                }
+            }else{
+              if(listOfUsernames[i] == username){
+                isDuplicate = true;
+              }
+            }
+          }
+      }
+   }
+
+  
+</script>
  
 {% endfor %}
 {% endblock %}
