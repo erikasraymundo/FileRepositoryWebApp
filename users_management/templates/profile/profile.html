@@ -12,6 +12,13 @@
                   <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
                <input type='text' value=" {{ detail.is_superuser }}" style='display:none' id='ForCheckingIfAdmin'>
                <input type='text' value=" {{ detail.pk }}" style='display:none' name='ID'>
+               <input type='text' value=" {{ detail.username }}" style='display:none' id='initialUsername'>
+               <input type='text' value=" {{ detail.first_name }}" style='display:none' id='initialfirstname'>
+               <input type='text' value=" {{ detail.middle_name }}" style='display:none' id='initialmiddleName'>
+               <input type='text' value=" {{ detail.last_name }}" style='display:none' id='initiallastname'>
+               <input type='text' value=" {{ detail.address }}" style='display:none' id='initialaddress'>
+               <input type='text' value=" {{ bday }}" style='display:none' id='initialbday'>
+               <input type='text' value=" {{ detail.email }}" style='display:none' id='initialemail'>
                </form>
                <input type='text' value=" {{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
                <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
@@ -267,7 +274,21 @@
       document.getElementById('ModalForChangePasswordOfAdmin').style.display = 'none';
    }
 
+   var initialusername = document.getElementById('editUserAccountUsername').value;
+   var initialfirstname = document.getElementById('editUserFirstName').value;
+   var initiallastname = document.getElementById('editUserLastName').value;
+   var initialaddress = document.getElementById('editUserAccountAddress').value;
+   var initialemail = document.getElementById('editUserAccountEmail').value;
+   var initialmiddleName = document.getElementById('editUserMiddleName').value;
+   var initialbday = document.getElementById('bDay').value;
    function openModalForEditAccount(){
+      document.getElementById('editUserAccountUsername').value = initialusername;
+      document.getElementById('editUserFirstName').value = initialfirstname;
+      document.getElementById('editUserLastName').value = initiallastname;
+      document.getElementById('editUserAccountAddress').value = initialaddress;
+      document.getElementById('editUserAccountEmail').value = initialemail;
+      document.getElementById('editUserMiddleName').value - initialmiddleName;
+      document.getElementById('bDay').value = initialbday;
       document.getElementById('ModalForEditingAdminProfilePo').style.display = 'block';
      }
   
@@ -369,7 +390,14 @@
          }
          if(!isDuplicate){
          //Save To DB
-         document.getElementById('FormEditUserAccounts').submit();
+         Swal.fire({
+            icon: 'success',
+            allowOutsideClick: false,
+            title: "Your profile has been updated.",
+            confirmButtonText: 'Great',
+         }).then (() => {
+            document.getElementById('FormEditUserAccounts').submit();
+         })
          }else{
         //Error Message
          Swal.fire({
