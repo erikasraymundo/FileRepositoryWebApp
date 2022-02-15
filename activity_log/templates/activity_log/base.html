@@ -637,12 +637,16 @@ form .birthday .icon-calendar {
   border: 1px solid #ddd;
   border-radius: 100px;
   padding: .7rem 1rem;
+  -webkit-transition: all ease 300ms;
+      transition: all ease 300ms;
 }
 
 .component2 .end-date {
   border: 1px solid #ddd;
   border-radius: 100px;
   padding: .7rem 1rem;
+  -webkit-transition: all ease 300ms;
+      transition: all ease 300ms;
 }
 
 .component2 .start-date, .component2 .end-date {
@@ -664,6 +668,22 @@ form .birthday .icon-calendar {
   width: 110px;
   font-size: 14px;
   font-weight: 500;
+}
+
+.component2 .end-date:hover {
+      border-color: #8761F4;
+      }
+
+.component2 .end-date:focus {
+border-color: #8761F4;
+}
+
+.component2 .start-date:hover {
+      border-color: #8761F4;
+      }
+
+.component2 .start-date:focus {
+border-color: #8761F4;
 }
 
 .component3 {
@@ -688,6 +708,7 @@ form .birthday .icon-calendar {
   width: 242px;
   font-size: 14px;
   font-weight: 500;
+  transition: all ease 300ms;
 }
 
 .component3 .search-input::-webkit-input-placeholder {
@@ -705,6 +726,15 @@ form .birthday .icon-calendar {
 .component3 .search-input::placeholder {
   font-size: 16px;
 }
+
+.component3 .search-input:hover {
+      border-color: #8761F4;
+      }
+
+      .component3 .search-input:focus {
+      border-color: #8761F4;
+      }
+
 
 .component4 {
   position: relative;
@@ -749,6 +779,11 @@ form .birthday .icon-calendar {
   text-decoration: none;
 }
 
+.btn-black:hover {
+      background-color: #8761F4;
+      color: #fff;
+      }
+
 .btn-purple {
   display: inline-block;
 }
@@ -768,7 +803,12 @@ form .birthday .icon-calendar {
           align-items: center;
   gap: 12px;
   cursor: pointer;
+  transition: all 300ms ease;
 }
+
+.btn-purple a:hover {
+      background-color: #272727;
+      }
 
 .btn-purple a span {
   font-size: 2rem;
@@ -793,7 +833,13 @@ form .birthday .icon-calendar {
           align-items: center;
   gap: 12px;
   cursor: pointer;
+  transition: all ease 300ms;
 }
+
+.btn-dark a:hover {
+      background-color: #8761F4;
+      color: #fff;
+      }
 
 .btn-dark a span {
   font-size: 2rem;
