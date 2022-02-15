@@ -19,6 +19,8 @@ import datetime
 from io import BytesIO
 
 from reportlab.lib.units import mm
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 # ERIKA 
 def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
@@ -459,9 +461,9 @@ def ArchieveUserAccount(request):
     admin.deleted_at = timezone.now()
     admin.updated_at = timezone.now()
     admin.save() 
-    return render(request, 'user-accounts/manage-accounts.html', {
-        'users' : User.objects.filter(is_active = 1),
-    })
+
+    return HttpResponseRedirect(reverse('users-management:index'))
+
 
 def printpdf(request):
     return render(request, 'profile/print.html')
@@ -540,6 +542,5 @@ def RestoreUserAccount(request):
     admin.deleted_at = None
     admin.updated_at = timezone.now()
     admin.save()
-    return render(request, 'user-accounts/archive-account.html', {
-        'users' : User.objects.filter(is_active = 0),
-    })
+
+    return HttpResponseRedirect(reverse('users-management:archived-index'))
