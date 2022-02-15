@@ -356,30 +356,63 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
     return response
 
 def profile(request):
+    list = []
+    users = User.objects.exclude(pk =1 )
+    for user in users:
+        list.append(user.username)
+
+    forDate =  User.objects.get(pk =1)
+    asd = forDate.birthdate
+    date = asd.isoformat()
+
     return render(request, 'profile/profile.html', {
-        'details' : User.objects.filter(pk =1, deleted_at__isnull = True),
+        'details' : User.objects.filter(pk =1, is_active = 1 , ),
+        'username': list,
+        'bday': date,
     })
 
 def UpdatePassword(request):
+    list = []
+    users = User.objects.exclude(pk =1 )
+    for user in users:
+        list.append(user.username)
     admin = User.objects.get(pk = 1)
     admin.password = request.POST['newPassword']
     admin.updated_at = timezone.now()
     admin.save()
+    forDate =  User.objects.get(pk =1)
+    asd = forDate.birthdate
+    date = asd.isoformat()
     return render(request, 'profile/profile.html', {
-        'details' : User.objects.filter(pk =1, is_active = 1),
+       'details' : User.objects.filter(pk =1, is_active = 1 , ),
+        'username': list,
+          'bday': date,
     })
 
 def DeleteAccount(request):
+    list = []
+    users = User.objects.exclude(pk =1 )
+    for user in users:
+        list.append(user.username)
     admin = User.objects.get(pk = request.POST['DeleteID'])
     admin.is_active = False
     admin.deleted_at = timezone.now()
     admin.updated_at = timezone.now()
     admin.save()
+    forDate =  User.objects.get(pk =1)
+    asd = forDate.birthdate
+    date = asd.isoformat()
     return render(request, 'profile/profile.html', {
-        'details' : User.objects.filter(pk =1, is_active = 1),
+        'details' : User.objects.filter(pk =1, is_active = 1 , ),
+        'username': list,
+          'bday': date,
     })
 
 def UpdateAccountDetails(request):
+    list = []
+    users = User.objects.exclude(pk =1 )
+    for user in users:
+        list.append(user.username)
     admin = User.objects.get(pk = request.POST['DeleteID'])
     admin.updated_at = timezone.now()
     admin.username = request.POST['username']
@@ -387,9 +420,16 @@ def UpdateAccountDetails(request):
     admin.last_name = request.POST['last_name']
     admin.address = request.POST['address']
     admin.email = request.POST['email']
+    admin.birthdate = request.POST['bday']
+    admin.gender = request.POST['group']
     admin.save()
+    forDate =  User.objects.get(pk =1)
+    asd = forDate.birthdate
+    date = asd.isoformat()
     return render(request, 'profile/profile.html', {
-        'details' : User.objects.filter(pk =1, is_active = 1),
+        'details' : User.objects.filter(pk =1, is_active = 1 , ),
+        'username': list,
+          'bday': date,
     })
 
 def ManageAccounts(request):

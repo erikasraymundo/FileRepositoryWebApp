@@ -26,7 +26,7 @@
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Gender</td>
-                                    <td class="fw-400">{{ detail.gender }}</td>
+                                    <td id='renaethisforgender' class="fw-400"></td>
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Birthdate</td>
@@ -103,7 +103,6 @@
                   <input type="password"  placeholder='Confirm New Password'  id='FNew2Password'>
                </div>
             </div>
-            <p style='text-align: center; color:red; visibility: hidden; display:block' id='ErrorMessageSenderPChangePassword'></p>
             <div class="row">
                <div class="col-12">
                   <a class="btn-black" onclick='updatePassword("{{detail.password}}")'>Save</a>
@@ -152,10 +151,31 @@
                   <input type="text" name='email' id='editUserAccountEmail' value='{{ detail.email }}'>
                </div>
             </div>
+            <div class="row">
+               <div class="col-12">
+                  <input type="date" name='bday' id='bDay' value='{{ bday }}'>
+               </div>
+            </div>
+            <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none'>
+            <fieldset class="gender" id="group" name='gender'>
+               <div>
+                   <input type="radio" id="Woman" name="group" value="1"
+                         >
+                   <label for="Woman">Woman</label>
+                 </div>
+                 <div>
+                   <input type="radio" id="Man" name="group" value="2">
+                   <label for="Man">Man</label>
+                 </div>
+                 <div>
+                   <input type="radio" id="Others" name="group" value="3">
+                   <label for="Others">Others</label>
+                 </div>
+           </fieldset>
             <p style='text-align: center; color:red; visibility: hidden; display:block' id='ErrorMessageSenderEditUserAccountCurrent'></p>
             <div class="row">
                <div class="col-12">
-                  <a class="btn-black" onclick='updateUserAccount()'>Save Changes</a>
+                  <a class="btn-black" onclick='updateUserAccount( {{ username }} )'>Save Changes</a>
                </div>
             </div>
          </form>
@@ -166,8 +186,25 @@
       <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
    </form>
 
-   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+   //for gender (edit)
+   if(document.getElementById('hiddeGender').value == 1){
+      document.getElementById('Woman').checked = true;
+      document.getElementById('renaethisforgender').textContent = 'Woman';
+   }
+   else if (document.getElementById('hiddeGender').value == 2){
+      document.getElementById('Man').checked = true;
+      document.getElementById('renaethisforgender').textContent = 'Man';
+   }
+   else{
+      document.getElementById('Others').checked = true;
+      document.getElementById('renaethisforgender').textContent = 'Others';
+   }
+
+   //end gender
+
    if(document.getElementById('holderOfImageFromDB').value == ' None'){
       document.getElementById('ChangeThisToProfilePicture').src = "{% static 'src/images/profile-image-large.png' %}";
    }else{
@@ -200,21 +237,31 @@
 
       //check if all are not blank
       if(curr == '' || newPass == '' || newPass2 == ''){
-         document.getElementById('ErrorMessageSenderPChangePassword').textContent = 'All fields are required.'
-         document.getElementById('ErrorMessageSenderPChangePassword').style.visibility = 'visible';
+         Swal.fire({
+            icon: 'error',
+            title: "All fields are required.",
+            confirmButtonText: 'Ok',
+         })
       }else{
          if(curr == currentPassword){
             if(newPass == newPass2){
             //Save to Database
             document.getElementById('FORMUpdateAdminPassword').submit();
             }else{
-               document.getElementById('ErrorMessageSenderPChangePassword').textContent = 'Your new passwords does not match.'
-               document.getElementById('ErrorMessageSenderPChangePassword').style.visibility = 'visible';
+               Swal.fire({
+                  icon: 'error',
+                  title: "Your passwords does not match.",
+                  confirmButtonText: 'Ok',
+               })
             }
          }else{
-            document.getElementById('ErrorMessageSenderPChangePassword').textContent = 'Password does not match with your current password.'
-            document.getElementById('ErrorMessageSenderPChangePassword').style.visibility = 'visible';         }
+            Swal.fire({
+               icon: 'error',
+               title: "Incorrect current password.",
+               confirmButtonText: 'Ok',
+            })
       }
+   }
    }
 
    document.getElementById('DeleteAdminAccountButton').onclick = function(e){
@@ -231,19 +278,45 @@
       })
    }
 
-   function updateUserAccount(){
+   function updateUserAccount(listOfUsernames){
       var username = document.getElementById('editUserAccountUsername').value;
       var firstname = document.getElementById('editUserFirstName').value;
       var lastname = document.getElementById('editUserLastName').value;
       var address = document.getElementById('editUserAccountAddress').value;
       var email = document.getElementById('editUserAccountEmail').value;
       // Validate
-
       if(username == '' || firstname == '' || lastname == '' || address == '' || email == ''){
-         document.getElementById('ErrorMessageSenderEditUserAccountCurrent').textContent = 'All fields are required.'
-         document.getElementById('ErrorMessageSenderEditUserAccountCurrent').style.visibility = 'visible';
+         Swal.fire({
+            icon: 'warning',
+            title: "All fields are required",
+            confirmButtonText: 'Ok',
+         })
       }else{
-         document.getElementById('FormEditUserAccounts').submit();
+         //check if username is duplicated
+         var isDuplicate = false;
+          for(var i = 0 ; i < listOfUsernames.length; i++){
+            if(i+1 == listOfUsernames.length){
+              //last index
+              if(listOfUsernames[i] == username){
+                isDuplicate = true;
+              }
+                if(!isDuplicate){
+                  //Save To DB
+                  document.getElementById('FormEditUserAccounts').submit();
+                }else{
+                  //Error Message
+                  Swal.fire({
+                     icon: 'error',
+                     title: "Username is already taken.",
+                     confirmButtonText: 'Ok',
+                  })
+                }
+            }else{
+              if(listOfUsernames[i] == username){
+                isDuplicate = true;
+              }
+            }
+          }
       }
    }
 </script>
