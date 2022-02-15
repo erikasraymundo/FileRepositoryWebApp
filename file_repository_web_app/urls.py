@@ -18,7 +18,7 @@ from django.urls import path
 from accounts.views import login
 from accounts.views import register
 from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, ManageAccounts, ArchiveAccounts, AddUserAccount, AddAccount, EditAccount, ViewAccount, ArchieveUserAccount, RestoreUserAccount
-from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory, printcategories
+from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory, printcategories, archiveCategory
 from users_management.views import printpdf, printusers, printactivitylogs
 from activity_log.views import view_logs
 from django.urls import include, path
@@ -45,6 +45,7 @@ urlpatterns = [
     path('manage-accounts/View', ViewAccount, name='ViewAccount'),
     path('manage-accounts/archived', ArchiveAccounts, name='ArchiveAccounts'),
     path('category/', categoryManagement, name='categoryManagement'),
+    path('category/archive', archiveCategory, name='archiveCategory'),
     path('printpdf/', printpdf, name='printpdf'),
     path('printusers/', printusers, name='printusers'),
     path('printcateg/', printcategories, name='print_categ'),
@@ -52,6 +53,7 @@ urlpatterns = [
     path('category/update', UpdateCategory, name='UpdateCategory'),
     path('category/delete', DeleteCategory, name='DeleteCategory'),
     path('printactivitylogs/', printactivitylogs, name='PrintActivityLogs')]
+    
 
 
 urlpatterns += static(settings.MEDIA_URL,
