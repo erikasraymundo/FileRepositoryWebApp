@@ -9,8 +9,13 @@
    <section class="my-profile">
       <div class="my-profile--container">
             <div class="my-profile--image">
-               <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
-               <h4 class="h4">joy25</h4>
+               {% if detail.image == None %}
+               <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
+               {% else %}
+               <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+               {% endif %}
+               <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
+               <h4 class="h4">{{ detail.username }}</h4>
                <p>username</p>
             </div>
             <div class="my-profile--info">
@@ -125,6 +130,16 @@
          function EditThisUserAccount(){
             document.getElementById('EditUserAccountFromHereThis').submit();
          }
+
+         document.getElementById('ChangeThisToProfilePicture').style.width = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.height = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.objectFit = 'cover';
+   document.getElementById('ChangeThisToProfilePicture').style.borderRadius = '50%';
+   if(document.getElementById('holderOfImageFromDB').value == ''){
+      document.getElementById('ChangeThisToProfilePicture').src = "{% static 'src/images/profile-image-large.png' %}";
+   }else{
+      document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
+   }
    
       </script>
 
