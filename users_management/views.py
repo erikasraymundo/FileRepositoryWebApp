@@ -373,6 +373,7 @@ def DeleteAccount(request):
     admin.deleted_at = timezone.now()
     admin.updated_at = timezone.now()
     admin.save()
+    #TODO punta ng login, tanggalin session.
     forDate =  User.objects.get(pk =1)
     asd = forDate.birthdate
     date = asd.isoformat()

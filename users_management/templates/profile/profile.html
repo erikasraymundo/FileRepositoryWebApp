@@ -10,6 +10,7 @@
                <form enctype="multipart/form-data" method='POST' action='{%url "UploadProfilePicture" %}' id='formToUploadProfilePic'>
                   {% csrf_token %}
                   <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
+               <input type='text' value=" {{ detail.is_superuser }}" style='display:none' id='ForCheckingIfAdmin'>
                <input type='text' value=" {{ detail.pk }}" style='display:none' name='ID'>
                </form>
                <input type='text' value=" {{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
@@ -241,8 +242,9 @@
       //upload sa Database
       Swal.fire({
          icon: 'success',
+         allowOutsideClick: false,
          title: "Your display picture has been changed successfully.",
-         confirmButtonText: 'Ok',
+         confirmButtonText: 'Great',
       }).then(() => {
          document.getElementById('formToUploadProfilePic').submit()
       })
@@ -315,17 +317,28 @@
    }
 
    document.getElementById('DeleteAdminAccountButton').onclick = function(e){
-      Swal.fire({
-         icon: 'warning',
-         showCancelButton: true,
-         title: "Are you sure you want to delete your account?.",
-         confirmButtonText: 'Yes',
-         cancelButtonText: 'Cancel',
-      }).then((result) => {
-         if(result.isConfirmed){
-            document.getElementById('ProceedDeletionOfAdminAccount').submit();
-         }
-      })
+      var isAdmin = document.getElementById('ForCheckingIfAdmin').value;
+
+      if(isAdmin){
+         Swal.fire({
+            icon: 'error',
+            title: "Cannot delete an administrator account",
+            confirmButtonText: 'Ok',
+         })
+      }else{
+         Swal.fire({
+            icon: 'warning',
+            showCancelButton: true,
+            title: "Are you sure you want to delete your account?",
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+         }).then((result) => {
+            if(result.isConfirmed){
+               document.getElementById('ProceedDeletionOfAdminAccount').submit();
+            }
+         })
+      }
+    
    }
 
    function updateUserAccount(listOfUsernames){
