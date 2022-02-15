@@ -218,7 +218,13 @@
             cancelButtonText: 'Cancel',
          }).then((result) => {
             if(result.isConfirmed){
-               document.getElementById('archiveThisAccountHiddenForm').submit();
+               Swal.fire({
+                  icon: 'success',
+                  title: "User has been moved to the archive",
+                  confirmButtonText: 'Great',
+               }).then((result) => {
+                  document.getElementById('archiveThisAccountHiddenForm').submit();
+               })
             }
          })
       }

@@ -488,9 +488,9 @@ def ArchieveUserAccount(request):
     admin.is_active = False
     admin.deleted_at = timezone.now()
     admin.updated_at = timezone.now()
-    admin.save()
-    return render(request, 'user-accounts/archive-account.html', {
-        'users' : User.objects.filter(is_active = 0),
+    admin.save() 
+    return render(request, 'user-accounts/manage-accounts.html', {
+        'users' : User.objects.filter(is_active = 1),
     })
 
 def printpdf(request):
@@ -570,6 +570,6 @@ def RestoreUserAccount(request):
     admin.deleted_at = None
     admin.updated_at = timezone.now()
     admin.save()
-    return render(request, 'user-accounts/manage-accounts.html', {
-        'users' : User.objects.filter(is_active = 1),
+    return render(request, 'user-accounts/archive-account.html', {
+        'users' : User.objects.filter(is_active = 0),
     })
