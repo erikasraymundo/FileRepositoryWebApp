@@ -1,16 +1,10 @@
 from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate
-import io
-from reportlab.platypus.flowables import TopPadder
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.units import mm
-from fileinput import filename
-from unicodedata import category
-from webbrowser import get
 from django.shortcuts import render
-from django.views import generic
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from category_management.models import Category
@@ -31,14 +25,8 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.http import FileResponse, Http404
 from datetime import datetime
-from time import gmtime, strftime
 import datetime
-from reportlab.pdfgen import canvas
-from django.http import HttpResponseBadRequest
-from io import StringIO, BytesIO
-
-
-from reportlab.lib.units import inch
+from io import BytesIO
 
 def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success = 0):
     template_name = 'file_management/index.html'
@@ -70,7 +58,9 @@ def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=
         file_list = File.objects.filter(
             Q(name__icontains=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query) |
+            Q(user_id__last_name__icontains=query) |
+            Q(user_id__created_at__icontains=query),
             created_at__gte=date1,
             created_at__lte=date2,
             category_id=category_id, deleted_at=None
@@ -83,7 +73,9 @@ def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=
         file_list = File.objects.filter(
             Q(name__icontains=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query) |
+            Q(user_id__last_name__icontains=query) |
+            Q(user_id__created_at__icontains=query),
             created_at__gte=date1,
             created_at__lte=date2,
             deleted_at=None
@@ -141,10 +133,12 @@ def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None,
         file_list = File.objects.filter(
             Q(name__icontains=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query) |
+            Q(user_id__last_name__icontains=query) |
+            Q(user_id__created_at__icontains=query),
             ~Q(deleted_at=None),
-            created_at__gte=date1,
-            created_at__lte=date2,
+            deleted_at__gte=date1,
+            deleted_at__lte=date2,
             category_id=category_id
         ).order_by(sort_column)
 
@@ -155,10 +149,12 @@ def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None,
         file_list = File.objects.filter(
             Q(name__icontains=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query) |
+            Q(user_id__last_name__icontains=query) |
+            Q(user_id__created_at__icontains=query),
             ~Q(deleted_at=None),
-            created_at__gte=date1,
-            created_at__lte=date2
+            deleted_at__gte=date1,
+            deleted_at__lte=date2
         ).order_by(sort_column)
 
     return render(request, template_name, 
@@ -687,15 +683,20 @@ def printIndivualFilePDF(request, file_id):
     ]
 
     table2 = [
-        [Paragraph('<br /><b>Uploaded by:</b> ', labelStyle),
-         Paragraph('<br />'+ file.user_id.full_name(), contentStyle)]
+        [Paragraph('<br /><b>Category:</b> ', labelStyle),
+         Paragraph('<br />'+ file.category_id.title, contentStyle)]
     ]
 
     table3 = [
-        [Paragraph('<br /><b>Details of the file:</b><br /><br /> ', labelStyle)]
+        [Paragraph('<br /><b>Uploaded by:</b> ', labelStyle),
+         Paragraph('<br />' + file.user_id.full_name(), contentStyle)]
     ]
 
     table4 = [
+        [Paragraph('<br /><b>Details of the file:</b><br /><br /> ', labelStyle)]
+    ]
+
+    table5 = [
         [Paragraph(file.description, contentStyle)]
     ]
 
@@ -712,14 +713,17 @@ def printIndivualFilePDF(request, file_id):
     Table2 = Table(table2, colWidths=[
         40 * mm, 140 * mm])
     Table3 = Table(table3, colWidths=[
-        180*mm])
+        40 * mm, 140 * mm])
     Table4 = Table(table4, colWidths=[
+        180*mm])
+    Table5 = Table(table5, colWidths=[
         180*mm])
     elems = []
     elems.append(Table1)
     elems.append(Table2)
     elems.append(Table3)
     elems.append(Table4)
+    elems.append(Table5)
 
     pdf.build(elems)
 
