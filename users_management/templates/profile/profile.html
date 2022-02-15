@@ -10,8 +10,9 @@
                <form enctype="multipart/form-data" method='POST' action='{%url "UploadProfilePicture" %}' id='formToUploadProfilePic' autocomplete='off'>
                   {% csrf_token %}
                   <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
+                  <input type='text' value=" {{ detail.pk }}" style='display:none' name='ID'>
+               </form>
                <input type='text' value=" {{ detail.is_superuser }}" style='display:none' id='ForCheckingIfAdmin'>
-               <input type='text' value=" {{ detail.pk }}" style='display:none' name='ID'>
                <input type='text' value=" {{ detail.username }}" style='display:none' id='initialUsername'>
                <input type='text' value=" {{ detail.first_name }}" style='display:none' id='initialfirstname'>
                <input type='text' value=" {{ detail.middle_name }}" style='display:none' id='initialmiddleName'>
@@ -19,7 +20,6 @@
                <input type='text' value=" {{ detail.address }}" style='display:none' id='initialaddress'>
                <input type='text' value=" {{ bday }}" style='display:none' id='initialbday'>
                <input type='text' value=" {{ detail.email }}" style='display:none' id='initialemail'>
-               </form>
                <input type='text' value=" {{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
                <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
                <h4 class="h4"> 

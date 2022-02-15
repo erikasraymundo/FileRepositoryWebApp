@@ -586,3 +586,20 @@ def UploadProfilePicture(request):
         'bday': date,
     })
 
+def UploadProfilePictureFromEditUser(request):
+    admin = User.objects.get(pk = request.POST['PK'])
+    admin.image = request.FILES['image']
+    admin.save()
+
+    list = []
+    users = User.objects.exclude(pk = request.POST['PK'])
+    for user in users:
+        list.append(user.username)
+    user = User.objects.get(pk = request.POST['PK'])
+    asd = user.birthdate
+    date = asd.isoformat()
+    return render(request, 'user-accounts/edit-account.html', {
+        'users' : User.objects.filter(pk = request.POST['PK']),
+        'bday' : date,
+        'invalidUsernames' : list,
+    })

@@ -7,10 +7,22 @@
 <section class="edit-accounts">
     <div class="edit-accounts--container">
           <div class="my-profile--image">
-             <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
+
+            <form enctype="multipart/form-data" method='POST' action='{%url "UploadProfilePictureFromEditUser" %}' id='formToUploadProfilePic' autocomplete='off'>
+               {% csrf_token %}
+               <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
+               <input type='text' value=" {{ detail.pk }}" style='display:none' name='PK'>
+            </form>
+            {% if detail.image == None %}
+            <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
+            {% else %}
+            <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+            {% endif %}
+            <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
              <h4 class="h4">{{ detail.username }}</h4>
              <p>username</p>
           </div>
+
           <div class="edit-accounts--form-container">
             <form action="{%  url 'SaveChangesOnEditUserAccount' %}" method="POST" id='SaveChangesForm' autocomplete='off'>
               {% csrf_token %}
@@ -98,15 +110,12 @@
    //for gender (edit)
    if(document.getElementById('hiddeGender').value == 1){
       document.getElementById('Woman').checked = true;
-      document.getElementById('renaethisforgender').textContent = 'Woman';
    }
    else if (document.getElementById('hiddeGender').value == 2){
       document.getElementById('Man').checked = true;
-      document.getElementById('renaethisforgender').textContent = 'Man';
    }
    else{
       document.getElementById('Others').checked = true;
-      document.getElementById('renaethisforgender').textContent = 'Others';
    }
 
    //end gender
@@ -164,6 +173,33 @@
       }
    }
 
+   document.getElementById('ChangeThisToProfilePicture').style.width = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.height = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.objectFit = 'cover';
+   document.getElementById('ChangeThisToProfilePicture').style.borderRadius = '50%';
+   if(document.getElementById('holderOfImageFromDB').value == ''){
+      document.getElementById('ChangeThisToProfilePicture').src = "{% static 'src/images/profile-image-large.png' %}";
+   }else{
+      document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
+   }
+    //uplaod profile picture
+    document.getElementById('ChangeThisToProfilePicture').onclick = function(e){
+      document.getElementById('uploadProfilePic').click();
+   }
+
+   document.getElementById('uploadProfilePic').onchange = function(e){
+      //upload sa Database
+      Swal.fire({
+         icon: 'success',
+         allowOutsideClick: false,
+         title: "Your display picture has been changed successfully.",
+         confirmButtonText: 'Great',
+      }).then(() => {
+         document.getElementById('formToUploadProfilePic').submit()
+      })
+   }
+
+   ///////////////////////
   
 </script>
  
