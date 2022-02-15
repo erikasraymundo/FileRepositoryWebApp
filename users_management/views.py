@@ -21,6 +21,7 @@ from .models import User
 from django.utils import timezone
 from activity_log.models import Log
 
+
 def profile(request):
     return render(request, 'profile/profile.html', {
         'details' : User.objects.filter(pk =1, deleted_at__isnull = True),
@@ -165,13 +166,8 @@ def printusers(request):
 
 def printactivitylogs(request):
     filename = "reports/Activity Logs.pdf"
-    pdf = SimpleDocTemplate(
-    filename,
-    pagesize=letter
-)
-    data = [
-    ['Event', 'Date/Time', 'Responsible user']
-]
+    pdf = SimpleDocTemplate(filename, pagesize=letter)
+    data = [['Event', 'Date/Time', 'Responsible user']]
     
     logs = Log.objects.all()
     for log in logs:
@@ -179,18 +175,10 @@ def printactivitylogs(request):
         
     table = Table(data)
 
-    ts = TableStyle(
-    [
-    ('GRID',(0,0),(-1,-1),2,colors.black),
-    ('ALIGN',(0,0),(-1,-1),"CENTER")
-    ]
-)
+    ts = TableStyle([('GRID',(0,0),(-1,-1),2,colors.black), ('ALIGN',(0,0),(-1,-1),"CENTER")])
     title = "Activity Log"
     systemName = "Soar Academy File Repository System"
-    table.setStyle(ts)    
-    # elems = []
-    # elems.append(title, height)
-    # elems.append(table)
+    table.setStyle(ts)
 
     styles = getSampleStyleSheet()
     flowables = [
@@ -200,7 +188,6 @@ def printactivitylogs(request):
         Spacer(1 * cm, 1 * cm),
         Paragraph('text after spacer')
     ]
-
 
     pdf.build(flowables)
     

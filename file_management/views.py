@@ -24,6 +24,11 @@ from django.http import FileResponse, Http404
 from datetime import datetime
 from time import strptime
 import datetime
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+import io
+
+from reportlab.lib.units import inch
 
 def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success = 0):
     template_name = 'file_management/index.html'
@@ -318,3 +323,26 @@ def pdf_view(request, file_id):
         # pass
         # return HttpResponse("error")
         raise Http404()
+
+
+def getpdf(request):
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+    text = p.beginText()
+    text.setTextOrigin(inch, inch)
+    text.setFont("Helvetica", 12)
+    text.setFont("Times-Roman", 55)
+    text.textLine('hello')
+    p.drawText(text)
+    
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')

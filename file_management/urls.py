@@ -35,5 +35,6 @@ urlpatterns = [
     path('download=<int:file_id>', views.download, name='download'),
     
     path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name'),
-    path('view/pdf/<int:file_id>/', views.pdf_view, name='pdf_view')
+    path('view/pdf/<int:file_id>/', views.pdf_view, name='pdf_view'),
+    path('getpdf', views.getpdf, name='get_pdf')
 ]
