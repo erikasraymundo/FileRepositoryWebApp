@@ -24,11 +24,11 @@
             <p class="text-small fw-600">Date created</p>
             <div class="component2">
                <div class="start-date">
-                  <input type="text" id="datepicker-start">
+                  <input type="text" id="datepicker-start" readonly value="{{from_date}}">
                </div>
                -
                <div class="end-date">
-                  <input type="text" id="datepicker-end">
+                  <input type="text" id="datepicker-end" readonly disabled value="{{to_date}}">
                </div>
             </div>
          </div>
@@ -39,7 +39,7 @@
                      <path d="M10.9167 9.66667H10.2583L10.025 9.44167C10.8417 8.49167 11.3333 7.25833 11.3333 5.91667C11.3333 2.925 8.90833 0.5 5.91667 0.5C2.925 0.5 0.5 2.925 0.5 5.91667C0.5 8.90833 2.925 11.3333 5.91667 11.3333C7.25833 11.3333 8.49167 10.8417 9.44167 10.025L9.66667 10.2583V10.9167L13.8333 15.075L15.075 13.8333L10.9167 9.66667ZM5.91667 9.66667C3.84167 9.66667 2.16667 7.99167 2.16667 5.91667C2.16667 3.84167 3.84167 2.16667 5.91667 2.16667C7.99167 2.16667 9.66667 3.84167 9.66667 5.91667C9.66667 7.99167 7.99167 9.66667 5.91667 9.66667Z" fill="#AAAAAA"/>
                      </svg>
                   </div>
-               <input type="text" class="search-input" placeholder="Search">
+               <input id="search" type="text" class="search-input" placeholder="Search" value="{{search_value}}">
             </div>
          </div>
       </div>
@@ -71,11 +71,179 @@
          {% endif %}
    </div>
 
-            <div class="btn-dark">
-            <a href=""><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to
-                PDF</a>
+            <div class="btn-dark" id="btnPrintPDF">
+            <a><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to PDF</a>
             </div>
 
 </div>
 </section>
+
+<script>
+   
+      var fromDateObject, fromDateString;
+      var toDateObject, toDateString;
+
+      $("#datepicker-start").datepicker({
+         maxDate: 0,
+         dateFormat: 'yy-mm-dd',
+         onSelect: function(dateText, inst) {
+            fromDateObject = $(this).datepicker('getDate'); //the getDate method
+            $("#datepicker-end").val("");
+            $("#datepicker-end").prop("disabled", false);
+            
+            $("#datepicker-end").datepicker("destroy");
+            $("#datepicker-end").datepicker({
+               minDate: fromDateObject,
+               maxDate: new Date(),
+               dateFormat: 'yy-mm-dd',
+               onSelect: function(dateText, inst) {
+                  toDateObject = $(this).datepicker('getDate'); //the getDate method
+                  window.location.href = getUrlMask();
+               }
+            });
+         }
+      });
+
+      function getUrlForFilter1() {
+         fromDateText = $('#datepicker-start').val();
+         toDateText = $('#datepicker-end').val();
+         console.log(fromDateText);
+
+         if (toDateText == '') {
+            const date = new Date();
+            var y = date.getFullYear();
+            var m = ("0"+(date.getMonth()+1)).slice(-2);
+            var d = ("0"+date.getDate()).slice(-2);
+
+            toDateText = y + "-" + m + "-" + d;
+         }
+
+         var sort = $("#select-sort").val();
+
+         var url_mask = "{% url 'activity-log:filter1' 222222 'date1' 'date2' %}"
+         .replace(/222222/, sort)
+         .replace(/date1/, fromDateText)
+         .replace(/date2/, toDateText);
+
+         return url_mask;
+      }
+      
+      function getUrlForFilter2() {
+      console.log("hello! " + url_mask);
+         fromDateText = $('#datepicker-start').val();
+         toDateText = $('#datepicker-end').val();
+         console.log(fromDateText);
+
+         if (toDateText == '') {
+            const date = new Date();
+            var y = date.getFullYear();
+            var m = ("0"+(date.getMonth()+1)).slice(-2);
+            var d = ("0"+date.getDate()).slice(-2);
+
+            toDateText = y + "-" + m + "-" + d;
+         }
+
+         var sort = $("#select-sort").val();
+         var query = $("#search").val();
+
+         var url_mask = "{% url 'activity-log:filter2' 222222 'date1' 'date2' 'query' %}"
+                        .replace(/222222/, sort)
+                        .replace(/query/, query)
+                        .replace(/date1/, fromDateText)
+                        .replace(/date2/, toDateText);
+
+         return url_mask;
+      }
+
+      function getUrlMask() {
+         var url_mask;
+
+         if ($("#search").val() == '') {
+            url_mask = getUrlForFilter1();
+         } else {
+            url_mask = getUrlForFilter2();
+         }
+
+         return url_mask;
+      }
+
+      $('#search').keypress(
+         function(e){
+            if (e.which == 13) {
+              window.location.href = getUrlMask();
+            }
+      });
+
+      $("#select-sort").change(function() {
+         window.location.href = getUrlMask();
+      });
+
+      $("#btnPrintPDF").click(function() {
+         window.location.href = getUrlPrintMask();
+      });
+    
+      function getUrlForPrintFilter1() {
+         fromDateText = $('#datepicker-start').val();
+         toDateText = $('#datepicker-end').val();
+         console.log(fromDateText);
+
+         if (toDateText == '') {
+            const date = new Date();
+            var y = date.getFullYear();
+            var m = ("0"+(date.getMonth()+1)).slice(-2);
+            var d = ("0"+date.getDate()).slice(-2);
+
+            toDateText = y + "-" + m + "-" + d;
+         }
+
+         var sort = $("#select-sort").val();
+
+         var url_mask = "{% url 'activity-log:printFilter1' 222222 'date1' 'date2' %}"
+         .replace(/222222/, sort)
+         .replace(/date1/, fromDateText)
+         .replace(/date2/, toDateText);
+
+         return url_mask;
+      }
+      
+      function getUrlForPrintFilter2() {
+         console.log("hello! " + url_mask);
+         fromDateText = $('#datepicker-start').val();
+         toDateText = $('#datepicker-end').val();
+         console.log(fromDateText);
+
+         if (toDateText == '') {
+            const date = new Date();
+            var y = date.getFullYear();
+            var m = ("0"+(date.getMonth()+1)).slice(-2);
+            var d = ("0"+date.getDate()).slice(-2);
+
+            toDateText = y + "-" + m + "-" + d;
+         }
+
+         var sort = $("#select-sort").val();
+         var query = $("#search").val();
+
+         var url_mask = "{% url 'activity-log:printFilter2' 222222 'date1' 'date2' 'query' %}"
+                        .replace(/222222/, sort)
+                        .replace(/query/, query)
+                        .replace(/date1/, fromDateText)
+                        .replace(/date2/, toDateText);
+
+         return url_mask;
+      }
+
+      function getUrlPrintMask() {
+         var url_mask;
+
+         if ($("#search").val() == '') {
+            url_mask = getUrlForPrintFilter1();
+         } else {
+            url_mask = getUrlForPrintFilter2();
+         }
+
+         return url_mask;
+      }
+</script>
+
 {% endblock %}

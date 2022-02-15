@@ -20,7 +20,6 @@ from accounts.views import register
 from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, ManageAccounts, ArchiveAccounts, AddUserAccount, AddAccount, EditAccount, ViewAccount, ArchieveUserAccount, RestoreUserAccount, SaveChangesOnEditUserAccount
 from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory, printcategories, archiveCategory, RestoreCategory, UpdateArchivedCategory
 from users_management.views import printpdf, printusers, printactivitylogs
-from activity_log.views import view_logs
 from django.urls import include, path
 
 from django.conf import settings
