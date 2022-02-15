@@ -36,5 +36,10 @@ urlpatterns = [
     
     path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name'),
     path('view/pdf/<int:file_id>/', views.pdf_view, name='pdf_view'),
-    path('getpdf', views.getpdf, name='get_pdf')
+    path('getpdf', views.getpdf, name='get_pdf'),
+
+    path('print/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',
+         views.printPDF, name='printFilter1'),
+    path('print/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>/search=<str:query>',
+         views.printPDF, name='printFilter2'),
 ]

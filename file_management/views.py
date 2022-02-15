@@ -1,3 +1,11 @@
+from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate
+import io
+from reportlab.platypus.flowables import TopPadder
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.units import mm
 from fileinput import filename
 from unicodedata import category
 from webbrowser import get
@@ -23,11 +31,12 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.http import FileResponse, Http404
 from datetime import datetime
-from time import strptime
+from time import gmtime, strftime
 import datetime
 from reportlab.pdfgen import canvas
-from django.http import HttpResponse
-import io
+from django.http import HttpResponseBadRequest
+from io import StringIO, BytesIO
+
 
 from reportlab.lib.units import inch
 
@@ -242,14 +251,6 @@ def archive(request, file_id):
 
     return HttpResponseRedirect(reverse('file-management:index'))
 
-# def checkDuplicateName(request):
-#     # return HttpResponse(1)
-#     duplicated_list = File.objects.filter(name__iexact=request.GET['name'])
-#     if not duplicated_list:
-#         return HttpResponse(0)
-#     else:
-#         return HttpResponse(1)
-
 
 def restore(request, file_id):
     file = get_object_or_404(File, pk=file_id)
@@ -326,41 +327,52 @@ def pdf_view(request, file_id):
         raise Http404()
 
 
-
-from reportlab.platypus import SimpleDocTemplate
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import Table
 from reportlab.platypus import TableStyle
-from reportlab.lib import colors
 
+#use this for reference
+#go to http://127.0.0.1:8000/file-management/getpdf
 def getpdf(request):
 
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "file_management-%s.pdf" % str(
+        datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
+    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
+
+    buff = BytesIO()
+
     file_list = File.objects.all()
+    paragraphStyle = getSampleStyleSheet()
 
     data = [
         ['ID', 'Name', 'Category', 'Uploader', 'Date Uploaded']
     ]
 
     for file in file_list:
-        list = [file.id, file.getNewFileName(), file.category_id.title, file.user_id.full_name(), file.created_at]
+        list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
+                Paragraph(f"{file.getNewFileName()}", paragraphStyle['Normal']),
+                Paragraph(f"{file.category_id.title}", paragraphStyle['Normal']),
+                Paragraph(f"{file.user_id.full_name()}", paragraphStyle['Normal']),
+                Paragraph(f"{file.created_at}", paragraphStyle['Normal'])]
         data.append(list)
 
-    fileName = 'file_management.pdf'
-
     pdf = SimpleDocTemplate(
-        fileName,
-        pagesize = letter 
+        buff,
+        pagesize = letter,
+        rightMargin=50,
+        leftMargin=50, topMargin=50, bottomMargin=50
     )
 
-    table = Table(data)
+    table = Table(data, colWidths=[15 * mm, 45 * mm, 35 * mm, 40 * mm, 35 * mm])
 
     style  = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
         ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
-        ('ALIGN', (0,0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ('FONTSIZE', (0,0), (-1,-1), 11),
         ('TOPPADDING', (0,0), (-1,-1), 5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 8)
+        ('BOTTOMPADDING', (0,0), (-1,-1), 6)
     ])
 
     table.setStyle(style)
@@ -383,8 +395,140 @@ def getpdf(request):
 
     table.setStyle(borderStyle)
     elems = []
+
+    # titleStyle = ParagraphStyle(
+    #         name='Normal',
+    #         fontSize=14,
+    #         align='Center'
+    #     )
+    # title = Paragraph(f"File Management", titleStyle)
+
+    # elems.append(title)
     elems.append(table)
 
     pdf.build(elems)
 
-    return HttpResponse('Pdf is created!')
+    response.write(buff.getvalue())
+    buff.close()
+    return response
+
+
+def printPDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
+    if query == None:
+        query = ""
+    
+    sort_column = "name"
+
+    if (sort_by == 2):
+        sort_column = "category_id__title"
+    elif (sort_by == 3):
+        sort_column = "user_id__first_name"
+    elif (sort_by == 4):
+        sort_column = "-created_at"
+    elif (sort_by == 5):
+        sort_column = "created_at"
+
+    if fromDate == None:
+        FromDate = File.objects.order_by('id').first().created_at
+        fromDate = FromDate.strftime("%Y-%m-%d")
+
+        ToDate = datetime.date.today()
+        toDate = ToDate.strftime("%Y-%m-%d")
+
+    if (category_id > 0):
+        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+        date2 = datetime.datetime.strptime(
+            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
+        file_list = File.objects.filter(
+            Q(name__icontains=query) |
+            Q(category_id__title__icontains=query) |
+            Q(user_id__first_name__icontains=query),
+            created_at__gte=date1,
+            created_at__lte=date2,
+            category_id=category_id, deleted_at=None
+        ).order_by(sort_column)
+
+    else:
+        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+        date2 = datetime.datetime.strptime(
+            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
+        file_list = File.objects.filter(
+            Q(name__icontains=query) |
+            Q(category_id__title__icontains=query) |
+            Q(user_id__first_name__icontains=query),
+            created_at__gte=date1,
+            created_at__lte=date2,
+            deleted_at=None
+        ).order_by(sort_column)
+
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "file_management-%s.pdf" % str(
+        datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
+    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
+
+    buff = BytesIO()
+    paragraphStyle = getSampleStyleSheet()
+
+    data = [
+        ['ID', 'Name', 'Category', 'Uploader', 'Date Uploaded']
+    ]
+
+    for file in file_list:
+        list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
+                Paragraph(f"{file.getNewFileName()}",
+                          paragraphStyle['Normal']),
+                Paragraph(f"{file.category_id.title}",
+                          paragraphStyle['Normal']),
+                Paragraph(f"{file.user_id.full_name()}",
+                          paragraphStyle['Normal']),
+                Paragraph(f"{file.created_at}", paragraphStyle['Normal'])]
+        data.append(list)
+
+    pdf = SimpleDocTemplate(
+        buff,
+        pagesize=letter,
+        rightMargin=50,
+        leftMargin=50, topMargin=50, bottomMargin=50
+    )
+
+    table = Table(data, colWidths=[
+                  15 * mm, 45 * mm, 35 * mm, 40 * mm, 35 * mm])
+
+    style = TableStyle([
+        ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTSIZE', (0, 0), (-1, -1), 11),
+        ('TOPPADDING', (0, 0), (-1, -1), 5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6)
+    ])
+
+    table.setStyle(style)
+
+    rowNumber = len(data)
+    for i in range(1, rowNumber):
+        if i % 2 == 0:
+            bc = colors.white
+        else:
+            bc = colors.HexColor("#DDDDDD")
+        ts = TableStyle(
+            [('BACKGROUND', (0, i), (-1, i), bc)]
+        )
+        table.setStyle(ts)
+
+    borderStyle = TableStyle([
+        ('BOX', (0, 0), (-1, -1), .5, colors.HexColor("#777777")),
+        ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
+    ])
+
+    table.setStyle(borderStyle)
+    elems = []
+    elems.append(table)
+
+    pdf.build(elems)
+
+    response.write(buff.getvalue())
+    buff.close()
+    return response
