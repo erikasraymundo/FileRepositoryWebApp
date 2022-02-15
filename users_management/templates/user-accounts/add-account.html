@@ -97,8 +97,11 @@
         var address = document.getElementById('Add-Account-address').value;
         var email = document.getElementById('Add-Account-email').value;
         if(username == '' || first == '' || middle == '' || last == '' || address == '' || email == ''){
-          document.getElementById('ErrerMessageDuplicateEmail').textContent = 'All fields are required';
-          document.getElementById('ErrerMessageDuplicateEmail').style.visibility = 'visible';
+          Swal.fire({
+            icon: 'error',
+            title: "All fields are required.",
+            confirmButtonText: 'Ok',
+         })
         }else{
           var isDuplicate = false;
           for(var i = 0 ; i < list2.length; i++){
@@ -112,8 +115,11 @@
                   document.getElementById('FormForAddingANewUserToTheDatabase').submit();
                 }else{
                   //Error Message
-                  document.getElementById('ErrerMessageDuplicateEmail').textContent = 'Username is already taken';
-                  document.getElementById('ErrerMessageDuplicateEmail').style.visibility = 'visible';
+                  Swal.fire({
+                    icon: 'error',
+                    title: "Username is already taken.",
+                    confirmButtonText: 'Ok',
+                 })
                 }
             }else{
               if(list2[i] == username){

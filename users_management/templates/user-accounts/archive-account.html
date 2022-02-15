@@ -61,7 +61,7 @@
          <tbody>
             {% for user in users %}
             
-            <form action='{% url "ArchieveUserAccount" %}' id='archiveThisAccountHiddenForm', method="POST">
+            <form action='{% url "RestoreUserAccount" %}' id='archiveThisAccountHiddenForm', method="POST">
                {% csrf_token %}
                <input type='text' value='{{user.pk}}' style='display:none' name='ID'  id='RenamethisTArchiveTheSpecificUser'>
             </form>
@@ -286,12 +286,18 @@
       Swal.fire({
          icon: 'warning',
          showCancelButton: true,
-         title: "Are you sure you want to archive this account?.",
+         title: "Are you sure you want to restore this account?.",
          confirmButtonText: 'Yes',
          cancelButtonText: 'Cancel',
       }).then((result) => {
          if(result.isConfirmed){
-            document.getElementById('archiveThisAccountHiddenForm').submit();
+            Swal.fire({
+               icon: 'success',
+               title: "User has been restored successfully",
+               confirmButtonText: 'Great',
+            }).then((result)=> {
+               document.getElementById('archiveThisAccountHiddenForm').submit();
+            })
          }
       })
    }

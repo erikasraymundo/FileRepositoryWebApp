@@ -129,4 +129,3 @@ def UpdateArchivedCategory(request):
     return render(request, 'archive.html', {
         'categories' : Category.objects.filter(isArchived = True),
     })
-
