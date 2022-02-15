@@ -441,9 +441,8 @@ def AddUserAccount(request):
     user.is_staff = False
     user.user_type = 1
     user.save()
-    return render(request, 'user-accounts/manage-accounts.html', {
-        'users' : User.objects.filter(is_active = 1),
-    })
+
+    return HttpResponseRedirect(reverse('users-management:index'))
     
 def EditAccount(request):
     return render(request, 'user-accounts/edit-account.html', {

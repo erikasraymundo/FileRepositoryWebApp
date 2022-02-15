@@ -9,6 +9,18 @@
 
       <div class="activity-logs--controls">
          <div class="activity-logs--controls-date">
+            <p class="text-black text-small">Sort by</p>
+            <div class="component4">
+               <select id="select-sort">
+                  <option value=1 {% if sort_selected == 1 %} selected {%endif%}>Log ID</option>
+                  <option value=2 {% if sort_selected == 2 %} selected {%endif%}>User</option>
+                  <option value=3 {% if sort_selected == 3 %} selected {%endif%}>Description</option>
+                  <option value=4 {% if sort_selected == 4 %} selected {%endif%}>Recently Created</option>
+                  <option value=5 {% if sort_selected == 5 %} selected {%endif%}>Earliest Created</option>
+               </select>
+            </div>
+         </div>
+         <div class="activity-logs--controls-date">
             <p class="text-small fw-600">Date created</p>
             <div class="component2">
                <div class="start-date">
@@ -28,9 +40,6 @@
                      </svg>
                   </div>
                <input type="text" class="search-input" placeholder="Search">
-            </div>
-            <div class="btn-purple">
-                  <a href=""><span class="iconify" data-icon="akar-icons:plus"></span>Account</a>
             </div>
          </div>
       </div>
