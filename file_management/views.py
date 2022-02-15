@@ -27,8 +27,17 @@ from django.http import FileResponse, Http404
 from datetime import datetime
 import datetime
 from io import BytesIO
+from django.core.exceptions import PermissionDenied
+
 
 def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success = 0):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        user = User.objects.get(pk=session_user_id)
+    except:
+        raise PermissionDenied()
+    
     template_name = 'file_management/index.html'
 
     if query == None: query = ""
@@ -89,6 +98,7 @@ def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=
      "from_date": fromDate,
      "to_date": toDate,
      "success": success,
+     "user" : user,
      "category_list": Category.objects.filter(isArchived = False)})
 
 def detail(request, file_id):
@@ -98,6 +108,12 @@ def detail(request, file_id):
 
 
 def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success=0):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        user = User.objects.get(pk=session_user_id)
+    except:
+        raise PermissionDenied()
 
     template_name = 'file_management/archive.html'
 
@@ -165,6 +181,7 @@ def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None,
      "from_date": fromDate,
      "to_date": toDate,
      "success": success,
+     "user" : user,
      "category_list": Category.objects.filter(isArchived = False)})
 
 
@@ -175,10 +192,12 @@ def openUploadView(request):
 
 def upload(request):
 
+    session_user_id = request.session.get('user_id')
+
     name = request.POST['name']
     description = request.POST['description']
     category_id = Category.objects.get(pk=request.POST['category_id'])
-    user_id = User.objects.get(pk=1)
+    user_id = User.objects.get(pk=session_user_id)
 
     file = File()
     file.name = name
@@ -211,10 +230,12 @@ def openEditView(request, file_id):
 
 def update(request, file_id):
 
+    session_user_id = request.session.get('user_id')
+
     name = request.POST['name']
     description = request.POST['description']
     category_id = Category.objects.get(pk=request.POST['category_id'])
-    user_id = User.objects.get(pk=1)
+    user_id = User.objects.get(pk=session_user_id)
 
     file = File.objects.get(pk=file_id)
     file.name = name
@@ -241,26 +262,30 @@ def update(request, file_id):
 
 def archive(request, file_id):
 
+    session_user_id = request.session.get('user_id')
     file = get_object_or_404(File, pk=file_id)
     file.deleted_at = timezone.localtime(timezone.now())
     file.save()
 
     log = Log()
     log.description = f"Archived a file ({file.id} - {file.name})."
-    log.user_id = file.user_id
+    log.user_id = User.objects.get(pk=session_user_id)
     log.save()
 
     return HttpResponseRedirect(reverse('file-management:success', args={3}))
 
 
 def restore(request, file_id):
+
+    session_user_id = request.session.get('user_id')
+
     file = get_object_or_404(File, pk=file_id)
     file.deleted_at = None
     file.save()
 
     log = Log()
     log.description = f"Restored a file ({file.id} - {file.name})."
-    log.user_id = file.user_id
+    log.user_id = User.objects.get(pk=session_user_id)
     log.save()
 
     return HttpResponseRedirect(reverse('file-management:archived-success', args={4}))
