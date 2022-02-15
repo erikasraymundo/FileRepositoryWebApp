@@ -87,8 +87,8 @@
                               <option value=1 {% if sort_selected == 1 %} selected {%endif%}>Name</option>
                               <option value=2 {% if sort_selected == 2 %} selected {%endif%}>Category</option>
                               <option value=3 {% if sort_selected == 3 %} selected {%endif%}>Uploader</option>
-                              <option value=4 {% if sort_selected == 4 %} selected {%endif%}>Latest Upload</option>
-                              <option value=5 {% if sort_selected == 5 %} selected {%endif%}>Earliest Upload</option>
+                              <option value=4 {% if sort_selected == 4 %} selected {%endif%}>Latest Archived</option>
+                              <option value=5 {% if sort_selected == 5 %} selected {%endif%}>Earliest Archived</option>
                            </select>
                         </div>
                      </div>
@@ -130,7 +130,7 @@
                            <th scope="col">Name</th>
                            <th scope="col">Category</th>
                            <th scope="col">Uploader</th>
-                           <th scope="col">Uploaded</th>
+                           <th scope="col">Archived</th>
                            <th scope="col">Actions</th>
                         </tr>
                      </thead>
@@ -140,7 +140,7 @@
                            <td data-label="Name"> {{ file.getNewFileName }} </td>
                            <td data-label="Category"> {{ file.category_id.title }} </td>
                            <td data-label="Uploader"> {{ file.user_id.full_name }}</td>
-                           <td data-label="Uploaded"> {{ file.created_at }} </td>
+                           <td data-label="Archived"> {{ file.deleted_at }} </td>
                            <td data-label="Actions" class="actions">
                               <div class="actions--container">
                                  <a href="{% url 'file-management:download' file.id %}">
@@ -172,8 +172,8 @@
                   {% endif %}
                </div>
 
-               <div class="btn-dark">
-                  <a href=""><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to
+               <div class="btn-dark" id="btnPrintPDF">
+                  <a><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to
                      PDF</a>
                </div>
 
@@ -211,7 +211,7 @@
          title: "File has been successfully restored!"
       })
 
-      window.history.pushState('somedata', 'Title', '/file-management/');
+      window.history.pushState('somedata', 'Title', '/file-management/archived');
 
       {% endif %}
 
@@ -376,6 +376,77 @@
                   });
           });
 
+
+      $("#btnPrintPDF").click(function() {
+         window.location.href = getUrlPrintMask();
+      });
+    
+      function getUrlForPrintFilter1() {
+         fromDateText = $('#datepicker-start').val();
+         toDateText = $('#datepicker-end').val();
+         console.log(fromDateText);
+
+         if (toDateText == '') {
+            const date = new Date();
+            var y = date.getFullYear();
+            var m = ("0"+(date.getMonth()+1)).slice(-2);
+            var d = ("0"+date.getDate()).slice(-2);
+
+            toDateText = y + "-" + m + "-" + d;
+         }
+
+         var category = $("#select-category").val();
+         var sort = $("#select-sort").val();
+
+         var url_mask = "{% url 'file-management:printArchivedFilter1' 111111 222222 'date1' 'date2' %}"
+         .replace(/111111/, category)
+         .replace(/222222/, sort)
+         .replace(/date1/, fromDateText)
+         .replace(/date2/, toDateText);
+
+         return url_mask;
+      }
+      
+      function getUrlForPrintFilter2() {
+         console.log("hello! " + url_mask);
+         fromDateText = $('#datepicker-start').val();
+         toDateText = $('#datepicker-end').val();
+         console.log(fromDateText);
+
+         if (toDateText == '') {
+            const date = new Date();
+            var y = date.getFullYear();
+            var m = ("0"+(date.getMonth()+1)).slice(-2);
+            var d = ("0"+date.getDate()).slice(-2);
+
+            toDateText = y + "-" + m + "-" + d;
+         }
+
+         var category = $("#select-category").val();
+         var sort = $("#select-sort").val();
+         var query = $("#search").val();
+
+         var url_mask = "{% url 'file-management:printArchivedFilter2' 111111 222222 'date1' 'date2' 'query' %}"
+                        .replace(/111111/, category)
+                        .replace(/222222/, sort)
+                        .replace(/query/, query)
+                        .replace(/date1/, fromDateText)
+                        .replace(/date2/, toDateText);
+
+         return url_mask;
+      }
+
+      function getUrlPrintMask() {
+         var url_mask;
+
+         if ($("#search").val() == '') {
+            url_mask = getUrlForPrintFilter1();
+         } else {
+            url_mask = getUrlForPrintFilter2();
+         }
+
+         return url_mask;
+      }
 
       </script>
 

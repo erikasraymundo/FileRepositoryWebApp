@@ -14,6 +14,7 @@ urlpatterns = [
     path('category/<int:category_id>/sort/<int:sort_by>/search=<str:query>',
          views.index, name='search'),
     path('success/<int:success>/', views.index, name='success'),
+    path('archived/success/<int:success>/', views.archivedIndex, name='archived-success'),
     path('', views.index, name='index'),
     path('<int:isAdded>', views.index, name='index'),
 
@@ -37,9 +38,15 @@ urlpatterns = [
     path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name'),
     path('view/pdf/<int:file_id>/', views.pdf_view, name='pdf_view'),
     path('getpdf', views.getpdf, name='get_pdf'),
+    path('file/<int:file_id>/print', views.printIndivualFilePDF, name='printIndividualFile'),
 
     path('print/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',
-         views.printPDF, name='printFilter1'),
+         views.printActivePDF, name='printFilter1'),
     path('print/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>/search=<str:query>',
-         views.printPDF, name='printFilter2'),
+         views.printActivePDF, name='printFilter2'),
+
+    path('archived/print/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',
+         views.printArchivedPDF, name='printArchivedFilter1'),
+    path('archived/print/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>/search=<str:query>',
+         views.printArchivedPDF, name='printArchivedFilter2'),
 ]

@@ -117,13 +117,18 @@ def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None,
     elif (sort_by == 3):
         sort_column = "user_id__first_name"
     elif (sort_by == 4):
-        sort_column = "-created_at"
+        sort_column = "-deleted_at"
     elif (sort_by == 5):
-        sort_column = "created_at"
+        sort_column = "deleted_at"
 
     if fromDate == None:
-        FromDate = File.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+
+        try:
+            FromDate = File.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -249,7 +254,7 @@ def archive(request, file_id):
     log.user_id = file.user_id
     log.save()
 
-    return HttpResponseRedirect(reverse('file-management:index'))
+    return HttpResponseRedirect(reverse('file-management:success', args={3}))
 
 
 def restore(request, file_id):
@@ -262,7 +267,7 @@ def restore(request, file_id):
     log.user_id = file.user_id
     log.save()
 
-    return HttpResponseRedirect(reverse('file-management:archive-index'))
+    return HttpResponseRedirect(reverse('file-management:archived-success', args={4}))
 
 def checkDuplicateName(request):
     file_id = int(request.GET['file_id'])
@@ -413,7 +418,7 @@ def getpdf(request):
     return response
 
 
-def printPDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
+def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
     if query == None:
         query = ""
     
@@ -526,6 +531,195 @@ def printPDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDa
     table.setStyle(borderStyle)
     elems = []
     elems.append(table)
+
+    pdf.build(elems)
+
+    response.write(buff.getvalue())
+    buff.close()
+    return response
+
+
+def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
+    if query == None:
+        query = ""
+    sort_column = "name"
+
+    if (sort_by == 2):
+        sort_column = "category_id__title"
+    elif (sort_by == 3):
+        sort_column = "user_id__first_name"
+    elif (sort_by == 4):
+        sort_column = "-created_at"
+    elif (sort_by == 5):
+        sort_column = "created_at"
+
+    if fromDate == None:
+        FromDate = File.objects.order_by('id').first().created_at
+        fromDate = FromDate.strftime("%Y-%m-%d")
+
+        ToDate = datetime.date.today()
+        toDate = ToDate.strftime("%Y-%m-%d")
+
+    if (category_id > 0):
+        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+        date2 = datetime.datetime.strptime(
+            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
+        file_list = File.objects.filter(
+            Q(name__icontains=query) |
+            Q(category_id__title__icontains=query) |
+            Q(user_id__first_name__icontains=query),
+            ~Q(deleted_at=None),
+            created_at__gte=date1,
+            created_at__lte=date2,
+            category_id=category_id
+        ).order_by(sort_column)
+
+    else:
+        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+        date2 = datetime.datetime.strptime(
+            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
+        file_list = File.objects.filter(
+            Q(name__icontains=query) |
+            Q(category_id__title__icontains=query) |
+            Q(user_id__first_name__icontains=query),
+            ~Q(deleted_at=None),
+            created_at__gte=date1,
+            created_at__lte=date2
+        ).order_by(sort_column)
+
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "file_management-archived-%s.pdf" % str(
+        datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
+    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
+
+    buff = BytesIO()
+    paragraphStyle = getSampleStyleSheet()
+
+    data = [
+        ['ID', 'Name', 'Category', 'Uploader', 'Date Uploaded']
+    ]
+
+    for file in file_list:
+        list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
+                Paragraph(f"{file.getNewFileName()}",
+                          paragraphStyle['Normal']),
+                Paragraph(f"{file.category_id.title}",
+                          paragraphStyle['Normal']),
+                Paragraph(f"{file.user_id.full_name()}",
+                          paragraphStyle['Normal']),
+                Paragraph(f"{file.created_at}", paragraphStyle['Normal'])]
+        data.append(list)
+
+    pdf = SimpleDocTemplate(
+        buff,
+        pagesize=letter,
+        rightMargin=50,
+        leftMargin=50, topMargin=50, bottomMargin=50
+    )
+
+    table = Table(data, colWidths=[
+                  15 * mm, 45 * mm, 35 * mm, 40 * mm, 35 * mm])
+
+    style = TableStyle([
+        ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTSIZE', (0, 0), (-1, -1), 11),
+        ('TOPPADDING', (0, 0), (-1, -1), 5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6)
+    ])
+
+    table.setStyle(style)
+
+    rowNumber = len(data)
+    for i in range(1, rowNumber):
+        if i % 2 == 0:
+            bc = colors.white
+        else:
+            bc = colors.HexColor("#DDDDDD")
+        ts = TableStyle(
+            [('BACKGROUND', (0, i), (-1, i), bc)]
+        )
+        table.setStyle(ts)
+
+    borderStyle = TableStyle([
+        ('BOX', (0, 0), (-1, -1), .5, colors.HexColor("#777777")),
+        ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
+    ])
+
+    table.setStyle(borderStyle)
+    elems = []
+    elems.append(table)
+
+    pdf.build(elems)
+
+    response.write(buff.getvalue())
+    buff.close()
+    return response
+
+def printIndivualFilePDF(request, file_id):
+
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "file-%s.pdf" % str(
+        datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
+    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
+
+    buff = BytesIO()
+    labelStyle = ParagraphStyle(
+        name='Bold',
+        fontSize=12,
+    )
+    contentStyle = ParagraphStyle(
+        name='Normal',
+        fontSize=12,
+    )
+
+    file = get_object_or_404(File, pk=file_id)
+
+    table1 = [
+        [Paragraph('<b>File ID:</b> ', labelStyle), Paragraph(f"{file.id}", contentStyle), 
+         Paragraph('<b>Uploaded on:</b> ', labelStyle), Paragraph(f"{file.created_at}", contentStyle)],
+         
+        [Paragraph('<b>File Name:</b> ', labelStyle), Paragraph(file.getNewFileName(), contentStyle),
+         Paragraph('<b>Updated on:</b> ', labelStyle), Paragraph(f"{file.updated_at}", contentStyle)],
+    ]
+
+    table2 = [
+        [Paragraph('<br /><b>Uploaded by:</b> ', labelStyle),
+         Paragraph('<br />'+ file.user_id.full_name(), contentStyle)]
+    ]
+
+    table3 = [
+        [Paragraph('<br /><b>Details of the file:</b><br /><br /> ', labelStyle)]
+    ]
+
+    table4 = [
+        [Paragraph(file.description, contentStyle)]
+    ]
+
+    pdf = SimpleDocTemplate(
+        buff,
+        pagesize=letter,
+        rightMargin=50,
+        leftMargin=50, topMargin=50, bottomMargin=50
+    )
+
+
+    Table1 = Table(table1, colWidths=[
+        40 * mm, 55 * mm, 40 * mm, 45 * mm])
+    Table2 = Table(table2, colWidths=[
+        40 * mm, 140 * mm])
+    Table3 = Table(table3, colWidths=[
+        180*mm])
+    Table4 = Table(table4, colWidths=[
+        180*mm])
+    elems = []
+    elems.append(Table1)
+    elems.append(Table2)
+    elems.append(Table3)
+    elems.append(Table4)
 
     pdf.build(elems)
 

@@ -10,7 +10,7 @@ import os
 class File(models.Model):
     name = models.CharField(max_length=200)
     url = models.FileField(upload_to='uploads/',max_length=254)
-    description = models.CharField(max_length = 200, null=True)
+    description = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)
