@@ -7,8 +7,13 @@
    <section class="my-profile">
       <div class="my-profile--container">
             <div class="my-profile--image">
-               <input type='text' value=" {{ detail.profile_picture }}" style='display:none' id='holderOfImageFromDB'>
-               <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
+               <form enctype="multipart/form-data" method='POST' action='{%url "UploadProfilePicture" %}' id='formToUploadProfilePic'>
+                  {% csrf_token %}
+                  <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
+               <input type='text' value=" {{ detail.pk }}" style='display:none' name='ID'>
+               </form>
+               <input type='text' value=" {{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+               <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
                <h4 class="h4"> 
                   {{ detail.username }}
                </h4>
@@ -148,7 +153,7 @@
             </div>
             <div class="row">
                <div class="col-12">
-                  <input type="text" name='email' id='editUserAccountEmail' value='{{ detail.email }}'>
+                  <input type="email" name='email' id='editUserAccountEmail' value='{{ detail.email }}'>
                </div>
             </div>
             <div class="row">
@@ -204,12 +209,35 @@
    }
 
    //end gender
-
+   document.getElementById('ChangeThisToProfilePicture').style.width = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.height = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.objectFit = 'cover';
+   document.getElementById('ChangeThisToProfilePicture').style.borderRadius = '50%';
    if(document.getElementById('holderOfImageFromDB').value == ' None'){
       document.getElementById('ChangeThisToProfilePicture').src = "{% static 'src/images/profile-image-large.png' %}";
    }else{
       document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
+    
    }
+
+   //uplaod profile picture
+   document.getElementById('ChangeThisToProfilePicture').onclick = function(e){
+      document.getElementById('uploadProfilePic').click();
+   }
+
+   document.getElementById('uploadProfilePic').onchange = function(e){
+      //upload sa Database
+      Swal.fire({
+         icon: 'success',
+         title: "Your display picture has been changed successfully.",
+         confirmButtonText: 'Ok',
+      }).then(() => {
+         document.getElementById('formToUploadProfilePic').submit()
+      })
+   }
+
+   ///////////////////////
+
    document.getElementById('closeModalForChangePasswordOfAdmin').style.cursor = 'pointer';
    document.getElementById('closeModalForEditingAdminProfilePo').style.cursor = 'pointer';
    /////////
@@ -292,31 +320,43 @@
             confirmButtonText: 'Ok',
          })
       }else{
+      //validate email
+      var re = /\S+@\S+\.\S+/;
+       if(re.test(email)){
          //check if username is duplicated
          var isDuplicate = false;
-          for(var i = 0 ; i < listOfUsernames.length; i++){
-            if(i+1 == listOfUsernames.length){
-              //last index
-              if(listOfUsernames[i] == username){
-                isDuplicate = true;
-              }
-                if(!isDuplicate){
-                  //Save To DB
-                  document.getElementById('FormEditUserAccounts').submit();
-                }else{
-                  //Error Message
-                  Swal.fire({
-                     icon: 'error',
-                     title: "Username is already taken.",
-                     confirmButtonText: 'Ok',
-                  })
-                }
-            }else{
-              if(listOfUsernames[i] == username){
-                isDuplicate = true;
-              }
-            }
+         for(var i = 0 ; i < listOfUsernames.length; i++){
+         if(i+1 == listOfUsernames.length){
+         //last index
+         if(listOfUsernames[i] == username){
+            isDuplicate = true;
+         }
+         if(!isDuplicate){
+         //Save To DB
+         document.getElementById('FormEditUserAccounts').submit();
+         }else{
+        //Error Message
+         Swal.fire({
+           icon: 'error',
+           title: "Username is already taken.",
+           confirmButtonText: 'Ok',
+        })
+        }
+         }else{
+          if(listOfUsernames[i] == username){
+            isDuplicate = true;
           }
+          }
+         }
+       }else{
+         Swal.fire({
+            icon: 'warning',
+            title: "Invalid Email Address",
+            confirmButtonText: 'Ok',
+         })
+       }
+
+         
       }
    }
 </script>

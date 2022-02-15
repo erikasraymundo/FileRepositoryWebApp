@@ -46,7 +46,7 @@
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter email address"  id='Add-Account-email' name='email'> 
+                     <input type="email" placeholder="Enter email address"  id='Add-Account-email' name='email'> 
                     </div>
                   </div>
                 <div class="row">
@@ -103,30 +103,41 @@
             confirmButtonText: 'Ok',
          })
         }else{
-          var isDuplicate = false;
-          for(var i = 0 ; i < list2.length; i++){
-            if(i+1 == list2.length){
-              //last index
-              if(list2[i] == username){
-                isDuplicate = true;
-              }
-                if(!isDuplicate){
-                  //Save To DB
-                  document.getElementById('FormForAddingANewUserToTheDatabase').submit();
-                }else{
-                  //Error Message
-                  Swal.fire({
-                    icon: 'error',
-                    title: "Username is already taken.",
-                    confirmButtonText: 'Ok',
-                 })
+          //validate email
+          var re = /\S+@\S+\.\S+/;
+          if(re.test(email)){
+            var isDuplicate = false;
+            for(var i = 0 ; i < list2.length; i++){
+              if(i+1 == list2.length){
+                //last index
+                if(list2[i] == username){
+                  isDuplicate = true;
                 }
-            }else{
-              if(list2[i] == username){
-                isDuplicate = true;
+                  if(!isDuplicate){
+                    //Save To DB
+                    document.getElementById('FormForAddingANewUserToTheDatabase').submit();
+                  }else{
+                    //Error Message
+                    Swal.fire({
+                      icon: 'error',
+                      title: "Username is already taken.",
+                      confirmButtonText: 'Ok',
+                   })
+                  }
+              }else{
+                if(list2[i] == username){
+                  isDuplicate = true;
+                }
               }
             }
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: "Invalid Email Address.",
+              confirmButtonText: 'Ok',
+           })
           }
+          
         }
       }
     </script>

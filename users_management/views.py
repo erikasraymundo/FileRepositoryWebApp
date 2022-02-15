@@ -563,3 +563,25 @@ def RestoreUserAccount(request):
     admin.updated_at = timezone.now()
     admin.save()
     return HttpResponseRedirect(reverse('users-management:archived-index'))
+
+
+def UploadProfilePicture(request):
+    admin = User.objects.get(pk = request.POST['ID'])
+    admin.image = request.FILES['image']
+    admin.save()
+
+    list = []
+    users = User.objects.exclude(pk =1 )
+    for user in users:
+        list.append(user.username)
+
+    forDate =  User.objects.get(pk =1)
+    asd = forDate.birthdate
+    date = asd.isoformat()
+
+    return render(request, 'profile/profile.html', {
+        'details' : User.objects.filter(pk =1, is_active = 1 , ),
+        'username': list,
+        'bday': date,
+    })
+
