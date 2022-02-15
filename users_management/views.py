@@ -16,6 +16,9 @@ from django.utils import timezone
 from activity_log.models import Log
 from django.db.models import Q
 import datetime
+from io import BytesIO
+
+from reportlab.lib.units import mm
 
 # ERIKA 
 def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
@@ -112,60 +115,151 @@ def archivedIndex(request,  sort_by=1, query=None, fromDate=None, toDate=None, s
                    "to_date": toDate,
                    "success": success})
 
+def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
 
-
-def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
     if query == None:
         query = ""
+
+    sort_column = "username"
+
+    if (sort_by == 2):
+        sort_column = "first_name"
+    elif (sort_by == 3):
+        sort_column = "email"
+    elif (sort_by == 4):
+        sort_column = "-created_at"
+    elif (sort_by == 5):
+        sort_column = "created_at"
+
+    if fromDate == None:
+        FromDate = User.objects.order_by('id').first().created_at
+        fromDate = FromDate.strftime("%Y-%m-%d")
+
+        ToDate = datetime.date.today()
+        toDate = ToDate.strftime("%Y-%m-%d")
+
+    date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+    date2 = datetime.datetime.strptime(
+        toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
+    users = User.objects.filter(
+        Q(username__icontains=query) |
+        Q(first_name__icontains=query) |
+        Q(last_name__icontains=query) |
+        Q(email__icontains=query) |
+        Q(created_at__icontains=query),
+        created_at__gte=date1,
+        created_at__lte=date2,
+        deleted_at=None
+    ).order_by(sort_column)
+
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "users_management-%s.pdf" % str(
+        datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
+    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
+
+    buff = BytesIO()
+    paragraphStyle = getSampleStyleSheet()
+
+    data = [
+        ['Username', 'Name', 'Email', 'Account Created']
+    ]
+
+    for user in users:
+        list = [Paragraph(f"{user.username}", paragraphStyle['Normal']),
+                Paragraph(f"{user.full_name()}", paragraphStyle['Normal']),
+                Paragraph(f"{user.email}", paragraphStyle['Normal']),
+                Paragraph(f"{user.created_at}",  paragraphStyle['Normal'])]
+        data.append(list)
+
+    pdf = SimpleDocTemplate(
+        buff,
+        pagesize=letter,
+        rightMargin=50,
+        leftMargin=50, topMargin=50, bottomMargin=50
+    )
+
+    table = Table(data, colWidths=[
+                  35 * mm, 45 * mm, 60 * mm, 40 * mm])
+
+    style = TableStyle([
+        ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTSIZE', (0, 0), (-1, -1), 11),
+        ('TOPPADDING', (0, 0), (-1, -1), 5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6)
+    ])
+
+    table.setStyle(style)
+
+    rowNumber = len(data)
+    for i in range(1, rowNumber):
+        if i % 2 == 0:
+            bc = colors.white
+        else:
+            bc = colors.HexColor("#DDDDDD")
+        ts = TableStyle(
+            [('BACKGROUND', (0, i), (-1, i), bc)]
+        )
+        table.setStyle(ts)
+
+    borderStyle = TableStyle([
+        ('BOX', (0, 0), (-1, -1), .5, colors.HexColor("#777777")),
+        ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
+    ])
+
+    table.setStyle(borderStyle)
+    elems = []
+    elems.append(table)
+
+    pdf.build(elems)
+
+    response.write(buff.getvalue())
+    buff.close()
+    return response
+
+
+def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
+
+    if query == None:
+        query = ""
+
+    sort_column = "username"
+
+    if (sort_by == 2):
+        sort_column = "first_name"
+    elif (sort_by == 3):
+        sort_column = "email"
+    elif (sort_by == 4):
+        sort_column = "-created_at"
+    elif (sort_by == 5):
+        sort_column = "created_at"
+
+    if fromDate == None:
+        FromDate = User.objects.order_by('id').first().created_at
+        fromDate = FromDate.strftime("%Y-%m-%d")
+
+        ToDate = datetime.date.today()
+        toDate = ToDate.strftime("%Y-%m-%d")
+
+    date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
+    date2 = datetime.datetime.strptime(
+        toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+
+    users = User.objects.filter(
+        Q(username__icontains=query) |
+        Q(first_name__icontains=query) |
+        Q(last_name__icontains=query) |
+        Q(email__icontains=query) |
+        Q(created_at__icontains=query),
+        ~Q(deleted_at=None),
+        deleted_at__gte=date1,
+        deleted_at__lte=date2,
+    ).order_by(sort_column)
     
-    sort_column = "name"
-
-    if (sort_by == 2):
-        sort_column = "category_id__title"
-    elif (sort_by == 3):
-        sort_column = "user_id__first_name"
-    elif (sort_by == 4):
-        sort_column = "-created_at"
-    elif (sort_by == 5):
-        sort_column = "created_at"
-
-    if fromDate == None:
-        FromDate = File.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
-
-        ToDate = datetime.date.today()
-        toDate = ToDate.strftime("%Y-%m-%d")
-
-    if (category_id > 0):
-        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
-        date2 = datetime.datetime.strptime(
-            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
-
-        file_list = File.objects.filter(
-            Q(name__icontains=query) |
-            Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
-            created_at__gte=date1,
-            created_at__lte=date2,
-            category_id=category_id, deleted_at=None
-        ).order_by(sort_column)
-
-    else:
-        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
-        date2 = datetime.datetime.strptime(
-            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
-
-        file_list = File.objects.filter(
-            Q(name__icontains=query) |
-            Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
-            created_at__gte=date1,
-            created_at__lte=date2,
-            deleted_at=None
-        ).order_by(sort_column)
-
     response = HttpResponse(content_type='application/pdf')
-    pdf_name = "file_management-%s.pdf" % str(
+    pdf_name = "archived_users-%s.pdf" % str(
         datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
     response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
 
@@ -173,18 +267,14 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
     paragraphStyle = getSampleStyleSheet()
 
     data = [
-        ['ID', 'Name', 'Category', 'Uploader', 'Date Uploaded']
+        ['Username', 'Name', 'Email', 'Account Created']
     ]
 
-    for file in file_list:
-        list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
-                Paragraph(f"{file.getNewFileName()}",
-                          paragraphStyle['Normal']),
-                Paragraph(f"{file.category_id.title}",
-                          paragraphStyle['Normal']),
-                Paragraph(f"{file.user_id.full_name()}",
-                          paragraphStyle['Normal']),
-                Paragraph(f"{file.created_at}", paragraphStyle['Normal'])]
+    for user in users:
+        list = [Paragraph(f"{user.username}", paragraphStyle['Normal']),
+                Paragraph(f"{user.full_name()}", paragraphStyle['Normal']),
+                Paragraph(f"{user.email}", paragraphStyle['Normal']),
+                Paragraph(f"{user.created_at}",  paragraphStyle['Normal'])]
         data.append(list)
 
     pdf = SimpleDocTemplate(
@@ -195,7 +285,7 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
     )
 
     table = Table(data, colWidths=[
-                  15 * mm, 45 * mm, 35 * mm, 40 * mm, 35 * mm])
+                  35 * mm, 45 * mm, 60 * mm, 40 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -234,126 +324,6 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
     buff.close()
     return response
 
-
-def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
-    if query == None:
-        query = ""
-    sort_column = "name"
-
-    if (sort_by == 2):
-        sort_column = "category_id__title"
-    elif (sort_by == 3):
-        sort_column = "user_id__first_name"
-    elif (sort_by == 4):
-        sort_column = "-created_at"
-    elif (sort_by == 5):
-        sort_column = "created_at"
-
-    if fromDate == None:
-        FromDate = File.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
-
-        ToDate = datetime.date.today()
-        toDate = ToDate.strftime("%Y-%m-%d")
-
-    if (category_id > 0):
-        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
-        date2 = datetime.datetime.strptime(
-            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
-
-        file_list = File.objects.filter(
-            Q(name__icontains=query) |
-            Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
-            ~Q(deleted_at=None),
-            created_at__gte=date1,
-            created_at__lte=date2,
-            category_id=category_id
-        ).order_by(sort_column)
-
-    else:
-        date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
-        date2 = datetime.datetime.strptime(
-            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
-
-        file_list = File.objects.filter(
-            Q(name__icontains=query) |
-            Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
-            ~Q(deleted_at=None),
-            created_at__gte=date1,
-            created_at__lte=date2
-        ).order_by(sort_column)
-
-    response = HttpResponse(content_type='application/pdf')
-    pdf_name = "file_management-archived-%s.pdf" % str(
-        datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
-    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
-
-    buff = BytesIO()
-    paragraphStyle = getSampleStyleSheet()
-
-    data = [
-        ['ID', 'Name', 'Category', 'Uploader', 'Date Uploaded']
-    ]
-
-    for file in file_list:
-        list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
-                Paragraph(f"{file.getNewFileName()}",
-                          paragraphStyle['Normal']),
-                Paragraph(f"{file.category_id.title}",
-                          paragraphStyle['Normal']),
-                Paragraph(f"{file.user_id.full_name()}",
-                          paragraphStyle['Normal']),
-                Paragraph(f"{file.created_at}", paragraphStyle['Normal'])]
-        data.append(list)
-
-    pdf = SimpleDocTemplate(
-        buff,
-        pagesize=letter,
-        rightMargin=50,
-        leftMargin=50, topMargin=50, bottomMargin=50
-    )
-
-    table = Table(data, colWidths=[
-                  15 * mm, 45 * mm, 35 * mm, 40 * mm, 35 * mm])
-
-    style = TableStyle([
-        ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('FONTSIZE', (0, 0), (-1, -1), 11),
-        ('TOPPADDING', (0, 0), (-1, -1), 5),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6)
-    ])
-
-    table.setStyle(style)
-
-    rowNumber = len(data)
-    for i in range(1, rowNumber):
-        if i % 2 == 0:
-            bc = colors.white
-        else:
-            bc = colors.HexColor("#DDDDDD")
-        ts = TableStyle(
-            [('BACKGROUND', (0, i), (-1, i), bc)]
-        )
-        table.setStyle(ts)
-
-    borderStyle = TableStyle([
-        ('BOX', (0, 0), (-1, -1), .5, colors.HexColor("#777777")),
-        ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
-    ])
-
-    table.setStyle(borderStyle)
-    elems = []
-    elems.append(table)
-
-    pdf.build(elems)
-
-    response.write(buff.getvalue())
-    buff.close()
-    return response
 
 def profile(request):
     return render(request, 'profile/profile.html', {
