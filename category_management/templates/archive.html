@@ -5,24 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-      <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-      <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-      <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-      <script>
-         $(function () {
-            $("#birthday").datepicker();
-         });
-      </script>
-      <style>
-         .ui-widget-header {
-            background: #ddd;
-         }
-      </style>
-      <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <title>Document</title>
 </head>
 <body>
-
     <div class="global--container">
         <!--SIDEBAR-->
         <aside class="aside" id="aside">
@@ -45,8 +33,8 @@
                  </div>
                  <div class="profile">
                     <div class="profile--image">
-                       <a href="templates-for-project/profile.html" class="active">
-                       <img src="{% static 'src/images/profile-image.png' %}" alt="profile-image">
+                       <a href="templates-for-project/profile.html" class="">
+                        <img src="{% static 'src/images/profile-image.png' %}" alt="profile-image">
                        </a>
                     </div>
                     <div class="profile--name">
@@ -104,35 +92,148 @@
         </aside>
         <!--MAIN-->
         <main id="main-content">
-            {% block content %}
-            {% endblock %}
+            <h1 class="h1">Category Management</h1>
+           <section class="category-management">
+               <div class="category-management--container">
+                  <form method='post' action='{% url "AddCategory"  %}'>
+                     {% csrf_token %}
+                   <div class="container mb-3">
+                      <div class="columns">
+                         <div class="column">
+                           <h4 class="h4">Create a new category</h4>
+                         </div>
+                      </div>
+                     <div class="columns">
+                         <div class="column is-7">
+                            <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)" value=>
+                         </div>
+                         <div class="column">
+                            <button class="btn-black">Save</button>
+                         </div>
+                     </div>
+                  </form>
+                   </div>
+                    <div class="container" style="margin-top: 2rem;">
+                     <div class="columns">
+                        <div class="column ">
+                            <div class="component1">
+                                <h4 class="h4 "><a href="/category">File Categories</a></h4>
+                                <h4 class="h4 active"><a href="/category/archive">Archived</a></h4>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="columns">
+                        
+                        <div class="column">
+
+                           <div class="columns space2 flex-wrap">
+                              {% for categoryNames in categories %}
+                              <form method='POST' action='{% url "DeleteCategory"%}' id='{{categoryNames.title}}'>
+                                 {% csrf_token %}
+                              <span class="button category">
+                                 <input type='text' name='ID' style='display:none' value='{{categoryNames.pk}}'>
+                               <div onClick='openModal("{{categoryNames.pk}}", "{{categoryNames.title}}")'> {{categoryNames.title}} </div>  
+                                  <div class="icon-delete" title="delete" onClick='deleteCateg("{{categoryNames.title}}")'>
+                                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14.5562 3.6975L13.5717 2.5075C13.3733 2.27375 13.0829 2.125 12.75 2.125H4.25C3.91708 2.125 3.62667 2.27375 3.43542 2.51458L2.45083 3.6975C2.24542 3.94542 2.125 4.25708 2.125 4.60417V13.4583C2.125 14.2375 2.75542 14.875 3.54167 14.875H13.4583C14.2375 14.875 14.875 14.2375 14.875 13.4583V4.60417C14.875 4.25708 14.7546 3.94542 14.5562 3.6975ZM8.5 6.72917L12.3958 10.625H9.91667V12.0417H7.08333V10.625H4.60417L8.5 6.72917ZM3.62667 3.54167L4.2075 2.83333H12.7075L13.3663 3.54167H3.62667Z" fill="white"/>
+                                    </svg>
+                                 </div>
+                             </span>
+                           </form>
+                              {% endfor %}
+                           </div>
+                           
+                        </div>
+                     </div>
+                   </div>
+
+                   <div class="modal-container" id='ModalForEdittingCategory'>
+                     <div class="modal-backdrop"></div>
+                     <div class="edit-modal">
+                        <div class="header">
+                           <h4 class="text-purple fw-800">Edit Category</h4>
+                           <span class="close-modal-icon" id='CloseModalForEditCategory'>
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#323232"/>
+                              </svg>
+                           </span>
+                        </div>
+                        <form action='{% url "UpdateCategory"%}' method = 'POST'>
+                           {% csrf_token %}
+                           <div class="row">
+                              <div class="col-12">
+                                 <input type="text" name='newCategoryName' id='newCategoryName'>
+                                 <input type="text" name = 'categoryID'id='categoryID' style='display:none'>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12">
+                                 <button class="btn-black">Save</button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+                  
+               </div>
+           </section>
         </main>
      </div>
 
-
    <!--SIDEBAR TOGGLE-->
+   
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script>
-        const toggle = document.querySelector('#sidebar--toggle');
-        const sidebar = document.querySelector('#aside');
-        const main = document.querySelector('#main-content');
-        toggle.addEventListener('click',function(){
-        if(sidebar.classList.contains('close--sidebar')){ 
-        sidebar.classList.remove('close--sidebar');
-        main.classList.remove('margins');
-        }
-        else{
-        sidebar.classList.add('close--sidebar');
-        main.classList.add('margins');
-        }});
+    const toggle = document.querySelector('#sidebar--toggle');
+    const sidebar = document.querySelector('#aside');
+    const main = document.querySelector('#main-content');
+    toggle.addEventListener('click',function(){
+    if(sidebar.classList.contains('close--sidebar')){ 
+    sidebar.classList.remove('close--sidebar');
+    main.classList.remove('margins');
+    }
+    else{
+    sidebar.classList.add('close--sidebar');
+    main.classList.add('margins');
+    }});
+
+    function deleteCateg(ID){
+      Swal.fire({
+         icon: 'warning',
+         showCancelButton: true,
+         title: "Are you sure you want to delete this category?.",
+         confirmButtonText: 'Yes',
+         cancelButtonText: 'Cancel',
+      }).then((result) => {
+         if(result.isConfirmed){
+          document.getElementById(ID).submit();
+         }
+      })
+    }
+
+    document.getElementById('ModalForEdittingCategory').style.display = 'none';
+    
+    document.getElementById('CloseModalForEditCategory').style.cursor='pointer';
+    document.getElementById('CloseModalForEditCategory').onclick = function(e){
+    document.getElementById('ModalForEdittingCategory').style.display = 'none';
+    }
+
+    function openModal(ID, title){
+      document.getElementById('ModalForEdittingCategory').style.display = 'block';
+      document.getElementById('newCategoryName').value = title;
+      document.getElementById('categoryID').value = ID;
+
+   }
+
    </script>
+   
    <style>
    @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700;800&display=swap");
    *, *::before, *::after {
    margin: 0;
    padding: 0;
    -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-   font-family: 'Raleway', sans-serif;
+   box-sizing: border-box;
    }
 
    body {
@@ -201,8 +302,6 @@
    font-size: 16px;
    font-weight: 600;
    font-family: 'Raleway', sans-serif;
-   -webkit-transition: all ease 300ms;
-   transition: all ease 300ms;
    }
 
    form input[type="email"]::-webkit-input-placeholder, form input[type="text"]::-webkit-input-placeholder, form input[type="password"]::-webkit-input-placeholder {
@@ -234,11 +333,7 @@
    }
 
    form input[type="email"]:focus, form input[type="text"]:focus, form input[type="password"]:focus {
-   border-color: #8761F4;
-   }
-
-   form input[type="email"]:hover, form input[type="text"]:hover, form input[type="password"]:hover {
-   border-color: #8761F4;
+   border: 1.25px solid #8761F4;
    }
 
    form .btn-login-holder {
@@ -247,7 +342,7 @@
    display: flex;
    -webkit-box-pack: end;
    -ms-flex-pack: end;
-      justify-content: flex-end;
+   justify-content: flex-end;
    }
 
    form .btn-login {
@@ -269,7 +364,7 @@
    display: flex;
    -webkit-box-pack: center;
    -ms-flex-pack: center;
-      justify-content: center;
+   justify-content: center;
    margin-top: 1rem;
    }
 
@@ -297,7 +392,7 @@
    form .col-6 {
    -webkit-box-flex: 1;
    -ms-flex: 1 1 50%;
-      flex: 1 1 50%;
+   flex: 1 1 50%;
    max-width: 50%;
    padding: 0 15px;
    }
@@ -305,7 +400,7 @@
    form .col-12 {
    -webkit-box-flex: 1;
    -ms-flex: 1;
-      flex: 1;
+   flex: 1;
    max-width: 100%;
    padding: 0 15px;
    position: relative;
@@ -333,7 +428,7 @@
    right: 2.1rem;
    top: 40%;
    -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
+   transform: translateY(-50%);
    }
 
    .global--container {
@@ -350,7 +445,7 @@
    position: fixed;
    background-color: #fff;
    -webkit-box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.05);
-      box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.05);
+   box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.05);
    -webkit-transition: all 0.5s ease;
    transition: all 0.5s ease;
    font-size: 14px;
@@ -363,7 +458,7 @@
    -webkit-box-orient: vertical;
    -webkit-box-direction: normal;
    -ms-flex-direction: column;
-      flex-direction: column;
+   flex-direction: column;
    height: 100%;
    position: relative;
    }
@@ -423,7 +518,7 @@
    -webkit-box-orient: vertical;
    -webkit-box-direction: normal;
    -ms-flex-direction: column;
-      flex-direction: column;
+   flex-direction: column;
    gap: 20px;
    }
 
@@ -437,7 +532,7 @@
    display: flex;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
+   align-items: center;
    gap: 18px;
    color: #272727;
    -webkit-transition: all 300ms ease;
@@ -464,7 +559,7 @@
 
    .global--container .aside--bottom {
    -webkit-margin-before: auto;
-      margin-block-start: auto;
+   margin-block-start: auto;
    padding: 32px 40px;
    border-top: solid #e6e6e6 1px;
    }
@@ -479,7 +574,7 @@
    display: flex;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
+   align-items: center;
    text-decoration: none;
    color: #272727;
    gap: 24px;
@@ -499,7 +594,7 @@
    display: flex;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
+   align-items: center;
    gap: 40px;
    }
 
@@ -514,7 +609,7 @@
    .global--container .close--sidebar .menu--links li a {
    -webkit-box-pack: center !important;
    -ms-flex-pack: center !important;
-      justify-content: center !important;
+   justify-content: center !important;
    padding: 10px 18px !important;
    }
 
@@ -537,7 +632,7 @@
    .global--container .close--sidebar .sidebar--toggle-container {
    -webkit-box-pack: center;
    -ms-flex-pack: center;
-      justify-content: center;
+   justify-content: center;
    }
 
    .global--container .close--sidebar .sidebar--toggle-container p {
@@ -564,7 +659,7 @@
    .global--container main {
    -webkit-box-flex: 1;
    -ms-flex: 1;
-      flex: 1;
+   flex: 1;
    width: 100%;
    padding: 65px;
    margin-left: 250px;
@@ -582,10 +677,10 @@
    }
 
    .modal-container .modal-backdrop {
-   height: 100%;
+   height: 100vh;
    width: 100%;
    background-color: #0000007a;
-   position: fixed;
+   position: absolute;
    top: 0;
    left: 0;
    overflow: hidden;
@@ -597,33 +692,25 @@
    display: flex;
    -webkit-box-pack: justify;
    -ms-flex-pack: justify;
-      justify-content: space-between;
+   justify-content: space-between;
    border-bottom: 2px solid #ddd;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
+   align-items: center;
    margin-bottom: 23px;
    }
 
    .component1 h4 {
    padding: 14px 18px;
    margin-bottom: -1px;
-   font-weight: 500;
-   color: #777777;
    }
-
-   .component1 h4 a {
+   .component1 a {
    text-decoration: none;
-   color: #777777;
+   color: #8761F4;
    }
 
    .component1 h4.active {
    border-bottom: 2px solid #8761F4;
-   }
-
-   .component1 h4.active a {
-   color: #8761F4;
-   font-weight: 500;
    }
 
    .component2 {
@@ -632,7 +719,7 @@
    display: flex;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
+   align-items: center;
    gap: .6rem;
    }
 
@@ -640,32 +727,12 @@
    border: 1px solid #ddd;
    border-radius: 100px;
    padding: .7rem 1rem;
-   -webkit-transition: all 300ms ease;
-   transition: all 300ms ease;
-   }
-
-   .component2 .start-date:hover {
-   border-color: #8761F4;
-   }
-
-   .component2 .start-date:focus {
-   border-color: #8761F4;
    }
 
    .component2 .end-date {
    border: 1px solid #ddd;
    border-radius: 100px;
    padding: .7rem 1rem;
-   -webkit-transition: all 300ms ease;
-   transition: all 300ms ease;
-   }
-
-   .component2 .end-date:hover {
-   border-color: #8761F4;
-   }
-
-   .component2 .end-date:focus {
-   border-color: #8761F4;
    }
 
    .component2 .start-date, .component2 .end-date {
@@ -687,8 +754,6 @@
    width: 110px;
    font-size: 14px;
    font-weight: 500;
-   -webkit-transition: all 300ms ease;
-   transition: all 300ms ease;
    }
 
    .component3 {
@@ -699,7 +764,7 @@
    position: absolute;
    top: 55%;
    -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
+   transform: translateY(-50%);
    left: 1rem;
    }
 
@@ -713,8 +778,6 @@
    width: 242px;
    font-size: 14px;
    font-weight: 500;
-   -webkit-transition: all 300ms ease;
-   transition: all 300ms ease;
    }
 
    .component3 .search-input::-webkit-input-placeholder {
@@ -731,14 +794,6 @@
 
    .component3 .search-input::placeholder {
    font-size: 16px;
-   }
-
-   .component3 .search-input:hover {
-   border-color: #8761F4;
-   }
-
-   .component3 .search-input:focus {
-   border-color: #8761F4;
    }
 
    .component4 {
@@ -769,7 +824,7 @@
    right: 1rem;
    top: 50%;
    -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
+   transform: translateY(-50%);
    z-index: -1;
    }
 
@@ -782,12 +837,6 @@
    cursor: pointer;
    display: inline-block;
    text-decoration: none;
-   -webkit-transition: all ease 300ms;
-   transition: all ease 300ms;
-   }
-
-   .btn-black:hover {
-   background-color: #8761F4;
    }
 
    .btn-purple {
@@ -806,19 +855,13 @@
    display: flex;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
+   align-items: center;
    gap: 12px;
    cursor: pointer;
-   -webkit-transition: all ease 300ms;
-   transition: all ease 300ms;
    }
 
    .btn-purple a span {
    font-size: 2rem;
-   }
-
-   .btn-purple a:hover {
-   background-color: #272727;
    }
 
    .btn-dark {
@@ -837,332 +880,161 @@
    display: flex;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
+   align-items: center;
    gap: 12px;
    cursor: pointer;
-   -webkit-transition: all ease 300ms;
-   transition: all ease 300ms;
    }
 
    .btn-dark a span {
    font-size: 2rem;
    }
+   /*# sourceMappingURL=global.css.map */
 
-   .btn-dark a:hover {
-   background-color: #8761F4;
-   }
-
-   .my-profile--container {
-   display: -ms-grid;
-   display: grid;
-   -ms-grid-columns: 1fr 2fr;
-   grid-template-columns: 1fr 2fr;
-   }
-
-   .my-profile--image {
-   text-align: center;
-   }
-
-   .my-profile--image img {
-   margin-bottom: 23px;
-   }
-
-   .my-profile--image h4 {
-   margin-bottom: 8px;
-   }
-
-   .my-profile--info-container {
-   display: -webkit-box;
-   display: -ms-flexbox;
-   display: flex;
-   }
-
-   .my-profile--info-container .text {
-   -webkit-box-flex: 1;
-   -ms-flex: 1;
-      flex: 1;
-   }
-
-   .my-profile--info-container .text h4 {
-   margin-bottom: 30px;
-   }
-
-   .my-profile--info-container .text table {
-   width: 100%;
-   table-layout: fixed;
-   margin-bottom: 40px;
-   }
-
-   .my-profile--info-container .text table tbody tr {
-   padding: .5rem 0;
-   display: block;
-   }
-
-   .my-profile--info-container .text table tbody tr td {
-   display: inline-block;
-   }
-
-   .my-profile--info-container .text table tbody tr .title {
-   width: 20%;
-   }
-
-   .my-profile--info .cta-holder {
-   display: -webkit-box;
-   display: -ms-flexbox;
-   display: flex;
-   -webkit-box-pack: end;
-   -ms-flex-pack: end;
-      justify-content: flex-end;
-   gap: 15px;
-   }
-
-   .my-profile .change-password-modal {
+   .category-management--container .save-category-modal {
    width: 446px;
    background-color: #fff;
-   position: fixed;
+   position: absolute;
    top: 50%;
    left: 50%;
    -webkit-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+   transform: translate(-50%, -50%);
    padding: 32px;
    -webkit-box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
-      box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
+   box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
    border-radius: 8px;
    }
 
-   .my-profile .change-password-modal .header {
+   .category-management--container .save-category-modal .header {
    display: -webkit-box;
    display: -ms-flexbox;
    display: flex;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
+   align-items: center;
    -webkit-box-pack: justify;
    -ms-flex-pack: justify;
-      justify-content: space-between;
+   justify-content: space-between;
    margin-bottom: 1.5rem;
    }
 
-   .manage-accounts--controls {
+   .category-management--container .columns {
    display: -webkit-box;
    display: -ms-flexbox;
    display: flex;
-   -webkit-box-pack: justify;
-   -ms-flex-pack: justify;
-      justify-content: space-between;
-   -webkit-box-align: end;
-   -ms-flex-align: end;
-      align-items: flex-end;
-   margin-bottom: 33px;
    }
 
-   .manage-accounts--controls-date p {
-   margin-bottom: 10px;
+   .category-management--container .columns.space2 {
+   gap: 1rem;
    }
 
-   .manage-accounts--controls-right {
+   .category-management--container .space2 {
+   gap: 1rem;
+   }
+
+   .category-management--container .flex-wrap {
+   -ms-flex-wrap: wrap;
+   flex-wrap: wrap;
+   }
+
+   .category-management--container .flex {
    display: -webkit-box;
    display: -ms-flexbox;
    display: flex;
-   -webkit-box-align: center;
-   -ms-flex-align: center;
-      align-items: center;
-   gap: 13px;
    }
 
-   .manage-accounts--table-container table {
-   border: 1px solid #ccc;
-   border-collapse: collapse;
+   .category-management--container .flex div {
+   -webkit-box-flex: 1;
+   -ms-flex-positive: 1;
+   flex-grow: 1;
+   border-bottom: 1px solid #ccc;
+   }
+
+   .category-management--container .is-7 {
+   -ms-flex-preferred-size: 100% !important;
+   flex-basis: 100% !important;
+   }
+
+   .category-management--container .column {
+   display: block;
+   -ms-flex-preferred-size: 0;
+   flex-basis: 0;
+   -webkit-box-flex: 1;
+   -ms-flex-positive: 1;
+   flex-grow: 1;
+   -ms-flex-negative: 1;
+   flex-shrink: 1;
+   padding: .75rem;
+   }
+
+   .category-management--container .column button {
+   border: none;
+   border-radius: 5px !important;
+   font-family: 'Raleway', sans-serif;
+   height: 100%;
+   font-size: 14px;
+   font-weight: 600;
+   }
+
+   .category-management--container .column input {
    margin: 0;
-   padding: 0;
-   width: 100%;
-   table-layout: fixed;
-   text-align: center;
    }
 
-   .manage-accounts--table-container table thead tr {
-   border: 1px solid #ddd;
-   }
-
-   .manage-accounts--table-container table thead th {
-   font-size: 14px;
-   letter-spacing: .1em;
-   text-transform: uppercase;
-   background-color: #FAFAFA;
-   padding: 1rem;
-   color: #8761F4;
-   text-align: center;
-   }
-
-   .manage-accounts--table-container table tr {
-   border: 1px solid #ddd;
-   }
-
-   .manage-accounts--table-container table tbody tr td {
-   font-size: 14px;
-   padding: 1rem;
-   }
-
-   .manage-accounts--table-container table tbody tr {
-   -webkit-transition: all 300ms ease-in-out;
-   transition: all 300ms ease-in-out;
-   }
-
-   .manage-accounts--table-container table tbody tr:hover {
-   background-color: #ececec;
+   .category-management--container .category {
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   gap: .2rem;
+   -webkit-box-align: center;
+   -ms-flex-align: center;
+   align-items: center;
+   border-radius: 100px;
+   padding: .2rem 1rem;
    cursor: pointer;
+   color: #272727;
+   background-color: #DADADA;
    }
 
-   .manage-accounts--table-container table tbody tr .actions .actions--container {
-   display: -webkit-box;
-   display: -ms-flexbox;
-   display: flex;
-   -webkit-box-pack: center;
-   -ms-flex-pack: center;
-      justify-content: center;
-   gap: 1rem;
+   .category-management--container .category .icon-delete {
+   display: none;
    }
 
-   .manage-accounts--table-container table tbody tr .actions .actions--container .icon-pen, .manage-accounts--table-container table tbody tr .actions .actions--container .icon-archive {
-   cursor: pointer;
+   .category-management--container .category:hover {
+   background-color: #8761F4;
+   padding: .2rem 1rem;
+   color: #fff;
    }
 
-   .add-accounts--container {
-   display: -ms-grid;
-   display: grid;
-   -ms-grid-columns: 1fr 2fr;
-   grid-template-columns: 1fr 2fr;
+   .category-management--container .category:hover .icon-delete {
+   display: block;
    }
 
-   .add-accounts--container .my-profile--image {
-   text-align: center;
+   .category-management--container .edit-modal {
+   width: 446px;
+   background-color: #fff;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   -webkit-transform: translate(-50%, -50%);
+   transform: translate(-50%, -50%);
+   padding: 32px;
+   -webkit-box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
+   box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
+   border-radius: 8px;
    }
 
-   .add-accounts--form-container form h4 {
-   margin-bottom: 1.5rem;
-   }
-
-   .add-accounts--form-container form .btn-holder {
-   margin-top: 1.3rem;
-   -webkit-box-pack: end;
-   -ms-flex-pack: end;
-      justify-content: flex-end;
-   display: -webkit-box;
-   display: -ms-flexbox;
-   display: flex;
-   gap: 1rem;
-   }
-
-   .edit-accounts--container {
-   display: -ms-grid;
-   display: grid;
-   -ms-grid-columns: 1fr 2fr;
-   grid-template-columns: 1fr 2fr;
-   }
-
-   .edit-accounts--container .my-profile--image {
-   text-align: center;
-   }
-
-   .edit-accounts--form-container form h4 {
-   margin-bottom: 1.5rem;
-   }
-
-   .edit-accounts--form-container form .btn-holder {
-   margin-top: 1.3rem;
-   -webkit-box-pack: end;
-   -ms-flex-pack: end;
-      justify-content: flex-end;
-   display: -webkit-box;
-   display: -ms-flexbox;
-   display: flex;
-   gap: 1rem;
-   }
-
-   .archived-accounts--controls {
-   display: -webkit-box;
-   display: -ms-flexbox;
-   display: flex;
-   -webkit-box-pack: justify;
-   -ms-flex-pack: justify;
-      justify-content: space-between;
-   -webkit-box-align: end;
-   -ms-flex-align: end;
-      align-items: flex-end;
-   margin-bottom: 33px;
-   }
-
-   .archived-accounts--controls-date p {
-   margin-bottom: 10px;
-   }
-
-   .archived-accounts--controls-right {
+   .category-management--container .edit-modal .header {
    display: -webkit-box;
    display: -ms-flexbox;
    display: flex;
    -webkit-box-align: center;
    -ms-flex-align: center;
-      align-items: center;
-   gap: 13px;
+   align-items: center;
+   -webkit-box-pack: justify;
+   -ms-flex-pack: justify;
+   justify-content: space-between;
+   margin-bottom: 1.5rem;
    }
-
-   .archived-accounts--table-container table {
-   border: 1px solid #ccc;
-   border-collapse: collapse;
-   margin: 0;
-   padding: 0;
-   width: 100%;
-   table-layout: fixed;
-   text-align: center;
-   }
-
-   .archived-accounts--table-container table thead tr {
-   border: 1px solid #ddd;
-   }
-
-   .archived-accounts--table-container table thead th {
-   font-size: 14px;
-   letter-spacing: .1em;
-   text-transform: uppercase;
-   background-color: #FAFAFA;
-   padding: 1rem;
-   color: #8761F4;
-   text-align: center;
-   }
-
-   .archived-accounts--table-container table tr {
-   border: 1px solid #ddd;
-   }
-
-   .archived-accounts--table-container table tbody tr td {
-   font-size: 14px;
-   padding: 1rem;
-   }
-
-   .archived-accounts--table-container table tbody tr {
-   -webkit-transition: all 300ms ease-in-out;
-   transition: all 300ms ease-in-out;
-   }
-
-   .archived-accounts--table-container table tbody tr:hover {
-   background-color: #ececec;
-   cursor: pointer;
-   }
-
-   .archived-accounts--table-container table tbody tr .actions .actions--container {
-   display: -webkit-box;
-   display: -ms-flexbox;
-   display: flex;
-   -webkit-box-pack: center;
-   -ms-flex-pack: center;
-      justify-content: center;
-   gap: 1rem;
-   }
-
-   .archived-accounts--table-container table tbody tr .actions .actions--container .icon-pen, .archived-accounts--table-container table tbody tr .actions .actions--container .icon-archive {
-   cursor: pointer;
-   }
-   /*# sourceMappingURL=style.css.map */
+   /*# sourceMappingURL=category-management.css.map */
    </style>
 
 </body>

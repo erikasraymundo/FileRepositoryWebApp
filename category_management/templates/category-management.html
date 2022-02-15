@@ -116,9 +116,9 @@
                     <div class="container" style="margin-top: 2rem;">
                      <div class="columns">
                         <div class="column ">
-                           <div class="flex space2">
-                              <h4 class="h4">File Categories</h4>
-                              <div></div>
+                           <div class="component1">
+                              <h4 class="h4 active"><a href="/category">File Categories</a></h4>
+                              <h4 class="h4 "><a href="/category/archive">Archived</a></h4>
                            </div>
                          </div>
                      </div>
@@ -444,8 +444,8 @@
    height: 100vh;
    position: fixed;
    background-color: #fff;
-   -webkit-box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+   -webkit-box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.05);
+   box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.05);
    -webkit-transition: all 0.5s ease;
    transition: all 0.5s ease;
    font-size: 14px;
@@ -703,6 +703,10 @@
    .component1 h4 {
    padding: 14px 18px;
    margin-bottom: -1px;
+   }
+   .component1 h4  a{
+      text-decoration: none;
+      color: #8761F4;
    }
 
    .component1 h4:first-child {

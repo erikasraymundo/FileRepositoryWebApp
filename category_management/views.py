@@ -98,3 +98,7 @@ def printcategories(request):
     buf.seek(0)
 
     return FileResponse(buf, as_attachment=True, filename="users.pdf")
+
+
+def archiveCategory(request):
+    return render(request, 'archive.html')
