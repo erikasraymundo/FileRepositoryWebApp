@@ -489,17 +489,12 @@ def UpdatePassword(request):
     return HttpResponseRedirect(reverse('profile'))
 
 def DeleteAccount(request):
-    
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
     except:
         return HttpResponseRedirect(reverse('index'))
 
-    list = []
-    users = User.objects.exclude(pk = request.session.get('user_id') )
-    for user in users:
-        list.append(user.username)
     admin = User.objects.get(pk = request.POST['DeleteID'])
     admin.is_active = False
     admin.deleted_at = timezone.now()
@@ -522,17 +517,6 @@ def UpdateAccountDetails(request):
     except:
         return HttpResponseRedirect(reverse('index'))
 
-    #For Username Cheching
-    list = []
-    listEmails = []
-    users = User.objects.exclude(pk = request.session.get('user_id') )
-    for user in users:
-        list.append(user.username)
-    #for email checking
-    users = User.objects.exclude(pk = request.session.get('user_id') )
-    for user in users:
-        listEmails.append(user.email)
-
     admin = User.objects.get(pk = request.POST['DeleteID'])
     admin.updated_at = timezone.now()
     admin.username = request.POST['username']
@@ -543,9 +527,6 @@ def UpdateAccountDetails(request):
     admin.birthdate = request.POST['bday']
     admin.gender = request.POST['group']
     admin.save()
-    forDate =  User.objects.get(pk =  request.session.get('user_id'))
-    asd = forDate.birthdate
-    date = asd.isoformat()
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = 'User with ID: ' + str(request.session.get('user_id'))+ ' updated his/her account'
@@ -561,10 +542,11 @@ def ManageAccounts(request):
     except:
         return HttpResponseRedirect(reverse('index'))
 
-    userExceptMe = User.objects.exclude(pk =  request.session.get('user_id'))
     return render(request, 'user-accounts/manage-accounts.html', {
         'user' : logged_user,
-        'users' : User.objects.filter(~Q(pk =  request.session.get('user_id'), is_active =  1)),    })
+        'user' : User.objects.filter(is_active =  1),
+        'admin' : session_user_id,
+    })
 
 def ArchiveAccounts(request):
     
@@ -578,7 +560,6 @@ def ArchiveAccounts(request):
     return render(request, 'user-accounts/archive-account.html', {
         'user' : logged_user,
         'users' : User.objects.filter(~Q(pk =  request.session.get('user_id'), is_active =  0)),
-        'pk': pk2, 
     })
 
 def AddAccount(request):

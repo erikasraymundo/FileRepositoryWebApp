@@ -64,8 +64,11 @@
             </tr>
          </thead>
          <tbody>
+            {% for admins in admin %}
+            <h1>Admin ID : {{ admin }}</h1>
+            {% endfor %}
             {% for user in users %}
-         
+            {% if not user.pk ==  admin %}
             <form action='{% url "ArchieveUserAccount" %}' id='archiveThisAccountHiddenForm', method="POST">
                {% csrf_token %}
                <input type='text' value='{{user.pk}}' style='display:none' name='ID'  id='RenamethisTArchiveTheSpecificUser'>
@@ -102,6 +105,7 @@
                   </div>
                </td>
             </tr>
+            {% endif %}
             {% endfor %}
          </tbody>
          </table>
