@@ -30,7 +30,7 @@
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Gender</td>
-                                    <td class="fw-400">{{ detail.gender }}</td>
+                                    <td class="fw-400" id='renaethisforgender'></td>
                               </tr>
                               <tr>
                                     <td class="fw-700 title">Birthdate</td>
@@ -66,6 +66,8 @@
                            </tr>
                         </tbody>
                         </table>
+                        <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none'>
+
        <form action='{% url "EditAccount" %}' id='EditUserAccountFromHereThis', method="POST">
                {% csrf_token %}
                <input type='text' value='{{detail.pk}}' style='display:none' name='PK'>
@@ -141,6 +143,19 @@
       document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
    }
    
+
+
+   //for gender (edit)
+   if(document.getElementById('hiddeGender').value == 1){
+      document.getElementById('renaethisforgender').textContent = 'Woman';
+   }
+   else if (document.getElementById('hiddeGender').value == 2){
+      document.getElementById('renaethisforgender').textContent = 'Man';
+   }
+   else{
+      document.getElementById('renaethisforgender').textContent = 'Others';
+   }
+
       </script>
 
    </section>
