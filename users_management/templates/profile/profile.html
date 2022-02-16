@@ -20,7 +20,11 @@
                <input type='text' value=" {{ detail.address }}" style='display:none' id='initialaddress'>
                <input type='text' value=" {{ bday }}" style='display:none' id='initialbday'>
                <input type='text' value=" {{ detail.email }}" style='display:none' id='initialemail'>
-               <input type='text' value=" {{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+            {% if detail.image == '' %}
+            <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
+            {% else %}
+            <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+            {% endif %}
                <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
                <h4 class="h4"> 
                   {{ detail.username }}
