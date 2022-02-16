@@ -9,10 +9,17 @@ import datetime
 from django.utils import timezone
 
 def loginView(request, error = 0):
+    session_user_id = request.session.get('user_id')
+    if (session_user_id != None):
+        return HttpResponseRedirect(reverse('file-management:index'))
+
     return render(request, 'accounts/login.html', {"error": error})
 
 # need po itong baguhin
 def login(request):
+    session_user_id = request.session.get('user_id')
+    if (session_user_id != None):
+        return HttpResponseRedirect(reverse('file-management:index'))
 
     usernameEmail = request.POST['usernameEmail']
     password = request.POST['password']
@@ -40,10 +47,16 @@ def login(request):
 
 
 def registerView(request, error=0, success=0):
+    session_user_id = request.session.get('user_id')
+    if (session_user_id != None):
+        return HttpResponseRedirect(reverse('file-management:index'))
     return render(request, 'accounts/registration.html', {"error": error, "success" : success})
 
 # need po itong baguhin
 def register(request):
+    session_user_id = request.session.get('user_id')
+    if (session_user_id != None):
+        return HttpResponseRedirect(reverse('file-management:index'))
 
     username = request.POST['username']
     email = request.POST['email']

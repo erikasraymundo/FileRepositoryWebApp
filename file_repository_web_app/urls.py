@@ -18,7 +18,7 @@ from django.urls import path
 from accounts.views import login
 from accounts.views import register
 from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, AddUserAccount, AddAccount, EditAccount, ViewAccount, ArchieveUserAccount, RestoreUserAccount, SaveChangesOnEditUserAccount, UploadProfilePicture
-from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory, printcategories, archiveCategory, RestoreCategory, UpdateArchivedCategory
+from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory, archiveCategory, RestoreCategory, UpdateArchivedCategory
 
 from django.urls import include, path
 

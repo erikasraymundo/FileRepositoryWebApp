@@ -35,6 +35,13 @@ def categoryManagement(request):
     })
 
 def AddCategory(request):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     if(request.POST['CategoryInput'] == ''):
         categoryNames = Category.objects.all()
         return render(request, 'category-management.html', {  'categories' : categoryNames, })
@@ -59,11 +66,15 @@ def AddCategory(request):
             log.user_id = User.objects.get(pk=  request.session.get('user_id'))
             log.description = category.title + ' has been added to categories'
             log.save()
-    return render(request, 'category-management.html', {
-        'categories' : Category.objects.filter(isArchived = False),
-    })
+    return HttpResponseRedirect(reverse('categoryManagement'))
 
 def DeleteCategory(request):
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     entry = Category.objects.get(pk = request.POST['ID'])
     entry.isArchived =True
     entry.save()
@@ -71,11 +82,15 @@ def DeleteCategory(request):
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = entry.title + ' has been moved to the archived categories'
     log.save()
-    return render(request, 'category-management.html', {
-        'categories' : Category.objects.filter(isArchived = False),
-    })
+    return HttpResponseRedirect(reverse('categoryManagement'))
 
 def UpdateCategory(request):
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     entry = Category.objects.get(pk = request.POST['categoryID'])
     entry.title = request.POST['newCategoryName']
     entry.save()
@@ -84,37 +99,7 @@ def UpdateCategory(request):
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = 'Category named ' + Category.objects.get(pk = request.POST['categoryID']).title + ' was renamed to ' + request.POST['newCategoryName']
     log.save()
-    return render(request, 'category-management.html', {
-        'categories' : Category.objects.filter(isArchived = False),
-    })
-
-def printcategories(request):
-    buf = io.BytesIO()
-    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
-    text = c.beginText()
-    text.setTextOrigin(inch, inch)
-    text.setFont("Helvetica", 12)
-
-    # lines = ["1", "2", "3"]
-
-    
-    lines = []
-
-
-    categories = Category.objects.all()
-    for category in categories:
-        lines.append(category.title)
-
-    for line in lines:
-        text.textLine(line)
-
-    c.drawText(text)
-    c.showPage()
-    c.save()
-    buf.seek(0)
-
-    return FileResponse(buf, as_attachment=True, filename="users.pdf")
-
+    return HttpResponseRedirect(reverse('categoryManagement'))
 
 def archiveCategory(request):
 
@@ -130,6 +115,12 @@ def archiveCategory(request):
     })
 
 def RestoreCategory(request):
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     entry = Category.objects.get(pk = request.POST['ID'])
     entry.isArchived = False
     entry.save()
@@ -137,11 +128,17 @@ def RestoreCategory(request):
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = entry.title + ' has been moved to the active categories from the archive'
     log.save()
-    return render(request, 'archive.html', {
-        'categories' : Category.objects.filter(isArchived = True),
-    })
+
+    return HttpResponseRedirect(reverse('archiveCategory'))
 
 def UpdateArchivedCategory(request):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     entry = Category.objects.get(pk = request.POST['categoryID'])
     entry.title = request.POST['newCategoryName']
     entry.save()
@@ -150,6 +147,5 @@ def UpdateArchivedCategory(request):
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = 'Category named ' + Category.objects.get(pk = request.POST['categoryID']).title + ' was renamed to ' + request.POST['newCategoryName']
     log.save()
-    return render(request, 'archive.html', {
-        'categories' : Category.objects.filter(isArchived = True),
-    })
+
+    return HttpResponseRedirect(reverse('archiveCategory'))

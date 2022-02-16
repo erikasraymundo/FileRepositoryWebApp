@@ -75,16 +75,16 @@
         <div class="preview">
             {% if file.getFileType == 1 %}
             <image src='{{file.url.url}}' style="max-width: 800px;max-height:500px; width:auto; height:auto"></iframe>
-                {% elif file.getFileType == 2  %}
-                <video controls src="{{file.url.url}}" style="width:100%; height:500px">
-                    <p onclick='downloadFile()'>Your browser does not support HTML5 Element. You may download this file
+            {% elif file.getFileType == 2  %}
+            <video controls src="{{file.url.url}}" style="width:100%; height:500px">
+                <p onclick='downloadFile()'>Your browser does not support HTML5 Element. You may download this file
                         instead.</p>
-                </video>
-                {% elif file.getFileType == 3  %}
-                <iframe src='{{file.url.url}}' width='100%' height='500px' frameborder='0'
+            </video>
+            {% elif file.getFileType == 3  %}
+            <iframe src='{{file.url.url}}' width='100%' height='500px' frameborder='0'
                     style="background:white"></iframe>
-                {% else %}
-                <p style="text-align: center" onclick='downloadFile()'>Sorry, but we cannot display your file, click
+            {% else %}
+            <p style="text-align: center" onclick='downloadFile()'>Sorry, but we cannot display your file, click
                     this to download instead.</p>
                 {% endif %}
         </div>
