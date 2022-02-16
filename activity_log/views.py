@@ -217,6 +217,17 @@ def printPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     title = "Activity Log"
     description = "The following are the activity logs for Soar Academy's English High School Department common drive."
     styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Subtitle',
+                                  fontSize=12,
+                                  leading=14,
+                                  spaceAfter=6),
+                   alias='subtitle')
+    styles.add(ParagraphStyle(name='DefaultHeading',
+                                  fontSize=18,
+                                  leading=22,
+                                  spaceBefore=12,
+                                  spaceAfter=6),
+                   alias='dh')    
 
     table.setStyle(borderStyle)
 

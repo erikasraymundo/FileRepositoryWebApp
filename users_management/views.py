@@ -269,6 +269,17 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     title = "Users Management - Active Accounts"
     description = "The following are the active user accounts of Soar Academy's English High School Department common drive."
     styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Subtitle',
+                                  fontSize=12,
+                                  leading=14,
+                                  spaceAfter=6),
+                   alias='subtitle')
+    styles.add(ParagraphStyle(name='DefaultHeading',
+                                  fontSize=18,
+                                  leading=22,
+                                  spaceBefore=12,
+                                  spaceAfter=6),
+                   alias='dh')    
 
     table.setStyle(borderStyle)
 
@@ -399,6 +410,17 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
     title = "Users Management - Archived Accounts"
     description = "The following are the archived user accounts of Soar Academy's English High School Department common drive."
     styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Subtitle',
+                                  fontSize=12,
+                                  leading=14,
+                                  spaceAfter=6),
+                   alias='subtitle')
+    styles.add(ParagraphStyle(name='DefaultHeading',
+                                  fontSize=18,
+                                  leading=22,
+                                  spaceBefore=12,
+                                  spaceAfter=6),
+                   alias='dh')    
 
     table.setStyle(borderStyle)
 
@@ -669,12 +691,18 @@ def ViewAccount(request):
         logged_user = User.objects.get(pk=session_user_id)
     except:
         return HttpResponseRedirect(reverse('index'))
-        
+
     return render(request, 'user-accounts/view-account.html', {
         'users' : User.objects.filter(pk = request.POST['PK']),
     })
 
 def ArchieveUserAccount(request):
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     admin = User.objects.get(pk = request.POST['ID'])
     admin.is_active = False
     admin.deleted_at = timezone.now()
@@ -686,79 +714,13 @@ def ArchieveUserAccount(request):
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
-
-def printpdf(request):
-    return render(request, 'profile/print.html')
-
-def printusers(request):
-    filename = "reports/users.pdf"
-    pdf = SimpleDocTemplate(
-    filename,
-    pagesize=letter
-)
-    data = [
-    ['Username', 'Name', 'Email', 'Created At']
-]
-    
-    users = User.objects.all()
-    for user in users:
-        data.append([user.username, user.first_name+" "+user.last_name, user.email, user.created_at])
-        
-    table = Table(data)
-
-    ts = TableStyle(
-    [
-    ('GRID',(0,0),(-1,-1),2,colors.black),
-    ('ALIGN',(0,0),(-1,-1),"CENTER")
-    ]
-)
-    title = "List of Users"
-    table.setStyle(ts)    
-    # elems = []
-    # elems.append(title, height)
-    # elems.append(table)
-
-    ps = ParagraphStyle
-
-    styles = getSampleStyleSheet()
-    flowables = [
-        Paragraph(title, styles['Title']),
-        table,
-        Spacer(1 * cm, 1 * cm),
-        Paragraph('text after spacer')
-    ]
-
-
-    pdf.build(flowables)
-
-def printactivitylogs(request):
-    filename = "reports/Activity Logs.pdf"
-    pdf = SimpleDocTemplate(filename, pagesize=letter)
-    data = [['Event', 'Date/Time', 'Responsible user']]
-    
-    logs = Log.objects.all()
-    for log in logs:
-        data.append([log.description, log.created_at, log.user_id])
-        
-    table = Table(data)
-
-    ts = TableStyle([('GRID',(0,0),(-1,-1),2,colors.black), ('ALIGN',(0,0),(-1,-1),"CENTER")])
-    title = "Activity Log"
-    systemName = "Soar Academy File Repository System"
-    table.setStyle(ts)
-
-    styles = getSampleStyleSheet()
-    flowables = [
-        Paragraph(title, styles['Title']),
-        Paragraph(systemName, styles['Heading1']),
-        table,
-        Spacer(1 * cm, 1 * cm),
-        Paragraph('text after spacer')
-    ]
-
-    pdf.build(flowables)
-    
 def RestoreUserAccount(request):
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     admin = User.objects.get(pk = request.POST['ID'])
     admin.is_active = True
     admin.deleted_at = None
@@ -770,8 +732,14 @@ def RestoreUserAccount(request):
     log.save()
     return HttpResponseRedirect(reverse('users-management:archived-index'))
 
-
 def UploadProfilePicture(request):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     admin = User.objects.get(pk = request.POST['ID'])
     admin.image = request.FILES['image']
     admin.save()
@@ -795,7 +763,3 @@ def UploadProfilePicture(request):
         'username': list,
         'bday': date,
     })
-
-#temporary - erika
-def profileViewOnly(request):
-    return render(request, 'profile/profile.html')

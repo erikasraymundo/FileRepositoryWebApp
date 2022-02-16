@@ -19,7 +19,7 @@ from accounts.views import login
 from accounts.views import register
 from users_management.views import profile, UpdatePassword, DeleteAccount, UpdateAccountDetails, AddUserAccount, AddAccount, EditAccount, ViewAccount, ArchieveUserAccount, RestoreUserAccount, SaveChangesOnEditUserAccount, UploadProfilePicture
 from category_management.views import categoryManagement, AddCategory, UpdateCategory, DeleteCategory, printcategories, archiveCategory, RestoreCategory, UpdateArchivedCategory
-from users_management.views import printpdf, printusers, printactivitylogs
+
 from django.urls import include, path
 
 from django.conf import settings
@@ -47,13 +47,9 @@ urlpatterns = [
     path('category/archive', archiveCategory, name='archiveCategory'),
     path('category/archive/restore', RestoreCategory, name='RestoreCategory'),
     path('category/archive/update', UpdateArchivedCategory, name='UpdateArchivedCategory'),
-    path('printpdf/', printpdf, name='printpdf'),
-    path('printusers/', printusers, name='printusers'),
-    path('printcateg/', printcategories, name='print_categ'),
     path('category/add', AddCategory, name='AddCategory'),
     path('category/update', UpdateCategory, name='UpdateCategory'),
-    path('category/delete', DeleteCategory, name='DeleteCategory'),
-    path('printactivitylogs/', printactivitylogs, name='PrintActivityLogs')]
+    path('category/delete', DeleteCategory, name='DeleteCategory')]
 
 urlpatterns += static(settings.MEDIA_URL,
                       document_root=settings.MEDIA_ROOT)

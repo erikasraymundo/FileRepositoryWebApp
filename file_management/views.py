@@ -566,6 +566,17 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
     title = "File Management - Uploaded Files"
     description = "The following are the upload files in Soar Academy's English High School Department common drive."
     styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Subtitle',
+                                  fontSize=12,
+                                  leading=14,
+                                  spaceAfter=6),
+                   alias='subtitle')
+    styles.add(ParagraphStyle(name='DefaultHeading',
+                                  fontSize=18,
+                                  leading=22,
+                                  spaceBefore=12,
+                                  spaceAfter=6),
+                   alias='dh')    
 
     table.setStyle(borderStyle)
 
@@ -720,6 +731,17 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
     title = "File Management - Archived Files"
     description = "The following are the archived files in Soar Academy's English High School Department common drive."
     styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Subtitle',
+                                  fontSize=12,
+                                  leading=14,
+                                  spaceAfter=6),
+                   alias='subtitle')
+    styles.add(ParagraphStyle(name='DefaultHeading',
+                                  fontSize=18,
+                                  leading=22,
+                                  spaceBefore=12,
+                                  spaceAfter=6),
+                   alias='dh')    
 
     table.setStyle(borderStyle)
 
