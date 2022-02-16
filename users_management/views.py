@@ -357,6 +357,10 @@ def UpdatePassword(request):
     forDate =  User.objects.get(pk =1)
     asd = forDate.birthdate
     date = asd.isoformat()
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'Password has been updated for user with ID: ' + User.objects.get(pk=1).pk
+    log.save()
     return render(request, 'profile/profile.html', {
        'details' : User.objects.filter(pk =1, is_active = 1 , ),
         'username': list,
@@ -373,6 +377,11 @@ def DeleteAccount(request):
     admin.deleted_at = timezone.now()
     admin.updated_at = timezone.now()
     admin.save()
+    #TODO punta ng login, tanggalin session.
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'User with ID: ' + 1 + ' archived his/her account'
+    log.save()
     forDate =  User.objects.get(pk =1)
     asd = forDate.birthdate
     date = asd.isoformat()
@@ -400,6 +409,10 @@ def UpdateAccountDetails(request):
     forDate =  User.objects.get(pk =1)
     asd = forDate.birthdate
     date = asd.isoformat()
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'User with ID: ' + 1 + ' updated his/her account'
+    log.save()
     return render(request, 'profile/profile.html', {
         'details' : User.objects.filter(pk =1, is_active = 1 , ),
         'username': list,
@@ -441,6 +454,14 @@ def AddUserAccount(request):
     user.is_superuser = False
     user.is_staff = False
     user.user_type = 1
+
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'A new account was created by admin with ID: ' + 1
+    log.save()
+
+    if len(request.FILES) != 0:
+        user.image = request.FILES['image']
     user.save()
     return HttpResponseRedirect(reverse('users-management:index'))
     
@@ -468,7 +489,13 @@ def SaveChangesOnEditUserAccount(request):
     user.email = request.POST['email']
     user.gender = request.POST['group']
     user.birthdate = request.POST['bday']
+    if len(request.FILES) != 0:
+        user.image = request.FILES['image']
     user.save()
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'Admin with ID: ' + 1 + 'edited account details for user with ID: ' + request.POST['PK']
+    log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
 def ViewAccount(request):
@@ -482,6 +509,10 @@ def ArchieveUserAccount(request):
     admin.deleted_at = timezone.now()
     admin.updated_at = timezone.now()
     admin.save() 
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'Admin with ID: ' + 1 + 'archived user with ID: ' + request.POST['ID']
+    log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
 
@@ -562,4 +593,34 @@ def RestoreUserAccount(request):
     admin.deleted_at = None
     admin.updated_at = timezone.now()
     admin.save()
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'Admin with ID: ' + 1 + 'restored user with ID: ' + request.POST['ID']
+    log.save()
     return HttpResponseRedirect(reverse('users-management:archived-index'))
+
+
+def UploadProfilePicture(request):
+    admin = User.objects.get(pk = request.POST['ID'])
+    admin.image = request.FILES['image']
+    admin.save()
+
+    list = []
+    users = User.objects.exclude(pk =1 )
+    for user in users:
+        list.append(user.username)
+
+    forDate =  User.objects.get(pk =1)
+    asd = forDate.birthdate
+    date = asd.isoformat()
+
+    log = Log()
+    log.user_id = User.objects.get(pk=1)
+    log.description = 'User with ID: ' + 1 + ' updated his/her profile picture'
+    log.save()
+
+    return render(request, 'profile/profile.html', {
+        'details' : User.objects.filter(pk =1, is_active = 1 , ),
+        'username': list,
+        'bday': date,
+    })

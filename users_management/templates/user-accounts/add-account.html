@@ -6,14 +6,13 @@
 <section class="add-accounts">
     <div class="add-accounts--container">
           <div class="my-profile--image">
-             <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
-             <h4 class="h4">joy25</h4>
-             <p>username</p>
+            <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
           </div>
           <div class="add-accounts--form-container">
               
-            <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase'>
+            <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase' autocomplete='off'  enctype="multipart/form-data">
                {% csrf_token %} 
+               <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
                 <div class="row">
                     <div class="col-12">
                       <h4>Fill up all the information.</h4>
@@ -46,7 +45,7 @@
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter email address"  id='Add-Account-email' name='email'> 
+                     <input type="email" placeholder="Enter email address"  id='Add-Account-email' name='email'> 
                     </div>
                   </div>
                 <div class="row">
@@ -56,7 +55,7 @@
                                 <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"/>
                             </svg>
                         </div>
-                        <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" name='bday'> 
+                        <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" name='bday' autocomplete='nope'> 
                     </div>
                 </div>
 
@@ -89,6 +88,13 @@
     </div>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+
+      document.getElementById('ChangeThisToProfilePicture').style.width = '250px';
+      document.getElementById('ChangeThisToProfilePicture').style.height = '250px';
+      document.getElementById('ChangeThisToProfilePicture').style.objectFit = 'cover';
+      document.getElementById('ChangeThisToProfilePicture').style.borderRadius = '50%';
+
      function validateAddAccount(list2){
         var username = document.getElementById('Add-Account-Username').value;
         var first = document.getElementById('Add-Account-first').value;
@@ -103,32 +109,70 @@
             confirmButtonText: 'Ok',
          })
         }else{
-          var isDuplicate = false;
-          for(var i = 0 ; i < list2.length; i++){
-            if(i+1 == list2.length){
-              //last index
-              if(list2[i] == username){
-                isDuplicate = true;
-              }
-                if(!isDuplicate){
-                  //Save To DB
-                  document.getElementById('FormForAddingANewUserToTheDatabase').submit();
-                }else{
-                  //Error Message
-                  Swal.fire({
-                    icon: 'error',
-                    title: "Username is already taken.",
-                    confirmButtonText: 'Ok',
-                 })
+          //validate email
+          var re = /\S+@\S+\.\S+/;
+          if(re.test(email)){
+            var isDuplicate = false;
+            for(var i = 0 ; i < list2.length; i++){
+              if(i+1 == list2.length){
+                //last index
+                if(list2[i] == username){
+                  isDuplicate = true;
                 }
-            }else{
-              if(list2[i] == username){
-                isDuplicate = true;
+                  if(!isDuplicate){
+                    //Save To DB
+                    Swal.fire({
+                      icon: 'success',
+                      allowOutsideClick: false,
+                      title: "User Added Successfully.",
+                      confirmButtonText: 'Great',
+                   }).then(() => {
+                    document.getElementById('FormForAddingANewUserToTheDatabase').submit();
+                   })
+                  }else{
+                    //Error Message
+                    Swal.fire({
+                      icon: 'error',
+                      title: "Username is already taken.",
+                      confirmButtonText: 'Ok',
+                   })
+                  }
+              }else{
+                if(list2[i] == username){
+                  isDuplicate = true;
+                }
               }
             }
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: "Invalid Email Address.",
+              confirmButtonText: 'Ok',
+           })
           }
+          
         }
       }
+
+       //uplaod profile picture
+    document.getElementById('ChangeThisToProfilePicture').onclick = function(e){
+      document.getElementById('uploadProfilePic').click();
+   }
+
+   function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#ChangeThisToProfilePicture').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#uploadProfilePic").change(function(){
+    readURL(this);
+});
+
     </script>
 
  </section>

@@ -7,13 +7,18 @@
 <section class="edit-accounts">
     <div class="edit-accounts--container">
           <div class="my-profile--image">
-             <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
-             <h4 class="h4">{{ detail.username }}</h4>
-             <p>username</p>
+            {% if detail.image == None %}
+            <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
+            {% else %}
+            <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+            {% endif %}
+            <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
           </div>
+
           <div class="edit-accounts--form-container">
-            <form action="{%  url 'SaveChangesOnEditUserAccount' %}" method="POST" id='SaveChangesForm'>
+            <form action="{%  url 'SaveChangesOnEditUserAccount' %}" method="POST" id='SaveChangesForm' autocomplete='off'  enctype="multipart/form-data">
               {% csrf_token %}
+              <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
                 <div class="row">
                     <div class="col-12">
                       <h4>Fill up all the information.</h4>
@@ -21,44 +26,51 @@
                 </div>
                 <div class="row">
                    <div class="col-12">
+                      <label>Username</label>
                     <input type="text" value="{{ detail.username }}"  name='username' id ='username'>
                     <input type="text" value="{{ detail.pk }}" name='PK' style="display:none"> 
                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
+                     <label>First Name</label>
                      <input type="text" placeholder="Enter first name"  value="{{ detail.first_name }}"  name='first_name'
                      id ='first_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
+                     <label>Middle Name</label>
                      <input type="text" placeholder="Enter middle name"  value="{{ detail.middle_name }}"  name='middle_name'
                      id ='middle_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
+                     <label>Last Name</label>
                      <input type="text" placeholder="Enter last name"  value="{{ detail.last_name }}"  name='last_name'
                      id ='last_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
+                     <label>Address</label>
                      <input type="text" placeholder="Enter address"  value="{{ detail.address }}"  name='address'
                      id ='address'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter email address"  value="{{ detail.email }}"  name='email'
+                     <label>Email Address</label>
+                     <input type="email" placeholder="Enter email address"  value="{{ detail.email }}"  name='email'
                      id ='email'> 
                     </div>
                  </div>
 
                 <div class="row">
                     <div class="col-12 birthday">
-                        <input type="date" name="bday" id="birthday" placeholder="Select birthdate*" value='{{ bday }}'> 
+                     <label>Birthday</label>
+                     <input type="date" name="bday" id="birthday" placeholder="Select birthdate*" value='{{ bday }}'> 
                     </div>
                 </div>
                 <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none'>
@@ -98,15 +110,12 @@
    //for gender (edit)
    if(document.getElementById('hiddeGender').value == 1){
       document.getElementById('Woman').checked = true;
-      document.getElementById('renaethisforgender').textContent = 'Woman';
    }
    else if (document.getElementById('hiddeGender').value == 2){
       document.getElementById('Man').checked = true;
-      document.getElementById('renaethisforgender').textContent = 'Man';
    }
    else{
       document.getElementById('Others').checked = true;
-      document.getElementById('renaethisforgender').textContent = 'Others';
    }
 
    //end gender
@@ -128,34 +137,82 @@
             confirmButtonText: 'Ok',
          })
       }else{
-         //check if username is duplicated
-         var isDuplicate = false;
-          for(var i = 0 ; i < listOfUsernames.length; i++){
-            if(i+1 == listOfUsernames.length){
-              //last index
-              if(listOfUsernames[i] == username){
-                isDuplicate = true;
-              }
-                if(!isDuplicate){
-                  //Save To DB
-                  document.getElementById('SaveChangesForm').submit()
-                }else{
-                  //Error Message
-                  Swal.fire({
-                     icon: 'error',
-                     title: "Username is already taken.",
-                     confirmButtonText: 'Ok',
-                  })
-                }
-            }else{
-              if(listOfUsernames[i] == username){
-                isDuplicate = true;
-              }
-            }
+          //validate email
+          var re = /\S+@\S+\.\S+/;
+          if(re.test(email)){
+//check if username is duplicated
+var isDuplicate = false;
+for(var i = 0 ; i < listOfUsernames.length; i++){
+  if(i+1 == listOfUsernames.length){
+    //last index
+    if(listOfUsernames[i] == username){
+      isDuplicate = true;
+    }
+      if(!isDuplicate){
+        //Save To DB
+        Swal.fire({
+           icon: 'success',
+           allowOutsideClick: false,
+           title: "Changes has been saved",
+           confirmButtonText: 'Great',
+        }).then(() => {
+           document.getElementById('SaveChangesForm').submit()
+        })
+        
+      }else{
+        //Error Message
+        Swal.fire({
+         icon: 'error',
+         title: "Username is already taken.",
+         confirmButtonText: 'Ok',
+      })
+      }
+  }else{
+    if(listOfUsernames[i] == username){
+      isDuplicate = true;
+    }
+  }
+}
+          }else{
+            Swal.fire({
+               icon: 'error',
+               title: "Invalid Email Address",
+               confirmButtonText: 'Ok',
+            })
           }
+         
       }
    }
 
+   document.getElementById('ChangeThisToProfilePicture').style.width = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.height = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.objectFit = 'cover';
+   document.getElementById('ChangeThisToProfilePicture').style.borderRadius = '50%';
+   if(document.getElementById('holderOfImageFromDB').value == ''){
+      document.getElementById('ChangeThisToProfilePicture').src = "{% static 'src/images/profile-image-large.png' %}";
+   }else{
+      document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
+   }
+   ///////////////////////
+   document.getElementById('ChangeThisToProfilePicture').onclick = function(e){
+      document.getElementById('uploadProfilePic').click();
+   }
+
+    //uplaod profile picture
+   function readURL(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+              $('#ChangeThisToProfilePicture').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+  
+  $("#uploadProfilePic").change(function(){
+      readURL(this);
+  });
+  
   
 </script>
  

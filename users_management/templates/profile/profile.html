@@ -7,8 +7,21 @@
    <section class="my-profile">
       <div class="my-profile--container">
             <div class="my-profile--image">
-               <input type='text' value=" {{ detail.profile_picture }}" style='display:none' id='holderOfImageFromDB'>
-               <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
+               <form enctype="multipart/form-data" method='POST' action='{%url "UploadProfilePicture" %}' id='formToUploadProfilePic' autocomplete='off'>
+                  {% csrf_token %}
+                  <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
+                  <input type='text' value=" {{ detail.pk }}" style='display:none' name='ID'>
+               </form>
+               <input type='text' value=" {{ detail.is_superuser }}" style='display:none' id='ForCheckingIfAdmin'>
+               <input type='text' value=" {{ detail.username }}" style='display:none' id='initialUsername'>
+               <input type='text' value=" {{ detail.first_name }}" style='display:none' id='initialfirstname'>
+               <input type='text' value=" {{ detail.middle_name }}" style='display:none' id='initialmiddleName'>
+               <input type='text' value=" {{ detail.last_name }}" style='display:none' id='initiallastname'>
+               <input type='text' value=" {{ detail.address }}" style='display:none' id='initialaddress'>
+               <input type='text' value=" {{ bday }}" style='display:none' id='initialbday'>
+               <input type='text' value=" {{ detail.email }}" style='display:none' id='initialemail'>
+               <input type='text' value=" {{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+               <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
                <h4 class="h4"> 
                   {{ detail.username }}
                </h4>
@@ -86,7 +99,7 @@
                </svg>
             </span>
          </div>
-         <form action="{% url 'UpdatePassword' %}" method="POST" id='FORMUpdateAdminPassword'>
+         <form action="{% url 'UpdatePassword' %}" method="POST" id='FORMUpdateAdminPassword' autocomplete='off'>
             {% csrf_token %}
             <div class="row">
                <div class="col-12">
@@ -123,36 +136,48 @@
                </svg>
             </span>
          </div>
-         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts'>
+         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts' autocomplete='off'>
             {% csrf_token %}
             <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
             <div class="row">
                <div class="col-12">
+                  <label for='editUserAccountUsername'> Username </label>
                   <input type="text" name='username' id='editUserAccountUsername' value='{{ detail.username }}'>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
+                  <label for='editUserAccountUsername'> First Name </label>
                   <input type="text" name='first_name' id='editUserFirstName' value='{{ detail.first_name }}'>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
+                  <label for='editUserAccountUsername'> Middle Name </label>
+                  <input type="text" name='middle_name' id='editUserMiddleName' value='{{ detail.middle_name }}'>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-12">
+                  <label for='editUserAccountUsername'> Last Name </label>
                   <input type="text" name='last_name' id='editUserLastName' value='{{ detail.last_name }}'>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
+                  <label for='editUserAccountUsername'> Address </label>
                   <input type="text" name='address' id='editUserAccountAddress' value='{{ detail.address }}'>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <input type="text" name='email' id='editUserAccountEmail' value='{{ detail.email }}'>
+                  <label for='editUserAccountUsername'> Email Address </label>
+                  <input type="email" name='email' id='editUserAccountEmail' value='{{ detail.email }}'>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
+                  <label for='editUserAccountUsername'> Birth Day </label>
                   <input type="date" name='bday' id='bDay' value='{{ bday }}'>
                </div>
             </div>
@@ -204,25 +229,66 @@
    }
 
    //end gender
-
+   document.getElementById('ChangeThisToProfilePicture').style.width = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.height = '250px';
+   document.getElementById('ChangeThisToProfilePicture').style.objectFit = 'cover';
+   document.getElementById('ChangeThisToProfilePicture').style.borderRadius = '50%';
    if(document.getElementById('holderOfImageFromDB').value == ' None'){
       document.getElementById('ChangeThisToProfilePicture').src = "{% static 'src/images/profile-image-large.png' %}";
    }else{
       document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
+    
    }
+
+   //uplaod profile picture
+   document.getElementById('ChangeThisToProfilePicture').onclick = function(e){
+      document.getElementById('uploadProfilePic').click();
+   }
+
+   document.getElementById('uploadProfilePic').onchange = function(e){
+      //upload sa Database
+      Swal.fire({
+         icon: 'success',
+         allowOutsideClick: false,
+         title: "Your display picture has been changed successfully.",
+         confirmButtonText: 'Great',
+      }).then(() => {
+         document.getElementById('formToUploadProfilePic').submit()
+      })
+   }
+
+   ///////////////////////
+
    document.getElementById('closeModalForChangePasswordOfAdmin').style.cursor = 'pointer';
    document.getElementById('closeModalForEditingAdminProfilePo').style.cursor = 'pointer';
    /////////
 
    function openModalForChangePassword(){
     document.getElementById('ModalForChangePasswordOfAdmin').style.display = 'block';
+    document.getElementById('FCurrPassword').value = '';
+    document.getElementById('FNewPassword').value = '';
+    document.getElementById('FNew2Password').value = '';
    }
 
    document.getElementById('closeModalForChangePasswordOfAdmin').onclick = function(e){ 
       document.getElementById('ModalForChangePasswordOfAdmin').style.display = 'none';
    }
 
+   var initialusername = document.getElementById('editUserAccountUsername').value;
+   var initialfirstname = document.getElementById('editUserFirstName').value;
+   var initiallastname = document.getElementById('editUserLastName').value;
+   var initialaddress = document.getElementById('editUserAccountAddress').value;
+   var initialemail = document.getElementById('editUserAccountEmail').value;
+   var initialmiddleName = document.getElementById('editUserMiddleName').value;
+   var initialbday = document.getElementById('bDay').value;
    function openModalForEditAccount(){
+      document.getElementById('editUserAccountUsername').value = initialusername;
+      document.getElementById('editUserFirstName').value = initialfirstname;
+      document.getElementById('editUserLastName').value = initiallastname;
+      document.getElementById('editUserAccountAddress').value = initialaddress;
+      document.getElementById('editUserAccountEmail').value = initialemail;
+      document.getElementById('editUserMiddleName').value - initialmiddleName;
+      document.getElementById('bDay').value = initialbday;
       document.getElementById('ModalForEditingAdminProfilePo').style.display = 'block';
      }
   
@@ -246,7 +312,14 @@
          if(curr == currentPassword){
             if(newPass == newPass2){
             //Save to Database
-            document.getElementById('FORMUpdateAdminPassword').submit();
+            Swal.fire({
+               icon: 'success',
+               allowOutsideClick: false,
+               title: "Your passwords has been changed successfully.",
+               confirmButtonText: 'Great',
+            }).then (() => {
+               document.getElementById('FORMUpdateAdminPassword').submit();
+            })
             }else{
                Swal.fire({
                   icon: 'error',
@@ -265,17 +338,28 @@
    }
 
    document.getElementById('DeleteAdminAccountButton').onclick = function(e){
-      Swal.fire({
-         icon: 'warning',
-         showCancelButton: true,
-         title: "Are you sure you want to delete your account?.",
-         confirmButtonText: 'Yes',
-         cancelButtonText: 'Cancel',
-      }).then((result) => {
-         if(result.isConfirmed){
-            document.getElementById('ProceedDeletionOfAdminAccount').submit();
-         }
-      })
+      var isAdmin = document.getElementById('ForCheckingIfAdmin').value;
+
+      if(isAdmin){
+         Swal.fire({
+            icon: 'error',
+            title: "Cannot delete an administrator account",
+            confirmButtonText: 'Ok',
+         })
+      }else{
+         Swal.fire({
+            icon: 'warning',
+            showCancelButton: true,
+            title: "Are you sure you want to delete your account?",
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+         }).then((result) => {
+            if(result.isConfirmed){
+               document.getElementById('ProceedDeletionOfAdminAccount').submit();
+            }
+         })
+      }
+    
    }
 
    function updateUserAccount(listOfUsernames){
@@ -284,39 +368,59 @@
       var lastname = document.getElementById('editUserLastName').value;
       var address = document.getElementById('editUserAccountAddress').value;
       var email = document.getElementById('editUserAccountEmail').value;
+      var middleName = document.getElementById('editUserMiddleName').value;
       // Validate
-      if(username == '' || firstname == '' || lastname == '' || address == '' || email == ''){
+      if(username == '' || firstname == '' || lastname == '' || address == ''  || middleName == '' || email == ''){
          Swal.fire({
             icon: 'warning',
             title: "All fields are required",
             confirmButtonText: 'Ok',
          })
       }else{
+      //validate email
+      var re = /\S+@\S+\.\S+/;
+       if(re.test(email)){
          //check if username is duplicated
          var isDuplicate = false;
-          for(var i = 0 ; i < listOfUsernames.length; i++){
-            if(i+1 == listOfUsernames.length){
-              //last index
-              if(listOfUsernames[i] == username){
-                isDuplicate = true;
-              }
-                if(!isDuplicate){
-                  //Save To DB
-                  document.getElementById('FormEditUserAccounts').submit();
-                }else{
-                  //Error Message
-                  Swal.fire({
-                     icon: 'error',
-                     title: "Username is already taken.",
-                     confirmButtonText: 'Ok',
-                  })
-                }
-            }else{
-              if(listOfUsernames[i] == username){
-                isDuplicate = true;
-              }
-            }
+         for(var i = 0 ; i < listOfUsernames.length; i++){
+         if(i+1 == listOfUsernames.length){
+         //last index
+         if(listOfUsernames[i] == username){
+            isDuplicate = true;
+         }
+         if(!isDuplicate){
+         //Save To DB
+         Swal.fire({
+            icon: 'success',
+            allowOutsideClick: false,
+            title: "Your profile has been updated.",
+            confirmButtonText: 'Great',
+         }).then (() => {
+            document.getElementById('FormEditUserAccounts').submit();
+         })
+         }else{
+        //Error Message
+         Swal.fire({
+           icon: 'error',
+           title: "Username is already taken.",
+           confirmButtonText: 'Ok',
+        })
+        }
+         }else{
+          if(listOfUsernames[i] == username){
+            isDuplicate = true;
           }
+          }
+         }
+       }else{
+         Swal.fire({
+            icon: 'warning',
+            title: "Invalid Email Address",
+            confirmButtonText: 'Ok',
+         })
+       }
+
+         
       }
    }
 </script>
