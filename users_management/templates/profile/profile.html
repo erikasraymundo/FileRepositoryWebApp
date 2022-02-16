@@ -25,7 +25,7 @@
             {% else %}
             <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
             {% endif %}
-               <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
+               <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
                <h4 class="h4"> 
                   {{ detail.username }}
                </h4>
@@ -237,8 +237,7 @@
    document.getElementById('ChangeThisToProfilePicture').style.height = '250px';
    document.getElementById('ChangeThisToProfilePicture').style.objectFit = 'cover';
    document.getElementById('ChangeThisToProfilePicture').style.borderRadius = '50%';
-   if(document.getElementById('holderOfImageFromDB').value == ' None'){
-      document.getElementById('ChangeThisToProfilePicture').src = "{% static 'src/images/profile-image-large.png' %}";
+   if(document.getElementById('holderOfImageFromDB').value == ''){
    }else{
       document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
     

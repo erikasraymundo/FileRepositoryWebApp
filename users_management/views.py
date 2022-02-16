@@ -523,7 +523,7 @@ def SaveChangesOnEditUserAccount(request):
     user.save()
     log = Log()
     log.user_id = User.objects.get(pk=1)
-    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + 'edited account details for user with ID: ' + str(request.POST['PK'])
+    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + ' edited account details for user with ID: ' + str(request.POST['PK'])
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -540,7 +540,7 @@ def ArchieveUserAccount(request):
     admin.save() 
     log = Log()
     log.user_id = User.objects.get(pk=1)
-    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + 'archived user with ID: ' + str(request.POST['ID'])
+    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + ' archived user with ID: ' + str(request.POST['ID'])
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -624,7 +624,7 @@ def RestoreUserAccount(request):
     admin.save()
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + 'restored user with ID: ' + str(request.POST['ID'])
+    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + ' restored user with ID: ' + str(request.POST['ID'])
     log.save()
     return HttpResponseRedirect(reverse('users-management:archived-index'))
 
@@ -645,7 +645,7 @@ def UploadProfilePicture(request):
 
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = 'User with ID: ' + str(request.session.get('user_id')) + ' updated his/her profile picture'
+    log.description = 'User with ID: ' + str(request.session.get('user_id')) + '  updated his/her profile picture'
     log.save()
 
     return render(request, 'profile/profile.html', {
