@@ -20,7 +20,7 @@
                <input type='text' value=" {{ detail.address }}" style='display:none' id='initialaddress'>
                <input type='text' value=" {{ bday }}" style='display:none' id='initialbday'>
                <input type='text' value=" {{ detail.email }}" style='display:none' id='initialemail'>
-            {% if detail.image == '' %}
+            {% if detail.image == '' or detail.image == None %}
             <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
             {% else %}
             <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
