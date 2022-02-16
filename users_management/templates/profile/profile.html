@@ -131,9 +131,9 @@
       </div>
    </div>
    
-   <div class="modal-container" id='ModalForEditingAdminProfilePo' style='display:none'>
+   <div class="modal-container" id='ModalForEditingAdminProfilePo' style='display:none;'>
       <div class="modal-backdrop"></div>
-      <div class="change-password-modal">
+      <div class="change-password-modal" style="height: 90%;">
          <div class="header">
             <h4 class="text-purple fw-800">Edit Account</h4>
             <span class="close-icon" id='closeModalForEditingAdminProfilePo'>
@@ -142,7 +142,7 @@
                </svg>
             </span>
          </div>
-         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts' autocomplete='off'>
+         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts' autocomplete='off' style="overflow: auto;height: 90%;padding: 1rem 0;">
             {% csrf_token %}
             <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
             <div class="row">
@@ -184,11 +184,19 @@
             <div class="row">
                <div class="col-12">
                   <label for='editUserAccountUsername'> Birth Day </label>
-                  <input type="date" name='bday' id='bDay' value='{{ bday }}'>
+                  <input
+                   style="
+                     padding: .7rem .8rem;
+                     margin-left: .5rem;
+                     border-radius: 100px;
+                     border: 2px solid #ccc;
+                     outline: none;
+                   "    
+                   type="date" name='bday' id='bDay' value='{{ bday }}'>
                </div>
             </div>
-            <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none'>
-            <fieldset class="gender" id="group" name='gender'>
+            <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none '>
+            <fieldset class="gender" id="group" name='gender' style="margin: 2rem 0;">
                <div>
                    <input type="radio" id="Woman" name="group" value="1"
                          >
