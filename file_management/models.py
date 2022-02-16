@@ -55,11 +55,11 @@ class File(models.Model):
         file_ext = self.getFileExtension()
         images = ('jpg', 'jpeg', 'gif', 'png', 'webp')
         videos = ('mpeg', 'mp4', 'ogg', 'mkv')
-        if file_ext in images:
+        if file_ext in images or file_ext == 'pdf' or file_ext == 'txt':
             return 1
         elif file_ext in videos:
             return 2
-        elif file_ext == 'pdf':
-            return 3
         else:
-            return 4
+            return 3
+
+# <embed src="file_name.pdf" width="800px" height="2100px" />

@@ -23,7 +23,7 @@
             {% if detail.image == '' or detail.image == None %}
             <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
             {% else %}
-            <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+            <input type='text' value="{{ detail.image.urml }}" style='display:none' id='holderOfImageFromDB'>
             {% endif %}
                <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
                <h4 class="h4"> 
