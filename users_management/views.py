@@ -49,15 +49,17 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0
     if query == None:
         query = ""
 
-    sort_column = "username"
+    sort_column = "id"
 
     if (sort_by == 2):
-        sort_column = "first_name"
+        sort_column = "username"
     elif (sort_by == 3):
-        sort_column = "email"
+        sort_column = "first_name"
     elif (sort_by == 4):
-        sort_column = "-created_at"
+        sort_column = "email"
     elif (sort_by == 5):
+        sort_column = "-created_at"
+    elif (sort_by == 6):
         sort_column = "created_at"
 
     if fromDate == None:
@@ -108,15 +110,17 @@ def archivedIndex(request,  sort_by=1, query=None, fromDate=None, toDate=None, s
     if query == None:
         query = ""
 
-    sort_column = "username"
+    sort_column = "id"
 
     if (sort_by == 2):
-        sort_column = "first_name"
+        sort_column = "username"
     elif (sort_by == 3):
-        sort_column = "email"
+        sort_column = "first_name"
     elif (sort_by == 4):
-        sort_column = "-created_at"
+        sort_column = "email"
     elif (sort_by == 5):
+        sort_column = "-created_at"
+    elif (sort_by == 6):
         sort_column = "created_at"
 
     if fromDate == None:
@@ -159,15 +163,17 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     if query == None:
         query = ""
 
-    sort_column = "username"
+    sort_column = "id"
 
     if (sort_by == 2):
-        sort_column = "first_name"
+        sort_column = "username"
     elif (sort_by == 3):
-        sort_column = "email"
+        sort_column = "first_name"
     elif (sort_by == 4):
-        sort_column = "-created_at"
+        sort_column = "email"
     elif (sort_by == 5):
+        sort_column = "-created_at"
+    elif (sort_by == 6):
         sort_column = "created_at"
 
     if fromDate == None:
@@ -281,15 +287,17 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
     if query == None:
         query = ""
 
-    sort_column = "username"
+    sort_column = "id"
 
     if (sort_by == 2):
-        sort_column = "first_name"
+        sort_column = "username"
     elif (sort_by == 3):
-        sort_column = "email"
+        sort_column = "first_name"
     elif (sort_by == 4):
-        sort_column = "-created_at"
+        sort_column = "email"
     elif (sort_by == 5):
+        sort_column = "-created_at"
+    elif (sort_by == 6):
         sort_column = "created_at"
 
     if fromDate == None:
