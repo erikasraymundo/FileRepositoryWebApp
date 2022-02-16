@@ -3,13 +3,21 @@
 {% block content %}
 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;">
     <h1 class="h1">Viewing a File</h1>
-    <div  style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;">
-        <button title="Edit" style="border: none; background-color:transparent; cursor: pointer;"><svg width="24" height="24" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.25 10.9375V13.75H3.0625L11.3575 5.45504L8.545 2.64254L0.25 10.9375ZM13.5325 3.28004C13.825 2.98754 13.825 2.51504 13.5325 2.22254L11.7775 0.467544C11.485 0.175044 11.0125 0.175044 10.72 0.467544L9.3475 1.84004L12.16 4.65254L13.5325 3.28004Z" fill="#272727" fill-opacity="0.5"></path>
-         </svg></button>
-        <button title="archive" style="border: none; background-color:transparent; cursor: pointer;"><svg width="24" height="24" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.405 1.9225L12.3625 0.6625C12.16 0.4075 11.8525 0.25 11.5 0.25H2.5C2.1475 0.25 1.84 0.4075 1.63 0.6625L0.595 1.9225C0.3775 2.1775 0.25 2.515 0.25 2.875V12.25C0.25 13.075 0.925 13.75 1.75 13.75H12.25C13.075 13.75 13.75 13.075 13.75 12.25V2.875C13.75 2.515 13.6225 2.1775 13.405 1.9225ZM7 11.125L2.875 7H5.5V5.5H8.5V7H11.125L7 11.125ZM1.84 1.75L2.4475 1H11.4475L12.1525 1.75H1.84Z" fill="#272727" fill-opacity="0.5"></path>
-         </svg></button>
+    <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-top: 12.5px">
+        <a href="{% url 'file-management:openEditView' file.id %}"><button title="Edit"
+                style="border: none; background-color:transparent; cursor: pointer;"><svg width="20"
+                height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M0.25 10.9375V13.75H3.0625L11.3575 5.45504L8.545 2.64254L0.25 10.9375ZM13.5325 3.28004C13.825 2.98754 13.825 2.51504 13.5325 2.22254L11.7775 0.467544C11.485 0.175044 11.0125 0.175044 10.72 0.467544L9.3475 1.84004L12.16 4.65254L13.5325 3.28004Z"
+                    fill="#272727" fill-opacity="0.5"></path>
+            </svg></button></a>
+            <button id="archive" title=" archive" data-fileid={{file.id}} data-filename="{{file.getNewFileName}}"
+                style="border: none; background-color:transparent; cursor: pointer;"><svg width="20"
+                height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M13.405 1.9225L12.3625 0.6625C12.16 0.4075 11.8525 0.25 11.5 0.25H2.5C2.1475 0.25 1.84 0.4075 1.63 0.6625L0.595 1.9225C0.3775 2.1775 0.25 2.515 0.25 2.875V12.25C0.25 13.075 0.925 13.75 1.75 13.75H12.25C13.075 13.75 13.75 13.075 13.75 12.25V2.875C13.75 2.515 13.6225 2.1775 13.405 1.9225ZM7 11.125L2.875 7H5.5V5.5H8.5V7H11.125L7 11.125ZM1.84 1.75L2.4475 1H11.4475L12.1525 1.75H1.84Z"
+                    fill="#272727" fill-opacity="0.5"></path>
+            </svg></button>
     </div>
 </div>
 <section class="viewing-file">
@@ -20,11 +28,12 @@
                 <h4>{{file.getNewFileName}}</h4>
                 <small>{{ file.getSize }}</small>
             </div>
-        <div class="btn-dark">
-            <a href="{% url 'file-management:download' file.id %}"><span class="iconify" data-icon="ic:baseline-download"></span>Download File</a>
+            <div class="btn-dark">
+                <a href="{% url 'file-management:download' file.id %}"><span class="iconify"
+                        data-icon="ic:baseline-download"></span>Download File</a>
+            </div>
         </div>
-        </div>
- 
+
         <div class="flex-head mb-1">
             <div>
                 <div class="flex spacing mb-1">
@@ -65,18 +74,19 @@
 
         <div class="preview">
             {% if file.getFileType == 1 %}
-            <iframe src='{{file.url.url}}' width='100%' height='500px' frameborder='0'
-                style="background:white"></iframe>
-            {% elif file.getFileType == 2  %}
-            <video controls src="{{file.url.url}}" style="width:100%; height:500px">
-                <p onclick='downloadFile()'>Your browser does not support HTML5 Element. You may download this file instead.</p>
-            </video>
-            {% else %}
-            <iframe src='https://view.officeapps.live.com/op/embed.aspx?src={{file.url.url}}'
-                width='800px' height='600px' frameborder='0'>This is an embedded <a target='_blank'
-                    href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank'
-                    href='http://office.com/webapps'>Office Online</a>.</iframe>
-            {% endif %}
+            <image src='{{file.url.url}}' style="max-width: 800px;max-height:500px; width:auto; height:auto"></iframe>
+                {% elif file.getFileType == 2  %}
+                <video controls src="{{file.url.url}}" style="width:100%; height:500px">
+                    <p onclick='downloadFile()'>Your browser does not support HTML5 Element. You may download this file
+                        instead.</p>
+                </video>
+                {% elif file.getFileType == 3  %}
+                <iframe src='{{file.url.url}}' width='100%' height='500px' frameborder='0'
+                    style="background:white"></iframe>
+                {% else %}
+                <p style="text-align: center" onclick='downloadFile()'>Sorry, but we cannot display your file, click
+                    this to download instead.</p>
+                {% endif %}
         </div>
 
         <div class="btn-dark" style="margin-top: 30px">
@@ -84,15 +94,35 @@
                     data-icon="akar-icons:paper"></span>Print details to PDF</a>
         </div>
     </div>
-   <script>
-      function viewPdf() {
-         var link = "{% url 'file-management:pdf_view' 0 %}".replace("0", {{file.id}})
-         window.open(link);
-      }
-      function downloadFile() {
-         var link = "{% url 'file-management:download' 0 %}".replace("0", {{file.id}})
-         window.open(link);
-      }
-   </script>
+    <script>
+
+        function downloadFile() {
+            var link = "{% url 'file-management:download' 0 %}".replace("0", {{file.id}})
+            window.open(link);
+        }
+
+        
+      $(document).on('click', '#archive', function() {
+             
+         var file_name = $(this).data("filename");
+         var file_id = $(this).data("fileid");
+
+         Swal.fire({
+            icon: 'warning',
+            title: 'Do you want to archive ' + file_name +'?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes, archive',
+            denyButtonText: `Cancel`,
+            }).then((result) => {
+            if (result.isConfirmed) {
+               var location = "{% url 'file-management:archive' 0 %}".replace(0, file_id);
+               window.location.href = location;
+            } else if (result.isDenied) {
+
+            }
+            });
+      });
+          
+    </script>
 </section>
 {% endblock %}

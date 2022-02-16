@@ -61,8 +61,12 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0
         sort_column = "created_at"
 
     if fromDate == None:
-        FromDate = User.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+        try:
+            FromDate = User.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -116,8 +120,12 @@ def archivedIndex(request,  sort_by=1, query=None, fromDate=None, toDate=None, s
         sort_column = "created_at"
 
     if fromDate == None:
-        FromDate = User.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+        try:
+            FromDate = User.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -163,8 +171,12 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
         sort_column = "created_at"
 
     if fromDate == None:
-        FromDate = User.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+        try:
+            FromDate = User.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -281,8 +293,12 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
         sort_column = "created_at"
 
     if fromDate == None:
-        FromDate = User.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+        try:
+            FromDate = User.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
