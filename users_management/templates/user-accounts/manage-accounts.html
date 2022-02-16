@@ -81,11 +81,11 @@
             </form>
 
             <tr>
-               <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;' data-label="Username">{{ user.pk }}</td>
-               <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;' data-label="Username">{{ user.username }}</td>
-               <td onclick='ViewTThisUserAccount("{{ user.pk }}")'  style='cursor:pointer;' data-label="Name">{{ user.first_name }} {{ user.last_name }}</td>
-               <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;'  data-label="Email">{{ user.email }}</td>
-               <td onclick='ViewTThisUserAccount("{{ user.pk }}")'  style='cursor:pointer;'data-label="Date Created">{{ user.created_at }}</td>
+               <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;overflow: hidden;' data-label="Username">{{ user.pk }}</td>
+               <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;overflow: hidden;' data-label="Username">{{ user.username }}</td>
+               <td onclick='ViewTThisUserAccount("{{ user.pk }}")'  style='cursor:pointer;overflow: hidden;' data-label="Name">{{ user.first_name }} {{ user.last_name }}</td>
+               <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;overflow: hidden;'  data-label="Email">{{ user.email }}</td>
+               <td onclick='ViewTThisUserAccount("{{ user.pk }}")'  style='cursor:pointer;overflow: hidden;' data-label="Date Created">{{ user.created_at }}</td>
                <td data-label="Actions" class="actions">
                   <div class="actions--container">
                   <div class="icon-pen" title="Edit" onclick='EditThisUserAccount("{{ user.pk }}")'>
