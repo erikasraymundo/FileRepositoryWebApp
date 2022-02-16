@@ -26,6 +26,15 @@ from django.urls import reverse
 import random
 import string
 
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import Table
+from reportlab.platypus import TableStyle
+from reportlab.platypus import Image
+from reportlab.lib.units import cm, inch
+from reportlab.pdfgen import canvas
+from report_generation.views import PageNumCanvas
+
+
 # ERIKA 
 def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
     
@@ -188,10 +197,12 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     ]
 
     for user in users:
+        created_at = user.created_at.strftime("%m/%d/%Y %I:%M %p")
+
         list = [Paragraph(f"{user.username}", paragraphStyle['Normal']),
                 Paragraph(f"{user.full_name()}", paragraphStyle['Normal']),
                 Paragraph(f"{user.email}", paragraphStyle['Normal']),
-                Paragraph(f"{user.created_at}",  paragraphStyle['Normal'])]
+                Paragraph(f"{created_at}",  paragraphStyle['Normal'])]
         data.append(list)
 
     pdf = SimpleDocTemplate(
@@ -202,7 +213,7 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     )
 
     table = Table(data, colWidths=[
-                  30 * mm, 40 * mm, 60 * mm, 35 * mm])
+                  25 * mm, 40 * mm, 60 * mm, 40 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -231,11 +242,22 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
         ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
     ])
 
-    table.setStyle(borderStyle)
-    elems = []
-    elems.append(table)
+    title = "Users Management - Active Accounts"
+    description = "The following are the active user accounts of Soar Academy's English High School Department common drive."
+    styles = getSampleStyleSheet()
 
-    pdf.build(elems)
+    table.setStyle(borderStyle)
+
+    elems = []
+    elems.append(Image('reports/logo_header.jpg',width = 6.5 * inch, height = 0.885 * inch))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(Paragraph(title, styles['DefaultHeading']))
+    elems.append(Paragraph(description, styles['Subtitle']))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(table)
+    elems.append(Spacer(1 * cm, 1 * cm))
+
+    pdf.build(elems, canvasmaker=PageNumCanvas)
 
     response.write(buff.getvalue())
     buff.close()
@@ -293,10 +315,12 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
     ]
 
     for user in users:
+        created_at = user.created_at.strftime("%m/%d/%Y %I:%M %p")
+
         list = [Paragraph(f"{user.username}", paragraphStyle['Normal']),
                 Paragraph(f"{user.full_name()}", paragraphStyle['Normal']),
                 Paragraph(f"{user.email}", paragraphStyle['Normal']),
-                Paragraph(f"{user.created_at}",  paragraphStyle['Normal'])]
+                Paragraph(f"{created_at}",  paragraphStyle['Normal'])]
         data.append(list)
 
     pdf = SimpleDocTemplate(
@@ -307,7 +331,7 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
     )
 
     table = Table(data, colWidths=[
-                  35 * mm, 45 * mm, 60 * mm, 40 * mm])
+                  25 * mm, 40 * mm, 60 * mm, 40 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -336,11 +360,22 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
         ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
     ])
 
-    table.setStyle(borderStyle)
-    elems = []
-    elems.append(table)
+    title = "Users Management - Archived Accounts"
+    description = "The following are the archived user accounts of Soar Academy's English High School Department common drive."
+    styles = getSampleStyleSheet()
 
-    pdf.build(elems)
+    table.setStyle(borderStyle)
+
+    elems = []
+    elems.append(Image('reports/logo_header.jpg',width = 6.5 * inch, height = 0.885 * inch))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(Paragraph(title, styles['DefaultHeading']))
+    elems.append(Paragraph(description, styles['Subtitle']))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(table)
+    elems.append(Spacer(1 * cm, 1 * cm))
+
+    pdf.build(elems, canvasmaker=PageNumCanvas)
 
     response.write(buff.getvalue())
     buff.close()

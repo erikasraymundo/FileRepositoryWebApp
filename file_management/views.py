@@ -426,6 +426,11 @@ def pdf_view(request, file_id):
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import Table
 from reportlab.platypus import TableStyle
+from reportlab.platypus import Image
+from reportlab.lib.units import cm, inch
+from reportlab.pdfgen import canvas
+from report_generation.views import PageNumCanvas
+
 
 #use this for reference
 #go to http://127.0.0.1:8000/file-management/getpdf
@@ -502,7 +507,7 @@ def getpdf(request):
     # elems.append(title)
     elems.append(table)
 
-    pdf.build(elems)
+    pdf.build(elems, canvasmaker=PageNumCanvas)
 
     response.write(buff.getvalue())
     buff.close()
@@ -580,6 +585,9 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
     ]
 
     for file in file_list:
+
+        created_at = file.created_at.strftime("%m/%d/%Y %I:%M %p")
+
         list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
                 Paragraph(f"{file.getNewFileName()}",
                           paragraphStyle['Normal']),
@@ -587,7 +595,7 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
                           paragraphStyle['Normal']),
                 Paragraph(f"{file.user_id.full_name()}",
                           paragraphStyle['Normal']),
-                Paragraph(f"{file.created_at}", paragraphStyle['Normal'])]
+                Paragraph(f"{created_at}", paragraphStyle['Normal'])]
         data.append(list)
 
     pdf = SimpleDocTemplate(
@@ -598,7 +606,7 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
     )
 
     table = Table(data, colWidths=[
-                  15 * mm, 45 * mm, 35 * mm, 40 * mm, 35 * mm])
+                  15 * mm, 45 * mm, 25 * mm, 40 * mm, 40 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -627,11 +635,23 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
         ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
     ])
 
-    table.setStyle(borderStyle)
-    elems = []
-    elems.append(table)
 
-    pdf.build(elems)
+    title = "File Management - Uploaded Files"
+    description = "The following are the upload files in Soar Academy's English High School Department common drive."
+    styles = getSampleStyleSheet()
+
+    table.setStyle(borderStyle)
+
+    elems = []
+    elems.append(Image('reports/logo_header.jpg',width = 6.5 * inch, height = 0.885 * inch))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(Paragraph(title, styles['DefaultHeading']))
+    elems.append(Paragraph(description, styles['Subtitle']))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(table)
+    elems.append(Spacer(1 * cm, 1 * cm))
+
+    pdf.build(elems, canvasmaker=PageNumCanvas)
 
     response.write(buff.getvalue())
     buff.close()
@@ -696,7 +716,7 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
         ).order_by(sort_column)
 
     response = HttpResponse(content_type='application/pdf')
-    pdf_name = "file_management-archived-%s.pdf" % str(
+    pdf_name = "archived_files-%s.pdf" % str(
         datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
     response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
 
@@ -708,6 +728,9 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
     ]
 
     for file in file_list:
+
+        created_at = file.created_at.strftime("%m/%d/%Y %I:%M %p")
+
         list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
                 Paragraph(f"{file.getNewFileName()}",
                           paragraphStyle['Normal']),
@@ -715,7 +738,7 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
                           paragraphStyle['Normal']),
                 Paragraph(f"{file.user_id.full_name()}",
                           paragraphStyle['Normal']),
-                Paragraph(f"{file.created_at}", paragraphStyle['Normal'])]
+                Paragraph(f"{created_at}", paragraphStyle['Normal'])]
         data.append(list)
 
     pdf = SimpleDocTemplate(
@@ -726,7 +749,7 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
     )
 
     table = Table(data, colWidths=[
-                  15 * mm, 45 * mm, 35 * mm, 40 * mm, 35 * mm])
+                  15 * mm, 45 * mm, 25 * mm, 40 * mm, 40 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -755,11 +778,23 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
         ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
     ])
 
-    table.setStyle(borderStyle)
-    elems = []
-    elems.append(table)
 
-    pdf.build(elems)
+    title = "File Management - Archived Files"
+    description = "The following are the archived files in Soar Academy's English High School Department common drive."
+    styles = getSampleStyleSheet()
+
+    table.setStyle(borderStyle)
+
+    elems = []
+    elems.append(Image('reports/logo_header.jpg',width = 6.5 * inch, height = 0.885 * inch))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(Paragraph(title, styles['DefaultHeading']))
+    elems.append(Paragraph(description, styles['Subtitle']))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(table)
+    elems.append(Spacer(1 * cm, 1 * cm))
+
+    pdf.build(elems, canvasmaker=PageNumCanvas)
 
     response.write(buff.getvalue())
     buff.close()
@@ -790,27 +825,29 @@ def printIndivualFilePDF(request, file_id):
     )
 
     file = get_object_or_404(File, pk=file_id)
+    uploaded_on = file.created_at.strftime("%m/%d/%Y %I:%M %p")
+    updated_at = file.updated_at.strftime("%m/%d/%Y %I:%M %p")
 
     table1 = [
         [Paragraph('<b>File ID:</b> ', labelStyle), Paragraph(f"{file.id}", contentStyle), 
-         Paragraph('<b>Uploaded on:</b> ', labelStyle), Paragraph(f"{file.created_at}", contentStyle)],
+         Paragraph('<b>Uploaded on:</b> ', labelStyle), Paragraph(f"{uploaded_on}", contentStyle)],
          
         [Paragraph('<b>File Name:</b> ', labelStyle), Paragraph(file.getNewFileName(), contentStyle),
-         Paragraph('<b>Updated on:</b> ', labelStyle), Paragraph(f"{file.updated_at}", contentStyle)],
+         Paragraph('<b>Updated on:</b> ', labelStyle), Paragraph(f"{updated_at}", contentStyle)],
     ]
 
     table2 = [
-        [Paragraph('<br /><b>Category:</b> ', labelStyle),
-         Paragraph('<br />'+ file.category_id.title, contentStyle)]
+        [Paragraph('<b>File Size:</b> ', labelStyle), Paragraph(''+ file.getSize(), contentStyle),
+        Paragraph('<b>Category:</b> ', labelStyle), Paragraph(''+ file.category_id.title, contentStyle)]
     ]
 
     table3 = [
-        [Paragraph('<br /><b>Uploaded by:</b> ', labelStyle),
-         Paragraph('<br />' + file.user_id.full_name(), contentStyle)]
+        [Paragraph('<b>Uploaded by:</b> ', labelStyle),
+         Paragraph(file.user_id.full_name(), contentStyle)]
     ]
 
     table4 = [
-        [Paragraph('<br /><b>Details of the file:</b><br /><br /> ', labelStyle)]
+        [Paragraph('<b>Details of the file:</b>', labelStyle)]
     ]
 
     table5 = [
@@ -826,23 +863,40 @@ def printIndivualFilePDF(request, file_id):
 
 
     Table1 = Table(table1, colWidths=[
-        40 * mm, 55 * mm, 40 * mm, 45 * mm])
+        35 * mm, 50 * mm, 35 * mm, 45 * mm])
     Table2 = Table(table2, colWidths=[
-        40 * mm, 140 * mm])
+        35 * mm, 50 * mm, 35 * mm, 45 * mm])
     Table3 = Table(table3, colWidths=[
-        40 * mm, 140 * mm])
+        35 * mm, 130 * mm])
     Table4 = Table(table4, colWidths=[
-        180*mm])
+        165*mm])
     Table5 = Table(table5, colWidths=[
-        180*mm])
+        165*mm])
+
+
+
+    title = "File Management - Individual File Details"
+    description = "The following are information of the printed individual file's details from Soar Academy's English High School Department common drive."
+    styles = getSampleStyleSheet()
+    
+
     elems = []
+    elems.append(Image('reports/logo_header.jpg',width = 6.5 * inch, height = 0.885 * inch))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(Paragraph(title, styles['DefaultHeading']))
+    elems.append(Paragraph(description, styles['Subtitle']))
+    elems.append(Spacer(.25 * cm, .25 * cm))
     elems.append(Table1)
     elems.append(Table2)
+    elems.append(Spacer(.25 * cm, .25 * cm))
     elems.append(Table3)
+    elems.append(Spacer(.5 * cm, .5 * cm))
     elems.append(Table4)
+    elems.append(Spacer(.25 * cm, .25 * cm))
     elems.append(Table5)
+    elems.append(Spacer(1 * cm, 1 * cm))
 
-    pdf.build(elems)
+    pdf.build(elems, canvasmaker=PageNumCanvas)
 
     response.write(buff.getvalue())
     buff.close()

@@ -164,10 +164,11 @@ def printPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     ]
 
     for log in log_list:
+        created_at = log.created_at.strftime("%m/%d/%Y %I:%M %p")
         list = [Paragraph(f"{log.id}", paragraphStyle['Normal']),
                 Paragraph(f"{log.user_id.full_name()}", paragraphStyle['Normal']),
                 Paragraph(f"{log.description}", paragraphStyle['Normal']),
-                Paragraph(f"{log.created_at}",  paragraphStyle['Normal'])]
+                Paragraph(f"{created_at}",  paragraphStyle['Normal'])]
         data.append(list)
 
     pdf = SimpleDocTemplate(
