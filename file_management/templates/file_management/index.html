@@ -8,7 +8,7 @@
                <div class="file-management--header">
                   <h2 class="h2 text-purple">File Management</h2>
                   <div class="cta--categories">
-                     <a href="" class="btn btn-black">Manage Categories</a>
+                     <a href="{% url 'categoryManagement' %}" class="btn btn-black">Manage Categories</a>
                   </div>
                </div>
 
@@ -230,7 +230,6 @@
 
          
    <script src="src/js/script.js"></script>
-   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script>
 
       {% if success == 1%}

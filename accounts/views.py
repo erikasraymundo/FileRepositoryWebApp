@@ -18,9 +18,9 @@ def login(request):
     password = request.POST['password']
 
     userUsername = User.objects.filter(
-        username__iexact=usernameEmail, password=password).first()
+        username__iexact=usernameEmail, password=password).exclude(is_active=0).first()
     userEmail = User.objects.filter(
-        email__iexact=usernameEmail, password=password).first()
+        email__iexact=usernameEmail, password=password).exclude(is_active=0).first()
 
     if userUsername != None:
         user = userUsername

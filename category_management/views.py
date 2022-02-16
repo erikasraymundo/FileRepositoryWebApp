@@ -13,9 +13,20 @@ from users_management.models import User
 from .models import Category
 from activity_log.models import Log
 
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+
 def categoryManagement(request):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     return render(request, 'category-management.html', {
         'categories' : Category.objects.filter(isArchived = False),
+        'user' : logged_user
     })
 
 def AddCategory(request):
@@ -101,8 +112,16 @@ def printcategories(request):
 
 
 def archiveCategory(request):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+    
     return render(request, 'archive.html', {
         'categories' : Category.objects.filter(isArchived = True),
+        'user' : logged_user
     })
 
 def RestoreCategory(request):
