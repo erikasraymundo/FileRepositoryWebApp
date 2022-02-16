@@ -3,24 +3,29 @@ from . import views
 
 app_name = "file-management"
 urlpatterns = [
-    path('category/<int:category_id>/', views.index, name='category'),
-    path('sort/<int:sort_by>/', views.index, name='sortBy'),
-    path('category/<int:category_id>/sort/<int:sort_by>',
-         views.index, name='filter'),
+    
     path('category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',
          views.index, name='filter1'),
+
     path('category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>/search=<str:query>',
          views.index, name='filter2'),
+
     path('category/<int:category_id>/sort/<int:sort_by>/search=<str:query>',
          views.index, name='search'),
+
     path('success/<int:success>/', views.index, name='success'),
+    
     path('archived/success/<int:success>/', views.archivedIndex, name='archived-success'),
+
     path('', views.index, name='index'),
+
     path('<int:isAdded>', views.index, name='index'),
 
     path('archived', views.archivedIndex, name='archived-index'),
+
     path('archived/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',
          views.archivedIndex, name='archived-filter1'),
+    
     path('archived/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>/search=<str:query>',
          views.archivedIndex, name='archived-filter2'),
 
@@ -37,7 +42,6 @@ urlpatterns = [
     
     path('checkDuplicateName', views.checkDuplicateName, name='check_duplicate_name'),
     path('view/pdf/<int:file_id>/', views.pdf_view, name='pdf_view'),
-    path('getpdf', views.getpdf, name='get_pdf'),
     path('file/<int:file_id>/print', views.printIndivualFilePDF, name='printIndividualFile'),
 
     path('print/category/<int:category_id>/sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',

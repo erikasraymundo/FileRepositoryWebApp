@@ -182,25 +182,7 @@
          </section>
 
    <script src="src/js/script.js"></script>
-   <script>
-         $('#search').keypress(
-                  function(e){
-                     if (e.which == 13) {
-                        var textFromInput = $("#search").val();
-                        var url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
 
-                        if (textFromInput == '') {
-                           url_mask = "{% url 'file-management:filter' category_selected sort_selected %}";
-                        } else {
-                           url_mask = "{% url 'file-management:search' category_selected sort_selected 'query' %}".replace(/query/, textFromInput.toString());
-                        }
-
-                        console.log(textFromInput);
-                        window.location.replace(url_mask);
-                     }
-               });
-      
-   </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script>
 

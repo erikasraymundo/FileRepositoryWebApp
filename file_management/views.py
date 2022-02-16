@@ -1,33 +1,31 @@
-from reportlab.lib import colors
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.units import mm
-from django.shortcuts import render
-from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
-from category_management.models import Category
-from . models import File
-from activity_log.models import Log
-from users_management.models import User
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
-from django.core.files import File as DjangoFile
-from django.utils import timezone
+import datetime
 # Import mimetypes module
 import mimetypes
 # import os module
 import os
+from io import BytesIO
+
+from activity_log.models import Log
+from category_management.models import Category
+from django.core.exceptions import PermissionDenied
+from django.core.files import File as DjangoFile
+from django.db.models import Q
+from django.http import (FileResponse, Http404, HttpResponse,
+                         HttpResponseRedirect)
 # Import HttpResponse module
 from django.http.response import HttpResponse
 # Import render module
-from django.shortcuts import render
-from django.http import FileResponse, Http404
-from datetime import datetime
-import datetime
-from io import BytesIO
-from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+from django.utils import timezone
+from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.units import mm
+from reportlab.platypus import (Paragraph, SimpleDocTemplate, Spacer, Table,
+                                TableStyle)
+from users_management.models import User
+
+from .models import File
 
 
 def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success = 0):
@@ -427,95 +425,11 @@ def pdf_view(request, file_id):
         raise Http404()
 
 
+from report_generation.views import PageNumCanvas
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import Table
-from reportlab.platypus import TableStyle
-from reportlab.platypus import Image
 from reportlab.lib.units import cm, inch
 from reportlab.pdfgen import canvas
-from report_generation.views import PageNumCanvas
-
-
-#use this for reference
-#go to http://127.0.0.1:8000/file-management/getpdf
-def getpdf(request):
-
-    response = HttpResponse(content_type='application/pdf')
-    pdf_name = "file_management-%s.pdf" % str(
-        datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
-    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
-
-    buff = BytesIO()
-
-    file_list = File.objects.all()
-    paragraphStyle = getSampleStyleSheet()
-
-    data = [
-        ['ID', 'Name', 'Category', 'Uploader', 'Date Uploaded']
-    ]
-
-    for file in file_list:
-        list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
-                Paragraph(f"{file.getNewFileName()}", paragraphStyle['Normal']),
-                Paragraph(f"{file.category_id.title}", paragraphStyle['Normal']),
-                Paragraph(f"{file.user_id.full_name()}", paragraphStyle['Normal']),
-                Paragraph(f"{file.created_at}", paragraphStyle['Normal'])]
-        data.append(list)
-
-    pdf = SimpleDocTemplate(
-        buff,
-        pagesize = letter,
-        rightMargin=50,
-        leftMargin=50, topMargin=50, bottomMargin=50
-    )
-
-    table = Table(data, colWidths=[15 * mm, 45 * mm, 35 * mm, 40 * mm, 35 * mm])
-
-    style  = TableStyle([
-        ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
-        ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('FONTSIZE', (0,0), (-1,-1), 11),
-        ('TOPPADDING', (0,0), (-1,-1), 5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 6)
-    ])
-
-    table.setStyle(style)
-
-    rowNumber = len(data)
-    for i in range(1, rowNumber):
-        if i % 2 == 0:
-            bc = colors.white
-        else:
-            bc = colors.HexColor("#DDDDDD")
-        ts = TableStyle(
-            [('BACKGROUND', (0,i), (-1,i), bc)]
-        )
-        table.setStyle(ts)
-
-    borderStyle = TableStyle([
-        ('BOX', (0,0), (-1,-1), .5, colors.HexColor("#777777")),
-        ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
-    ])
-
-    table.setStyle(borderStyle)
-    elems = []
-
-    # titleStyle = ParagraphStyle(
-    #         name='Normal',
-    #         fontSize=14,
-    #         align='Center'
-    #     )
-    # title = Paragraph(f"File Management", titleStyle)
-
-    # elems.append(title)
-    elems.append(table)
-
-    pdf.build(elems, canvasmaker=PageNumCanvas)
-
-    response.write(buff.getvalue())
-    buff.close()
-    return response
+from reportlab.platypus import Image, Table, TableStyle
 
 
 def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):

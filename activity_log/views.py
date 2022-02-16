@@ -113,8 +113,14 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None):
                    "from_date": fromDate,
                    "to_date": toDate})
 
-
 def printPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
 
     if query == None:
         query = ""
