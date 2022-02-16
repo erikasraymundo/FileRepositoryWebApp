@@ -649,6 +649,11 @@
          text-decoration: none;
          outline: none;
          border: none;
+         transition: all ease 300ms;
+      }
+
+      .btn-black:hover {
+        background-color: #8761F4;
       }
 
       .btn-purple {
@@ -703,32 +708,6 @@
 
       /*# sourceMappingURL=global.css.map */
 
-      .category-management--container .save-category-modal {
-         width: 446px;
-         background-color: #fff;
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         -webkit-transform: translate(-50%, -50%);
-         transform: translate(-50%, -50%);
-         padding: 32px;
-         -webkit-box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
-         box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
-         border-radius: 8px;
-      }
-
-      .category-management--container .save-category-modal .header {
-         display: -webkit-box;
-         display: -ms-flexbox;
-         display: flex;
-         -webkit-box-align: center;
-         -ms-flex-align: center;
-         align-items: center;
-         -webkit-box-pack: justify;
-         -ms-flex-pack: justify;
-         justify-content: space-between;
-         margin-bottom: 1.5rem;
-      }
 
       .category-management--container .columns {
          display: -webkit-box;
@@ -1057,7 +1036,7 @@
                         </div>
                      </div>
                      <div class="row">
-                        <div class="col-12">
+                        <div class="col-12" style="display: flex;justify-content: flex-end;">
                            <button class="btn-black">Save</button>
                         </div>
                      </div>
