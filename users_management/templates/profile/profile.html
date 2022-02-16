@@ -198,8 +198,7 @@
             <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none '>
             <fieldset class="gender" id="group" name='gender' style="margin: 2rem 0;">
                <div>
-                   <input type="radio" id="Woman" name="group" value="1"
-                         >
+                   <input type="radio" id="Woman" name="group" value="1" >
                    <label for="Woman">Woman</label>
                  </div>
                  <div>
@@ -265,12 +264,11 @@
          title: "Your display picture has been changed successfully.",
          confirmButtonText: 'Great',
       }).then(() => {
-         document.getElementById('formToUploadProfilePic').submit()
+         document.getElementById('formToUploadProfilePic').submit();
       })
    }
 
    ///////////////////////
-
    document.getElementById('closeModalForChangePasswordOfAdmin').style.cursor = 'pointer';
    document.getElementById('closeModalForEditingAdminProfilePo').style.cursor = 'pointer';
    /////////
@@ -293,6 +291,7 @@
    var initialemail = document.getElementById('editUserAccountEmail').value;
    var initialmiddleName = document.getElementById('editUserMiddleName').value;
    var initialbday = document.getElementById('bDay').value;
+
    function openModalForEditAccount(){
       document.getElementById('editUserAccountUsername').value = initialusername;
       document.getElementById('editUserFirstName').value = initialfirstname;
@@ -346,7 +345,7 @@
                confirmButtonText: 'Ok',
             })
       }
-   }
+   }}
 
    document.getElementById('DeleteAdminAccountButton').onclick = function(e){
       var isAdmin = document.getElementById('ForCheckingIfAdmin').value;
@@ -385,7 +384,7 @@
             icon: 'warning',
             title: "All fields are required",
             confirmButtonText: 'Ok',
-         })
+         });
       }else{
       //validate email
       var re = /\S+@\S+\.\S+/;
@@ -407,14 +406,14 @@
             confirmButtonText: 'Great',
          }).then (() => {
             document.getElementById('FormEditUserAccounts').submit();
-         })
+         });
          }else{
         //Error Message
          Swal.fire({
            icon: 'error',
            title: "Username is already taken.",
            confirmButtonText: 'Ok',
-        })
+        });
         }
          }else{
           if(listOfUsernames[i] == username){
@@ -427,10 +426,8 @@
             icon: 'warning',
             title: "Invalid Email Address",
             confirmButtonText: 'Ok',
-         })
+         });
        }
-
-         
       }
    }
 
