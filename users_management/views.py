@@ -472,6 +472,8 @@ def SaveChangesOnEditUserAccount(request):
     user.email = request.POST['email']
     user.gender = request.POST['group']
     user.birthdate = request.POST['bday']
+    if len(request.FILES) != 0:
+        user.image = request.FILES['image']
     user.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -587,22 +589,4 @@ def UploadProfilePicture(request):
         'details' : User.objects.filter(pk =1, is_active = 1 , ),
         'username': list,
         'bday': date,
-    })
-
-def UploadProfilePictureFromEditUser(request):
-    admin = User.objects.get(pk = request.POST['PK'])
-    admin.image = request.FILES['image']
-    admin.save()
-
-    list = []
-    users = User.objects.exclude(pk = request.POST['PK'])
-    for user in users:
-        list.append(user.username)
-    user = User.objects.get(pk = request.POST['PK'])
-    asd = user.birthdate
-    date = asd.isoformat()
-    return render(request, 'user-accounts/edit-account.html', {
-        'users' : User.objects.filter(pk = request.POST['PK']),
-        'bday' : date,
-        'invalidUsernames' : list,
     })

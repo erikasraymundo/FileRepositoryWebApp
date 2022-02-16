@@ -7,12 +7,6 @@
 <section class="edit-accounts">
     <div class="edit-accounts--container">
           <div class="my-profile--image">
-
-            <form enctype="multipart/form-data" method='POST' action='{%url "UploadProfilePictureFromEditUser" %}' id='formToUploadProfilePic' autocomplete='off'>
-               {% csrf_token %}
-               <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
-               <input type='text' value=" {{ detail.pk }}" style='display:none' name='PK'>
-            </form>
             {% if detail.image == None %}
             <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
             {% else %}
@@ -24,6 +18,7 @@
           <div class="edit-accounts--form-container">
             <form action="{%  url 'SaveChangesOnEditUserAccount' %}" method="POST" id='SaveChangesForm' autocomplete='off'>
               {% csrf_token %}
+              <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
                 <div class="row">
                     <div class="col-12">
                       <h4>Fill up all the information.</h4>
@@ -198,24 +193,25 @@ for(var i = 0 ; i < listOfUsernames.length; i++){
    }else{
       document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
    }
-    //uplaod profile picture
-    document.getElementById('ChangeThisToProfilePicture').onclick = function(e){
-      document.getElementById('uploadProfilePic').click();
-   }
-
-   document.getElementById('uploadProfilePic').onchange = function(e){
-      //upload sa Database
-      Swal.fire({
-         icon: 'success',
-         allowOutsideClick: false,
-         title: "Your display picture has been changed successfully.",
-         confirmButtonText: 'Great',
-      }).then(() => {
-         document.getElementById('formToUploadProfilePic').submit()
-      })
-   }
 
    ///////////////////////
+
+    //uplaod profile picture
+
+   function readURL(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+              $('#ChangeThisToProfilePicture').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+  
+  $("#uploadProfilePic").change(function(){
+      readURL(this);
+  });
+  
   
 </script>
  
