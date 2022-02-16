@@ -975,7 +975,7 @@
             <h1 class="h1">Category Management</h1>
            <section class="category-management">
                <div class="category-management--container">
-                  <form method='post' action='{% url "AddCategory"  %}'>
+                  <form>
                      {% csrf_token %}
                    <div class="container mb-3">
                       <div class="columns">
@@ -985,10 +985,10 @@
                       </div>
                      <div class="columns">
                          <div class="column is-7">
-                            <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)" value=>
+                            <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)" disabled>
                          </div>
                          <div class="column">
-                            <button class="btn-black">Save</button>
+                            <button class="btn-black" type="button" onClick='DoNothing()'>Save</button>
                          </div>
                      </div>
                   </form>
@@ -997,7 +997,7 @@
                      <div class="columns">
                         <div class="column ">
                             <div class="component1">
-                                <h4 class="h4 "><a href="/category">File Categories</a></h4>
+                                <h4 class="h4 "><a href="/category" id='ClickToRedirect'>File Categories</a></h4>
                                 <h4 class="h4 active"><a href="/category/archive">Archived</a></h4>
                              </div>
                          </div>
@@ -1027,7 +1027,7 @@
                      </div>
                    </div>
 
-                   <div class="modal-container" id='ModalForEdittingCategory'>
+                   <div class="modal-container" id='ModalForEdittingCategory' style='display:none'>
                      <div class="modal-backdrop"></div>
                      <div class="edit-modal">
                         <div class="header">
@@ -1064,6 +1064,18 @@
    
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script>
+      function DoNothing(){
+         Swal.fire({
+            icon: 'info',
+            showCancelButton: true,
+            title: "You cannot add a new category in the archives page",
+            confirmButtonText: 'Move to File Categories Page',
+         }).then((bool) => {
+            if( bool.isConfirmed)
+            document.getElementById('ClickToRedirect').click();
+         })
+      }
+
     const toggle = document.querySelector('#sidebar--toggle');
     const sidebar = document.querySelector('#aside');
     const main = document.querySelector('#main-content');
@@ -1086,13 +1098,17 @@
          cancelButtonText: 'Cancel',
       }).then((result) => {
          if(result.isConfirmed){
-          document.getElementById(ID).submit();
+            Swal.fire({
+               icon: 'success',
+               allowOutsideClick: false,
+               title: "Category has been restored",
+               confirmButtonText: 'Great',
+            }).then(() => {
+               document.getElementById(ID).submit();
+            })
          }
       })
     }
-
-    document.getElementById('ModalForEdittingCategory').style.display = 'none';
-    
     document.getElementById('CloseModalForEditCategory').style.cursor='pointer';
     document.getElementById('CloseModalForEditCategory').onclick = function(e){
     document.getElementById('ModalForEdittingCategory').style.display = 'none';
@@ -1102,12 +1118,8 @@
       document.getElementById('ModalForEdittingCategory').style.display = 'block';
       document.getElementById('newCategoryName').value = title;
       document.getElementById('categoryID').value = ID;
-
    }
-
    </script>
    
-
-
 </body>
 </html>

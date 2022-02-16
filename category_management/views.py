@@ -17,16 +17,21 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 def categoryManagement(request):
-
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
     except:
         return HttpResponseRedirect(reverse('index'))
 
+    categs = Category.objects.filter(isArchived = False)
+    nameList = []
+    for names in categs:
+        nameList.append(names.title)
+
     return render(request, 'category-management.html', {
         'categories' : Category.objects.filter(isArchived = False),
-        'user' : logged_user
+        'user' : logged_user,
+        'names' : nameList, 
     })
 
 def AddCategory(request):

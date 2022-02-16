@@ -957,7 +957,7 @@
          <h1 class="h1">Category Management</h1>
          <section class="category-management">
             <div class="category-management--container">
-               <form method='post' action='{% url "AddCategory"  %}'>
+               <form method='post' action='{% url "AddCategory"  %}' id='ModalForAddingCategoryClicked'>
                   {% csrf_token %}
                   <div class="container mb-3">
                      <div class="columns">
@@ -968,10 +968,10 @@
                      <div class="columns">
                         <div class="column is-7">
                            <input class="input" name='CategoryInput' type="text"
-                              placeholder="Enter category (ex. lesson plan)" value=>
+                              placeholder="Enter category (ex. lesson plan)" id='inputedCategoryName'>
                         </div>
                         <div class="column">
-                           <button class="btn-black">Save</button>
+                           <button class="btn-black" type = 'button' onclick='ClickSaveButton( {{ names }} )'>Save</button>
                         </div>
                      </div>
                </form>
@@ -1014,7 +1014,7 @@
                </div>
             </div>
 
-            <div class="modal-container" id='ModalForEdittingCategory'>
+            <div class="modal-container" id='ModalForEdittingCategory' style='display:none'>
                <div class="modal-backdrop"></div>
                <div class="edit-modal">
                   <div class="header">
@@ -1056,6 +1056,7 @@
       const toggle = document.querySelector('#sidebar--toggle');
       const sidebar = document.querySelector('#aside');
       const main = document.querySelector('#main-content');
+      
       toggle.addEventListener('click', function () {
          if (sidebar.classList.contains('close--sidebar')) {
             sidebar.classList.remove('close--sidebar');
@@ -1075,13 +1076,58 @@
             cancelButtonText: 'Cancel',
          }).then((result) => {
             if (result.isConfirmed) {
-               document.getElementById(ID).submit();
+               Swal.fire({
+                  icon: 'success',
+                  allowOutsideClick: false,
+                  title: "Category has been archived",
+                  confirmButtonText: 'Great',
+               }).then(() => {
+                  document.getElementById(ID).submit();
+               })
             }
          })
       }
 
-      document.getElementById('ModalForEdittingCategory').style.display = 'none';
-
+      //Add Category
+      function ClickSaveButton(listOfUsernames){
+         if(document.getElementById('inputedCategoryName').value == ''){
+            Swal.fire({
+               icon: 'error',
+               allowOutsideClick: false,
+               title: "Category name must not be empty",
+               confirmButtonText: 'Great',
+            })
+         }else{
+            //Check if duplicate categ name.
+            var isDuplicate = false;
+            for(var i = 0 ; i < listOfUsernames.length; i++){
+               if(listOfUsernames[i] == document.getElementById('inputedCategoryName').value){
+                  isDuplicate = true;
+               }
+               if(i+1 == listOfUsernames.length){ 
+                  if(!isDuplicate){
+                     //Save To DB
+                     Swal.fire({
+                        icon: 'success',
+                        allowOutsideClick: false,
+                        title: "Category has been added successfully.",
+                        confirmButtonText: 'Great',
+                     }).then (() => {
+                        document.getElementById('ModalForAddingCategoryClicked').submit();
+                     });
+                     }else{
+                    //Error Message
+                     Swal.fire({
+                       icon: 'error',
+                       title: "Category name already exists",
+                       confirmButtonText: 'Ok',
+                    });
+                  }
+               }
+            }
+         }
+      }
+      
       document.getElementById('CloseModalForEditCategory').style.cursor = 'pointer';
       document.getElementById('CloseModalForEditCategory').onclick = function (e) {
          document.getElementById('ModalForEdittingCategory').style.display = 'none';
