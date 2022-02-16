@@ -447,10 +447,16 @@ def profile(request):
     except:
         return HttpResponseRedirect(reverse('index'))
 
+   #For Username Cheching
     list = []
-    users = User.objects.exclude(pk =  session_user_id)
+    listEmails = []
+    users = User.objects.exclude(pk = request.session.get('user_id') )
     for user in users:
         list.append(user.username)
+    #for email checking
+    users = User.objects.exclude(pk = request.session.get('user_id') )
+    for user in users:
+        listEmails.append(user.email)
 
     forDate = logged_user
     asd = forDate.birthdate
@@ -460,6 +466,7 @@ def profile(request):
         'user' : logged_user,
         'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
         'username': list,
+        'emails': listEmails,
         'bday': date,
     })
 
@@ -470,18 +477,10 @@ def UpdatePassword(request):
         logged_user = User.objects.get(pk=session_user_id)
     except:
         return HttpResponseRedirect(reverse('index'))
-
-    list = []
-    users = User.objects.exclude(pk = request.session.get('user_id') )
-    for user in users:
-        list.append(user.username)
     admin = User.objects.get(pk = request.session.get('user_id'))
     admin.password = request.POST['newPassword']
     admin.updated_at = timezone.now()
     admin.save()
-    forDate =  User.objects.get(pk = request.session.get('user_id'))
-    asd = forDate.birthdate
-    date = asd.isoformat()
     log = Log()
     log.user_id = User.objects.get(pk=1)
     log.description = 'Password has been updated for user with ID: ' + str(request.session.get('user_id'))
@@ -523,10 +522,17 @@ def UpdateAccountDetails(request):
     except:
         return HttpResponseRedirect(reverse('index'))
 
+    #For Username Cheching
     list = []
+    listEmails = []
     users = User.objects.exclude(pk = request.session.get('user_id') )
     for user in users:
         list.append(user.username)
+    #for email checking
+    users = User.objects.exclude(pk = request.session.get('user_id') )
+    for user in users:
+        listEmails.append(user.email)
+
     admin = User.objects.get(pk = request.POST['DeleteID'])
     admin.updated_at = timezone.now()
     admin.username = request.POST['username']
@@ -584,14 +590,19 @@ def AddAccount(request):
         return HttpResponseRedirect(reverse('index'))
 
     generatedPassword = random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
+   #For Usernameand email Checking
     list = []
+    listEmails = []
     users = User.objects.all()
     for user in users:
         list.append(user.username)
+        listEmails.append(user.email)
+
     return render(request, 'user-accounts/add-account.html', {
         'user' : logged_user,
         'users' : User.objects.all(),
         'username' : list,
+        'emails' : listEmails,
         'password' : generatedPassword,
     })
 
@@ -637,18 +648,23 @@ def EditAccount(request):
     except:
         return HttpResponseRedirect(reverse('index'))
 
+    #For Usernameand email Checking
     list = []
+    listEmails = []
     users = User.objects.exclude(pk = request.POST['PK'])
     for user in users:
         list.append(user.username)
-    user = User.objects.get(pk = request.POST['PK'])
-    asd = user.birthdate
+        listEmails.append(user.email)
+    
+    user2 = User.objects.get(pk = request.POST['PK'])
+    asd = user2.birthdate
     date = asd.isoformat()
     return render(request, 'user-accounts/edit-account.html', {
         'user' : logged_user,
         'users' : User.objects.filter(pk = request.POST['PK']),
         'bday' : date,
         'invalidUsernames' : list,
+        'emails' : listEmails,
     })
 
 def SaveChangesOnEditUserAccount(request):

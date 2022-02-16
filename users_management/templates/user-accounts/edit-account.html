@@ -26,42 +26,36 @@
                 </div>
                 <div class="row">
                    <div class="col-12">
-                      <label>Username</label>
                     <input type="text" value="{{ detail.username }}"  name='username' id ='username'>
                     <input type="text" value="{{ detail.pk }}" name='PK' style="display:none"> 
                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                     <label>First Name</label>
                      <input type="text" placeholder="Enter first name"  value="{{ detail.first_name }}"  name='first_name'
                      id ='first_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <label>Middle Name</label>
                      <input type="text" placeholder="Enter middle name"  value="{{ detail.middle_name }}"  name='middle_name'
                      id ='middle_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <label>Last Name</label>
                      <input type="text" placeholder="Enter last name"  value="{{ detail.last_name }}"  name='last_name'
                      id ='last_name'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <label>Address</label>
                      <input type="text" placeholder="Enter address"  value="{{ detail.address }}"  name='address'
                      id ='address'> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <label>Email Address</label>
                      <input type="email" placeholder="Enter email address"  value="{{ detail.email }}"  name='email'
                      id ='email'> 
                     </div>
@@ -81,7 +75,6 @@
                               >
                         <label for="Woman">Woman</label>
                       </div>
-                      
                       <div>
                         <input type="radio" id="Man" name="group" value="2">
                         <label for="Man">Man</label>
@@ -95,7 +88,7 @@
                 <div class="row">
                    <div class="col-12 btn-holder">
                     <a href="javascript:history.back()" class="btn-black">Cancel</a>
-                    <div class="btn-black" onclick ='onClickSaveButton({{ invalidUsernames }})'>Save Account</div>
+                    <div class="btn-black" onclick ='onClickSaveButton({{ invalidUsernames }}, {{ emails }})'>Save Account</div>
                    </div>
                 </div>
             </form>
@@ -121,7 +114,7 @@
    //end gender
 
    //save Changes
-  function onClickSaveButton(listOfUsernames) {
+  function onClickSaveButton(listOfUsernames, listOfEmails) {
     //validate
     var username = document.getElementById('username').value;
     var firstname = document.getElementById('first_name').value;
@@ -140,47 +133,72 @@
           //validate email
           var re = /\S+@\S+\.\S+/;
           if(re.test(email)){
-//check if username is duplicated
-var isDuplicate = false;
-for(var i = 0 ; i < listOfUsernames.length; i++){
+//validate email
+var re = /\S+@\S+\.\S+/;
+if(re.test(email)){
+  //check if username is duplicated
+  var isDuplicate = false;
+  for(var i = 0 ; i < listOfUsernames.length; i++){
   if(i+1 == listOfUsernames.length){
-    //last index
-    if(listOfUsernames[i] == username){
-      isDuplicate = true;
-    }
-      if(!isDuplicate){
-        //Save To DB
-        Swal.fire({
-           icon: 'success',
-           allowOutsideClick: false,
-           title: "Changes has been saved",
-           confirmButtonText: 'Great',
-        }).then(() => {
-           document.getElementById('SaveChangesForm').submit()
-        })
-        
-      }else{
-        //Error Message
-        Swal.fire({
-         icon: 'error',
-         title: "Username is already taken.",
-         confirmButtonText: 'Ok',
-      })
-      }
-  }else{
-    if(listOfUsernames[i] == username){
-      isDuplicate = true;
-    }
+  //last index
+  if(listOfUsernames[i] == username){
+     isDuplicate = true;
   }
-}
+  if(!isDuplicate){
+     //Validate if email is unique
+     var isDuplicatEmail = false;
+     for(var i = 0 ; i < listOfEmails.length; i++){
+     if(i+1 == listOfEmails.length){
+     //last index
+     if(listOfEmails[i] == email){
+      isDuplicatEmail = true;
+     }
+        if(!isDuplicatEmail){
+         //Save To DB
+         Swal.fire({
+          icon: 'success',
+          allowOutsideClick: false,
+          title: "Changes has been saved",
+          confirmButtonText: 'Great',
+      }).then(() => {
+          document.getElementById('SaveChangesForm').submit()
+       })
           }else{
+            //Error Message
             Swal.fire({
-               icon: 'error',
-               title: "Invalid Email Address",
-               confirmButtonText: 'Ok',
-            })
+            icon: 'error',
+            title: "Email address is already used for another account.",
+            confirmButtonText: 'Ok',
+           });
+            }
+     }else{
+       if(listOfEmails[i] == email){
+         isDuplicatEmail = true;
           }
-         
+          }
+         }
+  }else{
+ //Error Message
+  Swal.fire({
+    icon: 'error',
+    title: "Username is already taken.",
+    confirmButtonText: 'Ok',
+ });
+ }
+  }else{
+   if(listOfUsernames[i] == username){
+     isDuplicate = true;
+   }
+   }
+  }
+}else{
+  Swal.fire({
+     icon: 'warning',
+     title: "Invalid Email Address",
+     confirmButtonText: 'Ok',
+  });
+}
+}
       }
    }
 
