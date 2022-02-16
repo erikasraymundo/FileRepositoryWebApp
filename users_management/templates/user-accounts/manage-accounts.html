@@ -54,6 +54,7 @@
       <table>
          <thead>
             <tr>
+               <th scope="col">User ID</th>
                <th scope="col">Username</th>
                <th scope="col">Name</th>
                <th scope="col">Email</th>
@@ -80,6 +81,7 @@
             </form>
 
             <tr>
+               <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;' data-label="Username">{{ user.pk }}</td>
                <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;' data-label="Username">{{ user.username }}</td>
                <td onclick='ViewTThisUserAccount("{{ user.pk }}")'  style='cursor:pointer;' data-label="Name">{{ user.first_name }} {{ user.last_name }}</td>
                <td onclick='ViewTThisUserAccount("{{ user.pk }}")' style='cursor:pointer;'  data-label="Email">{{ user.email }}</td>
