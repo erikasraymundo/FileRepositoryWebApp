@@ -13,12 +13,14 @@
                  </div>
                  <div class="form-container">
                     <h4 class="h4">Login to your account.</h4>
-                    <p>Don’t have an account, yet? <span><a class="reg" href="/registration" onclick="Register()">Register.</a></span></p>
-                    <form action="">
-                       <input type="email" name="" id="" placeholder="Enter username or email">
-                       <input type="password" name="" id="" placeholder="Enter password">
+                    <p>Don’t have an account, yet? <span><a class="reg" href="{% url 'registerView' %}"
+                             onclick="Register()">Register.</a></span></p>
+                    <form action="{% url 'login' %}" method="POST">
+                       {% csrf_token %}
+                       <input type="text" name="usernameEmail" id="usernameEmail" placeholder="Enter username or email">
+                       <input type="password" name="password" id="password" placeholder="Enter password">
                        <div class="btn-login-holder">
-                          <a class="btn-login">Login</a>
+                          <button id="loginBtn" class="btn-login" type="submit">Upload File</button>
                        </div>
                     </form>
                  </div>
@@ -26,5 +28,39 @@
            </div> 
         </div>
      </section>
+
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script>
+
+   {% if error == 1%}
+      Swal.fire({
+         icon: 'error',
+         title: 'Your credentials are not valid.'
+      });
+      window.history.pushState('somedata', 'Title', '/login/');
+   {% endif %}
+
+   $("form").submit(function(e) {
+      var usernameEmail = $("#usernameEmail").val();
+      var password = $("#password").val();
+
+      if (usernameEmail.trim() == '' || password.trim() == '') {
+         Swal.fire({
+            icon: 'error',
+            title: 'Please enter all fields.'
+         });
+
+         return false;
+      }
+
+      return true;
+   })
+
+   function validateEmail($email) {
+      var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+      return emailReg.test( $email );
+}
+   </script>
+
 
 {% endblock %}
