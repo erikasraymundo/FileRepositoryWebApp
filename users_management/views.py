@@ -458,7 +458,7 @@ def profile(request):
 
     return render(request, 'profile/profile.html', {
         'user' : logged_user,
-        'details' : User.objects.filter(pk = session_user_id , is_active = 1 , ),
+        'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
         'username': list,
         'bday': date,
     })
@@ -486,11 +486,8 @@ def UpdatePassword(request):
     log.user_id = User.objects.get(pk=1)
     log.description = 'Password has been updated for user with ID: ' + str(request.session.get('user_id'))
     log.save()
-    return render(request, 'profile/profile.html', {
-       'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
-        'username': list,
-          'bday': date,
-    })
+
+    return HttpResponseRedirect(reverse('profile'))
 
 def DeleteAccount(request):
     
@@ -547,11 +544,8 @@ def UpdateAccountDetails(request):
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = 'User with ID: ' + str(request.session.get('user_id'))+ ' updated his/her account'
     log.save()
-    return render(request, 'profile/profile.html', {
-        'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
-        'username': list,
-          'bday': date,
-    })
+
+    return HttpResponseRedirect(reverse('profile'))
 
 def ManageAccounts(request):
     
@@ -563,6 +557,7 @@ def ManageAccounts(request):
 
     userExceptMe = User.objects.exclude(pk =  request.session.get('user_id'))
     return render(request, 'user-accounts/manage-accounts.html', {
+        'user' : logged_user,
         'users' : User.objects.filter(~Q(pk =  request.session.get('user_id'), is_active =  1)),    })
 
 def ArchiveAccounts(request):
@@ -575,6 +570,7 @@ def ArchiveAccounts(request):
 
     pk2 =  request.session.get('user_id')
     return render(request, 'user-accounts/archive-account.html', {
+        'user' : logged_user,
         'users' : User.objects.filter(~Q(pk =  request.session.get('user_id'), is_active =  0)),
         'pk': pk2, 
     })
@@ -593,6 +589,7 @@ def AddAccount(request):
     for user in users:
         list.append(user.username)
     return render(request, 'user-accounts/add-account.html', {
+        'user' : logged_user,
         'users' : User.objects.all(),
         'username' : list,
         'password' : generatedPassword,
@@ -648,6 +645,7 @@ def EditAccount(request):
     asd = user.birthdate
     date = asd.isoformat()
     return render(request, 'user-accounts/edit-account.html', {
+        'user' : logged_user,
         'users' : User.objects.filter(pk = request.POST['PK']),
         'bday' : date,
         'invalidUsernames' : list,
@@ -688,6 +686,7 @@ def ViewAccount(request):
         return HttpResponseRedirect(reverse('index'))
 
     return render(request, 'user-accounts/view-account.html', {
+        'user' : logged_user,
         'users' : User.objects.filter(pk = request.POST['PK']),
     })
 
@@ -753,8 +752,5 @@ def UploadProfilePicture(request):
     log.description = 'User with ID: ' + str(request.session.get('user_id')) + '  updated his/her profile picture'
     log.save()
 
-    return render(request, 'profile/profile.html', {
-        'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
-        'username': list,
-        'bday': date,
-    })
+
+    return HttpResponseRedirect(reverse('profile'))
