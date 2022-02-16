@@ -1,3 +1,4 @@
+from ctypes import alignment
 from django.shortcuts import render
 from datetime import datetime
 from django.http import HttpResponse
@@ -22,8 +23,42 @@ from django.urls import reverse
 from reportlab.lib.units import mm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from report_generation.views import PageNumCanvas
+from reportlab.platypus import Image
+from reportlab.pdfgen import canvas
+import datetime
+from reportlab.lib.units import inch
 
+from tkinter import CENTER, Image
+from tkinter.ttk import Style
+from tkinter import CENTER
+from django.shortcuts import render
+from datetime import datetime
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from users_management.models import User
+from reportlab.platypus import Paragraph, Spacer, Image
+from reportlab.lib.units import cm, inch
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus import TableStyle
+from reportlab.platypus import Table
+from reportlab.lib import colors
+from reportlab.pdfgen import canvas
+from .models import User
+from django.utils import timezone
+from activity_log.models import Log
+import PIL.Image
+from reportlab.rl_config import defaultPageSize
+from django.db.models import Q
+from io import BytesIO
 
+from reportlab.lib.units import mm
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+import datetime
+
+from reportlab.lib.enums import TA_LEFT, TA_CENTER
 # ERIKA
 def index(request,  sort_by=1, query=None, fromDate=None, toDate=None):
 
@@ -138,12 +173,12 @@ def printPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     pdf = SimpleDocTemplate(
         buff,
         pagesize=letter,
-        rightMargin=50,
-        leftMargin=50, topMargin=50, bottomMargin=50
+        rightMargin=70,
+        leftMargin=70, topMargin=50, bottomMargin=70
     )
 
     table = Table(data, colWidths=[
-                  20 * mm, 45 * mm, 75 * mm, 40 * mm])
+                  15 * mm, 40 * mm, 70 * mm, 40 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -172,12 +207,24 @@ def printPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
         ('GRID', (0, 1), (-1, -1), .5, colors.HexColor("#777777"))
     ])
 
-    table.setStyle(borderStyle)
-    elems = []
-    elems.append(table)
+    title = "Activity Log"
+    description = "The following are the activity logs for Soar Academy's English High School Department common drive."
+    styles = getSampleStyleSheet()
 
-    pdf.build(elems)
+    table.setStyle(borderStyle)
+
+    elems = []
+    elems.append(Image('reports/logo_header.jpg',width = 6.5 * inch, height = 0.885 * inch))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(Paragraph(title, styles['DefaultHeading']))
+    elems.append(Paragraph(description, styles['Subtitle']))
+    elems.append(Spacer(.25 * cm, .25 * cm))
+    elems.append(table)
+    elems.append(Spacer(1 * cm, 1 * cm))
+
+    pdf.build(elems, canvasmaker=PageNumCanvas)
 
     response.write(buff.getvalue())
     buff.close()
     return response
+
