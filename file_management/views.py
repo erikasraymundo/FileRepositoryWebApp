@@ -70,6 +70,7 @@ def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=
 
         file_list = File.objects.filter(
             Q(name__icontains=query) |
+            Q(url__endswith=query) |
             Q(category_id__title__icontains=query) |
             Q(user_id__first_name__icontains=query) |
             Q(user_id__last_name__icontains=query) |
@@ -85,6 +86,7 @@ def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=
 
         file_list = File.objects.filter(
             Q(name__icontains=query) |
+            Q(url__endswith=query) |
             Q(category_id__title__icontains=query) |
             Q(user_id__first_name__icontains=query) |
             Q(user_id__last_name__icontains=query) |
@@ -159,6 +161,7 @@ def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None,
 
         file_list = File.objects.filter(
             Q(name__icontains=query) |
+            Q(url__endswith=query) |
             Q(category_id__title__icontains=query) |
             Q(user_id__first_name__icontains=query) |
             Q(user_id__last_name__icontains=query) |
@@ -175,6 +178,7 @@ def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None,
 
         file_list = File.objects.filter(
             Q(name__icontains=query) |
+            Q(url__endswith=query) |
             Q(category_id__title__icontains=query) |
             Q(user_id__first_name__icontains=query) |
             Q(user_id__last_name__icontains=query) |
@@ -522,10 +526,10 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
         logged_user = User.objects.get(pk=session_user_id)
     except:
         return HttpResponseRedirect(reverse('index'))
-
-    if query == None:
-        query = ""
     
+    template_name = 'file_management/index.html'
+
+    if query == None: query = ""
     sort_column = "name"
 
     if (sort_by == 2):
@@ -538,8 +542,12 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
         sort_column = "created_at"
 
     if fromDate == None:
-        FromDate = File.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+        try:
+            FromDate = File.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -551,8 +559,11 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
 
         file_list = File.objects.filter(
             Q(name__icontains=query) |
+            Q(url__endswith=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query) |
+            Q(user_id__last_name__icontains=query) |
+            Q(user_id__created_at__icontains=query),
             created_at__gte=date1,
             created_at__lte=date2,
             category_id=category_id, deleted_at=None
@@ -560,13 +571,15 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
 
     else:
         date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
-        date2 = datetime.datetime.strptime(
-            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+        date2 = datetime.datetime.strptime(toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
 
         file_list = File.objects.filter(
             Q(name__icontains=query) |
+            Q(url__endswith=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query) |
+            Q(user_id__last_name__icontains=query) |
+            Q(user_id__created_at__icontains=query),
             created_at__gte=date1,
             created_at__lte=date2,
             deleted_at=None
@@ -666,8 +679,9 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
     except:
         return HttpResponseRedirect(reverse('index'))
 
-    if query == None:
-        query = ""
+    template_name = 'file_management/archive.html'
+
+    if query == None: query = ""
     sort_column = "name"
 
     if (sort_by == 2):
@@ -675,13 +689,18 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
     elif (sort_by == 3):
         sort_column = "user_id__first_name"
     elif (sort_by == 4):
-        sort_column = "-created_at"
+        sort_column = "-deleted_at"
     elif (sort_by == 5):
-        sort_column = "created_at"
+        sort_column = "deleted_at"
 
     if fromDate == None:
-        FromDate = File.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+
+        try:
+            FromDate = File.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -693,26 +712,31 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
 
         file_list = File.objects.filter(
             Q(name__icontains=query) |
+            Q(url__endswith=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query) |
+            Q(user_id__last_name__icontains=query) |
+            Q(user_id__created_at__icontains=query),
             ~Q(deleted_at=None),
-            created_at__gte=date1,
-            created_at__lte=date2,
+            deleted_at__gte=date1,
+            deleted_at__lte=date2,
             category_id=category_id
         ).order_by(sort_column)
 
     else:
         date1 = datetime.datetime.strptime(fromDate, "%Y-%m-%d").date()
-        date2 = datetime.datetime.strptime(
-            toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
+        date2 = datetime.datetime.strptime(toDate, "%Y-%m-%d").date() + datetime.timedelta(days=1)
 
         file_list = File.objects.filter(
             Q(name__icontains=query) |
+            Q(url__endswith=query) |
             Q(category_id__title__icontains=query) |
-            Q(user_id__first_name__icontains=query),
+            Q(user_id__first_name__icontains=query) |
+            Q(user_id__last_name__icontains=query) |
+            Q(user_id__created_at__icontains=query),
             ~Q(deleted_at=None),
-            created_at__gte=date1,
-            created_at__lte=date2
+            deleted_at__gte=date1,
+            deleted_at__lte=date2
         ).order_by(sort_column)
 
     response = HttpResponse(content_type='application/pdf')
