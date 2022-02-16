@@ -44,7 +44,7 @@
                   <div class="profile--image">
                      <a href="{% url 'profile' %}" class="active">
                         {% if user.image %}
-                        <img src="{{ user.image }}" alt="profile-image">
+                        <img src="{{ user.image.url }}" alt="profile-image">
                         {% else %}
                         <img src="{% static 'src/images/profile-image.png' %}" alt="profile-image">
                         {% endif %}

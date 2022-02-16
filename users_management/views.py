@@ -197,12 +197,12 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     pdf = SimpleDocTemplate(
         buff,
         pagesize=letter,
-        rightMargin=50,
-        leftMargin=50, topMargin=50, bottomMargin=50
+        rightMargin=70,
+        leftMargin=70, topMargin=50, bottomMargin=70
     )
 
     table = Table(data, colWidths=[
-                  35 * mm, 45 * mm, 60 * mm, 40 * mm])
+                  30 * mm, 40 * mm, 60 * mm, 35 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -302,8 +302,8 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
     pdf = SimpleDocTemplate(
         buff,
         pagesize=letter,
-        rightMargin=50,
-        leftMargin=50, topMargin=50, bottomMargin=50
+        rightMargin=70,
+        leftMargin=70, topMargin=50, bottomMargin=70
     )
 
     table = Table(data, colWidths=[

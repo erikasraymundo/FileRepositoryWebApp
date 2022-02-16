@@ -53,8 +53,12 @@ def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=
         sort_column = "created_at"
 
     if fromDate == None:
-        FromDate = File.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+        try:
+            FromDate = File.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -589,8 +593,8 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
     pdf = SimpleDocTemplate(
         buff,
         pagesize=letter,
-        rightMargin=50,
-        leftMargin=50, topMargin=50, bottomMargin=50
+        rightMargin=70,
+        leftMargin=70, topMargin=50, bottomMargin=70
     )
 
     table = Table(data, colWidths=[
@@ -717,8 +721,8 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
     pdf = SimpleDocTemplate(
         buff,
         pagesize=letter,
-        rightMargin=50,
-        leftMargin=50, topMargin=50, bottomMargin=50
+        rightMargin=70,
+        leftMargin=70, topMargin=50, bottomMargin=70
     )
 
     table = Table(data, colWidths=[
@@ -816,8 +820,8 @@ def printIndivualFilePDF(request, file_id):
     pdf = SimpleDocTemplate(
         buff,
         pagesize=letter,
-        rightMargin=50,
-        leftMargin=50, topMargin=50, bottomMargin=50
+        rightMargin=70,
+        leftMargin=70, topMargin=50, bottomMargin=70
     )
 
 
