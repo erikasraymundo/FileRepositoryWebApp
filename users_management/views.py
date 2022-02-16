@@ -407,7 +407,6 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
 
 
 def profile(request):
-
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
@@ -415,17 +414,17 @@ def profile(request):
         return HttpResponseRedirect(reverse('index'))
 
     list = []
-    users = User.objects.exclude(pk = request.session.get('user_id') )
+    users = User.objects.exclude(pk =  session_user_id)
     for user in users:
         list.append(user.username)
 
-    forDate =  User.objects.get(pk = request.session.get('user_id'))
+    forDate = logged_user
     asd = forDate.birthdate
     date = asd.isoformat()
 
     return render(request, 'profile/profile.html', {
         'user' : logged_user,
-        'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
+        'details' : User.objects.filter(pk = session_user_id , is_active = 1 , ),
         'username': list,
         'bday': date,
     })
@@ -505,13 +504,15 @@ def UpdateAccountDetails(request):
     })
 
 def ManageAccounts(request):
+    userExceptMe = User.objects.exclude(pk =  request.session.get('user_id'))
     return render(request, 'user-accounts/manage-accounts.html', {
-        'users' : User.objects.filter(is_active = 1),
-    })
+        'users' : User.objects.filter(~Q(pk =  request.session.get('user_id'), is_active =  1)),    })
 
 def ArchiveAccounts(request):
+    pk2 =  request.session.get('user_id')
     return render(request, 'user-accounts/archive-account.html', {
-        'users' : User.objects.filter(is_active = 0),
+        'users' : User.objects.filter(~Q(pk =  request.session.get('user_id'), is_active =  0)),
+        'pk': pk2, 
     })
 
 def AddAccount(request):

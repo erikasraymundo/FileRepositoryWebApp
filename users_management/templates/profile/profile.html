@@ -20,7 +20,7 @@
                <input type='text' value=" {{ detail.address }}" style='display:none' id='initialaddress'>
                <input type='text' value=" {{ bday }}" style='display:none' id='initialbday'>
                <input type='text' value=" {{ detail.email }}" style='display:none' id='initialemail'>
-            {% if detail.image == '' or detail.image == None %}
+            {% if detail.image == '' %}
             <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
             {% else %}
             <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
@@ -87,7 +87,9 @@
                </div>
                <div class="cta-holder">
                      <a class="btn-black" onclick='openModalForChangePassword()'>Change Password</a>
+                     {% if not detail.is_superuser %}
                      <a class="btn-black" id='DeleteAdminAccountButton'>Delete Account</a>
+                     {% endif %}
                </div>
             </div>
       </div>
@@ -240,7 +242,6 @@
    if(document.getElementById('holderOfImageFromDB').value == ''){
    }else{
       document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
-    
    }
 
    //uplaod profile picture
@@ -338,11 +339,9 @@
             })
       }
    }
-   }
 
    document.getElementById('DeleteAdminAccountButton').onclick = function(e){
       var isAdmin = document.getElementById('ForCheckingIfAdmin').value;
-
       if(isAdmin){
          Swal.fire({
             icon: 'error',
