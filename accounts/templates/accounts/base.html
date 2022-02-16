@@ -127,8 +127,7 @@
     background-color: #8761F4;
     height: 100%;
     width: 100%;
-    top: 0;
-    position: fixed;
+    position: absolute;
     }
 
     .register .register-container {
@@ -143,6 +142,8 @@
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
+        overflow: auto;
+        height: 90%;
     }
 
     .register .register-text {
@@ -366,6 +367,9 @@
     text-align: center;
     -webkit-transition: all ease 300ms;
     transition: all ease 300ms;
+    outline: none;
+    border: none;
+    font-size: 14px;
     }
 
     form .btn-register:hover {
