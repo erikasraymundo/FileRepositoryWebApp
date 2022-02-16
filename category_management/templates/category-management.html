@@ -986,9 +986,7 @@
                   </div>
                </div>
                <div class="columns">
-
                   <div class="column">
-
                      <div class="columns space2 flex-wrap">
                         {% for categoryNames in categories %}
                         <form method='POST' action='{% url "DeleteCategory"%}' id='{{categoryNames.title}}'>
@@ -997,7 +995,7 @@
                               <input type='text' name='ID' style='display:none' value='{{categoryNames.pk}}'>
                               <div onClick='openModal("{{categoryNames.pk}}", "{{categoryNames.title}}")'>
                                  {{categoryNames.title}} </div>
-                              <div class="icon-delete" title="delete" onClick='deleteCateg("{{categoryNames.title}}")'>
+                              <div class="icon-delete" title="delete" onClick='deleteCateg("{{categoryNames.title}}", {{ undeletable }})'>
                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -1067,27 +1065,44 @@
          }
       });
 
-      function deleteCateg(ID) {
-         Swal.fire({
-            icon: 'warning',
-            showCancelButton: true,
-            title: "Are you sure you want to archive this category?",
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'Cancel',
-         }).then((result) => {
-            if (result.isConfirmed) {
-               Swal.fire({
-                  icon: 'success',
-                  allowOutsideClick: false,
-                  title: "Category has been archived",
-                  confirmButtonText: 'Great',
-               }).then(() => {
-                  document.getElementById(ID).submit();
-               })
+      function deleteCateg(ID, list) {
+         // Check first if category is not empty
+         var isEmpty = true;
+         for(var i = 0; i < list.length; i++){
+            if(list[i] == ID){
+               isEmpty = false;
             }
-         })
+            if(i+1 == list.length){
+               //check na if may duplicate
+               if(isEmpty){
+                  Swal.fire({
+                     icon: 'warning',
+                     showCancelButton: true,
+                     title: "Are you sure you want to archive this category?",
+                     confirmButtonText: 'Yes',
+                     cancelButtonText: 'Cancel',
+                  }).then((result) => {
+                     if (result.isConfirmed) {
+                        Swal.fire({
+                           icon: 'success',
+                           allowOutsideClick: false,
+                           title: "Category has been archived",
+                           confirmButtonText: 'Great',
+                        }).then(() => {
+                           document.getElementById(ID).submit();
+                        })
+                     }
+                  })
+               }else{
+                  Swal.fire({
+                     icon: 'error',
+                     title: "Cannot archive a category with files in it",
+                     confirmButtonText: 'Ok',
+                  });
+               }
+            }
+         }
       }
-
       //Add Category
       function ClickSaveButton(listOfUsernames){
          if(document.getElementById('inputedCategoryName').value == ''){
@@ -1095,7 +1110,7 @@
                icon: 'error',
                allowOutsideClick: false,
                title: "Category name must not be empty",
-               confirmButtonText: 'Great',
+               confirmButtonText: 'Ok',
             })
          }else{
             //Check if duplicate categ name.

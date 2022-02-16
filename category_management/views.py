@@ -8,6 +8,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
 from category_management.models import Category
+from file_management.models import File
 
 from users_management.models import User
 from .models import Category
@@ -28,10 +29,20 @@ def categoryManagement(request):
     for names in categs:
         nameList.append(names.title)
 
+    
+    listOfNotEmptyCategories = []
+    categories = Category.objects.all()
+    for category1 in categories:
+        fileSize = File.objects.filter(category_id = category1.pk)
+        for files in fileSize:
+            if(files.url.size > 0 ):
+                listOfNotEmptyCategories.append(category1.title) if category1.title not in listOfNotEmptyCategories else None
+
     return render(request, 'category-management.html', {
         'categories' : Category.objects.filter(isArchived = False),
         'user' : logged_user,
-        'names' : nameList, 
+        'names' : nameList,
+        'undeletable' : listOfNotEmptyCategories 
     })
 
 def AddCategory(request):
@@ -102,7 +113,6 @@ def UpdateCategory(request):
     return HttpResponseRedirect(reverse('categoryManagement'))
 
 def archiveCategory(request):
-
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
