@@ -1,94 +1,175 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
-    <section class="register">
-        <div class="register-container">
+<section class="register">
+    <div class="register-container">
 
-           <div class="register-text">
+        <div class="register-text">
             <h2 class="h2">Create an account</h2>
             <h1 class="h1">Soar Academy</h1>
             <h3 class="h3">English HS Department’s <span>common drive</span></h3>
             <p>Already have an account? <span><a href="">Login.</a></span></p>
-           </div>
+        </div>
 
-           <form action="">
-               <div class="row">
-                   <div class="col-6">
-                    <input type="text" name="" id="" placeholder="Enter username*">
-                   </div>
-                   <div class="col-6">
-                    <input type="text" name="" id="" placeholder="Enter email*">
-                   </div>
-               </div>
-
-               <div class="row">
-                    <div class="col-6">
-                    <input type="text" name="" id="" placeholder="Enter firstname*">
-                    </div>
-                    <div class="col-6">
-                    <input type="text" name="" id="" placeholder="Enter middle name*">
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6">
+                    <input type="text" name="username" id="username" placeholder="Enter username*" value="{{username}}">
+                </div>
+                <div class="col-6">
+                    <input type="text" name="email" id="email" placeholder="Enter email*" value="{{email}}">
                 </div>
             </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <input type="text" name="" id="" placeholder="Enter last name*"> 
+            <div class="row">
+                <div class="col-6">
+                    <input type="text" name="first_name" id="first_name" placeholder="Enter firstname*"
+                        value="{{first_name}}">
+                </div>
+                <div class="col-6">
+                    <input type="text" name="middle_name" id="middle_name" placeholder="Enter middle name*"
+                        value="{{middle_name}}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <input type="text" name="last_name" id="last_name" placeholder="Enter last name*"
+                        value="{{last_name}}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <input type="text" name="address" id="address" placeholder="Enter address*"
+                        value="{{address}}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 birthday">
+                    <div class="icon-calendar">
+                        <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z"
+                                fill="#777777" />
+                        </svg>
                     </div>
+                    <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" readonly
+                        autocomplete="off" value="{{birthdate}}">
+                </div>
+            </div>
+
+            <fieldset class="gender" id="group">
+                <p>Select gender*</p>
+                <div>
+                    {{gender}}
+                    <input type="radio" id="Woman" name="gender" value="1" {% if gender == '1' %} checked
+                        {%endif%}>
+                    <label for="Woman">Woman</label>
                 </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <input type="text" name="" id="" placeholder="Enter address*"> 
-                    </div>
+                <div>
+                    <input type="radio" id="Man" name="gender" value="2" {% if gender == '2' %} checked{% endif %}>
+                    <label for="Man">Man</label>
                 </div>
 
-                <div class="row">
-                    <div class="col-12 birthday">
-                        <div class="icon-calendar">
-                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"/>
-                            </svg>
-                        </div>
-                        <input type="text" name="" id="birthday" placeholder="Select birthdate*"> 
-                    </div>
+                <div>
+                    <input type="radio" id="Others" name="gender" value="3" {% if gender == '3' %} checked{% endif %}>
+                    <label for="Others">Others</label>
                 </div>
+            </fieldset>
 
-                <fieldset class="gender" id="group">
-                    <p>Select gender*</p>
-                    <div>
-                        <input type="radio" id="Woman" name="group" value="Woman"
-                              >
-                        <label for="Woman">Woman</label>
-                      </div>
-                      
-                      <div>
-                        <input type="radio" id="Man" name="group" value="Man">
-                        <label for="Man">Man</label>
-                      </div>
-                      
-                      <div>
-                        <input type="radio" id="Others" name="group" value="Others">
-                        <label for="Others">Others</label>
-                      </div>
-                </fieldset>
-
-                <div class="row">
-                    <div class="col-6">
-                        <input type="text" name="" id="" placeholder="Enter password*"> 
-                    </div>
-                    <div class="col-6">
-                        <input type="text" name="" id="" placeholder="Confirm password*"> 
-                    </div>
+            <div class="row">
+                <div class="col-6">
+                    <input type="password" name="password" id="password" placeholder="Enter password*" value="{{password}}">
                 </div>
+                <div class="col-6">
+                    <input type="password" name="confirm_password" id="confirm_password"
+                        placeholder="Confirm password*" value="{{confirm_password}}">
+                </div>
+            </div>
 
-                <div class="btn-register-holder">
-                    <a class="btn-register">Register</a>
-                 </div>
+            <div class="btn-register-holder">
+                <button id="registerBtn" class="btn-register" type="submit">Register</a>
+            </div>
 
-           </form>
+        </form>
 
-        </div>
-     </section>
+    </div>
+</section>
 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    {% if error == 1 %}
+      Swal.fire({
+         icon: 'error',
+         title: 'That username is already taken.'
+      });
+      window.history.pushState('somedata', 'Title', '/registration/');
+    {% elif error == 2 %}
+        Swal.fire({
+            icon: 'error',
+            title: 'That email is already in use.'
+        });
+        window.history.pushState('somedata', 'Title', '/registration/');
+    {% elif success == 1 %}
+        Swal.fire({
+            icon: 'success',
+            title: 'You have successfully registered!'
+        }).then(function () {
+            window.location.replace("{% url 'loginView' %}");
+        });
+   {% endif %}
+
+    $("#birthday").datepicker();
+    
+    $("form").submit(function(e) {
+
+        var username = $("#username").val().trim();
+        var email = $("#email").val().trim();
+        var first_name = $("#first_name").val().trim();
+        var middle_name = $("#middle_name").val().trim();
+        var last_name = $("#last_name").val().trim();
+        var address = $("#address").val().trim();
+        var birthday = $("#birthday").val();
+        var gender = $('input[name="gender"]:checked').val();
+        var password = $("#password").val().trim();
+        var confirm_password = $("#confirm_password").val().trim();
+
+        if (username == '' || email == '' || first_name == '' || middle_name == '' || last_name == '' ||
+            address == '' || birthday == '' || gender == null || password == '' ||confirm_password == '') {
+            Swal.fire({
+                'icon' : 'error',
+                'title' : 'Please enter all the fields.'
+            })        
+
+            return false;
+        } else {
+            if (!validateEmail(email)) {
+                Swal.fire({
+                    'icon' : 'error',
+                    'title' : 'Please enter a valid email.'
+                })
+
+                return false;
+            } else if (password != confirm_password) {
+                Swal.fire({
+                    'icon' : 'error',
+                    'title' : 'Your passwords do not match.'
+                })
+
+                return false;
+            }
+        }
+
+    });
+
+    function validateEmail($email) {
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        return emailReg.test( $email );
+    }
+</script>
 
 {% endblock %}

@@ -4,6 +4,7 @@ from . import views
 app_name = "users-management"
 urlpatterns = [
     path('', views.index, name='index'),
+    path('temporary', views.profileViewOnly, name='temporary-index'),
 
     path('sort/<int:sort_by>/from/<str:fromDate>/to/<str:toDate>',
          views.index, name='filter1'),

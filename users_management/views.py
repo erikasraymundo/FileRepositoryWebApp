@@ -624,3 +624,7 @@ def UploadProfilePicture(request):
         'username': list,
         'bday': date,
     })
+
+#temporary - erika
+def profileViewOnly(request):
+    return render(request, 'profile/profile.html')
