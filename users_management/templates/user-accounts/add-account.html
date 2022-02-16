@@ -10,7 +10,7 @@
           </div>
           <div class="add-accounts--form-container">
               
-            <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase' autocomplete='off'>
+            <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase' autocomplete='off'  enctype="multipart/form-data">
                {% csrf_token %} 
                <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
                 <div class="row">
