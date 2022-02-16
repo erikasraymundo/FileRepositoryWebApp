@@ -383,7 +383,7 @@ def UpdatePassword(request):
     date = asd.isoformat()
     log = Log()
     log.user_id = User.objects.get(pk=1)
-    log.description = 'Password has been updated for user with ID: ' + request.session.get('user_id')
+    log.description = 'Password has been updated for user with ID: ' + str(request.session.get('user_id'))
     log.save()
     return render(request, 'profile/profile.html', {
        'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
@@ -435,7 +435,7 @@ def UpdateAccountDetails(request):
     date = asd.isoformat()
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = 'User with ID: ' + request.session.get('user_id')+ ' updated his/her account'
+    log.description = 'User with ID: ' + str(request.session.get('user_id'))+ ' updated his/her account'
     log.save()
     return render(request, 'profile/profile.html', {
         'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
@@ -481,7 +481,7 @@ def AddUserAccount(request):
 
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'A new account was created by admin with ID: ' + request.session.get('user_id')
+    log.description = 'A new account was created by admin with ID: ' + str(request.session.get('user_id'))
     log.save()
 
     if len(request.FILES) != 0:
@@ -518,7 +518,7 @@ def SaveChangesOnEditUserAccount(request):
     user.save()
     log = Log()
     log.user_id = User.objects.get(pk=1)
-    log.description = 'Admin with ID: ' + request.session.get('user_id') + 'edited account details for user with ID: ' + request.POST['PK']
+    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + 'edited account details for user with ID: ' + str(request.POST['PK'])
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -535,7 +535,7 @@ def ArchieveUserAccount(request):
     admin.save() 
     log = Log()
     log.user_id = User.objects.get(pk=1)
-    log.description = 'Admin with ID: ' + request.session.get('user_id') + 'archived user with ID: ' + request.POST['ID']
+    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + 'archived user with ID: ' + str(request.POST['ID'])
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -618,8 +618,8 @@ def RestoreUserAccount(request):
     admin.updated_at = timezone.now()
     admin.save()
     log = Log()
-    log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = 'Admin with ID: ' + request.session.get('user_id') + 'restored user with ID: ' + request.POST['ID']
+    log.user_id = User.objects.get(pk= request.session.get('user_id'))
+    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + 'restored user with ID: ' + str(request.POST['ID'])
     log.save()
     return HttpResponseRedirect(reverse('users-management:archived-index'))
 
@@ -640,7 +640,7 @@ def UploadProfilePicture(request):
 
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = 'User with ID: ' + request.session.get('user_id') + ' updated his/her profile picture'
+    log.description = 'User with ID: ' + str(request.session.get('user_id')) + ' updated his/her profile picture'
     log.save()
 
     return render(request, 'profile/profile.html', {
