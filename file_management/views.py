@@ -34,9 +34,9 @@ def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=
 
     try:
         session_user_id = request.session.get('user_id')
-        user = User.objects.get(pk=session_user_id)
+        logged_user = User.objects.get(pk=session_user_id)
     except:
-        raise PermissionDenied()
+        return HttpResponseRedirect(reverse('index'))
     
     template_name = 'file_management/index.html'
 
@@ -98,22 +98,29 @@ def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=
      "from_date": fromDate,
      "to_date": toDate,
      "success": success,
-     "user" : user,
+     "user" : logged_user,
      "category_list": Category.objects.filter(isArchived = False)})
 
 def detail(request, file_id):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     template_name = 'file_management/detail.html'
     file = get_object_or_404(File, pk=file_id)
-    return render(request, template_name, {"file": file})
+    return render(request, template_name, {"file": file, "user" : logged_user})
 
 
 def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success=0):
 
     try:
         session_user_id = request.session.get('user_id')
-        user = User.objects.get(pk=session_user_id)
+        logged_user = User.objects.get(pk=session_user_id)
     except:
-        raise PermissionDenied()
+        return HttpResponseRedirect(reverse('index'))
 
     template_name = 'file_management/archive.html'
 
@@ -181,18 +188,30 @@ def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None,
      "from_date": fromDate,
      "to_date": toDate,
      "success": success,
-     "user" : user,
+     "user" : logged_user,
      "category_list": Category.objects.filter(isArchived = False)})
 
 
 def openUploadView(request):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     return render(request, 'file_management/upload.html', 
     {"category_list": Category.objects.filter(isArchived = False),
+    "user" : logged_user,
     "error" : 0})
 
 def upload(request):
 
-    session_user_id = request.session.get('user_id')
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
 
     name = request.POST['name']
     description = request.POST['description']
@@ -219,18 +238,32 @@ def upload(request):
         return render(request, 'file_management/upload.html',
             {"category_list": Category.objects.filter(isArchived = False),
             "file" : file,
-            "error": 1})  # 2 means general error
+            "error": 1,
+            "user" : logged_user})  # 2 means general error
 
 def openEditView(request, file_id):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     file = get_object_or_404(File, pk=file_id)
     return render(request, 'file_management/edit.html', 
         {"category_list": Category.objects.filter(isArchived = False), 
          "file": file,
-         "error": 0})
+         "error": 0,
+         "user" : logged_user})
 
 def update(request, file_id):
 
-    session_user_id = request.session.get('user_id')
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
 
     name = request.POST['name']
     description = request.POST['description']
@@ -258,9 +291,16 @@ def update(request, file_id):
         return render(request, 'file_management/upload.html',
                       {"category_list": Category.objects.filter(isArchived = False),
                        "file": file,
-                       "error": 1})  # 2
+                       "error": 1,
+                       "user" : logged_user})  # 2
 
 def archive(request, file_id):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
 
     session_user_id = request.session.get('user_id')
     file = get_object_or_404(File, pk=file_id)
@@ -277,7 +317,11 @@ def archive(request, file_id):
 
 def restore(request, file_id):
 
-    session_user_id = request.session.get('user_id')
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
 
     file = get_object_or_404(File, pk=file_id)
     file.deleted_at = None
@@ -291,6 +335,14 @@ def restore(request, file_id):
     return HttpResponseRedirect(reverse('file-management:archived-success', args={4}))
 
 def checkDuplicateName(request):
+
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+    
     file_id = int(request.GET['file_id'])
     duplicated_list = File.objects.filter(name__iexact=request.GET['name']).exclude(id=file_id)
 
@@ -308,6 +360,13 @@ def checkDuplicateName(request):
 
 
 def download(request, file_id):
+
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
 
     file = get_object_or_404(File, pk=file_id)
     filename = file.getFileUrl()
@@ -340,6 +399,13 @@ def download(request, file_id):
 
 
 def pdf_view(request, file_id):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     try:
         file = get_object_or_404(File, pk=file_id)
 
@@ -440,6 +506,14 @@ def getpdf(request):
 
 
 def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
+
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     if query == None:
         query = ""
     
@@ -561,6 +635,13 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
 
 
 def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     if query == None:
         query = ""
     sort_column = "name"
@@ -681,6 +762,13 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
     return response
 
 def printIndivualFilePDF(request, file_id):
+
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
 
     response = HttpResponse(content_type='application/pdf')
     pdf_name = "file-%s.pdf" % str(

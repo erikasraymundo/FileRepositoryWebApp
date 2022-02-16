@@ -26,6 +26,13 @@ from django.urls import reverse
 
 # ERIKA 
 def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+    
     template_name = 'user-accounts/manage-accounts.html'
 
     if query == None:
@@ -65,6 +72,7 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0
 
     return render(request, template_name,
                   {"users": users,
+                  "user" : logged_user, #logged in user
                    "sort_selected": sort_by,
                    "search_value": query,
                    "from_date": fromDate,
@@ -73,6 +81,13 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0
 
 
 def archivedIndex(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+    
     template_name = 'user-accounts/archive-account.html'
 
     if query == None:
@@ -113,6 +128,7 @@ def archivedIndex(request,  sort_by=1, query=None, fromDate=None, toDate=None, s
 
     return render(request, template_name,
                   {"users": users,
+                  "user" : logged_user, #logged in user
                    "sort_selected": sort_by,
                    "search_value": query,
                    "from_date": fromDate,
@@ -330,6 +346,13 @@ def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None
 
 
 def profile(request):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     list = []
     users = User.objects.exclude(pk =1 )
     for user in users:
@@ -340,6 +363,7 @@ def profile(request):
     date = asd.isoformat()
 
     return render(request, 'profile/profile.html', {
+        'user' : logged_user, #logged in user
         'details' : User.objects.filter(pk =1, is_active = 1 , ),
         'username': list,
         'bday': date,

@@ -26,6 +26,13 @@ from django.urls import reverse
 
 # ERIKA
 def index(request,  sort_by=1, query=None, fromDate=None, toDate=None):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+    
     template_name = 'activity_log/logs.html'
 
     if query == None:
@@ -65,6 +72,7 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None):
 
     return render(request, template_name,
                   {"log_list": log_list,
+                  "user" : logged_user,
                    "sort_selected": sort_by,
                    "search_value": query,
                    "from_date": fromDate,
