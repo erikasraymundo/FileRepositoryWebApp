@@ -6,12 +6,13 @@
 <section class="add-accounts">
     <div class="add-accounts--container">
           <div class="my-profile--image">
-             <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large">
+            <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
           </div>
           <div class="add-accounts--form-container">
               
             <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase' autocomplete='off'>
                {% csrf_token %} 
+               <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
                 <div class="row">
                     <div class="col-12">
                       <h4>Fill up all the information.</h4>
@@ -116,7 +117,7 @@
                     Swal.fire({
                       icon: 'success',
                       allowOutsideClick: false,
-                      title: "Changes has been saved",
+                      title: "User Added Successfully.",
                       confirmButtonText: 'Great',
                    }).then(() => {
                     document.getElementById('FormForAddingANewUserToTheDatabase').submit();
@@ -145,6 +146,11 @@
           
         }
       }
+
+       //uplaod profile picture
+    document.getElementById('ChangeThisToProfilePicture').onclick = function(e){
+      document.getElementById('uploadProfilePic').click();
+   }
     </script>
 
  </section>

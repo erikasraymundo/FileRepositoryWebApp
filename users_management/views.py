@@ -442,6 +442,9 @@ def AddUserAccount(request):
     user.is_superuser = False
     user.is_staff = False
     user.user_type = 1
+    user.image = None
+    if len(request.FILES) != 0:
+        user.image = request.FILES['image']
     user.save()
     return HttpResponseRedirect(reverse('users-management:index'))
     
