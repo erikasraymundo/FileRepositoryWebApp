@@ -30,7 +30,7 @@ def AddCategory(request):
                     category.isArchived = False
                     category.save()
                     log = Log()
-                    log.user_id = User.objects.get(pk=1)
+                    log.user_id = User.objects.get(pk=  request.session.get('user_id'))
                     log.description = category.title + ' has been added to active categories from the archive'
                     log.save()
                 break
@@ -40,7 +40,7 @@ def AddCategory(request):
             category.title = request.POST['CategoryInput']
             category.save()
             log = Log()
-            log.user_id = User.objects.get(pk=1)
+            log.user_id = User.objects.get(pk=  request.session.get('user_id'))
             log.description = category.title + ' has been added to categories'
             log.save()
     return render(request, 'category-management.html', {
@@ -52,7 +52,7 @@ def DeleteCategory(request):
     entry.isArchived =True
     entry.save()
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = entry.title + ' has been moved to the archived categories'
     log.save()
     return render(request, 'category-management.html', {
@@ -65,7 +65,7 @@ def UpdateCategory(request):
     entry.save()
 
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = 'Category named ' + Category.objects.get(pk = request.POST['categoryID']).title + ' was renamed to ' + request.POST['newCategoryName']
     log.save()
     return render(request, 'category-management.html', {
@@ -110,7 +110,7 @@ def RestoreCategory(request):
     entry.isArchived = False
     entry.save()
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = entry.title + ' has been moved to the active categories from the archive'
     log.save()
     return render(request, 'archive.html', {
@@ -123,7 +123,7 @@ def UpdateArchivedCategory(request):
     entry.save()
 
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=  request.session.get('user_id'))
     log.description = 'Category named ' + Category.objects.get(pk = request.POST['categoryID']).title + ' was renamed to ' + request.POST['newCategoryName']
     log.save()
     return render(request, 'archive.html', {

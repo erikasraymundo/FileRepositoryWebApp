@@ -9,7 +9,6 @@
             <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
           </div>
           <div class="add-accounts--form-container">
-              
             <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase' autocomplete='off'  enctype="multipart/form-data">
                {% csrf_token %} 
                <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
@@ -102,7 +101,7 @@
         var last = document.getElementById('Add-Account-last').value;
         var address = document.getElementById('Add-Account-address').value;
         var email = document.getElementById('Add-Account-email').value;
-        if(username == '' || first == '' || middle == '' || last == '' || address == '' || email == ''){
+        if((username == '' || first == '' || middle == '' || last == '' || address == '' || email == '') || ((!(document.getElementById('Woman').checked) && !(document.getElementById('Man').checked) && !(document.getElementById('Others').checked)))){
           Swal.fire({
             icon: 'error',
             title: "All fields are required.",
