@@ -160,6 +160,12 @@ def archivedIndex(request,  sort_by=1, query=None, fromDate=None, toDate=None, s
 
 def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
 
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     if query == None:
         query = ""
 
@@ -283,6 +289,12 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
 
 
 def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
 
     if query == None:
         query = ""
@@ -430,6 +442,13 @@ def profile(request):
     })
 
 def UpdatePassword(request):
+
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     list = []
     users = User.objects.exclude(pk = request.session.get('user_id') )
     for user in users:
@@ -452,6 +471,13 @@ def UpdatePassword(request):
     })
 
 def DeleteAccount(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     list = []
     users = User.objects.exclude(pk = request.session.get('user_id') )
     for user in users:
@@ -476,6 +502,13 @@ def DeleteAccount(request):
     })
 
 def UpdateAccountDetails(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     list = []
     users = User.objects.exclude(pk = request.session.get('user_id') )
     for user in users:
@@ -504,11 +537,25 @@ def UpdateAccountDetails(request):
     })
 
 def ManageAccounts(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     userExceptMe = User.objects.exclude(pk =  request.session.get('user_id'))
     return render(request, 'user-accounts/manage-accounts.html', {
         'users' : User.objects.filter(~Q(pk =  request.session.get('user_id'), is_active =  1)),    })
 
 def ArchiveAccounts(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     pk2 =  request.session.get('user_id')
     return render(request, 'user-accounts/archive-account.html', {
         'users' : User.objects.filter(~Q(pk =  request.session.get('user_id'), is_active =  0)),
@@ -516,6 +563,13 @@ def ArchiveAccounts(request):
     })
 
 def AddAccount(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     generatedPassword = random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
     list = []
     users = User.objects.all()
@@ -528,6 +582,13 @@ def AddAccount(request):
     })
 
 def AddUserAccount(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     user = User()
     user.username = request.POST['username']
     user.password = request.POST['password']
@@ -555,6 +616,13 @@ def AddUserAccount(request):
     return HttpResponseRedirect(reverse('users-management:index'))
     
 def EditAccount(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     list = []
     users = User.objects.exclude(pk = request.POST['PK'])
     for user in users:
@@ -569,6 +637,13 @@ def EditAccount(request):
     })
 
 def SaveChangesOnEditUserAccount(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
     user = User.objects.get(pk = request.POST['PK'])
     user.username = request.POST['username']
     user.first_name = request.POST['first_name']
@@ -588,6 +663,13 @@ def SaveChangesOnEditUserAccount(request):
     return HttpResponseRedirect(reverse('users-management:index'))
 
 def ViewAccount(request):
+    
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+        
     return render(request, 'user-accounts/view-account.html', {
         'users' : User.objects.filter(pk = request.POST['PK']),
     })

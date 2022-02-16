@@ -113,8 +113,12 @@
                icon: 'error',
                title: "Please enter a valid file name."
             })
-         }
-         else if (file_length == 0) {
+         } else if (category == "0") {
+         Swal.fire({
+         icon: 'error',
+         title: "No categories set yet!"
+         })
+         } else if (file_length == 0) {
             Swal.fire({
                icon: 'error',
                title: "Ooops, you forgot to select a file!"
@@ -146,11 +150,6 @@
                   }
                );
             }
-         } else if (category == "0") {
-            Swal.fire({
-               icon: 'error',
-               title: "Please select a valid category."
-            })
          }
          return false;
       });
