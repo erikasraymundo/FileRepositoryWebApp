@@ -10,254 +10,8 @@
    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <title>Document</title>
-</head>
-
-<body>
-   <div class="global--container">
-      <!--SIDEBAR-->
-      <aside class="aside" id="aside">
-         <div class="aside--container">
-            <div class="aside--inner-container">
-               <div class="sidebar--toggle-container">
-                  <span class="sidebar--toggle" id="sidebar--toggle">
-                     <div class="icon--open">
-                        <svg width="16" height="16" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path
-                              d="M14.75 2.25H1.25C1.05109 2.25 0.860319 2.17098 0.719667 2.03033C0.579015 1.88968 0.499998 1.69891 0.499998 1.5C0.499998 1.30109 0.579015 1.11032 0.719667 0.96967C0.860319 0.829018 1.05109 0.75 1.25 0.75H14.75C14.9489 0.75 15.1397 0.829018 15.2803 0.96967C15.421 1.11032 15.5 1.30109 15.5 1.5C15.5 1.69891 15.421 1.88968 15.2803 2.03033C15.1397 2.17098 14.9489 2.25 14.75 2.25ZM14.75 5.25H4.25C4.05109 5.25 3.86032 5.17098 3.71967 5.03033C3.57901 4.88968 3.5 4.69891 3.5 4.5C3.5 4.30109 3.57901 4.11032 3.71967 3.96967C3.86032 3.82902 4.05109 3.75 4.25 3.75H14.75C14.9489 3.75 15.1397 3.82902 15.2803 3.96967C15.421 4.11032 15.5 4.30109 15.5 4.5C15.5 4.69891 15.421 4.88968 15.2803 5.03033C15.1397 5.17098 14.9489 5.25 14.75 5.25ZM1.25 6.75H14.75C14.9489 6.75 15.1397 6.82902 15.2803 6.96967C15.421 7.11032 15.5 7.30109 15.5 7.5C15.5 7.69891 15.421 7.88968 15.2803 8.03033C15.1397 8.17098 14.9489 8.25 14.75 8.25H1.25C1.05109 8.25 0.860319 8.17098 0.719667 8.03033C0.579015 7.88968 0.499998 7.69891 0.499998 7.5C0.499998 7.30109 0.579015 7.11032 0.719667 6.96967C0.860319 6.82902 1.05109 6.75 1.25 6.75ZM4.25 9.75H14.75C14.9489 9.75 15.1397 9.82902 15.2803 9.96967C15.421 10.1103 15.5 10.3011 15.5 10.5C15.5 10.6989 15.421 10.8897 15.2803 11.0303C15.1397 11.171 14.9489 11.25 14.75 11.25H4.25C4.05109 11.25 3.86032 11.171 3.71967 11.0303C3.57901 10.8897 3.5 10.6989 3.5 10.5C3.5 10.3011 3.57901 10.1103 3.71967 9.96967C3.86032 9.82902 4.05109 9.75 4.25 9.75Z"
-                              fill="#272727" />
-                        </svg>
-                     </div>
-                     <div class="icon--close">
-                        <svg width="16" height="16" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path
-                              d="M1 9.5H13C13.4125 9.5 13.75 9.1625 13.75 8.75C13.75 8.3375 13.4125 8 13 8H1C0.5875 8 0.25 8.3375 0.25 8.75C0.25 9.1625 0.5875 9.5 1 9.5ZM1 5.75H13C13.4125 5.75 13.75 5.4125 13.75 5C13.75 4.5875 13.4125 4.25 13 4.25H1C0.5875 4.25 0.25 4.5875 0.25 5C0.25 5.4125 0.5875 5.75 1 5.75ZM0.25 1.25C0.25 1.6625 0.5875 2 1 2H13C13.4125 2 13.75 1.6625 13.75 1.25C13.75 0.8375 13.4125 0.5 13 0.5H1C0.5875 0.5 0.25 0.8375 0.25 1.25Z"
-                              fill="#323232" />
-                        </svg>
-                     </div>
-                  </span>
-                  <p>Menu</p>
-               </div>
-               <div class="profile">
-                  <div class="profile--image">
-                     <a href="{% url 'profile' %}">
-                        {% if user.image %}
-                        <img src="{{ user.image }}" alt="profile-image">
-                        {% else %}
-                        <img src="{% static 'src/images/profile-image.png' %}" alt="profile-image">
-                        {% endif %}
-                     </a>
-                  </div>
-                  <div class="profile--name">
-                     <h4 class="h4">{{user.full_name}}</h4>
-                  </div>
-               </div>
-               <div class="menu">
-                  <ul class="menu--links">
-                     <li class="active">
-                        <a href="/file-management">
-                           <div class="icon">
-                              <svg width="20" height="20" viewBox="0 0 18 14" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                 <path
-                                    d="M7.731 0.51625C7.389 0.18375 6.93 0 6.453 0H1.8C0.81 0 0.00899999 0.7875 0.00899999 1.75L0 12.25C0 13.2125 0.81 14 1.8 14H16.2C17.19 14 18 13.2125 18 12.25V3.5C18 2.5375 17.19 1.75 16.2 1.75H9L7.731 0.51625Z"
-                                    fill="#272727" />
-                              </svg>
-                           </div>
-                           <span>File Management</span>
-                        </a>
-                     </li>
-                     {% if user.is_superuser == True %}
-                     <li>
-                        <a href="{% url 'users-management:index' %}">
-                           <div class="icon">
-                              <svg width="20" height="20" viewBox="0 0 18 18" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                 <path
-                                    d="M9 0C4.032 0 0 4.032 0 9C0 13.968 4.032 18 9 18C13.968 18 18 13.968 18 9C18 4.032 13.968 0 9 0ZM9 2.7C10.494 2.7 11.7 3.906 11.7 5.4C11.7 6.894 10.494 8.1 9 8.1C7.506 8.1 6.3 6.894 6.3 5.4C6.3 3.906 7.506 2.7 9 2.7ZM9 15.48C6.75 15.48 4.761 14.328 3.6 12.582C3.627 10.791 7.2 9.81 9 9.81C10.791 9.81 14.373 10.791 14.4 12.582C13.239 14.328 11.25 15.48 9 15.48Z"
-                                    fill="#272727" />
-                              </svg>
-                           </div>
-                           <span>Accounts</span>
-                        </a>
-                     </li>
-                     <li>
-                        <a href="{% url 'activity-log:index' %}">
-                           <div class="icon">
-                              <svg width="18" height="21" viewBox="0 0 18 21" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                 <path
-                                    d="M4.49995 3.37503V2.24992H6.74997C6.74997 1.44611 7.17862 0.703334 7.87489 0.301427C8.571 -0.100476 9.42867 -0.100476 10.1247 0.301427C10.821 0.703329 11.2498 1.44611 11.2498 2.24992H13.4999L13.4997 3.37503C13.4997 3.67335 13.3812 3.95943 13.1703 4.17036C12.9593 4.38148 12.6731 4.49994 12.3748 4.49994H5.62487C5.32655 4.49994 5.04029 4.38148 4.82935 4.17036C4.61842 3.95943 4.49995 3.67333 4.49995 3.37503ZM15.1874 2.30682L15.1872 3.37503C15.1865 4.12065 14.8898 4.83556 14.3625 5.36273C13.8354 5.89009 13.1205 6.1865 12.3748 6.18742H5.62496C4.87934 6.18648 4.16443 5.89004 3.63727 5.36273C3.10991 4.83556 2.8133 4.12065 2.81258 3.37503V2.30682C2.02723 2.43809 1.31382 2.84358 0.798897 3.45092C0.283977 4.05851 0.000916055 4.82857 0 5.62486V16.875C0 17.7699 0.355574 18.6284 0.988568 19.2614C1.62156 19.8944 2.48 20.2499 3.37494 20.2499H14.6251C15.52 20.2499 16.3784 19.8944 17.0114 19.2614C17.6444 18.6284 18 17.7699 18 16.875V5.62486C17.9991 4.82857 17.716 4.05851 17.2011 3.45092C16.6862 2.84353 15.9728 2.43805 15.1874 2.30682Z"
-                                    fill="#272727" />
-                              </svg>
-                           </div>
-                           <span>Activity Logs</span>
-                        </a>
-                     </li>
-                     {% endif %}
-                  </ul>
-               </div>
-            </div>
-            <div class="aside--bottom">
-               <div class="logout-btn" id="logout">
-                  <a>
-                     <div class="icon">
-                        <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path fill-rule="evenodd" clip-rule="evenodd"
-                              d="M6.56305 18.1811C7.08007 18.1811 7.50107 18.5892 7.50107 19.0905C7.50107 19.592 7.08007 20 6.56305 20H2.81245C2.43512 20 2.06696 19.9278 1.72222 19.7877C1.3868 19.6538 1.08703 19.4595 0.827711 19.2126C0.569998 18.9641 0.36496 18.675 0.223661 18.3528C0.0745051 18.017 0 17.6617 0 17.2957V2.72827C0 2.35931 0.0745052 2.0025 0.222059 1.6667C0.363358 1.34149 0.566791 1.04943 0.823055 0.799414C1.08237 0.549544 1.38214 0.352299 1.71756 0.215301C2.0655 0.0736463 2.43352 0 2.81245 0H6.56305C7.08007 0 7.50107 0.408034 7.50107 0.909328C7.50107 1.41232 7.08007 1.8188 6.56305 1.8188H2.81245C2.29528 1.8188 1.87443 2.22683 1.87443 2.72827V17.2957C1.87443 17.7836 2.29528 18.1811 2.81245 18.1811L6.56305 18.1811ZM17.5824 9.20589C17.837 9.37308 18 9.64397 18 9.99938C18 10.3577 17.837 10.6272 17.5824 10.7944L14.686 13.6025C14.2838 13.9909 13.6813 13.9909 13.2805 13.6025C12.8783 13.2125 12.8783 12.6283 13.2805 12.2399L14.5851 10.9736H7.95864C7.35604 10.9736 6.95383 10.585 6.95383 9.99935C6.95383 9.41664 7.35604 9.02667 7.95864 9.02667H14.5851L13.2805 7.76193C12.8783 7.37195 12.8783 6.7877 13.2805 6.39772C13.6813 6.00775 14.2838 6.00775 14.686 6.39772L17.5824 9.20589Z"
-                              fill="#272727" />
-                        </svg>
-                     </div>
-                     <span>Logout</span>
-                  </a>
-               </div>
-            </div>
-         </div>
-      </aside>
-      <!--MAIN-->
-      <main id="main-content">
-         <h1 class="h1">Category Management</h1>
-         <section class="category-management">
-            <div class="category-management--container">
-               <form method='post' action='{% url "AddCategory"  %}'>
-                  {% csrf_token %}
-                  <div class="container mb-3">
-                     <div class="columns">
-                        <div class="column">
-                           <h4 class="h4">Create a new category</h4>
-                        </div>
-                     </div>
-                     <div class="columns">
-                        <div class="column is-7">
-                           <input class="input" name='CategoryInput' type="text"
-                              placeholder="Enter category (ex. lesson plan)" value=>
-                        </div>
-                        <div class="column">
-                           <button class="btn-black">Save</button>
-                        </div>
-                     </div>
-               </form>
-            </div>
-            <div class="container" style="margin-top: 2rem;">
-               <div class="columns">
-                  <div class="column ">
-                     <div class="component1">
-                        <h4 class="h4 active"><a href="/category">File Categories</a></h4>
-                        <h4 class="h4 "><a href="/category/archive">Archived</a></h4>
-                     </div>
-                  </div>
-               </div>
-               <div class="columns">
-
-                  <div class="column">
-
-                     <div class="columns space2 flex-wrap">
-                        {% for categoryNames in categories %}
-                        <form method='POST' action='{% url "DeleteCategory"%}' id='{{categoryNames.title}}'>
-                           {% csrf_token %}
-                           <span class="button category">
-                              <input type='text' name='ID' style='display:none' value='{{categoryNames.pk}}'>
-                              <div onClick='openModal("{{categoryNames.pk}}", "{{categoryNames.title}}")'>
-                                 {{categoryNames.title}} </div>
-                              <div class="icon-delete" title="delete" onClick='deleteCateg("{{categoryNames.title}}")'>
-                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                       d="M7 11V13H17V11H7ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z"
-                                       fill="white" />
-                                 </svg>
-                              </div>
-                           </span>
-                        </form>
-                        {% endfor %}
-                     </div>
-
-                  </div>
-               </div>
-            </div>
-
-            <div class="modal-container" id='ModalForEdittingCategory'>
-               <div class="modal-backdrop"></div>
-               <div class="edit-modal">
-                  <div class="header">
-                     <h4 class="text-purple fw-800">Edit Category</h4>
-                     <span class="close-modal-icon" id='CloseModalForEditCategory'>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path
-                              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
-                              fill="#323232" />
-                        </svg>
-                     </span>
-                  </div>
-                  <form action='{% url "UpdateCategory"%}' method='POST'>
-                     {% csrf_token %}
-                     <div class="row">
-                        <div class="col-12">
-                           <input type="text" name='newCategoryName' id='newCategoryName'>
-                           <input type="text" name='categoryID' id='categoryID' style='display:none'>
-                        </div>
-                     </div>
-                     <div class="row">
-                        <div class="col-12">
-                           <button class="btn-black">Save</button>
-                        </div>
-                     </div>
-                  </form>
-               </div>
-            </div>
-
-   </div>
-   </section>
-   </main>
-   </div>
-
-   <!--SIDEBAR TOGGLE-->
-
-   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <script>
-      const toggle = document.querySelector('#sidebar--toggle');
-      const sidebar = document.querySelector('#aside');
-      const main = document.querySelector('#main-content');
-      toggle.addEventListener('click', function () {
-         if (sidebar.classList.contains('close--sidebar')) {
-            sidebar.classList.remove('close--sidebar');
-            main.classList.remove('margins');
-         } else {
-            sidebar.classList.add('close--sidebar');
-            main.classList.add('margins');
-         }
-      });
-
-      function deleteCateg(ID) {
-         Swal.fire({
-            icon: 'warning',
-            showCancelButton: true,
-            title: "Are you sure you want to archive this category?",
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'Cancel',
-         }).then((result) => {
-            if (result.isConfirmed) {
-               document.getElementById(ID).submit();
-            }
-         })
-      }
-
-      document.getElementById('ModalForEdittingCategory').style.display = 'none';
-
-      document.getElementById('CloseModalForEditCategory').style.cursor = 'pointer';
-      document.getElementById('CloseModalForEditCategory').onclick = function (e) {
-         document.getElementById('ModalForEdittingCategory').style.display = 'none';
-      }
-
-      function openModal(ID, title) {
-         document.getElementById('ModalForEdittingCategory').style.display = 'block';
-         document.getElementById('newCategoryName').value = title;
-         document.getElementById('categoryID').value = ID;
-
-      }
-   </script>
-
-   <style>
+   <title>Category Management</title>
+    <style>
       @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700;800&display=swap");
 
       *,
@@ -267,6 +21,7 @@
          padding: 0;
          -webkit-box-sizing: border-box;
          box-sizing: border-box;
+         font-family: 'Raleway', sans-serif;
       }
 
       body {
@@ -892,6 +647,13 @@
          cursor: pointer;
          display: inline-block;
          text-decoration: none;
+         outline: none;
+         border: none;
+         transition: all ease 300ms;
+      }
+
+      .btn-black:hover {
+        background-color: #8761F4;
       }
 
       .btn-purple {
@@ -946,32 +708,6 @@
 
       /*# sourceMappingURL=global.css.map */
 
-      .category-management--container .save-category-modal {
-         width: 446px;
-         background-color: #fff;
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         -webkit-transform: translate(-50%, -50%);
-         transform: translate(-50%, -50%);
-         padding: 32px;
-         -webkit-box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
-         box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
-         border-radius: 8px;
-      }
-
-      .category-management--container .save-category-modal .header {
-         display: -webkit-box;
-         display: -ms-flexbox;
-         display: flex;
-         -webkit-box-align: center;
-         -ms-flex-align: center;
-         align-items: center;
-         -webkit-box-pack: justify;
-         -ms-flex-pack: justify;
-         justify-content: space-between;
-         margin-bottom: 1.5rem;
-      }
 
       .category-management--container .columns {
          display: -webkit-box;
@@ -1044,25 +780,45 @@
          -ms-flex-align: center;
          align-items: center;
          border-radius: 100px;
-         padding: .2rem 1rem;
+         padding: .4rem .7rem .4rem .7rem;
          cursor: pointer;
          color: #272727;
          background-color: #DADADA;
+         position: relative;
+         transition: all ease 300ms;
       }
 
       .category-management--container .category .icon-delete {
-         display: none;
+        position: absolute;
+        top: 50%;
+        right: 6px;
+        transform: translateY(-50%);
+      }
+
+      .category-management--container .category .icon-delete {
+        visibility: hidden;
+      }
+
+      .category-management--container .category:hover{
+         padding: .4rem 1.7rem .4rem .7rem;
+      }
+
+      .category-management--container .category:hover .icon-delete{
+        visibility: visible;
+      }
+
+      .category-management--container .category .icon-delete svg {
+         height: 18px;
+         width: 18px;
+         margin-top: .2rem;
+         fill: #272727;
       }
 
       .category-management--container .category:hover {
          background-color: #8761F4;
-         padding: .2rem 1rem;
          color: #fff;
       }
-
-      .category-management--container .category:hover .icon-delete {
-         display: block;
-      }
+     
 
       .category-management--container .edit-modal {
          width: 446px;
@@ -1093,6 +849,253 @@
 
       /*# sourceMappingURL=category-management.css.map */
    </style>
+</head>
+
+<body>
+   <div class="global--container">
+      <!--SIDEBAR-->
+      <aside class="aside" id="aside">
+         <div class="aside--container">
+            <div class="aside--inner-container">
+               <div class="sidebar--toggle-container">
+                  <span class="sidebar--toggle" id="sidebar--toggle">
+                     <div class="icon--open">
+                        <svg width="16" height="16" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path
+                              d="M14.75 2.25H1.25C1.05109 2.25 0.860319 2.17098 0.719667 2.03033C0.579015 1.88968 0.499998 1.69891 0.499998 1.5C0.499998 1.30109 0.579015 1.11032 0.719667 0.96967C0.860319 0.829018 1.05109 0.75 1.25 0.75H14.75C14.9489 0.75 15.1397 0.829018 15.2803 0.96967C15.421 1.11032 15.5 1.30109 15.5 1.5C15.5 1.69891 15.421 1.88968 15.2803 2.03033C15.1397 2.17098 14.9489 2.25 14.75 2.25ZM14.75 5.25H4.25C4.05109 5.25 3.86032 5.17098 3.71967 5.03033C3.57901 4.88968 3.5 4.69891 3.5 4.5C3.5 4.30109 3.57901 4.11032 3.71967 3.96967C3.86032 3.82902 4.05109 3.75 4.25 3.75H14.75C14.9489 3.75 15.1397 3.82902 15.2803 3.96967C15.421 4.11032 15.5 4.30109 15.5 4.5C15.5 4.69891 15.421 4.88968 15.2803 5.03033C15.1397 5.17098 14.9489 5.25 14.75 5.25ZM1.25 6.75H14.75C14.9489 6.75 15.1397 6.82902 15.2803 6.96967C15.421 7.11032 15.5 7.30109 15.5 7.5C15.5 7.69891 15.421 7.88968 15.2803 8.03033C15.1397 8.17098 14.9489 8.25 14.75 8.25H1.25C1.05109 8.25 0.860319 8.17098 0.719667 8.03033C0.579015 7.88968 0.499998 7.69891 0.499998 7.5C0.499998 7.30109 0.579015 7.11032 0.719667 6.96967C0.860319 6.82902 1.05109 6.75 1.25 6.75ZM4.25 9.75H14.75C14.9489 9.75 15.1397 9.82902 15.2803 9.96967C15.421 10.1103 15.5 10.3011 15.5 10.5C15.5 10.6989 15.421 10.8897 15.2803 11.0303C15.1397 11.171 14.9489 11.25 14.75 11.25H4.25C4.05109 11.25 3.86032 11.171 3.71967 11.0303C3.57901 10.8897 3.5 10.6989 3.5 10.5C3.5 10.3011 3.57901 10.1103 3.71967 9.96967C3.86032 9.82902 4.05109 9.75 4.25 9.75Z"
+                              fill="#272727" />
+                        </svg>
+                     </div>
+                     <div class="icon--close">
+                        <svg width="16" height="16" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path
+                              d="M1 9.5H13C13.4125 9.5 13.75 9.1625 13.75 8.75C13.75 8.3375 13.4125 8 13 8H1C0.5875 8 0.25 8.3375 0.25 8.75C0.25 9.1625 0.5875 9.5 1 9.5ZM1 5.75H13C13.4125 5.75 13.75 5.4125 13.75 5C13.75 4.5875 13.4125 4.25 13 4.25H1C0.5875 4.25 0.25 4.5875 0.25 5C0.25 5.4125 0.5875 5.75 1 5.75ZM0.25 1.25C0.25 1.6625 0.5875 2 1 2H13C13.4125 2 13.75 1.6625 13.75 1.25C13.75 0.8375 13.4125 0.5 13 0.5H1C0.5875 0.5 0.25 0.8375 0.25 1.25Z"
+                              fill="#323232" />
+                        </svg>
+                     </div>
+                  </span>
+                  <p>Menu</p>
+               </div>
+               <div class="profile">
+                  <div class="profile--image">
+                     <a href="{% url 'profile' %}">
+                        {% if user.image %}
+                        <img src="{{ user.image }}" alt="profile-image">
+                        {% else %}
+                        <img src="{% static 'src/images/profile-image.png' %}" alt="profile-image">
+                        {% endif %}
+                     </a>
+                  </div>
+                  <div class="profile--name">
+                     <h4 class="h4">{{user.full_name}}</h4>
+                  </div>
+               </div>
+               <div class="menu">
+                  <ul class="menu--links">
+                     <li class="active">
+                        <a href="/file-management">
+                           <div class="icon">
+                              <svg width="20" height="20" viewBox="0 0 18 14" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                 <path
+                                    d="M7.731 0.51625C7.389 0.18375 6.93 0 6.453 0H1.8C0.81 0 0.00899999 0.7875 0.00899999 1.75L0 12.25C0 13.2125 0.81 14 1.8 14H16.2C17.19 14 18 13.2125 18 12.25V3.5C18 2.5375 17.19 1.75 16.2 1.75H9L7.731 0.51625Z"
+                                    fill="#272727" />
+                              </svg>
+                           </div>
+                           <span>File Management</span>
+                        </a>
+                     </li>
+                     {% if user.is_superuser == True %}
+                     <li>
+                        <a href="{% url 'users-management:index' %}">
+                           <div class="icon">
+                              <svg width="20" height="20" viewBox="0 0 18 18" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                 <path
+                                    d="M9 0C4.032 0 0 4.032 0 9C0 13.968 4.032 18 9 18C13.968 18 18 13.968 18 9C18 4.032 13.968 0 9 0ZM9 2.7C10.494 2.7 11.7 3.906 11.7 5.4C11.7 6.894 10.494 8.1 9 8.1C7.506 8.1 6.3 6.894 6.3 5.4C6.3 3.906 7.506 2.7 9 2.7ZM9 15.48C6.75 15.48 4.761 14.328 3.6 12.582C3.627 10.791 7.2 9.81 9 9.81C10.791 9.81 14.373 10.791 14.4 12.582C13.239 14.328 11.25 15.48 9 15.48Z"
+                                    fill="#272727" />
+                              </svg>
+                           </div>
+                           <span>Accounts</span>
+                        </a>
+                     </li>
+                     <li>
+                        <a href="{% url 'activity-log:index' %}">
+                           <div class="icon">
+                              <svg width="18" height="21" viewBox="0 0 18 21" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                 <path
+                                    d="M4.49995 3.37503V2.24992H6.74997C6.74997 1.44611 7.17862 0.703334 7.87489 0.301427C8.571 -0.100476 9.42867 -0.100476 10.1247 0.301427C10.821 0.703329 11.2498 1.44611 11.2498 2.24992H13.4999L13.4997 3.37503C13.4997 3.67335 13.3812 3.95943 13.1703 4.17036C12.9593 4.38148 12.6731 4.49994 12.3748 4.49994H5.62487C5.32655 4.49994 5.04029 4.38148 4.82935 4.17036C4.61842 3.95943 4.49995 3.67333 4.49995 3.37503ZM15.1874 2.30682L15.1872 3.37503C15.1865 4.12065 14.8898 4.83556 14.3625 5.36273C13.8354 5.89009 13.1205 6.1865 12.3748 6.18742H5.62496C4.87934 6.18648 4.16443 5.89004 3.63727 5.36273C3.10991 4.83556 2.8133 4.12065 2.81258 3.37503V2.30682C2.02723 2.43809 1.31382 2.84358 0.798897 3.45092C0.283977 4.05851 0.000916055 4.82857 0 5.62486V16.875C0 17.7699 0.355574 18.6284 0.988568 19.2614C1.62156 19.8944 2.48 20.2499 3.37494 20.2499H14.6251C15.52 20.2499 16.3784 19.8944 17.0114 19.2614C17.6444 18.6284 18 17.7699 18 16.875V5.62486C17.9991 4.82857 17.716 4.05851 17.2011 3.45092C16.6862 2.84353 15.9728 2.43805 15.1874 2.30682Z"
+                                    fill="#272727" />
+                              </svg>
+                           </div>
+                           <span>Activity Logs</span>
+                        </a>
+                     </li>
+                     {% endif %}
+                  </ul>
+               </div>
+            </div>
+            <div class="aside--bottom">
+               <div class="logout-btn" id="logout">
+                  <a>
+                     <div class="icon">
+                        <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M6.56305 18.1811C7.08007 18.1811 7.50107 18.5892 7.50107 19.0905C7.50107 19.592 7.08007 20 6.56305 20H2.81245C2.43512 20 2.06696 19.9278 1.72222 19.7877C1.3868 19.6538 1.08703 19.4595 0.827711 19.2126C0.569998 18.9641 0.36496 18.675 0.223661 18.3528C0.0745051 18.017 0 17.6617 0 17.2957V2.72827C0 2.35931 0.0745052 2.0025 0.222059 1.6667C0.363358 1.34149 0.566791 1.04943 0.823055 0.799414C1.08237 0.549544 1.38214 0.352299 1.71756 0.215301C2.0655 0.0736463 2.43352 0 2.81245 0H6.56305C7.08007 0 7.50107 0.408034 7.50107 0.909328C7.50107 1.41232 7.08007 1.8188 6.56305 1.8188H2.81245C2.29528 1.8188 1.87443 2.22683 1.87443 2.72827V17.2957C1.87443 17.7836 2.29528 18.1811 2.81245 18.1811L6.56305 18.1811ZM17.5824 9.20589C17.837 9.37308 18 9.64397 18 9.99938C18 10.3577 17.837 10.6272 17.5824 10.7944L14.686 13.6025C14.2838 13.9909 13.6813 13.9909 13.2805 13.6025C12.8783 13.2125 12.8783 12.6283 13.2805 12.2399L14.5851 10.9736H7.95864C7.35604 10.9736 6.95383 10.585 6.95383 9.99935C6.95383 9.41664 7.35604 9.02667 7.95864 9.02667H14.5851L13.2805 7.76193C12.8783 7.37195 12.8783 6.7877 13.2805 6.39772C13.6813 6.00775 14.2838 6.00775 14.686 6.39772L17.5824 9.20589Z"
+                              fill="#272727" />
+                        </svg>
+                     </div>
+                     <span>Logout</span>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </aside>
+      <!--MAIN-->
+      <main id="main-content">
+         <h1 class="h1">Category Management</h1>
+         <section class="category-management">
+            <div class="category-management--container">
+               <form method='post' action='{% url "AddCategory"  %}'>
+                  {% csrf_token %}
+                  <div class="container mb-3">
+                     <div class="columns">
+                        <div class="column">
+                           <h4 class="h4">Create a new category</h4>
+                        </div>
+                     </div>
+                     <div class="columns">
+                        <div class="column is-7">
+                           <input class="input" name='CategoryInput' type="text"
+                              placeholder="Enter category (ex. lesson plan)" value=>
+                        </div>
+                        <div class="column">
+                           <button class="btn-black">Save</button>
+                        </div>
+                     </div>
+               </form>
+            </div>
+            <div class="container" style="margin-top: 2rem;">
+               <div class="columns">
+                  <div class="column ">
+                     <div class="component1">
+                        <h4 class="h4 active"><a href="/category">File Categories</a></h4>
+                        <h4 class="h4 "><a href="/category/archive">Archived</a></h4>
+                     </div>
+                  </div>
+               </div>
+               <div class="columns">
+
+                  <div class="column">
+
+                     <div class="columns space2 flex-wrap">
+                        {% for categoryNames in categories %}
+                        <form method='POST' action='{% url "DeleteCategory"%}' id='{{categoryNames.title}}'>
+                           {% csrf_token %}
+                           <span class="button category">
+                              <input type='text' name='ID' style='display:none' value='{{categoryNames.pk}}'>
+                              <div onClick='openModal("{{categoryNames.pk}}", "{{categoryNames.title}}")'>
+                                 {{categoryNames.title}} </div>
+                              <div class="icon-delete" title="delete" onClick='deleteCateg("{{categoryNames.title}}")'>
+                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                       d="M7 11V13H17V11H7ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z"
+                                       fill="white" />
+                                 </svg>
+                              </div>
+                           </span>
+                        </form>
+                        {% endfor %}
+                     </div>
+
+                  </div>
+               </div>
+            </div>
+
+            <div class="modal-container" id='ModalForEdittingCategory'>
+               <div class="modal-backdrop"></div>
+               <div class="edit-modal">
+                  <div class="header">
+                     <h4 class="text-purple fw-800">Edit Category</h4>
+                     <span class="close-modal-icon" id='CloseModalForEditCategory'>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path
+                              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                              fill="#323232" />
+                        </svg>
+                     </span>
+                  </div>
+                  <form action='{% url "UpdateCategory"%}' method='POST'>
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-12">
+                           <input type="text" name='newCategoryName' id='newCategoryName'>
+                           <input type="text" name='categoryID' id='categoryID' style='display:none'>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12" style="display: flex;justify-content: flex-end;">
+                           <button class="btn-black">Save</button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+
+   </div>
+   </section>
+   </main>
+   </div>
+
+   <!--SIDEBAR TOGGLE-->
+
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script>
+      const toggle = document.querySelector('#sidebar--toggle');
+      const sidebar = document.querySelector('#aside');
+      const main = document.querySelector('#main-content');
+      toggle.addEventListener('click', function () {
+         if (sidebar.classList.contains('close--sidebar')) {
+            sidebar.classList.remove('close--sidebar');
+            main.classList.remove('margins');
+         } else {
+            sidebar.classList.add('close--sidebar');
+            main.classList.add('margins');
+         }
+      });
+
+      function deleteCateg(ID) {
+         Swal.fire({
+            icon: 'warning',
+            showCancelButton: true,
+            title: "Are you sure you want to archive this category?",
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+         }).then((result) => {
+            if (result.isConfirmed) {
+               document.getElementById(ID).submit();
+            }
+         })
+      }
+
+      document.getElementById('ModalForEdittingCategory').style.display = 'none';
+
+      document.getElementById('CloseModalForEditCategory').style.cursor = 'pointer';
+      document.getElementById('CloseModalForEditCategory').onclick = function (e) {
+         document.getElementById('ModalForEdittingCategory').style.display = 'none';
+      }
+
+      function openModal(ID, title) {
+         document.getElementById('ModalForEdittingCategory').style.display = 'block';
+         document.getElementById('newCategoryName').value = title;
+         document.getElementById('categoryID').value = ID;
+
+      }
+   </script>
+
+  
 
    <!-- LOGOUT -->
    <script>
