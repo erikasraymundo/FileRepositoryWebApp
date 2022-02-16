@@ -464,16 +464,11 @@ def DeleteAccount(request):
     #TODO punta ng login, tanggalin session.
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'User with ID: ' + request.session.get('user_id') + ' archived his/her account'
+    log.description = 'User with ID: ' + str(request.session.get('user_id')) + ' archived his/her account'
     log.save()
-    forDate =  User.objects.get(pk = request.session.get('user_id'))
-    asd = forDate.birthdate
-    date = asd.isoformat()
-    return render(request, 'profile/profile.html', {
-        'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
-        'username': list,
-          'bday': date,
-    })
+    del request.session['user_id']
+    del request.session['is_superuser']
+    return HttpResponseRedirect(reverse('loginView'))
 
 def UpdateAccountDetails(request):
     list = []

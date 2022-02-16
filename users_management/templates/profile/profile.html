@@ -12,7 +12,6 @@
                   <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
                   <input type='text' value=" {{ detail.pk }}" style='display:none' name='ID'>
                </form>
-               <input type='text' value=" {{ detail.is_superuser }}" style='display:none' id='ForCheckingIfAdmin'>
                <input type='text' value=" {{ detail.username }}" style='display:none' id='initialUsername'>
                <input type='text' value=" {{ detail.first_name }}" style='display:none' id='initialfirstname'>
                <input type='text' value=" {{ detail.middle_name }}" style='display:none' id='initialmiddleName'>
@@ -348,14 +347,6 @@
    }}
 
    document.getElementById('DeleteAdminAccountButton').onclick = function(e){
-      var isAdmin = document.getElementById('ForCheckingIfAdmin').value;
-      if(isAdmin){
-         Swal.fire({
-            icon: 'error',
-            title: "Cannot delete an administrator account",
-            confirmButtonText: 'Ok',
-         })
-      }else{
          Swal.fire({
             icon: 'warning',
             showCancelButton: true,
@@ -368,8 +359,6 @@
             }
          })
       }
-    
-   }
 
    function updateUserAccount(listOfUsernames){
       var username = document.getElementById('editUserAccountUsername').value;
