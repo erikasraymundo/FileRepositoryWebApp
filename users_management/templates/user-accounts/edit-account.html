@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-12 birthday">
                      <label>Birthday</label>
-                     <input type="date" name="bday" id="birthday" placeholder="Select birthdate*" value='{{ bday }}'> 
+                     <input type="date" name="bday" id="bday" placeholder="Select birthdate*" value='{{ bday }}'> 
                     </div>
                 </div>
                 <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none'>
@@ -213,6 +213,22 @@ for(var i = 0 ; i < listOfUsernames.length; i++){
       readURL(this);
   });
   
+
+  
+
+   //max datev
+   var today = new Date();
+   var dd = today.getDate();
+   var mm = today.getMonth() + 1; //January is 0!
+   var yyyy = today.getFullYear();
+   if (dd < 10) {
+   dd = '0' + dd;
+   }
+   if (mm < 10) {
+   mm = '0' + mm;
+   }  
+   today = yyyy + '-' + mm + '-' + dd;
+   document.getElementById("bday").setAttribute("max", today);
   
 </script>
  
