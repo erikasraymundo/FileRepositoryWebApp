@@ -193,11 +193,12 @@ for(var i = 0 ; i < listOfUsernames.length; i++){
    }else{
       document.getElementById('ChangeThisToProfilePicture').src = document.getElementById('holderOfImageFromDB').value;
    }
-
    ///////////////////////
+   document.getElementById('ChangeThisToProfilePicture').onclick = function(e){
+      document.getElementById('uploadProfilePic').click();
+   }
 
     //uplaod profile picture
-
    function readURL(input) {
       if (input.files && input.files[0]) {
           var reader = new FileReader();
