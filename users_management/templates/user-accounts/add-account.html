@@ -128,7 +128,8 @@
                     Swal.fire({
                       icon: 'success',
                       allowOutsideClick: false,
-                      title: "User Added Successfully\n with password: " + document.getElementById('generatedPassword').textContent,
+                      title: "User Added Successfully\n with password: ",
+                      html: '<h1>' +  document.getElementById('generatedPassword').textContent +  '</h1>',
                       confirmButtonText: 'Great',
                    }).then(() => {
                     document.getElementById('FormForAddingANewUserToTheDatabase').submit();
