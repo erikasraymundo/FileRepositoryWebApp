@@ -7,11 +7,16 @@
     <div class="add-accounts--container">
           <div class="my-profile--image">
             <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
+            <h4 class="h4" id='generatedPassword'> 
+              {{ password }}
+           </h4>
+           <p>password</p>  
           </div>
           <div class="add-accounts--form-container">
             <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase' autocomplete='off'  enctype="multipart/form-data">
                {% csrf_token %} 
                <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
+               <input type="text"  style='display:none' name='password' value=' {{ password }}'>  
                 <div class="row">
                     <div class="col-12">
                       <h4>Fill up all the information.</h4>
@@ -123,7 +128,7 @@
                     Swal.fire({
                       icon: 'success',
                       allowOutsideClick: false,
-                      title: "User Added Successfully.",
+                      title: "User Added Successfully\n with password: " + document.getElementById('generatedPassword').textContent,
                       confirmButtonText: 'Great',
                    }).then(() => {
                     document.getElementById('FormForAddingANewUserToTheDatabase').submit();

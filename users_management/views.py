@@ -23,6 +23,8 @@ from django.urls import reverse
 from reportlab.lib.units import mm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+import random
+import string
 
 # ERIKA 
 def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
@@ -454,6 +456,7 @@ def ArchiveAccounts(request):
     })
 
 def AddAccount(request):
+    generatedPassword = random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
     list = []
     users = User.objects.all()
     for user in users:
@@ -461,11 +464,13 @@ def AddAccount(request):
     return render(request, 'user-accounts/add-account.html', {
         'users' : User.objects.all(),
         'username' : list,
+        'password' : generatedPassword,
     })
 
 def AddUserAccount(request):
     user = User()
     user.username = request.POST['username']
+    user.password = request.POST['password']
     user.first_name = request.POST['first_name']
     user.last_name = request.POST['last_name']
     user.middle_name = request.POST['middle_name']
