@@ -12,7 +12,7 @@
     width: 100%;
     background-image: url("/static/src/images/login-bg.png");
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     background-position: center top;
     }
 
@@ -127,8 +127,7 @@
     background-color: #8761F4;
     height: 100%;
     width: 100%;
-    top: 0;
-    position: fixed;
+    position: absolute;
     }
 
     .register .register-container {
@@ -143,6 +142,8 @@
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
+        overflow: auto;
+        height: 90%;
     }
 
     .register .register-text {
@@ -206,6 +207,7 @@
     padding: 0;
     -webkit-box-sizing: border-box;
         box-sizing: border-box;
+        font-family: 'Raleway', sans-serif;
     }
 
     body {
@@ -268,12 +270,13 @@
     width: 100%;
     display: block;
     border-radius: 5px;
-    border: 1.25px solid #ddd;
+    border: 2px solid #ddd;
     padding: 1rem 1.5rem;
     margin-bottom: 20px;
     font-size: 16px;
     font-weight: 600;
     font-family: 'Raleway', sans-serif;
+    transition: all ease 300ms;
     }
 
     form input[type="email"]::-webkit-input-placeholder, form input[type="text"]::-webkit-input-placeholder, form input[type="password"]::-webkit-input-placeholder {
@@ -304,8 +307,10 @@
     font-family: 'Raleway', sans-serif;
     }
 
-    form input[type="email"]:focus, form input[type="text"]:focus, form input[type="password"]:focus {
-    border: 1.25px solid #8761F4;
+    form input[type="email"]:focus, form input[type="text"]:focus, form input[type="password"]:focus,
+    form input[type="email"]:hover, form input[type="text"]:hover, form input[type="password"]:hover {
+    border-color:#8761F4;
+    outline: none;
     }
 
     form .btn-login-holder {
@@ -330,6 +335,9 @@
     text-align: center;
     -webkit-transition: all ease 300ms;
     transition: all ease 300ms;
+    outline: none;
+    border: none;
+    font-size: 14px;
     }
 
     form .btn-login:hover {
@@ -359,6 +367,9 @@
     text-align: center;
     -webkit-transition: all ease 300ms;
     transition: all ease 300ms;
+    outline: none;
+    border: none;
+    font-size: 14px;
     }
 
     form .btn-register:hover {
