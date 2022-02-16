@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'users_management.apps.UsersManagementConfig',
     'category_management.apps.CategoryManagementConfig',
     'activity_log.apps.ActivityLogConfig',
+    'report_generation.apps.ReportGenerationConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
