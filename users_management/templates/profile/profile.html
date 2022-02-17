@@ -131,7 +131,7 @@
    </div>
    
    <div class="modal-container" id='ModalForEditingAdminProfilePo' style='display:none;'>
-      <div class="modal-backdrop"></div>
+      <div class="modal-backdrop" id='ForClosePurposesOnly'></div>
       <div class="change-password-modal" style="height: 90%;">
          <div class="header">
             <h4 class="text-purple fw-800">Edit Account</h4>
@@ -204,7 +204,7 @@
             <p style='text-align: center; color:red; visibility: hidden; display:block' id='ErrorMessageSenderEditUserAccountCurrent'></p>
             <div class="row">
                <div class="col-12">
-                  <a class="btn-black" onclick='updateUserAccount( {{ username }} )'>Save Changes</a>
+                  <a class="btn-black" onclick='updateUserAccount( {{ username }} , {{ emails }} )'>Save Changes</a>
                </div>
             </div>
          </form>
@@ -297,6 +297,10 @@
      document.getElementById('closeModalForEditingAdminProfilePo').onclick = function(e){ 
         document.getElementById('ModalForEditingAdminProfilePo').style.display = 'none';
      }
+     
+     document.getElementById('ForClosePurposesOnly').onclick = function(e){ 
+      document.getElementById('ModalForEditingAdminProfilePo').style.display = 'none';
+   }
 
    function updatePassword(currentPassword){
       var curr = document.getElementById('FCurrPassword').value;
@@ -347,12 +351,19 @@
             cancelButtonText: 'Cancel',
          }).then((result) => {
             if(result.isConfirmed){
-               document.getElementById('ProceedDeletionOfAdminAccount').submit();
+               Swal.fire({
+                  icon: 'success',
+                  allowOutsideClick: false,
+                  title: "Your account has been deleted. You will now be redirected to the login page",
+                  confirmButtonText: 'Ok',
+               }).then((result) => {
+                     document.getElementById('ProceedDeletionOfAdminAccount').submit();
+               })
             }
          })
       }
 
-   function updateUserAccount(listOfUsernames){
+   function updateUserAccount(listOfUsernames, listOfEmails){
       var username = document.getElementById('editUserAccountUsername').value;
       var firstname = document.getElementById('editUserFirstName').value;
       var lastname = document.getElementById('editUserLastName').value;
@@ -379,15 +390,38 @@
             isDuplicate = true;
          }
          if(!isDuplicate){
-         //Save To DB
-         Swal.fire({
-            icon: 'success',
-            allowOutsideClick: false,
-            title: "Your profile has been updated.",
-            confirmButtonText: 'Great',
-         }).then (() => {
-            document.getElementById('FormEditUserAccounts').submit();
-         });
+            //Validate if email is unique
+            var isDuplicatEmail = false;
+            for(var i = 0 ; i < listOfEmails.length; i++){
+            if(i+1 == listOfEmails.length){
+            //last index
+            if(listOfEmails[i] == email){
+               isDuplicatEmail = true;
+            }
+            if(!isDuplicatEmail){
+            //Save To DB
+            Swal.fire({
+               icon: 'success',
+               allowOutsideClick: false,
+               title: "Your profile has been updated.",
+               confirmButtonText: 'Great',
+            }).then (() => {
+               document.getElementById('FormEditUserAccounts').submit();
+            });
+            }else{
+           //Error Message
+            Swal.fire({
+              icon: 'error',
+              title: "Email address is already used for another account.",
+              confirmButtonText: 'Ok',
+           });
+           }
+            }else{
+             if(listOfEmails[i] == email){
+               isDuplicatEmail = true;
+             }
+             }
+            }
          }else{
         //Error Message
          Swal.fire({
