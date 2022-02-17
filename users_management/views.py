@@ -697,7 +697,6 @@ def SaveChangesOnEditUserAccount(request):
     user.email = request.POST['email']
     user.gender = request.POST['group']
     user.birthdate = request.POST['bday']
-    user.password = request.POST['password']
     if len(request.FILES) != 0:
         user.image = request.FILES['image']
     user.save()
