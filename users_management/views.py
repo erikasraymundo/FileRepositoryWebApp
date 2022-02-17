@@ -82,6 +82,7 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0
         Q(last_name__icontains=query) |
         Q(email__icontains=query) |
         Q(created_at__icontains=query),
+        ~Q(pk = session_user_id),
         created_at__gte=date1,
         created_at__lte=date2,
         deleted_at=None
