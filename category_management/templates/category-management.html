@@ -1156,38 +1156,59 @@
 
         function deleteCateg(ID, list) {
             // Check first if category is not empty
-            var isEmpty = true;
-            for (var i = 0; i < list.length; i++) {
-                if (list[i] == ID) {
-                    isEmpty = false;
-                }
-                if (i + 1 == list.length) {
-                    //check na if may duplicate
-                    if (isEmpty) {
+            if(list == 0){
+                Swal.fire({
+                    icon: 'warning',
+                    showCancelButton: true,
+                    title: "Are you sure you want to archive this category?",
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
                         Swal.fire({
-                            icon: 'warning',
-                            showCancelButton: true,
-                            title: "Are you sure you want to archive this category?",
-                            confirmButtonText: 'Yes',
-                            cancelButtonText: 'Cancel',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    allowOutsideClick: false,
-                                    title: "Category has been archived",
-                                    confirmButtonText: 'Great',
-                                }).then(() => {
-                                    document.getElementById(ID).submit();
-                                })
-                            }
+                            icon: 'success',
+                            allowOutsideClick: false,
+                            title: "Category has been archived",
+                            confirmButtonText: 'Great',
+                        }).then(() => {
+                            document.getElementById(ID).submit();
                         })
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: "Cannot archive a category with files in it",
-                            confirmButtonText: 'Ok',
-                        });
+                    }
+                })
+            }else{
+                var isEmpty = true;
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i] == ID) {
+                        isEmpty = false;
+                    }
+                    if (i + 1 == list.length) {
+                        //check na if may duplicate
+                        if (isEmpty) {
+                            Swal.fire({
+                                icon: 'warning',
+                                showCancelButton: true,
+                                title: "Are you sure you want to archive this category?",
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: 'Cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        allowOutsideClick: false,
+                                        title: "Category has been archived",
+                                        confirmButtonText: 'Great',
+                                    }).then(() => {
+                                        document.getElementById(ID).submit();
+                                    })
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: "Cannot archive a category with files in it",
+                                confirmButtonText: 'Ok',
+                            });
+                        }
                     }
                 }
             }
