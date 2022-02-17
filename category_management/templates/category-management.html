@@ -1114,6 +1114,7 @@
     <script>
         function search(ele) {
             if (event.key === 'Enter') {
+                event.preventDefault()
                 ClickSaveButton(ele);
             }
         }
