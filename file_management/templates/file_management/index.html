@@ -188,7 +188,7 @@
             {% endif %}
         </div>
 
-        {% if file_list %}
+        {% if file_list and user.is_superuser == True %}
         <div class="btn-dark" id="btnPrintPDF">
             <a><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to
                      PDF</a>

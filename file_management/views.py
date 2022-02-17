@@ -438,6 +438,8 @@ def printActivePDF(request,  category_id=0, sort_by=4, query=None, fromDate=None
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == False:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
     
@@ -607,6 +609,8 @@ def printArchivedPDF(request,  category_id=0, sort_by=4, query=None, fromDate=No
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == False:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -776,6 +780,8 @@ def printIndivualFilePDF(request, file_id):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == False:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 

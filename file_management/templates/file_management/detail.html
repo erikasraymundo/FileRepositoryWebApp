@@ -89,10 +89,12 @@
                 {% endif %}
         </div>
 
+        {% if user.is_superuser == True %}
         <div class="btn-dark" style="margin-top: 30px">
             <a href="{% url 'file-management:printIndividualFile' file.id %}"><span class="iconify"
                     data-icon="akar-icons:paper"></span>Print details to PDF</a>
         </div>
+        {% endif %}
     </div>
     <script>
 
