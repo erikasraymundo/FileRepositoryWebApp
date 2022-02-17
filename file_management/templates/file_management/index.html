@@ -224,31 +224,37 @@
 
 
 <script src="src/js/script.js"></script>
-<script>
     {% if success == 1 %}
+    <script>
     Swal.fire({
         icon: 'success',
         title: "File has been successfully uploaded!"
     })
 
     window.history.pushState('somedata', 'Title', '/file-management/');
+    </script>
 
     {% elif success == 2 %}
+    <script>
     Swal.fire({
         icon: 'success',
         title: "File has been successfully updated!"
     })
+    window.history.pushState('somedata', 'Title', '/file-management/'); 
+    </script>
 
     {% elif success == 3 %}
+    <script>
     Swal.fire({
         icon: 'success',
         title: "File has been successfully archived!"
     })
-
     window.history.pushState('somedata', 'Title', '/file-management/'); 
+    </script>
+
     {% endif %}
 
-
+    <script>
     var fromDateObject, fromDateString;
     var toDateObject, toDateString;
 
@@ -412,11 +418,12 @@
 
             case 2:
                 $(".file--container").html("" +
-                    "<video controls src=" + file_url + " style='width:100%; height:350px'>" +
+                    "<video id='video' controls src=" + file_url + " style='width:100%; height:350px'>" +
                     "<p onclick='downloadFile()'>Your browser does not support HTML5 Element. You may download this file" +
                     "instead.</p>" +
                     "</video>" +
                     "");
+
                 setupModal();
                 break;
 
@@ -443,12 +450,13 @@
         window.open(link);
     });
 
-
     function setupModal() {
         if (modal.classList.contains('show-modal')) {
             modal.classList.remove('show-modal');
             shadow.classList.remove('shadow-modal');
             body.style.overflow = "unset";
+
+
         } else {
             modal.classList.add('show-modal');
             shadow.classList.add('shadow-modal');
@@ -460,12 +468,18 @@
         modal.classList.remove('show-modal');
         shadow.classList.remove('shadow-modal');
         body.style.overflow = "unset";
+        var vid = document.getElementById("video");
+        vid.pause();
+
     });
 
     closeBtn.addEventListener('click', function() {
         modal.classList.remove('show-modal');
         shadow.classList.remove('shadow-modal');
         body.style.overflow = "unset";
+        var vid = document.getElementById("video");
+        vid.pause();
+
     });
 
     $("#btnPrintPDF").click(function() {
