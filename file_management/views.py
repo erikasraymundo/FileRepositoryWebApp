@@ -310,7 +310,7 @@ def archive(request, file_id):
 
     session_user_id = request.session.get('user_id')
     file = get_object_or_404(File, pk=file_id)
-    file.deleted_at = timezone.localtime(timezone.now())
+    file.deleted_at = timezone.now()
     file.save()
 
     log = Log()
