@@ -1,4 +1,5 @@
-{% extends 'file_management/base.html' %} {% block content %}
+{% extends 'file_management/base.html' %} 
+{% block content %}
 <section class="file-management">
     <div class="file-management--container">
 
@@ -224,9 +225,7 @@
 
 <script src="src/js/script.js"></script>
 <script>
-    { %
-        if success == 1 %
-    }
+    {% if success == 1 %}
     Swal.fire({
         icon: 'success',
         title: "File has been successfully uploaded!"
@@ -234,22 +233,20 @@
 
     window.history.pushState('somedata', 'Title', '/file-management/');
 
-    { % elif success == 2 %
-    }
+    { % elif success == 2 %}
     Swal.fire({
         icon: 'success',
         title: "File has been successfully updated!"
     })
 
-    { % elif success == 3 %
-    }
+    { % elif success == 3 %}
     Swal.fire({
         icon: 'success',
         title: "File has been successfully archived!"
     })
 
-    window.history.pushState('somedata', 'Title', '/file-management/'); { % endif %
-    }
+    window.history.pushState('somedata', 'Title', '/file-management/'); 
+    {% endif %}
 
 
     var fromDateObject, fromDateString;

@@ -179,9 +179,7 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    { %
-        if success == 4 %
-    }
+    {% if success == 4 %}
     Swal.fire({
         icon: 'success',
         title: "File has been successfully restored!"
@@ -189,8 +187,7 @@
 
     window.history.pushState('somedata', 'Title', '/file-management/archived');
 
-    { % endif %
-    }
+    {% endif %}
 
     var fromDateObject, fromDateString;
     var toDateObject, toDateString;
