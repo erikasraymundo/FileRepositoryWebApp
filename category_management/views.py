@@ -21,6 +21,8 @@ def categoryManagement(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -50,8 +52,11 @@ def AddCategory(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
+
 
     if(request.POST['CategoryInput'] == ''):
         categoryNames = Category.objects.all()
@@ -83,8 +88,11 @@ def DeleteCategory(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
+
 
     entry = Category.objects.get(pk = request.POST['ID'])
     entry.isArchived =True
@@ -99,8 +107,11 @@ def UpdateCategory(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
+
 
     entry = Category.objects.get(pk = request.POST['categoryID'])
     entry.title = request.POST['newCategoryName']
@@ -116,8 +127,11 @@ def archiveCategory(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
+
     
     return render(request, 'archive.html', {
         'categories' : Category.objects.filter(isArchived = True),
@@ -128,8 +142,11 @@ def RestoreCategory(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
+
 
     entry = Category.objects.get(pk = request.POST['ID'])
     entry.isArchived = False
@@ -146,8 +163,11 @@ def UpdateArchivedCategory(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
+
 
     entry = Category.objects.get(pk = request.POST['categoryID'])
     entry.title = request.POST['newCategoryName']
