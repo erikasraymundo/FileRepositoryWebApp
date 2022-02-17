@@ -103,8 +103,8 @@
                             <input type="text" id="datepicker-start" readonly value="{{from_date}}">
                         </div>
                         -
-                        <div class="end-date">
-                            <input type="text" id="datepicker-end" readonly disabled value="{{to_date}}">
+                        <div class="end-date end-date-disabled">
+                            <input type="text" id="datepicker-end" readonly disabled value="{{to_date}}" placeholder="To Date">
                         </div>
                     </div>
                 </div>
@@ -208,6 +208,7 @@
             fromDateObject = $(this).datepicker('getDate'); //the getDate method
             $("#datepicker-end").val("");
             $("#datepicker-end").prop("disabled", false);
+            $(".end-date").removeClass("end-date-disabled");
 
             $("#datepicker-end").datepicker("destroy");
             $("#datepicker-end").datepicker({
