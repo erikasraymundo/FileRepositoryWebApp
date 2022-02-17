@@ -1,4 +1,3 @@
-from tkinter import CENTER
 from django.shortcuts import render
 from datetime import datetime
 from django.http import HttpResponse
@@ -302,6 +301,12 @@ def printActivePDF(request,  sort_by=5, query=None, fromDate=None, toDate=None):
 
     response.write(buff.getvalue())
     buff.close()
+
+    log = Log()
+    log.description = f"A printed PDF report of the list of active users was generated."
+    log.user_id = logged_user
+    log.save()
+
     return response
 
 
@@ -446,6 +451,11 @@ def printArchivedPDF(request,  sort_by=5, query=None, fromDate=None, toDate=None
 
     response.write(buff.getvalue())
     buff.close()
+
+    log = Log()
+    log.description = f"A printed PDF report of the list of archived users was generated."
+    log.user_id = logged_user
+    log.save()
     return response
 
 
@@ -491,10 +501,10 @@ def UpdatePassword(request):
     admin.password = request.POST['newPassword']
     admin.updated_at = timezone.now()
     admin.save()
-    log = Log()
-    log.user_id = User.objects.get(pk= session_user_id)
-    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'updated his/her password'
-    log.save()
+    # log = Log()
+    # log.user_id = User.objects.get(pk= session_user_id)
+    # log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'updated his/her password'
+    # log.save()
 
     return HttpResponseRedirect(reverse('profile'))
 
@@ -629,15 +639,14 @@ def AddUserAccount(request):
     user.is_superuser = False
     user.is_staff = False
     user.user_type = 1
-
-    log = Log()
-    log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'A new account was created by the administrator.'
-    log.save()
-
     if len(request.FILES) != 0:
         user.image = request.FILES['image']
     user.save()
+
+    log = Log()
+    log.user_id = User.objects.get(pk= request.session.get('user_id'))
+    log.description = 'A new account was created by the administrator. ( Username - ' + request.POST['username']+ ' ).'
+    log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
     
 def EditAccount(request):
@@ -694,7 +703,7 @@ def SaveChangesOnEditUserAccount(request):
     user.save()
     log = Log()
     log.user_id = User.objects.get(pk=session_user_id)
-    log.description = 'Administrator with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'edited account details for user with ID: #' + str(request.POST['PK']) + ' ( username: ' +  user.username + ' ) '
+    log.description = 'Administrator edited account details for user with ID: #' + str(request.POST['PK']) + ' ( username: ' +  user.username + ' ) '
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
