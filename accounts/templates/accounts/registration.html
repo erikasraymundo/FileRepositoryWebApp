@@ -90,14 +90,16 @@
                   margin-top: 10px;
                 }
                 
-                #messageVALIDATIONS p {
+                .validatorp {
                   padding: 10px 35px;
                   font-size: 18px;
+                  text-align: left!important;
+                  color: #272727!important;
                 }
                 
                 /* Add a green text color and a checkmark when the requirements are right */
                 .validFAUNDO {
-                  color: green;
+                  color: green!important;
                 }
                 
                 .validFAUNDO:before {
@@ -108,7 +110,7 @@
                 
                 /* Add a red text color and an "x" when the requirements are wrong */
                 .invalidFAUNDO {
-                  color: red;
+                  color: red!important;
                 }
                 
                 .invalidFAUNDO:before {
@@ -123,10 +125,10 @@
                     <input onkeyup='onKeyUpSesame()' onfocus='openSesame()' onfocusout='closeSesame()' type="password" name="password" id="password" placeholder="Enter password" value="{{password}}" maxlength="20">
                     <div id="messageVALIDATIONS" style="">
                         <h3>Password must contain the following:</h3>
-                        <p id="letter2" class="invalidFAUNDO">A <b>lowercase</b> letter</p>
-                        <p id="capital2" class="invalidFAUNDO">A <b>capital (uppercase)</b> letter</p>
-                        <p id="number2" class="invalidFAUNDO">A <b>number</b></p>
-                        <p id="length2" class="invalidFAUNDO">Minimum <b>8 characters</b></p>
+                        <p id="letter2" class="validatorp invalidFAUNDO">A <b>lowercase</b> letter</p>
+                        <p id="capital2" class="validatorp invalidFAUNDO">A <b>capital (uppercase)</b> letter</p>
+                        <p id="number2" class="validatorp invalidFAUNDO">A <b>number</b></p>
+                        <p id="length2" class="validatorp invalidFAUNDO">Minimum <b>8 characters</b></p>
                       </div>
                 </div>
                 <div class="col-6">
