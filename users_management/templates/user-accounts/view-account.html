@@ -9,10 +9,10 @@
    <section class="my-profile">
       <div class="my-profile--container">
             <div class="my-profile--image">
-               {% if detail.image == '' %}
-               <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
-               {% else %}
+               {% if detail.image %}
                <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
+               {% else %}
+               <input type='text' value="" style='display:none' id='holderOfImageFromDB'>
                {% endif %}
                <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
                <h4 class="h4">{{ detail.username }}</h4>
