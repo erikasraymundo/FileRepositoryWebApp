@@ -64,7 +64,7 @@
                 </div>
                 <div class="row">
                    <div class="col-12">
-                    <input type="text" placeholder='Enter username' id='Add-Account-Username' name='username'>  
+                    <input type="text" placeholder='Enter username' id='Add-Account-Username' name='username' maxlength="25">  
                    </div>
                 </div>
                 <div class="row">
@@ -75,27 +75,27 @@
                </div>
                 <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter first name"  id='Add-Account-first' name='first_name'> 
+                     <input type="text" placeholder="Enter first name"  id='Add-Account-first' name='first_name'  maxlength="30"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter middle name"  id='Add-Account-middle' name='middle_name'> 
+                     <input type="text" placeholder="Enter middle name"  id='Add-Account-middle' name='middle_name'  maxlength="30"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter last name"  id='Add-Account-last' name='last_name'> 
+                     <input type="text" placeholder="Enter last name"  id='Add-Account-last' name='last_name'  maxlength="30"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="text" placeholder="Enter address"  id='Add-Account-address' name='address'> 
+                     <input type="text" placeholder="Enter address"  id='Add-Account-address' name='address'  maxlength="100"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
-                     <input type="email" placeholder="Enter email address"  id='Add-Account-email' name='email'> 
+                     <input type="email" placeholder="Enter email address"  id='Add-Account-email' name='email'  maxlength="50"> 
                     </div>
                   </div>
                 <div class="row">
@@ -138,6 +138,55 @@
     </div>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+      // For special characters.
+      $("#Add-Account-Username").keypress(function(event) {
+         var character = String.fromCharCode(event.keyCode);
+         if(! isValid(character)){
+            Swal.fire({
+               icon: 'error',
+               title: "Username could not contain special characters.",
+               confirmButtonText: 'Ok',
+            })
+         }
+         return isValid(character);
+      });
+      $("#Add-Account-first").keypress(function(event) {
+         var character = String.fromCharCode(event.keyCode);
+         if(! isValid(character)){
+            Swal.fire({
+               icon: 'error',
+               title: "First name could not contain special characters.",
+               confirmButtonText: 'Ok',
+            })
+         }
+         return isValid(character);
+      });
+      $("#Add-Account-middle").keypress(function(event) {
+         var character = String.fromCharCode(event.keyCode);
+         if(! isValid(character)){
+            Swal.fire({
+               icon: 'error',
+               title: "Middle name could not contain special characters.",
+               confirmButtonText: 'Ok',
+            })
+         }
+         return isValid(character);
+      });
+      $("#Add-Account-last").keypress(function(event) {
+         var character = String.fromCharCode(event.keyCode);
+         if(! isValid(character)){
+            Swal.fire({
+               icon: 'error',
+               title: "Last name could not contain special characters.",
+               confirmButtonText: 'Ok',
+            })
+         }
+         return isValid(character);
+      });
+         function isValid(str) {
+               return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+           }
 
 
       document.getElementById('ChangeThisToProfilePicture').style.width = '250px';
