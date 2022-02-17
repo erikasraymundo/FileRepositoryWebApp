@@ -875,7 +875,14 @@
       <aside class="aside" id="aside">
          <div class="aside--container">
             <div class="aside--inner-container">
-              
+               <style>
+                  .profile--image a img{
+                     max-width: 80px;
+                     max-height: 80px;
+                     min-width: 80px;
+                     min-height: 80px;
+                  }
+               </style>
                <div class="profile">
                   <div class="profile--image">
                      <a href="{% url 'profile' %}">

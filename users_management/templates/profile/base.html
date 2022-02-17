@@ -87,7 +87,7 @@
          width: 100%;
          display: block;
          border-radius: 5px;
-         border: 1.25px solid #ddd;
+         border: 2px solid #ddd;
          padding: 1rem 1.5rem;
          margin-bottom: 20px;
          font-size: 16px;
@@ -95,6 +95,7 @@
          font-family: 'Raleway', sans-serif;
          -webkit-transition: all ease 300ms;
          transition: all ease 300ms;
+         outline: none;
       }
 
       form input[type="email"]::-webkit-input-placeholder,
@@ -395,22 +396,7 @@
          width: 20px;
       }
 
-      .global--container .aside--bottom .logout-btn a {
-         text-decoration: none;
-         color: #272727;
-         display: -webkit-box;
-         display: -ms-flexbox;
-         display: flex;
-         -webkit-box-align: center;
-         -ms-flex-align: center;
-         align-items: center;
-         gap: 40px;
-      }
-
-      .global--container .close--sidebar {
-         width: 113px;
-      }
-
+      
       .global--container .close--sidebar .menu--links li {
          display: inline-block;
       }
@@ -1084,27 +1070,11 @@
          <div class="aside--container">
             <div class="aside--inner-container">
                <style>
-                  .profile {
-                     flex: auto;
-                     display: flex;
-                     align-items: center;
-                     justify-content: center;
-                     flex-direction: column;
-                  }
-
-                  .profile--image {
-                     display: flex;
-                     justify-content: center;
-                     align-items: center;
-                     width: 80px;
-                     height: 80px;
-                     border-radius: 50%;
-                     overflow: hidden;
-                  }
-
-                  .profile--image a img {
-                     width: 100%;
-                     height: auto;
+                  .profile--image a img{
+                     max-width: 80px;
+                     max-height: 80px;
+                     min-width: 80px;
+                     min-height: 80px;
                   }
                </style>
                <div class="profile">
@@ -1190,6 +1160,31 @@
       </main>
    </div>
 
+   <style>
+      .global--container .aside--bottom .logout-btn a {
+         text-decoration: none;
+         color: #272727;
+         display: -webkit-box;
+         display: -ms-flexbox;
+         display: flex;
+         -webkit-box-align: center;
+         -ms-flex-align: center;
+         align-items: center;
+         gap: 40px;
+         transition: all ease 300ms;
+         cursor: pointer;
+      }
+      .global--container .aside--bottom .logout-btn a .icon svg path{
+         transition: all ease 300ms;
+      }
+      .global--container .aside--bottom .logout-btn:hover a{
+         color: #8761F4;
+      }
+      .global--container .aside--bottom .logout-btn:hover a .icon svg path{
+         fill: #8761F4;
+      }
+
+   </style>
 
    <!-- LOGOUT -->
    <script>

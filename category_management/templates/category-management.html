@@ -858,6 +858,14 @@
          <div class="aside--container">
             <div class="aside--inner-container">
                <div class="profile">
+                  <style>
+                     .profile--image a img{
+                        max-width: 80px;
+                        max-height: 80px;
+                        min-width: 80px;
+                        min-height: 80px;
+                     }
+                  </style>
                   <div class="profile--image">
                      <a href="{% url 'profile' %}">
                         {% if user.image %}
