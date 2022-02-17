@@ -593,6 +593,12 @@ def printActivePDF(request,  category_id=0, sort_by=4, query=None, fromDate=None
 
     response.write(buff.getvalue())
     buff.close()
+
+    log = Log()
+    log.description = f"A printed PDF report of the list of uploaded files was generated."
+    log.user_id = logged_user
+    log.save()
+
     return response
 
 
@@ -758,6 +764,11 @@ def printArchivedPDF(request,  category_id=0, sort_by=4, query=None, fromDate=No
 
     response.write(buff.getvalue())
     buff.close()
+
+    log = Log()
+    log.description = f"A printed PDF report of the list of archived files was generated."
+    log.user_id = logged_user
+    log.save()
     return response
 
 def printIndivualFilePDF(request, file_id):
@@ -869,4 +880,9 @@ def printIndivualFilePDF(request, file_id):
 
     response.write(buff.getvalue())
     buff.close()
+
+    log = Log()
+    log.description = f"A printed PDF report of the file {file.getNewFileName()} with ID of {file.id} was generated."
+    log.user_id = logged_user
+    log.save()
     return response

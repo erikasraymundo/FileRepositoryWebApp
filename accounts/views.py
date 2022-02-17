@@ -1,3 +1,4 @@
+from math import lgamma
 from os import remove
 from django.shortcuts import render
 
@@ -49,7 +50,7 @@ def login(request):
 
     log = Log()
     log.user_id = User.objects.get(pk=user.id)
-    log.description = f'{user.full_name()} ({user.username}) has logged in.'
+    log.description = f'{user.full_name()} ({user.id} - {user.username}) has logged in.'
     log.save()
 
     return HttpResponseRedirect(reverse('file-management:index'))
@@ -141,6 +142,17 @@ def register(request):
                                                           "confirm_password": request.POST['confirm_password']})
 
 def logout(request):
+    try:
+        session_user_id = request.session.get('user_id')
+        logged_user = User.objects.get(pk=session_user_id)
+    except:
+        return HttpResponseRedirect(reverse('index'))
+
+    log = Log()
+    log.user_id = User.objects.get(pk=logged_user.id)
+    log.description = f'{logged_user.full_name()} ({logged_user.id} - {logged_user.username}) has logout.'
+    log.save()
+
     removeSession(request)
     return HttpResponseRedirect(reverse('loginView'))
 
