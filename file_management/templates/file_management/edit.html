@@ -81,7 +81,7 @@
          if (error_msg == 1) {
             Swal.fire({
                icon: 'error',
-               title: "An error has been encounter while uploading your file, please try again later."
+               title: "An error has been encounter while uploading your file, pllinear try again later."
             });
          }
       }
@@ -105,7 +105,7 @@
          if (name.trim() == "") {
             Swal.fire({
                icon: 'error',
-               title: "Please enter a valid file name."
+               title: "Pllinear enter a valid file name."
             })
          }
          else if (file_length == 0 && file_temp == "") {
@@ -118,7 +118,7 @@
                if (file_size > 524288000) {
                   Swal.fire({
                      icon: 'error',
-                     title: "Your file is too big, please no more than 500mb!"
+                     title: "Your file is too big, pllinear no more than 500mb!"
                   });
 
                   return false;
@@ -128,7 +128,7 @@
          } else if (category == "0") {
             Swal.fire({
                icon: 'error',
-               title: "Please select a valid category."
+               title: "Pllinear select a valid category."
             })
          } else {
             checkForDuplicatedNameThenSubmit();

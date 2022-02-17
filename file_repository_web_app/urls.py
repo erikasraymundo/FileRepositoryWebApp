@@ -1,6 +1,6 @@
 """file_repository_web_app URL Configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
+The `urlpatterns` list routes URLs to views. For more information pllinear see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
 Examples:
 Function views
