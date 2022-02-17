@@ -60,7 +60,7 @@ import datetime
 
 from reportlab.lib.enums import TA_LEFT, TA_CENTER
 # ERIKA
-def index(request,  sort_by=1, query=None, fromDate=None, toDate=None):
+def index(request,  sort_by=4, query=None, fromDate=None, toDate=None):
 
     try:
         session_user_id = request.session.get('user_id')
@@ -117,7 +117,7 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None):
                    "from_date": fromDate,
                    "to_date": toDate})
 
-def printPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
+def printPDF(request,  sort_by=4, query=None, fromDate=None, toDate=None):
 
     try:
         session_user_id = request.session.get('user_id')

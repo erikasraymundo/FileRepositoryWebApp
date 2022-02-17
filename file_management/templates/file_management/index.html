@@ -79,11 +79,11 @@
                 <div>
                     <p class="text-black text-small">Sort by</p>
                     <div class="component4">
-                        <select id="select-sort">
+                        <select id="select-sort" style="min-width: 180px;">
                               <option value=1 {% if sort_selected == 1 %} selected {%endif%}>Name</option>
                               <option value=2 {% if sort_selected == 2 %} selected {%endif%}>Category</option>
                               <option value=3 {% if sort_selected == 3 %} selected {%endif%}>Uploader</option>
-                              <option value=4 {% if sort_selected == 4 %} selected {%endif%}>Latest Upload</option>
+                              <option value=4 {% if sort_selected == 4 %} selected {%endif%}>Recently Uploaded</option>
                               <option value=5 {% if sort_selected == 5 %} selected {%endif%}>Earliest Upload</option>
                            </select>
                     </div>

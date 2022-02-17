@@ -36,7 +36,7 @@ from report_generation.views import PageNumCanvas
 
 
 # ERIKA 
-def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
+def index(request,  sort_by=5, query=None, fromDate=None, toDate=None, success=0):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
@@ -95,7 +95,7 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0
                    "success": success})
 
 
-def archivedIndex(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
+def archivedIndex(request,  sort_by=5, query=None, fromDate=None, toDate=None, success=0):
 
     try:
         session_user_id = request.session.get('user_id')
@@ -156,7 +156,7 @@ def archivedIndex(request,  sort_by=1, query=None, fromDate=None, toDate=None, s
                    "to_date": toDate,
                    "success": success})
 
-def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
+def printActivePDF(request,  sort_by=5, query=None, fromDate=None, toDate=None):
 
     try:
         session_user_id = request.session.get('user_id')
@@ -297,7 +297,7 @@ def printActivePDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     return response
 
 
-def printArchivedPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
+def printArchivedPDF(request,  sort_by=5, query=None, fromDate=None, toDate=None):
 
     try:
         session_user_id = request.session.get('user_id')

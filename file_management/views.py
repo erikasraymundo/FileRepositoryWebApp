@@ -28,7 +28,7 @@ from users_management.models import User
 from .models import File
 
 
-def index(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success = 0):
+def index(request,  category_id=0, sort_by=4, query=None, fromDate=None, toDate=None, success = 0):
 
     try:
         session_user_id = request.session.get('user_id')
@@ -118,7 +118,7 @@ def detail(request, file_id):
     return render(request, template_name, {"file": file, "user" : logged_user})
 
 
-def archivedIndex(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None, success=0):
+def archivedIndex(request,  category_id=0, sort_by=4, query=None, fromDate=None, toDate=None, success=0):
 
     try:
         session_user_id = request.session.get('user_id')
@@ -432,7 +432,7 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Image, Table, TableStyle
 
 
-def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
+def printActivePDF(request,  category_id=0, sort_by=4, query=None, fromDate=None, toDate=None):
 
 
     try:
@@ -596,7 +596,7 @@ def printActivePDF(request,  category_id=0, sort_by=1, query=None, fromDate=None
     return response
 
 
-def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=None, toDate=None):
+def printArchivedPDF(request,  category_id=0, sort_by=4, query=None, fromDate=None, toDate=None):
 
     try:
         session_user_id = request.session.get('user_id')
