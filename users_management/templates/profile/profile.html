@@ -335,9 +335,22 @@
       {% csrf_token %}
       <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
    </form>
-
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+
+   
+   year = new Date().getFullYear() - 18;
+    var d = new Date();
+    var date = (d.getMonth()+1) + "/" + d.getDate() +"/" + year;
+
+    $("#birthday").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "1950:"+ year,
+        defaultDate: date
+    });
+
    //For not allowing special characters.
 
    $("#editUserAccountUsername").keypress(function(event) {
@@ -641,17 +654,6 @@ $("#editUserLastName").keypress(function(event) {
        }
       }
    }
-
-   year = new Date().getFullYear() - 18;
-    var d = new Date();
-    var date = (d.getMonth()+1) + "/" + d.getDate() +"/" + year;
-
-    $("#birthday").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "1950:"+ year,
-        defaultDate: date
-    });
 
    //////////////////////////////////
    //Password Validation
