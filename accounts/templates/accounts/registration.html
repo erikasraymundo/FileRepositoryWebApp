@@ -117,16 +117,17 @@
                   content: "✖";
                 }
                 </style>                  
-            <div id="messageVALIDATIONS">
-                <h3>Password must contain the following:</h3>
-                <p id="letter2" class="invalidFAUNDO">A <b>lowercase</b> letter</p>
-                <p id="capital2" class="invalidFAUNDO">A <b>capital (uppercase)</b> letter</p>
-                <p id="number2" class="invalidFAUNDO">A <b>number</b></p>
-                <p id="length2" class="invalidFAUNDO">Minimum <b>8 characters</b></p>
-              </div>
+            
             <div class="row">
-                <div class="col-6">
+                <div class="col-6" style="position: relative;">
                     <input onkeyup='onKeyUpSesame()' onfocus='openSesame()' onfocusout='closeSesame()' type="password" name="password" id="password" placeholder="Enter password" value="{{password}}" maxlength="20">
+                    <div id="messageVALIDATIONS" style="">
+                        <h3>Password must contain the following:</h3>
+                        <p id="letter2" class="invalidFAUNDO">A <b>lowercase</b> letter</p>
+                        <p id="capital2" class="invalidFAUNDO">A <b>capital (uppercase)</b> letter</p>
+                        <p id="number2" class="invalidFAUNDO">A <b>number</b></p>
+                        <p id="length2" class="invalidFAUNDO">Minimum <b>8 characters</b></p>
+                      </div>
                 </div>
                 <div class="col-6">
                     <input type="password" name="confirm_password" id="confirm_password"
@@ -235,7 +236,7 @@
 function openSesame(){
     document.getElementById("messageVALIDATIONS").style.display = "block";
     document.getElementById("messageVALIDATIONS").style.position = "absolute";
-    document.getElementById("messageVALIDATIONS").style.bottom = "250px";
+    document.getElementById("messageVALIDATIONS").style.bottom = "100px";
     document.getElementById("messageVALIDATIONS").style.zIndex = "5";
  }
  function closeSesame(){
