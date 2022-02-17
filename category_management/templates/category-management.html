@@ -957,7 +957,7 @@
                      <div class="columns">
                         <div class="column is-7">
                            <input class="input" name='CategoryInput' type="text"
-                              placeholder="Enter category (ex. lesson plan)" id='inputedCategoryName'>
+                              placeholder="Enter category (ex. lesson plan)" id='inputedCategoryName' maxlength="25">
                         </div>
                         <div class="column">
                            <button class="btn-black" type = 'button' onclick='ClickSaveButton( {{ names }} )'>Save</button>
@@ -1018,7 +1018,7 @@
                      {% csrf_token %}
                      <div class="row">
                         <div class="col-12">
-                           <input type="text" name='newCategoryName' id='newCategoryName'>
+                           <input type="text" name='newCategoryName' id='newCategoryName' maxlength="25">
                            <input type="text" name='asd' id='InitialCategoryName' style='display:none'>
                            <input type="text" name='categoryID' id='categoryID' style='display:none'>
                         </div>
@@ -1044,16 +1044,6 @@
       const toggle = document.querySelector('#sidebar--toggle');
       const sidebar = document.querySelector('#aside');
       const main = document.querySelector('#main-content');
-      
-      toggle.addEventListener('click', function () {
-         if (sidebar.classList.contains('close--sidebar')) {
-            sidebar.classList.remove('close--sidebar');
-            main.classList.remove('margins');
-         } else {
-            sidebar.classList.add('close--sidebar');
-            main.classList.add('margins');
-         }
-      });
 
       function deleteCateg(ID, list) {
          // Check first if category is not empty
@@ -1099,39 +1089,80 @@
             Swal.fire({
                icon: 'error',
                allowOutsideClick: false,
-               title: "Category name must not be empty",
+               title: "Category name must not be empty.",
                confirmButtonText: 'Ok',
             })
          }else{
-            //Check if duplicate categ name.
-            var isDuplicate = false;
-            for(var i = 0 ; i < listOfUsernames.length; i++){
-               if(listOfUsernames[i] == document.getElementById('inputedCategoryName').value){
-                  isDuplicate = true;
-               }
-               if(i+1 == listOfUsernames.length){ 
-                  if(!isDuplicate){
-                     //Save To DB
-                     Swal.fire({
-                        icon: 'success',
-                        allowOutsideClick: false,
-                        title: "Category has been added successfully.",
-                        confirmButtonText: 'Great',
-                     }).then (() => {
-                        document.getElementById('ModalForAddingCategoryClicked').submit();
-                     });
-                     }else{
-                    //Error Message
-                     Swal.fire({
-                       icon: 'error',
-                       title: "Category name already exists",
-                       confirmButtonText: 'Ok',
-                    });
+            if(listOfUsernames.length == 0){
+                //Save To DB
+                Swal.fire({
+                  icon: 'success',
+                  allowOutsideClick: false,
+                  title: "Category has been added successfully.",
+                  confirmButtonText: 'Great',
+               }).then (() => {
+                  document.getElementById('ModalForAddingCategoryClicked').submit();
+               });
+            }else{
+               //Check if duplicate categ name.
+               var isDuplicate = false;
+               for(var i = 0 ; i < listOfUsernames.length; i++){
+                  if(listOfUsernames[i] == document.getElementById('inputedCategoryName').value){
+                     isDuplicate = true;
+                  }
+                  if(i+1 == listOfUsernames.length){ 
+                     if(!isDuplicate){
+                        //Save To DB
+                        Swal.fire({
+                           icon: 'success',
+                           allowOutsideClick: false,
+                           title: "Category has been added successfully.",
+                           confirmButtonText: 'Great',
+                        }).then (() => {
+                           document.getElementById('ModalForAddingCategoryClicked').submit();
+                        });
+                        }else{
+                       //Error Message
+                        Swal.fire({
+                          icon: 'error',
+                          title: "Category name already exists",
+                          confirmButtonText: 'Ok',
+                       });
+                     }
                   }
                }
             }
+            
          }
       }
+
+      $("#inputedCategoryName").keypress(function(event) {
+         var character = String.fromCharCode(event.keyCode);
+         if(! isValid(character)){
+            Swal.fire({
+               icon: 'error',
+               title: "Category name could not contain special characters.",
+               confirmButtonText: 'Ok',
+            })
+         }
+         return isValid(character);     
+     });
+
+     $("#newCategoryName").keypress(function(event) {
+      var character = String.fromCharCode(event.keyCode);
+      if(! isValid(character)){
+         Swal.fire({
+            icon: 'error',
+            title: "Category name could not contain special characters.",
+            confirmButtonText: 'Ok',
+         })
+      }
+      return isValid(character);     
+  });
+     
+     function isValid(str) {
+         return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+     }
       
       function CloseModal(){
          document.getElementById('ModalForEdittingCategory').style.display = 'none';
