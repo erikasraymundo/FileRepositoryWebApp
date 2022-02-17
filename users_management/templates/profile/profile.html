@@ -499,7 +499,15 @@ $("#editUserLastName").keypress(function(event) {
          }else{
             if(curr == currentPassword){
                if(newPass == newPass2){
-               //Save to Database
+                  //Check if same sa previous password
+                  if(curr == newPass){
+                     Swal.fire({
+                        icon: 'error',
+                        title: "Password must be different from your current password.",
+                        confirmButtonText: 'Ok',
+                     })
+                  }else{
+                  //Save to Database
                Swal.fire({
                   icon: 'success',
                   allowOutsideClick: false,
@@ -508,6 +516,8 @@ $("#editUserLastName").keypress(function(event) {
                }).then (() => {
                   document.getElementById('FORMUpdateAdminPassword').submit();
                })
+                  }
+              
                }else{
                   Swal.fire({
                      icon: 'error',
