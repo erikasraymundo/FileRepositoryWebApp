@@ -15,7 +15,7 @@
          <div class="container">
             <div class="columns">
                <div class="column">
-                  <input id="name" class="input" type="text" placeholder="Enter a file name" name="name" value="{{ file.name }}">
+                  <input id="name" class="input" type="text" placeholder="Enter a file name" name="name" value="{{ file.name }}" maxlength="30">
                </div>
                <div class="column column-file" style="position: relative">
                   <label class="file-placeholder">Choose a file (500mb max)</label>
@@ -54,7 +54,7 @@
             </div>
             <div class="columns">
                <div class="column">
-                  <textarea class="textarea" placeholder="Enter details of the file uploaded (Optional)" name="description">{{ file.description }}</textarea>
+                  <textarea class="textarea" placeholder="Enter details of the file uploaded (Optional)" name="description" maxlength="500">{{ file.description }}</textarea>
                </div>
             </div>
             <div class="columns">
