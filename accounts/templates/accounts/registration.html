@@ -221,7 +221,7 @@
         }
 
     });
-
+ 
     function validateEmail($email) {
         var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
         return emailReg.test( $email );
@@ -288,6 +288,57 @@ function openSesame(){
  }
  }
     ////////////////////////
+
+
+    //For Special Character Restrictions
+
+    $("#last_name").keypress(function(event) {
+        var character = String.fromCharCode(event.keyCode);
+        if(! isValid(character)){
+           Swal.fire({
+              icon: 'error',
+              title: "Last name could not contain special characters.",
+              confirmButtonText: 'Ok',
+           })
+        }
+        return isValid(character);
+     });    
+    $("#middle_name").keypress(function(event) {
+        var character = String.fromCharCode(event.keyCode);
+        if(! isValid(character)){
+           Swal.fire({
+              icon: 'error',
+              title: "Middle name could not contain special characters.",
+              confirmButtonText: 'Ok',
+           })
+        }
+        return isValid(character);
+     });    
+$("#first_name").keypress(function(event) {
+    var character = String.fromCharCode(event.keyCode);
+    if(! isValid(character)){
+       Swal.fire({
+          icon: 'error',
+          title: "First name could not contain special characters.",
+          confirmButtonText: 'Ok',
+       })
+    }
+    return isValid(character);
+ });    
+$("#username").keypress(function(event) {
+    var character = String.fromCharCode(event.keyCode);
+    if(! isValid(character)){
+       Swal.fire({
+          icon: 'error',
+          title: "Username could not contain special characters.",
+          confirmButtonText: 'Ok',
+       })
+    }
+    return isValid(character);
+ });
+    function isValid(str) {
+          return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+      }
 
 </script>
 
