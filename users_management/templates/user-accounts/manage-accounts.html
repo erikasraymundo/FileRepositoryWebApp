@@ -51,6 +51,8 @@
          </div>
       </div>
 
+      
+   {% if users %}
    <div class="manage-accounts--table-container">
       <table style='table-layout: fixed; width: 100%'>
          <thead>
@@ -109,6 +111,9 @@
                PDF</a>
          </div>
    </div>
+   {% else %}
+   <p class="placeholder-not-found">No user accounts yet.</p>
+   {% endif %}
 
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <script>

@@ -184,14 +184,16 @@
                 </tbody>
             </table>
             {% else %}
-            <p class="placeholder-not-found">No files yet</p>
+            <p class="placeholder-not-found">No upload files yet.</p>
             {% endif %}
         </div>
 
+        {% if file_list %}
         <div class="btn-dark" id="btnPrintPDF">
             <a><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to
                      PDF</a>
         </div>
+        {% endif %}
 
         <div class="modal">
             <div class="modal-backdrop" id="modal-view-backdrop" title="close"></div>

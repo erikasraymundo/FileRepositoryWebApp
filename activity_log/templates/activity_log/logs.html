@@ -4,9 +4,7 @@
 <h1 class="h1">Activity Logs</h1>
 <section class="activity-logs">
 <div class="activity-logs--container">
-
-
-
+   
       <div class="activity-logs--controls">
          <div class="activity-logs--controls-date" style="display: flex; gap: 1.4rem; align-items: flex-end;">
             <div>
@@ -75,13 +73,14 @@
 
          </tbody>
          </table>
-         {% endif %}
    </div>
 
-            <div class="btn-dark" id="btnPrintPDF">
-            <a><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to PDF</a>
-            </div>
-
+   <div class="btn-dark" id="btnPrintPDF">
+   <a><span class="iconify" data-icon="akar-icons:paper" style="color: white;"></span>Print to PDF</a>
+   </div>
+   {% else %}
+   <p class="placeholder-not-found">No logs yet.</p>
+   {% endif %}
 </div>
 </section>
 
