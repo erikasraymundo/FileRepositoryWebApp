@@ -233,13 +233,13 @@
 
     window.history.pushState('somedata', 'Title', '/file-management/');
 
-    { % elif success == 2 %}
+    {% elif success == 2 %}
     Swal.fire({
         icon: 'success',
         title: "File has been successfully updated!"
     })
 
-    { % elif success == 3 %}
+    {% elif success == 3 %}
     Swal.fire({
         icon: 'success',
         title: "File has been successfully archived!"
