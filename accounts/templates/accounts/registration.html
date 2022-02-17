@@ -12,8 +12,7 @@
             <h3 class="h3">English HS Department’s <span>common drive</span></h3>
             <p>Already have an account? <span><a href="{% url 'index' %}">Login.</a></span></p>
         </div>
-
-        <form action="{% url 'register' %}" method="POST">
+        <form action="{% url 'register' %}" method="POST" autocomplete='off'>
             {% csrf_token %}
             <div class="row">
                 <div class="col-6">
@@ -23,7 +22,6 @@
                     <input type="text" name="email" id="email" placeholder="Enter email" value="{{email}}" maxlength="50">
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-6">
                     <input type="text" name="first_name" id="first_name" placeholder="Enter firstname"
@@ -80,18 +78,61 @@
                     <input type="radio" id="Others" name="gender" value="3" {% if gender == '3' %} checked{% endif %}>
                     <label for="Others">Others</label>
                 </div>
-            </fieldset>
-
+            </fieldset>   
+            <style>
+                /* The message box is shown when the user clicks on the password field */
+                #messageVALIDATIONS {
+                  display:none;
+                  background: #f1f1f1;
+                  color: #000;
+                  position: relative;
+                  padding: 20px;
+                  margin-top: 10px;
+                }
+                
+                #messageVALIDATIONS p {
+                  padding: 10px 35px;
+                  font-size: 18px;
+                }
+                
+                /* Add a green text color and a checkmark when the requirements are right */
+                .validFAUNDO {
+                  color: green;
+                }
+                
+                .validFAUNDO:before {
+                  position: relative;
+                  left: -35px;
+                  content: "✔";
+                }
+                
+                /* Add a red text color and an "x" when the requirements are wrong */
+                .invalidFAUNDO {
+                  color: red;
+                }
+                
+                .invalidFAUNDO:before {
+                  position: relative;
+                  left: -35px;
+                  content: "✖";
+                }
+                </style>                  
+            <div id="messageVALIDATIONS">
+                <h3>Password must contain the following:</h3>
+                <p id="letter2" class="invalidFAUNDO">A <b>lowercase</b> letter</p>
+                <p id="capital2" class="invalidFAUNDO">A <b>capital (uppercase)</b> letter</p>
+                <p id="number2" class="invalidFAUNDO">A <b>number</b></p>
+                <p id="length2" class="invalidFAUNDO">Minimum <b>8 characters</b></p>
+              </div>
             <div class="row">
                 <div class="col-6">
-                    <input type="password" name="password" id="password" placeholder="Enter password" value="{{password}}" maxlength="20">
+                    <input onkeyup='onKeyUpSesame()' onfocus='openSesame()' onfocusout='closeSesame()' type="password" name="password" id="password" placeholder="Enter password" value="{{password}}" maxlength="20">
                 </div>
                 <div class="col-6">
                     <input type="password" name="confirm_password" id="confirm_password"
                         placeholder="Confirm password" value="{{confirm_password}}" maxlength="20">
                 </div>
             </div>
-
             <div class="btn-register-holder">
                 <button id="registerBtn" class="btn-register" type="submit">Register</a>
             </div>
@@ -154,7 +195,6 @@
                 'icon' : 'error',
                 'title' : 'Please enter all the fields.'
             })        
-
             return false;
         } else {
             if (!validateEmail(email)) {
@@ -162,7 +202,6 @@
                     'icon' : 'error',
                     'title' : 'Please enter a valid email.'
                 })
-
                 return false;
             } else if (password != confirm_password) {
                 Swal.fire({
@@ -170,6 +209,13 @@
                     'title' : 'Your passwords do not match.'
                 })
 
+                return false;
+            }
+            else if(letter2.className == 'invalidFAUNDO' || capital2.className == 'invalidFAUNDO' || number2.className == 'invalidFAUNDO' || length2.className == 'invalidFAUNDO' ){
+                Swal.fire({
+                    'icon' : 'error',
+                    'title': "Please follow the required format for a password.",
+                })
                 return false;
             }
         }
@@ -180,6 +226,69 @@
         var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
         return emailReg.test( $email );
     }
+
+
+
+    
+   //////////////////////////////////
+   //Password Validation
+function openSesame(){
+    document.getElementById("messageVALIDATIONS").style.display = "block";
+    document.getElementById("messageVALIDATIONS").style.position = "absolute";
+    document.getElementById("messageVALIDATIONS").style.bottom = "250px";
+    document.getElementById("messageVALIDATIONS").style.zIndex = "5";
+ }
+ function closeSesame(){
+    document.getElementById("messageVALIDATIONS").style.display = "none";
+ }
+ function onKeyUpSesame(){
+ var myInput = document.getElementById("password");
+ 
+ var letter = document.getElementById("letter2");
+ var capital = document.getElementById("capital2");
+ var number = document.getElementById("number2");
+ var length = document.getElementById("length2");
+ // Validate lowercase letters
+ var lowerCaseLetters = /[a-z]/g;
+ if(myInput.value.match(lowerCaseLetters)) {  
+   letter.classList.remove("invalidFAUNDO");
+   letter.classList.add("validFAUNDO");
+ } else {
+   letter.classList.remove("validFAUNDO");
+   letter.classList.add("invalidFAUNDO");
+ }
+ 
+ // Validate capital letters
+ var upperCaseLetters = /[A-Z]/g;
+ if(myInput.value.match(upperCaseLetters)) {  
+   capital.classList.remove("invalidFAUNDO");
+   capital.classList.add("validFAUNDO");
+ } else {
+   capital.classList.remove("validFAUNDO");
+   capital.classList.add("invalidFAUNDO");
+ }
+ 
+ // Validate numbers
+ var numbers = /[0-9]/g;
+ if(myInput.value.match(numbers)) {  
+   number.classList.remove("invalidFAUNDO");
+   number.classList.add("validFAUNDO");
+ } else {
+   number.classList.remove("validFAUNDO");
+   number.classList.add("invalidFAUNDO");
+ }
+ 
+ // Validate length
+ if(myInput.value.length >= 8) {
+   length.classList.remove("invalidFAUNDO");
+   length.classList.add("validFAUNDO");
+ } else {
+   length.classList.remove("validFAUNDO");
+   length.classList.add("invalidFAUNDO");
+ }
+ }
+    ////////////////////////
+
 </script>
 
 {% endblock %}
