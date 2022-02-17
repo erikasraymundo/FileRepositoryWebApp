@@ -28,8 +28,13 @@
                </div>
                -
                <div class="end-date">
-                  <input type="text" id="datepicker-end" readonly disabled value="{{to_date}}">
+                  <input type="text" id="datepicker-end" readonly disabled value="{{to_date}}" >
                </div>
+               <style>
+                  input:disabled{
+                     cursor: not-allowed;
+                  }
+               </style>
             </div>
          </div>
          <div class="activity-logs--controls-right">
