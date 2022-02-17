@@ -17,8 +17,8 @@
                              onclick="Register()">Register.</a></span></p>
                     <form action="{% url 'login' %}" method="POST">
                        {% csrf_token %}
-                       <input type="text" name="usernameEmail" id="usernameEmail" placeholder="Enter username or email" value="{{usernameEmail}}">
-                       <input type="password" name="password" id="password" placeholder="Enter password">
+                       <input type="text" name="usernameEmail" id="usernameEmail" placeholder="Enter username or email" value="{{usernameEmail}}" maxlength="50">
+                       <input type="password" name="password" id="password" placeholder="Enter password" maxlength="20">
                        <div class="btn-login-holder">
                           <button id="loginBtn" class="btn-login" type="submit">Login</button>
                        </div>
@@ -42,7 +42,7 @@
       Swal.fire({
          icon: 'warning',
          title: 'Your account is deactivated.',
-         text: ' To activate again pllinear contact your administrator.'
+         text: ' To activate again please contact your administrator.'
       });
       window.history.pushState('somedata', 'Title', '/login/');
    {% endif %}
@@ -54,7 +54,7 @@
       if (usernameEmail.trim() == '' || password.trim() == '') {
          Swal.fire({
             icon: 'error',
-            title: 'Pllinear enter all fields.'
+            title: 'Please enter all fields.'
          });
 
          return false;

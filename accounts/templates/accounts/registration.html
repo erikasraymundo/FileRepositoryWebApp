@@ -17,35 +17,35 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col-6">
-                    <input type="text" name="username" id="username" placeholder="Enter username*" value="{{username}}">
+                    <input type="text" name="username" id="username" placeholder="Enter username" value="{{username}}" maxlength="25">
                 </div>
                 <div class="col-6">
-                    <input type="text" name="email" id="email" placeholder="Enter email*" value="{{email}}">
+                    <input type="text" name="email" id="email" placeholder="Enter email" value="{{email}}" maxlength="50">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-6">
-                    <input type="text" name="first_name" id="first_name" placeholder="Enter firstname*"
-                        value="{{first_name}}">
+                    <input type="text" name="first_name" id="first_name" placeholder="Enter firstname"
+                        value="{{first_name}}" maxlength="30">
                 </div>
                 <div class="col-6">
-                    <input type="text" name="middle_name" id="middle_name" placeholder="Enter middle name*"
-                        value="{{middle_name}}">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <input type="text" name="last_name" id="last_name" placeholder="Enter last name*"
-                        value="{{last_name}}">
+                    <input type="text" name="middle_name" id="middle_name" placeholder="Enter middle name"
+                        value="{{middle_name}}" maxlength="30">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <input type="text" name="address" id="address" placeholder="Enter address*"
-                        value="{{address}}">
+                    <input type="text" name="last_name" id="last_name" placeholder="Enter last name"
+                        value="{{last_name}}" maxlength="30">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <input type="text" name="address" id="address" placeholder="Enter address"
+                        value="{{address}}" maxlength="100">
                 </div>
             </div>
 
@@ -58,13 +58,13 @@
                                 fill="#777777" />
                         </svg>
                     </div>
-                    <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" readonly
+                    <input type="text" name="birthday" id="birthday" placeholder="Select birthdate" readonly
                         autocomplete="off" value="{{birthdate}}">
                 </div>
             </div>
 
             <fieldset class="gender" id="group">
-                <p>Select gender*</p>
+                <p>Select gender</p>
                 <div>
                     <input type="radio" id="Woman" name="gender" value="1" {% if gender == '1' %} checked
                         {%endif%}>
@@ -84,11 +84,11 @@
 
             <div class="row">
                 <div class="col-6">
-                    <input type="password" name="password" id="password" placeholder="Enter password*" value="{{password}}">
+                    <input type="password" name="password" id="password" placeholder="Enter password" value="{{password}}" maxlength="20">
                 </div>
                 <div class="col-6">
                     <input type="password" name="confirm_password" id="confirm_password"
-                        placeholder="Confirm password*" value="{{confirm_password}}">
+                        placeholder="Confirm password" value="{{confirm_password}}" maxlength="20">
                 </div>
             </div>
 
@@ -152,7 +152,7 @@
             address == '' || birthday == '' || gender == null || password == '' ||confirm_password == '') {
             Swal.fire({
                 'icon' : 'error',
-                'title' : 'Pllinear enter all the fields.'
+                'title' : 'Please enter all the fields.'
             })        
 
             return false;
@@ -160,7 +160,7 @@
             if (!validateEmail(email)) {
                 Swal.fire({
                     'icon' : 'error',
-                    'title' : 'Pllinear enter a valid email.'
+                    'title' : 'Please enter a valid email.'
                 })
 
                 return false;
