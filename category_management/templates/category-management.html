@@ -992,38 +992,25 @@
                     </div>
                 </div>
             </div>
-        </aside>
-        <!--MAIN-->
-        <main id="main-content">
-            <h1 class="h1">Category Management</h1>
-            <section class="category-management">
-                <div class="category-management--container">
-                    <form method='post' action='{% url "AddCategory"  %}' id='ModalForAddingCategoryClicked'>
-                        {% csrf_token %}
-                        <div class="container mb-3">
-                            <div class="columns">
-                                <div class="column">
-                                    <h4 class="h4">Create a new category</h4>
-                                </div>
-                            </div>
-                            <div class="columns">
-                                <div class="column is-7">
-                                    <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)" id='inputedCategoryName'>
-                                </div>
-                                <div class="column">
-                                    <button class="btn-black" type='button' onclick='ClickSaveButton( {{ names }} )'>Save</button>
-                                </div>
-                            </div>
-                    </form>
-                    </div>
-                    <div class="container" style="margin-top: 2rem;">
-                        <div class="columns">
-                            <div class="column ">
-                                <div class="component1">
-                                    <h4 class="h4 active"><a href="/category">File Categories</a></h4>
-                                    <h4 class="h4 "><a href="/category/archive">Archived</a></h4>
-                                </div>
-                            </div>
+         </div>
+      </aside>
+      <!--MAIN-->
+      <main id="main-content">
+         <h1 class="h1">Category Management</h1>
+         <section class="category-management">
+            <div class="category-management--container">
+               <form method='post' action='{% url "AddCategory"  %}' id='ModalForAddingCategoryClicked'>
+                  {% csrf_token %}
+                  <div class="container mb-3">
+                     <div class="columns">
+                        <div class="column">
+                           <h4 class="h4">Create a new category</h4>
+                        </div>
+                     </div>
+                     <div class="columns">
+                        <div class="column is-7">
+                           <input class="input" name='CategoryInput' type="text"
+                              placeholder="Enter category (ex. lesson plan)" id='inputedCategoryName' maxlength="25">
                         </div>
                         <div class="columns">
                             <div class="column">
@@ -1064,45 +1051,44 @@
                               fill="#323232" />
                         </svg>
                      </span>
-                            </div>
-                            <form action='{% url "UpdateCategory"%}' method='POST' id='FormForEditingCategory'>
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <input type="text" name='newCategoryName' id='newCategoryName'>
-                                        <input type="text" name='asd' id='InitialCategoryName' style='display:none'>
-                                        <input type="text" name='categoryID' id='categoryID' style='display:none'>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12" style="display: flex;justify-content: flex-end;">
-                                        <button class="btn-black" type='button' onClick='SaveEditedCategory( {{ names }} )'>Save</button>
-                                    </div>
-                                </div>
-                            </form>
+                  </div>
+                  <form action='{% url "UpdateCategory"%}' method='POST' id='FormForEditingCategory'>
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-12">
+                           <input type="text" name='newCategoryName' id='newCategoryName' maxlength="25">
+                           <input type="text" name='asd' id='InitialCategoryName' style='display:none'>
+                           <input type="text" name='categoryID' id='categoryID' style='display:none'>
                         </div>
-                    </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12" style="display: flex;justify-content: flex-end;">
+                           <button class="btn-black" type='button' onClick='SaveEditedCategory( {{ names }} )'>Save</button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
 
-                </div>
-            </section>
-        </main>
-    </div>
+   </div>
+   </section>
+   </main>
+   </div>
 
-    <!--SIDEBAR TOGGLE-->
+   <!--SIDEBAR TOGGLE-->
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        const toggle = document.querySelector('#sidebar--toggle');
-        const sidebar = document.querySelector('#aside');
-        const main = document.querySelector('#main-content');
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script>
+      const toggle = document.querySelector('#sidebar--toggle');
+      const sidebar = document.querySelector('#aside');
+      const main = document.querySelector('#main-content');
 
-        toggle.addEventListener('click', function() {
-            if (sidebar.classList.contains('close--sidebar')) {
-                sidebar.classList.remove('close--sidebar');
-                main.classList.remove('margins');
-            } else {
-                sidebar.classList.add('close--sidebar');
-                main.classList.add('margins');
+      function deleteCateg(ID, list) {
+         // Check first if category is not empty
+         var isEmpty = true;
+         for(var i = 0; i < list.length; i++){
+            if(list[i] == ID){
+               isEmpty = false;
             }
         });
 
@@ -1143,104 +1129,92 @@
                     }
                 }
             }
-        }
-        //Add Category
-        function ClickSaveButton(listOfUsernames) {
-            if (document.getElementById('inputedCategoryName').value == '') {
+         }
+      }
+      //Add Category
+      function ClickSaveButton(listOfUsernames){
+         if(document.getElementById('inputedCategoryName').value == ''){
+            Swal.fire({
+               icon: 'error',
+               allowOutsideClick: false,
+               title: "Category name must not be empty.",
+               confirmButtonText: 'Ok',
+            })
+         }else{
+            if(listOfUsernames.length == 0){
+                //Save To DB
                 Swal.fire({
-                    icon: 'error',
-                    allowOutsideClick: false,
-                    title: "Category name must not be empty",
-                    confirmButtonText: 'Ok',
-                })
-            } else {
-                //Check if duplicate categ name.
-                var isDuplicate = false;
-                for (var i = 0; i < listOfUsernames.length; i++) {
-                    if (listOfUsernames[i] == document.getElementById('inputedCategoryName').value) {
-                        isDuplicate = true;
-                    }
-                    if (i + 1 == listOfUsernames.length) {
-                        if (!isDuplicate) {
-                            //Save To DB
-                            Swal.fire({
-                                icon: 'success',
-                                allowOutsideClick: false,
-                                title: "Category has been added successfully.",
-                                confirmButtonText: 'Great',
-                            }).then(() => {
-                                document.getElementById('ModalForAddingCategoryClicked').submit();
-                            });
-                        } else {
-                            //Error Message
-                            Swal.fire({
-                                icon: 'error',
-                                title: "Category name already exists",
-                                confirmButtonText: 'Ok',
-                            });
-                        }
-                    }
-                }
+                  icon: 'success',
+                  allowOutsideClick: false,
+                  title: "Category has been added successfully.",
+                  confirmButtonText: 'Great',
+               }).then (() => {
+                  document.getElementById('ModalForAddingCategoryClicked').submit();
+               });
+            }else{
+               //Check if duplicate categ name.
+               var isDuplicate = false;
+               for(var i = 0 ; i < listOfUsernames.length; i++){
+                  if(listOfUsernames[i] == document.getElementById('inputedCategoryName').value){
+                     isDuplicate = true;
+                  }
+                  if(i+1 == listOfUsernames.length){ 
+                     if(!isDuplicate){
+                        //Save To DB
+                        Swal.fire({
+                           icon: 'success',
+                           allowOutsideClick: false,
+                           title: "Category has been added successfully.",
+                           confirmButtonText: 'Great',
+                        }).then (() => {
+                           document.getElementById('ModalForAddingCategoryClicked').submit();
+                        });
+                        }else{
+                       //Error Message
+                        Swal.fire({
+                          icon: 'error',
+                          title: "Category name already exists",
+                          confirmButtonText: 'Ok',
+                       });
+                     }
+                  }
+               }
             }
-        }
+            
+         }
+      }
 
-        function CloseModal() {
-            document.getElementById('ModalForEdittingCategory').style.display = 'none';
-        }
+      $("#inputedCategoryName").keypress(function(event) {
+         var character = String.fromCharCode(event.keyCode);
+         if(! isValid(character)){
+            Swal.fire({
+               icon: 'error',
+               title: "Category name could not contain special characters.",
+               confirmButtonText: 'Ok',
+            })
+         }
+         return isValid(character);     
+     });
 
-        function openModal(ID, title) {
-            document.getElementById('ModalForEdittingCategory').style.display = 'block';
-            document.getElementById('newCategoryName').value = title;
-            document.getElementById('InitialCategoryName').value = title;
-            document.getElementById('categoryID').value = ID;
-
-        }
-
-        function SaveEditedCategory(listOfUsedNames) {
-            var initialCateg = document.getElementById('InitialCategoryName').value;
-            if (document.getElementById('newCategoryName').value == '') {
-                Swal.fire({
-                    icon: 'error',
-                    allowOutsideClick: false,
-                    title: "Category name must not be empty",
-                    confirmButtonText: 'Ok',
-                })
-            } else {
-                //Check if duplicate categ name.
-                var isDuplicate = false;
-                for (var i = 0; i < listOfUsedNames.length; i++) {
-                    if (listOfUsedNames[i] == document.getElementById('newCategoryName').value) {
-                        if (document.getElementById('newCategoryName').value == initialCateg) {
-                            CloseModal();
-                            break;
-                        } else {
-                            isDuplicate = true;
-                        }
-                    }
-                    if (i + 1 == listOfUsedNames.length) {
-                        if (!isDuplicate) {
-                            //Save To DB
-                            Swal.fire({
-                                icon: 'success',
-                                allowOutsideClick: false,
-                                title: "Category has been added successfully.",
-                                confirmButtonText: 'Great',
-                            }).then(() => {
-                                document.getElementById('FormForEditingCategory').submit();
-                            });
-                        } else {
-                            //Error Message
-                            Swal.fire({
-                                icon: 'error',
-                                title: "Category name already exists",
-                                confirmButtonText: 'Ok',
-                            });
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+     $("#newCategoryName").keypress(function(event) {
+      var character = String.fromCharCode(event.keyCode);
+      if(! isValid(character)){
+         Swal.fire({
+            icon: 'error',
+            title: "Category name could not contain special characters.",
+            confirmButtonText: 'Ok',
+         })
+      }
+      return isValid(character);     
+  });
+     
+     function isValid(str) {
+         return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+     }
+      
+      function CloseModal(){
+         document.getElementById('ModalForEdittingCategory').style.display = 'none';
+      }
 
 
 
