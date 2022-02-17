@@ -1031,7 +1031,7 @@
                             </div>
                             <div class="columns">
                                 <div class="column is-7">
-                                    <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)" id='inputedCategoryName' maxlength="25" onkeydown="search({{ names }})">
+                                    <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)" id='inputedCategoryName' maxlength="25" onkeydown="search({{ names }}, false)">
                                 </div>
                                 <div class="column">
                                     <button class="btn-black" type='button' onclick='ClickSaveButton( {{ names }} )'>Save</button>
@@ -1092,14 +1092,14 @@
                      {% csrf_token %}
                      <div class="row">
                         <div class="col-12">
-                           <input type="text" name='newCategoryName' id='newCategoryName' maxlength="25" onkeydown="search({{ names }})">
+                           <input type="text" name='newCategoryName' id='newCategoryName' maxlength="25" onkeydown="search({{ names }} , true)">
                            <input type="text" name='asd' id='InitialCategoryName' style='display:none'>
                            <input type="text" name='categoryID' id='categoryID' style='display:none'>
                         </div>
                      </div>
                      <div class="row">
                         <div class="col-12" style="display: flex;justify-content: flex-end;">
-                           <button class="btn-black" type='button' onClick='SaveEditedCategory( {{ names }} )'>Save</button>
+                           <button class="btn-black" type='button' onClick='SaveEditedCategory( {{ names }})'>Save</button>
                         </div>
                     </div>
 
@@ -1112,10 +1112,15 @@
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        function search(ele) {
+        function search(ele, isNew) {
             if (event.key === 'Enter') {
-                event.preventDefault()
-                ClickSaveButton(ele);
+                if(isNew){
+                    event.preventDefault()
+                    SaveEditedCategory(ele);
+                }else{
+                    event.preventDefault()
+                    ClickSaveButton(ele);
+                }
             }
         }
 
