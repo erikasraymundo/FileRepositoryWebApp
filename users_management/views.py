@@ -597,7 +597,9 @@ def AddAccount(request):
     except:
         return HttpResponseRedirect(reverse('index'))
 
-    generatedPassword = random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
+    allowed_chars = ''.join((string.ascii_letters, string.digits))
+    unique_id = ''.join(random.choice(allowed_chars) for _ in range(8))
+    generatedPassword = unique_id
    #For Usernameand email Checking
     list = []
     listEmails = []
