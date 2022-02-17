@@ -273,7 +273,7 @@
                      </svg>
                  </div>
                   <label> Birth Day </label>
-                  <input type="date" name='bday' id='bDay' value='{{ bday }}'>
+                  <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" readonly autocomplete="off">
                </div>
             </div>
             <style>
@@ -455,7 +455,7 @@ $("#editUserLastName").keypress(function(event) {
    var initialaddress = document.getElementById('editUserAccountAddress').value;
    var initialemail = document.getElementById('editUserAccountEmail').value;
    var initialmiddleName = document.getElementById('editUserMiddleName').value;
-   var initialbday = document.getElementById('bDay').value;
+   var initialbday = document.getElementById('initialbday').value;
 
    function openModalForEditAccount(){
       document.getElementById('editUserAccountUsername').value = initialusername;
@@ -464,7 +464,7 @@ $("#editUserLastName").keypress(function(event) {
       document.getElementById('editUserAccountAddress').value = initialaddress;
       document.getElementById('editUserAccountEmail').value = initialemail;
       document.getElementById('editUserMiddleName').value - initialmiddleName;
-      document.getElementById('bDay').value = initialbday;
+      document.getElementById('birthday').value = initialbday;
       document.getElementById('ModalForEditingAdminProfilePo').style.display = 'block';
      }
   
@@ -640,19 +640,16 @@ $("#editUserLastName").keypress(function(event) {
       }
    }
 
-   //max datev
-   var today = new Date();
-   var dd = today.getDate();
-   var mm = today.getMonth() + 1; //January is 0!
-   var yyyy = today.getFullYear();
-   if (dd < 10) {
-   dd = '0' + dd;
-   }
-   if (mm < 10) {
-   mm = '0' + mm;
-   }  
-   today = yyyy + '-' + mm + '-' + dd;
-   document.getElementById("bDay").setAttribute("max", today);
+   year = new Date().getFullYear() - 18;
+    var d = new Date();
+    var date = (d.getMonth()+1) + "/" + d.getDate() +"/" + year;
+
+    $("#birthday").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "1950:"+ year,
+        defaultDate: date
+    });
 
    //////////////////////////////////
    //Password Validation

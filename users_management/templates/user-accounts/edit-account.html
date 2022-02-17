@@ -115,8 +115,8 @@
                             <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"></path>
                         </svg>
                     </div>
-                     <input type="date" name="bday" id="bday" placeholder="Select birthdate*" value='{{ bday }}'> 
-                    </div>
+                    <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" readonly autocomplete="off" value="{{ bday }}">
+                  </div>
                 </div>
                   <style>
                   #bday{
@@ -362,21 +362,17 @@ if(listOfEmails[i] == email){
   });
   
 
-  
+  year = new Date().getFullYear() - 18;
+    var d = new Date();
+    var date = (d.getMonth()+1) + "/" + d.getDate() +"/" + year;
 
-   //max datev
-   var today = new Date();
-   var dd = today.getDate();
-   var mm = today.getMonth() + 1; //January is 0!
-   var yyyy = today.getFullYear();
-   if (dd < 10) {
-   dd = '0' + dd;
-   }
-   if (mm < 10) {
-   mm = '0' + mm;
-   }  
-   today = yyyy + '-' + mm + '-' + dd;
-   document.getElementById("bday").setAttribute("max", today);
+    $("#birthday").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "1950:"+ year,
+        defaultDate: date
+    });
+
 
 </script>
  
