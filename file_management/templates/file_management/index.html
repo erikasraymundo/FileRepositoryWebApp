@@ -6,9 +6,11 @@
 
         <div class="file-management--header">
             <h1 class="h1 text-purple">File Management</h1>
+            {% if user.is_superuser == True %}
             <div class="cta--categories">
                 <a href="{% url 'categoryManagement' %}" class="btn btn-black">Manage Categories</a>
             </div>
+            {% endif %}
         </div>
 
         <div class="file-management--categories">
