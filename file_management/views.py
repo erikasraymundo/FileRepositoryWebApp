@@ -838,7 +838,17 @@ def printIndivualFilePDF(request, file_id):
     title = "File Management - Individual File Details"
     description = "The following are information of the printed individual file's details from Soar Academy's English High School Department common drive."
     styles = getSampleStyleSheet()
-    
+    styles.add(ParagraphStyle(name='Subtitle',
+                                  fontSize=12,
+                                  leading=14,
+                                  spaceAfter=6),
+                   alias='subtitle')
+    styles.add(ParagraphStyle(name='DefaultHeading',
+                                  fontSize=18,
+                                  leading=22,
+                                  spaceBefore=12,
+                                  spaceAfter=6),
+                   alias='dh')    
 
     elems = []
     elems.append(Image('reports/logo_header.jpg',width = 6.5 * inch, height = 0.885 * inch))
