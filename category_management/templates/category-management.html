@@ -994,11 +994,11 @@
             </div>
 
             <div class="modal-container" id='ModalForEdittingCategory' style='display:none'>
-               <div class="modal-backdrop"></div>
+               <div class="modal-backdrop" onclick='CloseModal()'></div>
                <div class="edit-modal">
                   <div class="header">
                      <h4 class="text-purple fw-800">Edit Category</h4>
-                     <span class="close-modal-icon" id='CloseModalForEditCategory'>
+                     <span class="close-modal-icon" onclick='CloseModal()' style='cursor:pointer'>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path
                               d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
@@ -1006,17 +1006,18 @@
                         </svg>
                      </span>
                   </div>
-                  <form action='{% url "UpdateCategory"%}' method='POST'>
+                  <form action='{% url "UpdateCategory"%}' method='POST' id='FormForEditingCategory'>
                      {% csrf_token %}
                      <div class="row">
                         <div class="col-12">
                            <input type="text" name='newCategoryName' id='newCategoryName'>
+                           <input type="text" name='asd' id='InitialCategoryName' style='display:none'>
                            <input type="text" name='categoryID' id='categoryID' style='display:none'>
                         </div>
                      </div>
                      <div class="row">
                         <div class="col-12" style="display: flex;justify-content: flex-end;">
-                           <button class="btn-black">Save</button>
+                           <button class="btn-black" type='button' onClick='SaveEditedCategory( {{ names }} )'>Save</button>
                         </div>
                      </div>
                   </form>
@@ -1086,7 +1087,7 @@
       }
       //Add Category
       function ClickSaveButton(listOfUsernames){
-         if(document.getElementById('inputedCategoryName').value == ''){
+         if(document.getElementById('newCategoryName').value == ''){
             Swal.fire({
                icon: 'error',
                allowOutsideClick: false,
@@ -1124,23 +1125,70 @@
          }
       }
       
-      document.getElementById('CloseModalForEditCategory').style.cursor = 'pointer';
-      document.getElementById('CloseModalForEditCategory').onclick = function (e) {
+      function CloseModal(){
          document.getElementById('ModalForEdittingCategory').style.display = 'none';
       }
 
       function openModal(ID, title) {
          document.getElementById('ModalForEdittingCategory').style.display = 'block';
          document.getElementById('newCategoryName').value = title;
+         document.getElementById('InitialCategoryName').value = title;
          document.getElementById('categoryID').value = ID;
 
       }
+
+      function SaveEditedCategory(listOfUsedNames){
+         var initialCateg = document.getElementById('InitialCategoryName').value;
+         if(document.getElementById('newCategoryName').value == ''){
+            Swal.fire({
+               icon: 'error',
+               allowOutsideClick: false,
+               title: "Category name must not be empty",
+               confirmButtonText: 'Ok',
+            })
+         }else{
+            //Check if duplicate categ name.
+            var isDuplicate = false;
+            for(var i = 0 ; i < listOfUsedNames.length; i++){
+               if(listOfUsedNames[i] == document.getElementById('newCategoryName').value){
+                  if(document.getElementById('newCategoryName').value == initialCateg){
+                     CloseModal();
+                     break;
+                  }else{
+                     isDuplicate = true;
+                  }
+               }
+               if(i+1 == listOfUsedNames.length){ 
+                  if(!isDuplicate){
+                     //Save To DB
+                     Swal.fire({
+                        icon: 'success',
+                        allowOutsideClick: false,
+                        title: "Category has been added successfully.",
+                        confirmButtonText: 'Great',
+                     }).then (() => {
+                        document.getElementById('FormForEditingCategory').submit();
+                     });
+                     }else{
+                    //Error Message
+                     Swal.fire({
+                       icon: 'error',
+                       title: "Category name already exists",
+                       confirmButtonText: 'Ok',
+                    });
+                  }
+               }
+            }
+         }
+      }
+
    </script>
 
   
 
    <!-- LOGOUT -->
    <script>
+      $('#logout').attr
       $("#logout").click(function () {
          Swal.fire({
             icon: 'question',

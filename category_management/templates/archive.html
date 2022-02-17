@@ -966,7 +966,7 @@
                          </div>
                       </div>
                      <div class="columns">
-                         <div class="column is-7">
+                         <div class="column is-7" onClick='DoNothing()'>
                             <input class="input" name='CategoryInput' type="text" placeholder="Enter category (ex. lesson plan)" disabled>
                          </div>
                          <div class="column">
@@ -1025,7 +1025,7 @@
          }).then((bool) => {
             if( bool.isConfirmed)
             document.getElementById('ClickToRedirect').click();
-         })
+         });
       }
 
     const toggle = document.querySelector('#sidebar--toggle');
