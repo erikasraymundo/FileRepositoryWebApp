@@ -191,38 +191,32 @@
             <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
             <div class="row">
                <div class="col-12">
-                  <label for='editUserAccountUsername'> Username </label>
-                  <input type="text" name='username' id='editUserAccountUsername' value='{{ detail.username }}'>
+                  <input type="text" name='username' id='editUserAccountUsername' value='{{ detail.username }}' placeholder='Enter Username' maxlength="25">
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <label for='editUserAccountUsername'> First Name </label>
-                  <input type="text" name='first_name' id='editUserFirstName' value='{{ detail.first_name }}'>
+                  <input type="text" name='first_name' id='editUserFirstName' value='{{ detail.first_name }}' placeholder='Enter First Name' maxlength="30">
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <label for='editUserAccountUsername'> Middle Name </label>
-                  <input type="text" name='middle_name' id='editUserMiddleName' value='{{ detail.middle_name }}'>
+                  <input type="text" name='middle_name' id='editUserMiddleName' value='{{ detail.middle_name }}' placeholder='Enter Middle Name' maxlength="30">
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <label for='editUserAccountUsername'> Last Name </label>
-                  <input type="text" name='last_name' id='editUserLastName' value='{{ detail.last_name }}'>
+                  <input type="text" name='last_name' id='editUserLastName' value='{{ detail.last_name }}' placeholder='Enter Last Name' maxlength="30">
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <label for='editUserAccountUsername'> Address </label>
-                  <input type="text" name='address' id='editUserAccountAddress' value='{{ detail.address }}'>
+                  <input type="text" name='address' id='editUserAccountAddress' value='{{ detail.address }}' placeholder='Enter Address' maxlength="100">
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <label for='editUserAccountUsername'> Email Address </label>
-                  <input type="email" name='email' id='editUserAccountEmail' value='{{ detail.email }}'>
+                  <input type="email" name='email' id='editUserAccountEmail' value='{{ detail.email }}' placeholder='Enter Email Address' maxlength="50">
                </div>
             </div>
             <div class="row">
@@ -232,7 +226,7 @@
                          <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"></path>
                      </svg>
                  </div>
-                  <label for='editUserAccountUsername'> Birth Day </label>
+                  <label> Birth Day </label>
                   <input type="date" name='bday' id='bDay' value='{{ bday }}'>
                </div>
             </div>
@@ -296,6 +290,58 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+   //For not allowing special characters.
+
+   $("#editUserAccountUsername").keypress(function(event) {
+      var character = String.fromCharCode(event.keyCode);
+      if(! isValid(character)){
+         Swal.fire({
+            icon: 'error',
+            title: "Username could not contain special characters.",
+            confirmButtonText: 'Ok',
+         })
+      }
+      return isValid(character);
+  });
+   
+   $("#editUserMiddleName").keypress(function(event) {
+      var character = String.fromCharCode(event.keyCode);
+      if(! isValid(character)){
+         Swal.fire({
+            icon: 'error',
+            title: "Middle name could not contain special characters.",
+            confirmButtonText: 'Ok',
+         })
+      }
+      return isValid(character);
+  });
+
+  $("#editUserFirstName").keypress(function(event) {
+   var character = String.fromCharCode(event.keyCode);
+   if(! isValid(character)){
+      Swal.fire({
+         icon: 'error',
+         title: "First name could not contain special characters.",
+         confirmButtonText: 'Ok',
+      })
+   }
+   return isValid(character);
+});
+
+$("#editUserLastName").keypress(function(event) {
+   var character = String.fromCharCode(event.keyCode);
+   if(! isValid(character)){
+      Swal.fire({
+         icon: 'error',
+         title: "Last name could not contain special characters.",
+         confirmButtonText: 'Ok',
+      })
+   }
+   return isValid(character);
+});
+   function isValid(str) {
+         return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+     }
 
    //for gender (edit)
    if(document.getElementById('hiddeGender').value == 1){
