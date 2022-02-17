@@ -36,7 +36,7 @@ def login(request):
         user = userEmail
         setupSession(request, userEmail.id, userEmail.is_superuser)
     else:
-        return HttpResponseRedirect(reverse('loginViewInvalid', args=[1]))
+        return render(request, 'accounts/login.html', {"error": 1, "usernameEmail" : usernameEmail})
 
     log = Log()
     log.user_id = User.objects.get(pk=1)

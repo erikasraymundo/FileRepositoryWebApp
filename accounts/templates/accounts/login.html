@@ -17,7 +17,7 @@
                              onclick="Register()">Register.</a></span></p>
                     <form action="{% url 'login' %}" method="POST">
                        {% csrf_token %}
-                       <input type="text" name="usernameEmail" id="usernameEmail" placeholder="Enter username or email">
+                       <input type="text" name="usernameEmail" id="usernameEmail" placeholder="Enter username or email" value="{{usernameEmail}}">
                        <input type="password" name="password" id="password" placeholder="Enter password">
                        <div class="btn-login-holder">
                           <button id="loginBtn" class="btn-login" type="submit">Login</button>
