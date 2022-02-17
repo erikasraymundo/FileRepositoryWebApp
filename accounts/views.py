@@ -25,16 +25,25 @@ def login(request):
     password = request.POST['password']
 
     userUsername = User.objects.filter(
-        username__iexact=usernameEmail, password=password).exclude(is_active=0).first()
+        username__iexact=usernameEmail, password=password).first()
     userEmail = User.objects.filter(
-        email__iexact=usernameEmail, password=password).exclude(is_active=0).first()
+        email__iexact=usernameEmail, password=password).first()
+
 
     if userUsername != None:
         user = userUsername
-        setupSession(request, userUsername.id, userUsername.is_superuser)
+
+        if user.is_active == 0:
+            return render(request, 'accounts/login.html', {"error": 2, "usernameEmail" : user})
+        else:
+            setupSession(request, user.id, user.is_superuser)
+
     elif userEmail != None:
         user = userEmail
-        setupSession(request, userEmail.id, userEmail.is_superuser)
+        if user.is_active == 0:
+            return render(request, 'accounts/login.html', {"error": 2, "usernameEmail" : user})
+        else:
+            setupSession(request, user.id, user.is_superuser)
     else:
         return render(request, 'accounts/login.html', {"error": 1, "usernameEmail" : usernameEmail})
 

@@ -38,6 +38,13 @@
          title: 'Your credentials are not valid.'
       });
       window.history.pushState('somedata', 'Title', '/login/');
+   {% elif error == 2%}
+      Swal.fire({
+         icon: 'warning',
+         title: 'Your account is deactivated.',
+         text: ' To activate again please contact your administrator.'
+      });
+      window.history.pushState('somedata', 'Title', '/login/');
    {% endif %}
 
    $("form").submit(function(e) {
