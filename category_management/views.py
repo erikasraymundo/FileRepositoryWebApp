@@ -70,7 +70,7 @@ def AddCategory(request):
                     category.save()
                     log = Log()
                     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-                    log.description = category.title + ' has been added to active categories from the archive'
+                    log.description = request.POST['CategoryInput'] + ' has been moved to active categories.'
                     log.save()
                 break
 
@@ -80,7 +80,7 @@ def AddCategory(request):
             category.save()
             log = Log()
             log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-            log.description = category.title + ' has been added to categories'
+            log.description = category.title + ' category was created.'
             log.save()
     return HttpResponseRedirect(reverse('categoryManagement'))
 
@@ -99,7 +99,7 @@ def DeleteCategory(request):
     entry.save()
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = entry.title + ' has been moved to the archived categories'
+    log.description = entry.title + ' has been moved to the archived categories.'
     log.save()
     return HttpResponseRedirect(reverse('categoryManagement'))
 
@@ -115,12 +115,11 @@ def UpdateCategory(request):
 
     entry = Category.objects.get(pk = request.POST['categoryID'])
     entry.title = request.POST['newCategoryName']
-    entry.save()
-
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = 'Category named ' + Category.objects.get(pk = request.POST['categoryID']).title + ' was renamed to ' + request.POST['newCategoryName']
+    log.description = 'Category named ' + Category.objects.get(pk = request.POST['categoryID']).title + ' was renamed to ' + request.POST['newCategoryName'] + '.'
     log.save()
+    entry.save()
     return HttpResponseRedirect(reverse('categoryManagement'))
 
 def archiveCategory(request):
@@ -153,7 +152,7 @@ def RestoreCategory(request):
     entry.save()
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = entry.title + ' has been moved to the active categories from the archive'
+    log.description = entry.title + ' has been moved to the active categories.'
     log.save()
 
     return HttpResponseRedirect(reverse('archiveCategory'))
