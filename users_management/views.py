@@ -37,13 +37,11 @@ from report_generation.views import PageNumCanvas
 
 # ERIKA 
 def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0):
-    
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
     except:
         return HttpResponseRedirect(reverse('index'))
-    
     template_name = 'user-accounts/manage-accounts.html'
 
     if query == None:
@@ -87,7 +85,6 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None, success=0
         created_at__lte=date2,
         deleted_at=None
     ).order_by(sort_column)
-
     return render(request, template_name,
                   {"users": users,
                   "user" : logged_user, #logged in user
@@ -483,8 +480,8 @@ def UpdatePassword(request):
     admin.updated_at = timezone.now()
     admin.save()
     log = Log()
-    log.user_id = User.objects.get(pk=1)
-    log.description = 'Password has been updated for user with ID: ' + str(request.session.get('user_id'))
+    log.user_id = User.objects.get(pk= session_user_id)
+    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'updated his/her password'
     log.save()
 
     return HttpResponseRedirect(reverse('profile'))
@@ -504,7 +501,7 @@ def DeleteAccount(request):
     #TODO punta ng login, tanggalin session.
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'User with ID: ' + str(request.session.get('user_id')) + ' archived his/her account'
+    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'archived his/her account.'
     log.save()
     del request.session['user_id']
     del request.session['is_superuser']
@@ -522,6 +519,7 @@ def UpdateAccountDetails(request):
     admin.updated_at = timezone.now()
     admin.username = request.POST['username']
     admin.first_name = request.POST['first_name']
+    admin.middle_name = request.POST['middle_name']
     admin.last_name = request.POST['last_name']
     admin.address = request.POST['address']
     admin.email = request.POST['email']
@@ -530,7 +528,7 @@ def UpdateAccountDetails(request):
     admin.save()
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = 'User with ID: ' + str(request.session.get('user_id'))+ ' updated his/her account'
+    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'updated his/her account.'
     log.save()
 
     return HttpResponseRedirect(reverse('profile'))
@@ -614,7 +612,7 @@ def AddUserAccount(request):
 
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'A new account was created by admin with ID: ' + str(request.session.get('user_id'))
+    log.description = 'A new account was created by the administrator.'
     log.save()
 
     if len(request.FILES) != 0:
@@ -671,7 +669,7 @@ def SaveChangesOnEditUserAccount(request):
     user.save()
     log = Log()
     log.user_id = User.objects.get(pk=1)
-    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + ' edited account details for user with ID: ' + str(request.POST['PK'])
+    log.description = 'Administrator with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'edited account details for user with ID: #' + str(request.POST['PK']) + ' ( username: ' +  user.username + ' ) '
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -702,7 +700,7 @@ def ArchieveUserAccount(request):
     admin.save() 
     log = Log()
     log.user_id = User.objects.get(pk=1)
-    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + ' archived user with ID: ' + str(request.POST['ID'])
+    log.description = 'Administrator has archived the user with ID: #' + str(request.POST['ID']) + ' ( username - ' + admin.username + ' ).'
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -720,7 +718,7 @@ def RestoreUserAccount(request):
     admin.save()
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'Admin with ID: ' + str(request.session.get('user_id')) + ' restored user with ID: ' + str(request.POST['ID'])
+    log.description = 'Administrator has restored the user with ID: #' + str(request.POST['ID']) + ' ( username - ' + admin.username + ' ).'
     log.save()
     return HttpResponseRedirect(reverse('users-management:archived-index'))
 
@@ -747,7 +745,7 @@ def UploadProfilePicture(request):
 
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = 'User with ID: ' + str(request.session.get('user_id')) + '  updated his/her profile picture'
+    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'updated his/her profile picture.'
     log.save()
 
 
