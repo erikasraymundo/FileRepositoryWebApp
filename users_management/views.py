@@ -670,7 +670,7 @@ def SaveChangesOnEditUserAccount(request):
         user.image = request.FILES['image']
     user.save()
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=session_user_id)
     log.description = 'Administrator with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'edited account details for user with ID: #' + str(request.POST['PK']) + ' ( username: ' +  user.username + ' ) '
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
@@ -701,7 +701,7 @@ def ArchieveUserAccount(request):
     admin.updated_at = timezone.now()
     admin.save() 
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=session_user_id)
     log.description = 'Administrator has archived the user with ID: #' + str(request.POST['ID']) + ' ( username - ' + admin.username + ' ).'
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
