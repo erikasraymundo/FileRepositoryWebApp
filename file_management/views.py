@@ -673,12 +673,12 @@ def printArchivedPDF(request,  category_id=0, sort_by=4, query=None, fromDate=No
     paragraphStyle = getSampleStyleSheet()
 
     data = [
-        ['ID', 'Name', 'Category', 'Uploader', 'Date Uploaded']
+        ['ID', 'Name', 'Category', 'Uploader', 'Date Archived']
     ]
 
     for file in file_list:
 
-        created_at = file.created_at.strftime("%m/%d/%Y %I:%M %p")
+        deleted_at = file.deleted_at.strftime("%m/%d/%Y %I:%M %p")
 
         list = [Paragraph(f"{file.id}", paragraphStyle['Normal']),
                 Paragraph(f"{file.getNewFileName()}",
@@ -687,7 +687,7 @@ def printArchivedPDF(request,  category_id=0, sort_by=4, query=None, fromDate=No
                           paragraphStyle['Normal']),
                 Paragraph(f"{file.user_id.full_name()}",
                           paragraphStyle['Normal']),
-                Paragraph(f"{created_at}", paragraphStyle['Normal'])]
+                Paragraph(f"{deleted_at}", paragraphStyle['Normal'])]
         data.append(list)
 
     pdf = SimpleDocTemplate(
