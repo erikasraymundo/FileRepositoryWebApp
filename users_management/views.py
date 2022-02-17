@@ -40,8 +40,11 @@ def index(request,  sort_by=5, query=None, fromDate=None, toDate=None, success=0
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
+
     template_name = 'user-accounts/manage-accounts.html'
 
     if query == None:
@@ -100,6 +103,8 @@ def archivedIndex(request,  sort_by=5, query=None, fromDate=None, toDate=None, s
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
     
@@ -161,6 +166,8 @@ def printActivePDF(request,  sort_by=5, query=None, fromDate=None, toDate=None):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -303,6 +310,8 @@ def printArchivedPDF(request,  sort_by=5, query=None, fromDate=None, toDate=None
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -444,6 +453,8 @@ def profile(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -475,8 +486,11 @@ def UpdatePassword(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
+
     admin = User.objects.get(pk = request.session.get('user_id'))
     admin.password = request.POST['newPassword']
     admin.updated_at = timezone.now()
@@ -492,6 +506,8 @@ def DeleteAccount(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -514,6 +530,8 @@ def UpdateAccountDetails(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -540,6 +558,8 @@ def ManageAccounts(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -554,6 +574,8 @@ def ArchiveAccounts(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -568,6 +590,8 @@ def AddAccount(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -593,6 +617,8 @@ def AddUserAccount(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -627,6 +653,8 @@ def EditAccount(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -654,6 +682,8 @@ def SaveChangesOnEditUserAccount(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -680,6 +710,8 @@ def ViewAccount(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -692,6 +724,8 @@ def ArchieveUserAccount(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -710,6 +744,8 @@ def RestoreUserAccount(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
@@ -729,6 +765,8 @@ def UploadProfilePicture(request):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
