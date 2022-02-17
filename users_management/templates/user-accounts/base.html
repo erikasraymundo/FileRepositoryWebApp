@@ -98,7 +98,7 @@
          width: 100%;
          display: block;
          border-radius: 5px;
-         border: 1.25px solid #ddd;
+         border: 2px solid #ddd;
          padding: 1rem 1.5rem;
          margin-bottom: 20px;
          font-size: 16px;
@@ -106,6 +106,7 @@
          font-family: 'Raleway', sans-serif;
          -webkit-transition: all ease 300ms;
          transition: all ease 300ms;
+         outline: none;
       }
 
       form input[type="email"]::-webkit-input-placeholder,
@@ -232,7 +233,7 @@
          display: -ms-flexbox;
          display: flex;
          gap: 35px;
-         margin: .7rem 2rem 1.6rem;
+         margin: 5px 2rem 1rem;
          border: none;
       }
 
@@ -399,6 +400,7 @@
          color: #272727;
          gap: 24px;
       }
+    
 
       .global--container .aside--bottom .activity-logs-btn a span {
          background-color: #272727;
@@ -530,6 +532,7 @@
       .component1 h4 a {
          text-decoration: none;
          color: #777777;
+        
       }
 
       .component1 h4.active {
@@ -552,7 +555,7 @@
       }
 
       .component2 .start-date {
-         border: 1px solid #ddd;
+         border: 2px solid #ddd;
          border-radius: 100px;
          padding: .7rem 1rem;
          -webkit-transition: all 300ms ease;
@@ -568,7 +571,7 @@
       }
 
       .component2 .end-date {
-         border: 1px solid #ddd;
+         border: 2px solid #ddd;
          border-radius: 100px;
          padding: .7rem 1rem;
          -webkit-transition: all 300ms ease;
@@ -627,7 +630,7 @@
          border: none;
          padding: .7rem 1rem;
          padding-left: 3rem;
-         border: 1px solid #ddd;
+         border: 2px solid #ddd;
          width: 242px;
          font-size: 14px;
          font-weight: 500;
@@ -669,12 +672,17 @@
          border: none;
          padding: .7rem 2rem .7rem 1rem;
          border-radius: 100px;
-         border: 1px solid #ddd;
+         border: 2px solid #ddd;
          background-color: transparent;
          -webkit-appearance: none;
          -moz-appearance: none;
          font-size: 14px;
          font-weight: 500;
+         transition: all ease 300ms;
+      }
+
+      .component4 select:hover {
+        border-color: #8761F4;
       }
 
       .component4::after {
@@ -1094,29 +1102,12 @@
       <aside class="aside" id="aside">
          <div class="aside--container">
             <div class="aside--inner-container">
-         
                <style>
-                  .profile {
-                     flex: auto;
-                     display: flex;
-                     align-items: center;
-                     justify-content: center;
-                     flex-direction: column;
-                  }
-
-                  .profile--image {
-                     display: flex;
-                     justify-content: center;
-                     align-items: center;
-                     width: 80px;
-                     height: 80px;
-                     border-radius: 50%;
-                     overflow: hidden;
-                  }
-
-                  .profile--image a img {
-                     width: 100%;
-                     height: auto;
+                  .profile--image a img{
+                     max-width: 80px;
+                     max-height: 80px;
+                     min-width: 80px;
+                     min-height: 80px;
                   }
                </style>
                <div class="profile">
@@ -1203,7 +1194,30 @@
    </div>
 
 
-
+  <style>
+      .global--container .aside--bottom .logout-btn a {
+         text-decoration: none;
+         color: #272727;
+         display: -webkit-box;
+         display: -ms-flexbox;
+         display: flex;
+         -webkit-box-align: center;
+         -ms-flex-align: center;
+         align-items: center;
+         gap: 40px;
+         transition: all ease 300ms;
+         cursor: pointer;
+      }
+      .global--container .aside--bottom .logout-btn a .icon svg path{
+         transition: all ease 300ms;
+      }
+      .global--container .aside--bottom .logout-btn:hover a{
+         color: #8761F4;
+      }
+      .global--container .aside--bottom .logout-btn:hover a .icon svg path{
+         fill: #8761F4;
+      }
+  </style>
 
 
    <!-- LOGOUT -->

@@ -30,6 +30,50 @@
                </h4>
                <p>username</p>
             </div>
+            <style>
+               .my-profile--image{
+                  position: relative;
+               }
+               .my-profile--image img{
+                  cursor: pointer;
+               }
+               .my-profile--image::before{
+                  content: "Upload profile pricture";
+                  position: absolute;
+                  font-size: 18px;
+                  font-weight: 600;
+                  color: #272727;
+                  width: 40%;
+                  top: 28%;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  z-index: 3;
+                  pointer-events: none;
+                  display: none;
+               }
+               .my-profile--image::after{
+                  content: "";
+                  height: 125px;
+                  width: 250px;
+                  background-color: #c4c4c498;
+                  display: block;
+                  position: absolute;
+                  top: 21.5%;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  pointer-events: none;
+                  border-radius:0 0 250px 250px;
+                  border-bottom-left-radius: 45 * 2;
+                  border-bottom-right-radius: 45 * 2;
+                  display: none;
+               }
+               .my-profile--image:hover::after{
+                  display: block;
+               }
+               .my-profile--image:hover::before{
+                  display: block;
+               }
+            </style>
             <div class="my-profile--info">
                <div class="my-profile--info-container">
                      <div class="text">
@@ -122,7 +166,8 @@
                </div>
             </div>
             <div class="row">
-               <div class="col-12">
+               <div class="col-12" style="display: flex;
+               justify-content: flex-end;">
                   <a class="btn-black" onclick='updatePassword("{{detail.password}}")'>Save</a>
                </div>
             </div>
@@ -132,7 +177,7 @@
    
    <div class="modal-container" id='ModalForEditingAdminProfilePo' style='display:none;'>
       <div class="modal-backdrop" id='ForClosePurposesOnly'></div>
-      <div class="change-password-modal" style="height: 90%;">
+      <div class="change-password-modal" style="height: 90%; width: 50%;">
          <div class="header">
             <h4 class="text-purple fw-800">Edit Account</h4>
             <span class="close-icon" id='closeModalForEditingAdminProfilePo'>
@@ -141,7 +186,7 @@
                </svg>
             </span>
          </div>
-         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts' autocomplete='off' style="overflow: auto;height: 90%;padding: 1rem 0;">
+         <form action="{% url 'UpdateAccountDetails' %}" method="POST" id='FormEditUserAccounts' autocomplete='off' style="overflow: auto;height: 90%;padding: .5rem 0;">
             {% csrf_token %}
             <input type='text' value='{{detail.pk}}' style='display:none' name='DeleteID'>
             <div class="row">
@@ -181,13 +226,46 @@
                </div>
             </div>
             <div class="row">
-               <div class="col-12">
+               <div class="col-12 bDay-container">
+                  <div class="icon-calendar">
+                     <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"></path>
+                     </svg>
+                 </div>
                   <label for='editUserAccountUsername'> Birth Day </label>
                   <input type="date" name='bday' id='bDay' value='{{ bday }}'>
                </div>
             </div>
+            <style>
+               .bDay-container{
+                  position: relative;
+               }
+               .bDay-container .icon-calendar{
+                  position: absolute;
+                  right: 2.1rem;
+                  top: 50%;
+                  transform: translateY(-50%);
+               }
+               #bDay{
+               width: 100%;
+               display: block;
+               border-radius: 5px;
+               border: 2px solid #ddd;
+               padding: 1rem 3rem 1rem 1.5rem;
+               margin-bottom: 20px;
+               font-size: 16px;
+               font-weight: 600;
+               font-family: 'Raleway', sans-serif !important;
+               -webkit-transition: all ease 300ms;
+               transition: all ease 300ms;
+               outline: none;
+               }
+               #bDay:hover, #bDay:focus{
+               border-color: #8761F4;
+               }
+               </style>
             <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none '>
-            <fieldset class="gender" id="group" name='gender' style="margin: 2rem 0;">
+            <fieldset class="gender" id="group" name='gender' style="margin: 10px 2rem 2.4rem;">
                <div>
                    <input type="radio" id="Woman" name="group" value="1" >
                    <label for="Woman">Woman</label>
@@ -203,7 +281,8 @@
            </fieldset>
             <p style='text-align: center; color:red; visibility: hidden; display:block' id='ErrorMessageSenderEditUserAccountCurrent'></p>
             <div class="row">
-               <div class="col-12">
+               <div class="col-12" style="display: flex;
+               justify-content: flex-end;">
                   <a class="btn-black" onclick='updateUserAccount( {{ username }} , {{ emails }} )'>Save Changes</a>
                </div>
             </div>

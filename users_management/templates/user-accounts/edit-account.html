@@ -6,6 +6,8 @@
 <h1 class="h1">Editing an account</h1>
 <section class="edit-accounts">
     <div class="edit-accounts--container">
+
+
           <div class="my-profile--image">
             {% if detail.image %}
             <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
@@ -15,7 +17,53 @@
             <img src="" alt="profile-image-large" id='ChangeThisToProfilePicture'>
           </div>
 
+          <style>
+             .my-profile--image{
+                position: relative;
+             }
+             .my-profile--image img{
+                  cursor: pointer;
+               }
+             .my-profile--image::before{
+                content: "Upload profile pricture";
+                position: absolute;
+                font-size: 18px;
+                font-weight: 600;
+                color: #272727;
+                width: 40%;
+                top: 25%;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 3;
+                pointer-events: none;
+                display: none;
+             }
+             .my-profile--image::after{
+                content: "";
+                height: 125px;
+                width: 250px;
+                background-color: #c4c4c498;
+                display: block;
+                position: absolute;
+                top: 19%;
+                left: 50%;
+                transform: translateX(-50%);
+                pointer-events: none;
+                border-radius:0 0 250px 250px;
+                border-bottom-left-radius: 45 * 2;
+                border-bottom-right-radius: 45 * 2;
+                display: none;
+             }
+             .my-profile--image:hover::after{
+                display: block;
+             }
+             .my-profile--image:hover::before{
+                display: block;
+             }
+          </style>
+
           <div class="edit-accounts--form-container">
+             
             <form action="{%  url 'SaveChangesOnEditUserAccount' %}" method="POST" id='SaveChangesForm' autocomplete='off'  enctype="multipart/form-data">
               {% csrf_token %}
               <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
@@ -63,10 +111,33 @@
 
                 <div class="row">
                     <div class="col-12 birthday">
-                     <label>Birthday</label>
+                     <div class="icon-calendar">
+                        <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.8543 2.25H13.0996V0.75H11.59V2.25H4.04238V0.75H2.53285V2.25H1.77808C0.947843 2.25 0.268555 2.925 0.268555 3.75V15.75C0.268555 16.575 0.947843 17.25 1.77808 17.25H13.8543C14.6846 17.25 15.3639 16.575 15.3639 15.75V3.75C15.3639 2.925 14.6846 2.25 13.8543 2.25ZM13.8543 15.75H1.77808V6H13.8543V15.75Z" fill="#777777"></path>
+                        </svg>
+                    </div>
                      <input type="date" name="bday" id="bday" placeholder="Select birthdate*" value='{{ bday }}'> 
                     </div>
                 </div>
+                  <style>
+                  #bday{
+                  width: 100%;
+                  display: block;
+                  border-radius: 5px;
+                  border: 2px solid #ddd;
+                  padding: 1rem 3rem 1rem 1.5rem;
+                  margin-bottom: 20px;
+                  font-size: 16px;
+                  font-weight: 600;
+                  font-family: 'Raleway', sans-serif !important;
+                  -webkit-transition: all ease 300ms;
+                  transition: all ease 300ms;
+                  outline: none;
+                  }
+                  #bday:hover, #bday:focus{
+                  border-color: #8761F4;
+                  }
+                  </style>
                 <input type="text" name='asd' id='hiddeGender' value='{{ detail.gender }}' style='display:none'>
                 <fieldset class="gender" id="group">
                     <p>Select gender*</p>

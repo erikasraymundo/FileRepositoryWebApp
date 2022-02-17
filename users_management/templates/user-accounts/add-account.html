@@ -8,6 +8,50 @@
           <div class="my-profile--image">
             <img src="{% static 'src/images/profile-image-large.png' %}" alt="profile-image-large" id='ChangeThisToProfilePicture'>
           </div>
+          <style>
+            .my-profile--image{
+               position: relative;
+            }
+            .my-profile--image img{
+                  cursor: pointer;
+               }
+            .my-profile--image::before{
+               content: "Upload profile pricture";
+               position: absolute;
+               font-size: 18px;
+               font-weight: 600;
+               color: #272727;
+               width: 40%;
+               top: 20%;
+               left: 50%;
+               transform: translateX(-50%);
+               z-index: 3;
+               pointer-events: none;
+               display: none;
+            }
+            .my-profile--image::after{
+               content: "";
+               height: 125px;
+               width: 250px;
+               background-color: #c4c4c498;
+               display: block;
+               position: absolute;
+               top: 16%;
+               left: 50%;
+               transform: translateX(-50%);
+               pointer-events: none;
+               border-radius:0 0 250px 250px;
+               border-bottom-left-radius: 45 * 2;
+               border-bottom-right-radius: 45 * 2;
+               display: none;
+            }
+            .my-profile--image:hover::after{
+               display: block;
+            }
+            .my-profile--image:hover::before{
+               display: block;
+            }
+         </style>
           <div class="add-accounts--form-container">
             <form action="{% url 'AddUserAccount' %}" method='POSt' id='FormForAddingANewUserToTheDatabase' autocomplete='off'  enctype="multipart/form-data">
                {% csrf_token %} 
