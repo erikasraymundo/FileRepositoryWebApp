@@ -1063,22 +1063,19 @@
                               fill="#323232" />
                         </svg>
                      </span>
-                            </div>
-                            <form action='{% url "UpdateCategory"%}' method='POST' id='FormForEditingCategory'>
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <input type="text" name='newCategoryName' id='newCategoryName' maxlength="25" onkeydown="search({{ names }})">
-                                        <input type="text" name='asd' id='InitialCategoryName' style='display:none'>
-                                        <input type="text" name='categoryID' id='categoryID' style='display:none'>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12" style="display: flex;justify-content: flex-end;">
-                                        <button class="btn-black" type='button' onClick='SaveEditedCategory( {{ names }} )'>Save</button>
-                                    </div>
-                                </div>
-                            </form>
+                  </div>
+                  <form action='{% url "UpdateCategory"%}' method='POST' id='FormForEditingCategory'>
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-12">
+                           <input type="text" name='newCategoryName' id='newCategoryName' maxlength="25" onkeydown="search({{ names }})">
+                           <input type="text" name='asd' id='InitialCategoryName' style='display:none'>
+                           <input type="text" name='categoryID' id='categoryID' style='display:none'>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12" style="display: flex;justify-content: flex-end;">
+                           <button class="btn-black" type='button' onClick='SaveEditedCategory( {{ names }} )'>Save</button>
                         </div>
                     </div>
 
