@@ -85,8 +85,12 @@ def index(request,  sort_by=1, query=None, fromDate=None, toDate=None):
         sort_column = "created_at"
 
     if fromDate == None:
-        FromDate = Log.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+        try:
+            FromDate = Log.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -137,8 +141,12 @@ def printPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
         sort_column = "created_at"
 
     if fromDate == None:
-        FromDate = Log.objects.order_by('id').first().created_at
-        fromDate = FromDate.strftime("%Y-%m-%d")
+        try:
+            FromDate = Log.objects.order_by('id').first().created_at
+            fromDate = FromDate.strftime("%Y-%m-%d")
+        except:
+            FromDate = datetime.date.today()
+            fromDate = FromDate.strftime("%Y-%m-%d")
 
         ToDate = datetime.date.today()
         toDate = ToDate.strftime("%Y-%m-%d")
@@ -160,7 +168,7 @@ def printPDF(request,  sort_by=1, query=None, fromDate=None, toDate=None):
     response = HttpResponse(content_type='application/pdf')
     pdf_name = "logs-%s.pdf" % str(
         datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
-    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
+    response['Content-Disposition'] = 'attachment; Logname=%s' % pdf_name
 
     buff = BytesIO()
     paragraphStyle = getSampleStyleSheet()

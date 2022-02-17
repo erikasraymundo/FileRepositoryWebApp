@@ -66,7 +66,6 @@
             <fieldset class="gender" id="group">
                 <p>Select gender*</p>
                 <div>
-                    {{gender}}
                     <input type="radio" id="Woman" name="gender" value="1" {% if gender == '1' %} checked
                         {%endif%}>
                     <label for="Woman">Woman</label>
@@ -128,7 +127,6 @@
     year = new Date().getFullYear() - 18;
     var d = new Date();
     var date = (d.getMonth()+1) + "/" + d.getDate() +"/" + year;
-    alert(date);
 
     $("#birthday").datepicker({
         changeMonth: true,

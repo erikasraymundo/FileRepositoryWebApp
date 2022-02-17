@@ -762,7 +762,6 @@ def printArchivedPDF(request,  category_id=0, sort_by=1, query=None, fromDate=No
 
 def printIndivualFilePDF(request, file_id):
 
-    
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)

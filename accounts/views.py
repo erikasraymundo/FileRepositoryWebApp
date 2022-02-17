@@ -48,7 +48,7 @@ def login(request):
         return render(request, 'accounts/login.html', {"error": 1, "usernameEmail" : usernameEmail})
 
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=user.id)
     log.description = f'{user.full_name()} ({user.username}) has logged in.'
     log.save()
 
@@ -123,7 +123,7 @@ def register(request):
     user.save()
 
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=user.id)
     log.description = f'A new account ({user.id} - {user.full_name()}) using username ({user.username}) has been registered.'
     log.save()
 
