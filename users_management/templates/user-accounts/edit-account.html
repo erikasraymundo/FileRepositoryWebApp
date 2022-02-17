@@ -74,38 +74,38 @@
                 </div>
                 <div class="row">
                    <div class="col-12">
-                    <input type="text" value="{{ detail.username }}"  name='username' id ='username'>
+                    <input type="text" value="{{ detail.username }}"  name='username' id ='username' placeholder='Enter Username' maxlength="25">
                     <input type="text" value="{{ detail.pk }}" name='PK' style="display:none"> 
                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                      <input type="text" placeholder="Enter first name"  value="{{ detail.first_name }}"  name='first_name'
-                     id ='first_name'> 
+                     id ='first_name'  maxlength="30"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
                      <input type="text" placeholder="Enter middle name"  value="{{ detail.middle_name }}"  name='middle_name'
-                     id ='middle_name'> 
+                     id ='middle_name'  maxlength="30"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
                      <input type="text" placeholder="Enter last name"  value="{{ detail.last_name }}"  name='last_name'
-                     id ='last_name'> 
+                     id ='last_name'  maxlength="30"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
                      <input type="text" placeholder="Enter address"  value="{{ detail.address }}"  name='address'
-                     id ='address'> 
+                     id ='address' maxlength="100"> 
                     </div>
                  </div>
                  <div class="row">
                     <div class="col-12">
                      <input type="email" placeholder="Enter email address"  value="{{ detail.email }}"  name='email'
-                     id ='email'> 
+                     id ='email'  maxlength="50"> 
                     </div>
                  </div>
 
@@ -170,6 +170,55 @@
 
  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+   //For Special characters.
+   $("#username").keypress(function(event) {
+      var character = String.fromCharCode(event.keyCode);
+      if(! isValid(character)){
+         Swal.fire({
+            icon: 'error',
+            title: "Username could not contain special characters.",
+            confirmButtonText: 'Ok',
+         })
+      }
+      return isValid(character);
+   });
+   $("#first_name").keypress(function(event) {
+      var character = String.fromCharCode(event.keyCode);
+      if(! isValid(character)){
+         Swal.fire({
+            icon: 'error',
+            title: "First name could not contain special characters.",
+            confirmButtonText: 'Ok',
+         })
+      }
+      return isValid(character);
+   });
+   $("#middle_name").keypress(function(event) {
+      var character = String.fromCharCode(event.keyCode);
+      if(! isValid(character)){
+         Swal.fire({
+            icon: 'error',
+            title: "Middle name could not contain special characters.",
+            confirmButtonText: 'Ok',
+         })
+      }
+      return isValid(character);
+   });
+   $("#last_name").keypress(function(event) {
+      var character = String.fromCharCode(event.keyCode);
+      if(! isValid(character)){
+         Swal.fire({
+            icon: 'error',
+            title: "Last name could not contain special characters.",
+            confirmButtonText: 'Ok',
+         })
+      }
+      return isValid(character);
+   });
+      function isValid(str) {
+            return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+        }
 
    //for gender (edit)
    if(document.getElementById('hiddeGender').value == 1){
