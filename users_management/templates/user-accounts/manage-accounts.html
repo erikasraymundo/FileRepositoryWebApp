@@ -289,14 +289,14 @@
          Swal.fire({
             icon: 'warning',
             showCancelButton: true,
-            title: "Are you sure you want to archive this account?.",
+            title: "Are you sure you want to archive this account?",
             confirmButtonText: 'Yes',
             cancelButtonText: 'Cancel',
          }).then((result) => {
             if(result.isConfirmed){
                Swal.fire({
                   icon: 'success',
-                  title: "User has been moved to the archive",
+                  title: "User has been moved to the archive.",
                   allowOutsideClick: false,
                   confirmButtonText: 'Great',
                }).then((result) => {

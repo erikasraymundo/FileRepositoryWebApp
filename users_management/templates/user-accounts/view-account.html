@@ -112,7 +112,14 @@
                   cancelButtonText: 'Cancel',
                }).then((result) => {
                   if(result.isConfirmed){
-                     document.getElementById('archiveThisAccountHiddenForm').submit();
+                     Swal.fire({
+                        icon: 'success',
+                        title: "User has been moved to the archive.",
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Great',
+                     }).then((result) => {
+                        document.getElementById('archiveThisAccountHiddenForm').submit();
+                     })
                   }
                })
             }else{
@@ -124,7 +131,14 @@
                   cancelButtonText: 'Cancel',
                }).then((result) => {
                   if(result.isConfirmed){
-                     document.getElementById('restoreThisAccountHiddenForm').submit();
+                     Swal.fire({
+                        icon: 'success',
+                        title: "User has been restored from the archive.",
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Great',
+                     }).then((result) => {
+                        document.getElementById('restoreThisAccountHiddenForm').submit();
+                     })
                   }
                })
             }
