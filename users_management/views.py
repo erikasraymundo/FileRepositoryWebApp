@@ -523,7 +523,7 @@ def DeleteAccount(request):
     #TODO punta ng login, tanggalin session.
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'archived his/her account.'
+    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ', Name -'+ log.user_id.first_name + ' ' +log.user_id.last_name +' ) ' + 'archived his/her account.'
     log.save()
     del request.session['user_id']
     del request.session['is_superuser']
@@ -702,7 +702,7 @@ def SaveChangesOnEditUserAccount(request):
     user.save()
     log = Log()
     log.user_id = User.objects.get(pk=session_user_id)
-    log.description = 'Administrator edited account details for user with ID: #' + str(request.POST['PK']) + ' ( username: ' +  user.username + ' ) '
+    log.description = 'Administrator edited account details for user with ID: #' + str(request.POST['PK']) + ' ( username: ' +  user.username + ', name: '+ user.first_name + ' ' + user.last_name +' ).'
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -737,7 +737,7 @@ def ArchieveUserAccount(request):
     admin.save() 
     log = Log()
     log.user_id = User.objects.get(pk=session_user_id)
-    log.description = 'Administrator has archived the user with ID: #' + str(request.POST['ID']) + ' ( username - ' + admin.username + ' ).'
+    log.description = 'Administrator has archived the user with ID: #' + str(request.POST['ID']) + ' ( username - ' + admin.username + ', name - '+ admin.first_name + ' ' + admin.last_name + ' ).'
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
 
@@ -757,7 +757,7 @@ def RestoreUserAccount(request):
     admin.save()
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'Administrator has restored the user with ID: #' + str(request.POST['ID']) + ' ( username - ' + admin.username + ' ).'
+    log.description = 'Administrator has restored the user with ID: #' + str(request.POST['ID']) + ' ( username - ' + admin.username + ', name - '+ admin.first_name + ' ' + admin.last_name + ' ).'
     log.save()
     return HttpResponseRedirect(reverse('users-management:archived-index'))
 
@@ -784,7 +784,7 @@ def UploadProfilePicture(request):
 
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'updated his/her profile picture.'
+    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ', name - '+ log.user_id.first_name +' ' + log.user_id.last_name +  ' ) ' + 'updated his/her profile picture.'
     log.save()
 
 
