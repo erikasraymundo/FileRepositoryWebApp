@@ -645,7 +645,7 @@ def AddUserAccount(request):
 
     log = Log()
     log.user_id = User.objects.get(pk= request.session.get('user_id'))
-    log.description = 'A new account was created by the administrator. ( Username - ' + request.POST['username']+ ' ).'
+    log.description = 'A new account was created by the administrator. ( Username - ' + request.POST['username'] + ' Name - ' + request.POST['first_name'] + ' ' + request.POST['last_name'] +' ).'
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
     
