@@ -255,8 +255,11 @@
             height: 100vh;
             position: fixed;
             background-color: #fff;
-            -webkit-box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.05);
-            box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.05);
+            box-shadow: 0px 5px 60px rgba(0, 0, 0, 0.06);
+            -webkit-box-shadow: 0px 5px 60px rgba(0, 0, 0, 0.06);
+            border-radius: 0px 50px 0px 0px;
+            transition: all 0.5s linear;
+            -webkit-transition: all 0.5s linear;
             font-size: 14px;
         }
         
@@ -478,7 +481,7 @@
         }
         
         .global--container main h1 {
-            margin-bottom: 55px;
+            margin-bottom: 30px;
         }
         
         .global--container .margins {
@@ -811,7 +814,9 @@
         
         .file-management--categories>* h2 {
             color: #00000080;
-            width: 70%;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
             margin-bottom: 12px;
         }
         
