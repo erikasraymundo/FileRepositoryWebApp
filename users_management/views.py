@@ -215,13 +215,14 @@ def printActivePDF(request,  sort_by=5, query=None, fromDate=None, toDate=None):
     paragraphStyle = getSampleStyleSheet()
 
     data = [
-        ['Username', 'Name', 'Email', 'Account Created']
+        ['ID', 'Username', 'Name', 'Email', 'Account Created']
     ]
 
     for user in users:
         created_at = user.created_at.strftime("%m/%d/%Y %I:%M %p")
 
-        list = [Paragraph(f"{user.username}", paragraphStyle['Normal']),
+        list = [Paragraph(f"{user.id}", paragraphStyle['Normal']),
+                Paragraph(f"{user.username}", paragraphStyle['Normal']),
                 Paragraph(f"{user.full_name()}", paragraphStyle['Normal']),
                 Paragraph(f"{user.email}", paragraphStyle['Normal']),
                 Paragraph(f"{created_at}",  paragraphStyle['Normal'])]
@@ -235,7 +236,7 @@ def printActivePDF(request,  sort_by=5, query=None, fromDate=None, toDate=None):
     )
 
     table = Table(data, colWidths=[
-                  25 * mm, 40 * mm, 60 * mm, 40 * mm])
+                  15 * mm, 30 * mm, 40 * mm, 42 * mm, 38 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -356,16 +357,17 @@ def printArchivedPDF(request,  sort_by=5, query=None, fromDate=None, toDate=None
     paragraphStyle = getSampleStyleSheet()
 
     data = [
-        ['Username', 'Name', 'Email', 'Account Created']
+        ['ID', 'Username', 'Name', 'Email', 'Account Archived']
     ]
 
     for user in users:
-        created_at = user.created_at.strftime("%m/%d/%Y %I:%M %p")
+        deleted_at = user.deleted_at.strftime("%m/%d/%Y %I:%M %p")
 
-        list = [Paragraph(f"{user.username}", paragraphStyle['Normal']),
+        list = [Paragraph(f"{user.id}", paragraphStyle['Normal']),
+                Paragraph(f"{user.username}", paragraphStyle['Normal']),
                 Paragraph(f"{user.full_name()}", paragraphStyle['Normal']),
                 Paragraph(f"{user.email}", paragraphStyle['Normal']),
-                Paragraph(f"{created_at}",  paragraphStyle['Normal'])]
+                Paragraph(f"{deleted_at}",  paragraphStyle['Normal'])]
         data.append(list)
 
     pdf = SimpleDocTemplate(
@@ -376,7 +378,7 @@ def printArchivedPDF(request,  sort_by=5, query=None, fromDate=None, toDate=None
     )
 
     table = Table(data, colWidths=[
-                  25 * mm, 40 * mm, 60 * mm, 40 * mm])
+                  15 * mm, 30 * mm, 40 * mm, 42 * mm, 38 * mm])
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (5, 0), colors.HexColor("#8761F4")),
@@ -569,7 +571,7 @@ def AddAccount(request):
     except:
         return HttpResponseRedirect(reverse('index'))
 
-    generatedPassword = random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
+    generatedPassword = random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
    #For Usernameand email Checking
     list = []
     listEmails = []
@@ -668,7 +670,7 @@ def SaveChangesOnEditUserAccount(request):
         user.image = request.FILES['image']
     user.save()
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=session_user_id)
     log.description = 'Administrator with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'edited account details for user with ID: #' + str(request.POST['PK']) + ' ( username: ' +  user.username + ' ) '
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
@@ -699,7 +701,7 @@ def ArchieveUserAccount(request):
     admin.updated_at = timezone.now()
     admin.save() 
     log = Log()
-    log.user_id = User.objects.get(pk=1)
+    log.user_id = User.objects.get(pk=session_user_id)
     log.description = 'Administrator has archived the user with ID: #' + str(request.POST['ID']) + ' ( username - ' + admin.username + ' ).'
     log.save()
     return HttpResponseRedirect(reverse('users-management:index'))
