@@ -82,7 +82,7 @@
                </form>
                      </div>
                      <div>
-                        <a class="btn-black" onclick='EditThisUserAccount()'>Edit Profile</a>
+                        <a class="btn-black" onclick='EditThisUserAccount()' id='btnEditProfile'>Edit Profile</a>
                      </div>
                </div>
                <div class="cta-holder">
@@ -99,6 +99,7 @@
             document.getElementById('DeleteAccountRenameIfArchived').textContent= 'Archive Account';
          }else{
             document.getElementById('DeleteAccountRenameIfArchived').textContent= 'Restore Account';
+            document.getElementById('btnEditProfile').style.display= 'none';
          }
 
          function archiveThisAccount(){
