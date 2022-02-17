@@ -125,12 +125,16 @@
         });
    {% endif %}
 
-    fullYear = new Date().getFullYear();
+    year = new Date().getFullYear() - 18;
+    var d = new Date();
+    var date = (d.getMonth()+1) + "/" + d.getDate() +"/" + year;
+    alert(date);
 
     $("#birthday").datepicker({
         changeMonth: true,
         changeYear: true,
-        yearRange: "1950:"+fullYear
+        yearRange: "1950:"+ year,
+        defaultDate: date
     });
     
     $("form").submit(function(e) {
