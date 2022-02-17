@@ -148,21 +148,67 @@
                </svg>
             </span>
          </div>
+         <style>
+/* The message box is shown when the user clicks on the password field */
+#messageVALIDATIONS {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+#messageVALIDATIONS p {
+  padding: 10px 35px;
+  font-size: 18px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+  content: "✖";
+}
+</style>
          <form action="{% url 'UpdatePassword' %}" method="POST" id='FORMUpdateAdminPassword' autocomplete='off'>
             {% csrf_token %}
             <div class="row">
                <div class="col-12">
-                  <input type="password" placeholder='Enter Current Password' id='FCurrPassword' maxlength="20">
+                  <input type="password" placeholder='Enter Current Password' id='FCurrPassword' maxlength="20" required>
                </div>
             </div>
             <div class="row">
                <div class="col-12">
-                  <input type="password" name='newPassword' placeholder='Enter New Password'  id='FNewPassword' maxlength="20">
+                  <input onkeyup='onKeyUpSesame()' onfocus='openSesame()' onfocusout='closeSesame()'type="password" name='newPassword' placeholder='Enter New Password'  id='FNewPassword' maxlength="20" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                </div>
             </div>
+            
+<div id="messageVALIDATIONS">
+   <h3>Password must contain the following:</h3>
+   <p id="letter2" class="invalid">A <b>lowercase</b> letter</p>
+   <p id="capital2" class="invalid">A <b>capital (uppercase)</b> letter</p>
+   <p id="number2" class="invalid">A <b>number</b></p>
+   <p id="length2" class="invalid">Minimum <b>8 characters</b></p>
+ </div>
             <div class="row">
                <div class="col-12">
-                  <input type="password"  placeholder='Confirm New Password'  id='FNew2Password' maxlength="20">
+                  <input type="password"  placeholder='Confirm New Password'  id='FNew2Password' maxlength="20" required>
                </div>
             </div>
             <div class="row">
@@ -443,30 +489,40 @@ $("#editUserLastName").keypress(function(event) {
             confirmButtonText: 'Ok',
          })
       }else{
-         if(curr == currentPassword){
-            if(newPass == newPass2){
-            //Save to Database
+         //Check kung tama format ni user ng password
+         if(letter2.className == 'invalid' || capital2.className == 'invalid' || number2.className == 'invalid' || length2.className == 'invalid' ){
             Swal.fire({
-               icon: 'success',
-               allowOutsideClick: false,
-               title: "Your passwords has been changed successfully.",
-               confirmButtonText: 'Great',
-            }).then (() => {
-               document.getElementById('FORMUpdateAdminPassword').submit();
+               icon: 'error',
+               title: "Please follow the required format for a password.",
+               confirmButtonText: 'Ok',
             })
+         }else{
+            if(curr == currentPassword){
+               if(newPass == newPass2){
+               //Save to Database
+               Swal.fire({
+                  icon: 'success',
+                  allowOutsideClick: false,
+                  title: "Your passwords has been changed successfully.",
+                  confirmButtonText: 'Great',
+               }).then (() => {
+                  document.getElementById('FORMUpdateAdminPassword').submit();
+               })
+               }else{
+                  Swal.fire({
+                     icon: 'error',
+                     title: "Your passwords does not match.",
+                     confirmButtonText: 'Ok',
+                  })
+               }
             }else{
                Swal.fire({
                   icon: 'error',
-                  title: "Your passwords does not match.",
+                  title: "Incorrect current password.",
                   confirmButtonText: 'Ok',
                })
-            }
-         }else{
-            Swal.fire({
-               icon: 'error',
-               title: "Incorrect current password.",
-               confirmButtonText: 'Ok',
-            })
+         }
+         
       }
    }}
 
@@ -587,6 +643,64 @@ $("#editUserLastName").keypress(function(event) {
    }  
    today = yyyy + '-' + mm + '-' + dd;
    document.getElementById("bDay").setAttribute("max", today);
+
+   //////////////////////////////////
+   //Password Validation
+function openSesame(){
+   document.getElementById("messageVALIDATIONS").style.display = "block";
+   document.getElementById("messageVALIDATIONS").style.position = "absolute";
+   document.getElementById("messageVALIDATIONS").style.zIndex = "5";
+}
+function closeSesame(){
+   document.getElementById("messageVALIDATIONS").style.display = "none";
+}
+function onKeyUpSesame(){
+var myInput = document.getElementById("FNewPassword");
+
+var letter = document.getElementById("letter2");
+var capital = document.getElementById("capital2");
+var number = document.getElementById("number2");
+var length = document.getElementById("length2");
+// Validate lowercase letters
+var lowerCaseLetters = /[a-z]/g;
+if(myInput.value.match(lowerCaseLetters)) {  
+  letter.classList.remove("invalid");
+  letter.classList.add("valid");
+} else {
+  letter.classList.remove("valid");
+  letter.classList.add("invalid");
+}
+
+// Validate capital letters
+var upperCaseLetters = /[A-Z]/g;
+if(myInput.value.match(upperCaseLetters)) {  
+  capital.classList.remove("invalid");
+  capital.classList.add("valid");
+} else {
+  capital.classList.remove("valid");
+  capital.classList.add("invalid");
+}
+
+// Validate numbers
+var numbers = /[0-9]/g;
+if(myInput.value.match(numbers)) {  
+  number.classList.remove("invalid");
+  number.classList.add("valid");
+} else {
+  number.classList.remove("valid");
+  number.classList.add("invalid");
+}
+
+// Validate length
+if(myInput.value.length >= 8) {
+  length.classList.remove("invalid");
+  length.classList.add("valid");
+} else {
+  length.classList.remove("valid");
+  length.classList.add("invalid");
+}
+}
+   ////////////////////////
 
 </script>
   
