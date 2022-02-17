@@ -130,6 +130,12 @@ def printPDF(request,  sort_by=4, query=None, fromDate=None, toDate=None):
         return HttpResponseRedirect(reverse('index'))
 
 
+
+    log = Log()
+    log.description = f"A printed PDF report of the activity logs was generated."
+    log.user_id = logged_user
+    log.save()
+
     if query == None:
         query = ""
 
@@ -172,7 +178,7 @@ def printPDF(request,  sort_by=4, query=None, fromDate=None, toDate=None):
     response = HttpResponse(content_type='application/pdf')
     pdf_name = "logs-%s.pdf" % str(
         datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S'))
-    response['Content-Disposition'] = 'attachment; Logname=%s' % pdf_name
+    response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
 
     buff = BytesIO()
     paragraphStyle = getSampleStyleSheet()

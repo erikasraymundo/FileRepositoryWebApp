@@ -302,6 +302,12 @@ def printActivePDF(request,  sort_by=5, query=None, fromDate=None, toDate=None):
 
     response.write(buff.getvalue())
     buff.close()
+
+    log = Log()
+    log.description = f"A printed PDF report of the list of active users was generated."
+    log.user_id = logged_user
+    log.save()
+
     return response
 
 
@@ -446,6 +452,11 @@ def printArchivedPDF(request,  sort_by=5, query=None, fromDate=None, toDate=None
 
     response.write(buff.getvalue())
     buff.close()
+
+    log = Log()
+    log.description = f"A printed PDF report of the list of archived users was generated."
+    log.user_id = logged_user
+    log.save()
     return response
 
 
@@ -491,10 +502,10 @@ def UpdatePassword(request):
     admin.password = request.POST['newPassword']
     admin.updated_at = timezone.now()
     admin.save()
-    log = Log()
-    log.user_id = User.objects.get(pk= session_user_id)
-    log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'updated his/her password'
-    log.save()
+    # log = Log()
+    # log.user_id = User.objects.get(pk= session_user_id)
+    # log.description = 'User with ID: #' + str(request.session.get('user_id'))+ ' ( username - ' +  log.user_id.username+ ' ) ' + 'updated his/her password'
+    # log.save()
 
     return HttpResponseRedirect(reverse('profile'))
 
