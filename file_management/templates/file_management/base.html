@@ -932,6 +932,15 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .file-management--table-container table tbody tr td:nth-child(1) {
+            text-align: left;
+            padding-left: 4rem;
+        }
+        .file-management--table-container table thead tr th:nth-child(1) {
+            text-align: left;
+            padding-left: 4rem;
+        }
         
         .file-management--table-container table tbody tr {
             -webkit-transition: all 300ms ease-in-out;
@@ -1332,8 +1341,10 @@
         }
         
         .profile--image a img {
-            width: 100%;
-            height: auto;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            object-position: center;
         }
         /*# sourceMappingURL=style.css.map */
         
