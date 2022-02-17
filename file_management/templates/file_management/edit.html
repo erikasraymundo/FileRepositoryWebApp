@@ -8,9 +8,12 @@
       <form id="my_form" method="POST" action="{% url 'file-management:update' file.id %}" enctype="multipart/form-data">
          {% csrf_token %}
          <div class="container">
+            <div class="column">
+               <h4>You may change your uploaded file, but the maximum size is still only at 500mb.</h4>
+            </div>
             <div class="columns">
                <div class="column">
-                  <input id="name" class="input" type="text" placeholder="Text input" name="name" value="{{ file.name }}">
+                  <input id="name" class="input" type="text" placeholder="Enter a file name" name="name" value="{{ file.name }}">
                </div>
                <div class="column column-file" style="position: relative">
                   <!--<label class="file-placeholder">Choose a file (200mb max)</label>-->
@@ -49,7 +52,8 @@
             </div>
             <div class="columns">
                <div class="column">
-                  <textarea class="textarea" placeholder="e.g. Hello world" name="description">{{ file.description }}</textarea>
+                  <textarea class="textarea" placeholder="Enter details of the file uploaded (Optional)"
+                     name="description">{{ file.description }}</textarea>
                </div>
             </div>
             <div class="columns">

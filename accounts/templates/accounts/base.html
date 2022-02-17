@@ -123,11 +123,12 @@
     color: #272727;
     }
 
-    .register {
+    #body-register {
     background-color: #8761F4;
-    height: 100%;
-    width: 100%;
-    position: absolute;
+    }
+
+    .register-container {
+        margin: 5% auto;
     }
 
     .register .register-container {
@@ -137,13 +138,6 @@
     -webkit-box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
         box-shadow: 0px 4px 45px rgba(0, 0, 0, 0.2);
     padding: 36px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        overflow: auto;
-        height: 90%;
     }
 
     .register .register-text {
@@ -885,10 +879,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 </head>
-<body>
 
     {% block content %}
     {% endblock %}
 
-</body>
 </html>

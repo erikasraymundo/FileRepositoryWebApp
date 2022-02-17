@@ -1,6 +1,8 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
+
+<body id="body-register">
 <section class="register">
     <div class="register-container">
 
@@ -117,13 +119,19 @@
     {% elif success == 1 %}
         Swal.fire({
             icon: 'success',
-            title: 'You have successfully registered!'
+            title: 'You have been successfully registered!'
         }).then(function () {
             window.location.replace("{% url 'loginView' %}");
         });
    {% endif %}
 
-    $("#birthday").datepicker();
+    fullYear = new Date().getFullYear();
+
+    $("#birthday").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "1950:"+fullYear
+    });
     
     $("form").submit(function(e) {
 
@@ -173,3 +181,4 @@
 </script>
 
 {% endblock %}
+</body>
