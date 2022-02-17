@@ -63,7 +63,44 @@
           </style>
 
           <div class="edit-accounts--form-container">
-             
+            <style>
+               /* The message box is shown when the user clicks on the password field */
+               #messageVALIDATIONS {
+                 display:none;
+                 background: #f1f1f1;
+                 color: #000;
+                 position: relative;
+                 padding: 20px;
+                 margin-top: 10px;
+               }
+               
+               #messageVALIDATIONS p {
+                 padding: 10px 35px;
+                 font-size: 18px;
+               }
+               
+               /* Add a green text color and a checkmark when the requirements are right */
+               .valid {
+                 color: green;
+               }
+               
+               .valid:before {
+                 position: relative;
+                 left: -35px;
+                 content: "✔";
+               }
+               
+               /* Add a red text color and an "x" when the requirements are wrong */
+               .invalid {
+                 color: red;
+               }
+               
+               .invalid:before {
+                 position: relative;
+                 left: -35px;
+                 content: "✖";
+               }
+               </style>
             <form action="{%  url 'SaveChangesOnEditUserAccount' %}" method="POST" id='SaveChangesForm' autocomplete='off'  enctype="multipart/form-data">
               {% csrf_token %}
               <input type='file' style='display:none' id='uploadProfilePic' accept='image/*' name='image'>
@@ -77,6 +114,19 @@
                     <input type="text" value="{{ detail.username }}"  name='username' id ='username' placeholder='Enter Username' maxlength="25">
                     <input type="text" value="{{ detail.pk }}" name='PK' style="display:none"> 
                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                   <input onkeyup='onKeyUpSesame()' onfocus='openSesame()' onfocusout='closeSesame()' type="password" placeholder="Enter Password"  value="{{ detail.password }}"  name='password'
+                   id ='password'  maxlength="30"> 
+                  </div>
+               </div>
+               <div id="messageVALIDATIONS">
+                  <h3>Password must contain the following:</h3>
+                  <p id="letter2" class="invalid">A <b>lowercase</b> letter</p>
+                  <p id="capital2" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                  <p id="number2" class="invalid">A <b>number</b></p>
+                  <p id="length2" class="invalid">Minimum <b>8 characters</b></p>
                 </div>
                 <div class="row">
                     <div class="col-12">
@@ -265,38 +315,49 @@ if(re.test(email)){
      isDuplicate = true;
   }
   if(!isDuplicate){
-     //Validate if email is unique
-     var isDuplicatEmail = false;
-     for(var i = 0 ; i < listOfEmails.length; i++){
-     if(i+1 == listOfEmails.length){
-     //last index
-     if(listOfEmails[i] == email){
-      isDuplicatEmail = true;
-     }
-        if(!isDuplicatEmail){
-         //Save To DB
-         Swal.fire({
-          icon: 'success',
-          allowOutsideClick: false,
-          title: "Changes has been saved",
-          confirmButtonText: 'Great',
-      }).then(() => {
-          document.getElementById('SaveChangesForm').submit()
-       })
-          }else{
-            //Error Message
-            Swal.fire({
-            icon: 'error',
-            title: "Email address is already used for another account.",
-            confirmButtonText: 'Ok',
-           });
-            }
+       //Check kung tama format ni user ng password
+       if(letter2.className == 'invalid' || capital2.className == 'invalid' || number2.className == 'invalid' || length2.className == 'invalid' ){
+        //Error Message
+  Swal.fire({
+   icon: 'error',
+   title: "Please follow the required format for a password.",
+   confirmButtonText: 'Ok',
+});
+      }else{
+//Validate if email is unique
+var isDuplicatEmail = false;
+for(var i = 0 ; i < listOfEmails.length; i++){
+if(i+1 == listOfEmails.length){
+//last index
+if(listOfEmails[i] == email){
+ isDuplicatEmail = true;
+}
+   if(!isDuplicatEmail){
+    //Save To DB
+    Swal.fire({
+     icon: 'success',
+     allowOutsideClick: false,
+     title: "Changes has been saved",
+     confirmButtonText: 'Great',
+ }).then(() => {
+     document.getElementById('SaveChangesForm').submit()
+  })
      }else{
-       if(listOfEmails[i] == email){
-         isDuplicatEmail = true;
-          }
-          }
-         }
+       //Error Message
+       Swal.fire({
+       icon: 'error',
+       title: "Email address is already used for another account.",
+       confirmButtonText: 'Ok',
+      });
+       }
+}else{
+  if(listOfEmails[i] == email){
+    isDuplicatEmail = true;
+     }
+     }
+    }
+      }
+     
   }else{
  //Error Message
   Swal.fire({
@@ -367,6 +428,89 @@ if(re.test(email)){
    }  
    today = yyyy + '-' + mm + '-' + dd;
    document.getElementById("bday").setAttribute("max", today);
+
+   
+   //////////////////////////////////
+   //Password Validation
+function openSesame(){
+   document.getElementById("messageVALIDATIONS").style.display = "block";
+   document.getElementById("messageVALIDATIONS").style.position = "absolute";
+   document.getElementById("messageVALIDATIONS").style.zIndex = "5";
+}
+function closeSesame(){
+   document.getElementById("messageVALIDATIONS").style.display = "none";
+}
+function onKeyUpSesame(){
+var myInput = document.getElementById("password");
+
+var letter = document.getElementById("letter2");
+var capital = document.getElementById("capital2");
+var number = document.getElementById("number2");
+var length = document.getElementById("length2");
+// Validate lowercase letters
+var lowerCaseLetters = /[a-z]/g;
+if(myInput.value.match(lowerCaseLetters)) {  
+  letter.classList.remove("invalid");
+  letter.classList.add("valid");
+} else {
+  letter.classList.remove("valid");
+  letter.classList.add("invalid");
+}
+
+// Validate capital letters
+var upperCaseLetters = /[A-Z]/g;
+if(myInput.value.match(upperCaseLetters)) {  
+  capital.classList.remove("invalid");
+  capital.classList.add("valid");
+} else {
+  capital.classList.remove("valid");
+  capital.classList.add("invalid");
+}
+
+// Validate numbers
+var numbers = /[0-9]/g;
+if(myInput.value.match(numbers)) {  
+  number.classList.remove("invalid");
+  number.classList.add("valid");
+} else {
+  number.classList.remove("valid");
+  number.classList.add("invalid");
+}
+
+// Validate length
+if(myInput.value.length >= 8) {
+  length.classList.remove("invalid");
+  length.classList.add("valid");
+} else {
+  length.classList.remove("valid");
+  length.classList.add("invalid");
+}
+}
+
+//Check kung ano na dapat naka check sa mga parameters - set sa valid yung class if ever
+var wordToCheck = Array.from(document.getElementById('password').value);
+if(wordToCheck.length >= 8){
+   document.getElementById("length2").classList.remove("invalid");
+   document.getElementById("length2").classList.add("valid");
+}
+for(var i = 0; i < wordToCheck.length; i++){
+   if(isCharNumber(wordToCheck[i])){
+      document.getElementById("number2").classList.remove("invalid");
+      document.getElementById("number2").classList.add("valid");
+   }else{
+      if(wordToCheck[i] == wordToCheck[i].toUpperCase()){
+         document.getElementById("capital2").classList.remove("invalid");
+         document.getElementById("letter2").classList.remove("invalid");
+         document.getElementById("capital2").classList.add("valid");
+         document.getElementById("letter2").classList.add("valid");
+      }
+   }
+}
+
+function isCharNumber(c) {
+   return c >= '0' && c <= '9';
+ }
+   ////////////////////////
   
 </script>
  
