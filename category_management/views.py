@@ -70,7 +70,7 @@ def AddCategory(request):
                     category.save()
                     log = Log()
                     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-                    log.description = request.POST['CategoryInput'] + ' has been moved to active categories.'
+                    log.description = request.POST['CategoryInput'] + ' has been restored.'
                     log.save()
                 break
 
@@ -80,7 +80,7 @@ def AddCategory(request):
             category.save()
             log = Log()
             log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-            log.description = category.title + ' category was created.'
+            log.description = 'Category named ' + category.title + ' was created.'
             log.save()
     return HttpResponseRedirect(reverse('categoryManagement'))
 
@@ -99,7 +99,7 @@ def DeleteCategory(request):
     entry.save()
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = entry.title + ' has been moved to the archived categories.'
+    log.description = entry.title + ' has been archived.'
     log.save()
     return HttpResponseRedirect(reverse('categoryManagement'))
 
@@ -152,7 +152,7 @@ def RestoreCategory(request):
     entry.save()
     log = Log()
     log.user_id = User.objects.get(pk=  request.session.get('user_id'))
-    log.description = entry.title + ' has been moved to the active categories.'
+    log.description = entry.title + ' has been restored.'
     log.save()
 
     return HttpResponseRedirect(reverse('archiveCategory'))
