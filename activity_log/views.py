@@ -65,6 +65,8 @@ def index(request,  sort_by=4, query=None, fromDate=None, toDate=None):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
     
@@ -122,6 +124,8 @@ def printPDF(request,  sort_by=4, query=None, fromDate=None, toDate=None):
     try:
         session_user_id = request.session.get('user_id')
         logged_user = User.objects.get(pk=session_user_id)
+        if logged_user.is_superuser == 0:
+            return HttpResponseRedirect(reverse('index'))
     except:
         return HttpResponseRedirect(reverse('index'))
 
