@@ -83,9 +83,7 @@ def register(request):
     user.address = request.POST['address']
     user.email = request.POST['email']
     user.gender = request.POST['gender']
-    birthdate = request.POST['birthday']
-    user.birthdate = datetime.datetime(
-        int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
+    user.birthdate = request.POST['birthday']
     user.date_joined = timezone.now()
     user.password = request.POST['password']
     user.is_superuser = False
@@ -102,7 +100,7 @@ def register(request):
          "address": request.POST['address'],
          "email": request.POST['email'],
          "gender": request.POST['gender'],
-         "birthdate": birthdate,
+         "birthdate": request.POST['birthday'],
          "email": request.POST['email'],
          "password": request.POST['password'],
          "confirm_password": request.POST['confirm_password']})
@@ -116,7 +114,7 @@ def register(request):
          "address": request.POST['address'],
          "email": request.POST['email'],
          "gender": request.POST['gender'],
-         "birthdate": birthdate,
+         "birthdate": request.POST['birthday'],
          "email": request.POST['email'],
          "password": request.POST['password'],
          "confirm_password": request.POST['confirm_password']})
@@ -136,7 +134,7 @@ def register(request):
                                                           "address": request.POST['address'],
                                                           "email": request.POST['email'],
                                                           "gender": request.POST['gender'],
-                                                          "birthdate": birthdate,
+                                                          "birthdate": request.POST['birthday'],
                                                           "email": request.POST['email'],
                                                           "password": request.POST['password'],
                                                           "confirm_password": request.POST['confirm_password']})
