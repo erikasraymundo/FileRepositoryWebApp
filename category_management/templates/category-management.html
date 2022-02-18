@@ -1227,34 +1227,51 @@
                     confirmButtonText: 'Ok',
                 })
             } else {
-                //Check if duplicate categ name.
-                var isDuplicate = false;
-                for (var i = 0; i < listOfUsernames.length; i++) {
-                    if (listOfUsernames[i] == document.getElementById('inputedCategoryName').value) {
-                        isDuplicate = true;
-                    }
-                    if (i + 1 == listOfUsernames.length) {
-                        if (!isDuplicate) {
-                            //Save To DB
-                            Swal.fire({
-                                icon: 'success',
-                                allowOutsideClick: false,
-                                title: "Category has been added successfully.",
-                                confirmButtonText: 'Great',
-                            }).then(() => {
-                                document.getElementById('ModalForAddingCategoryClicked').submit();
-                            });
-                        } else {
-                            //Error Message
-                            Swal.fire({
-                                icon: 'error',
-                                title: "Category name already exists.",
-                                confirmButtonText: 'Ok',
-                            });
+
+
+                if (listOfUsernames.length == 0) {
+                    //Save To DB
+                    Swal.fire({
+                        icon: 'success',
+                        allowOutsideClick: false,
+                        title: "Category has been added successfully.",
+                        confirmButtonText: 'Great',
+                    }).then(() => {
+                        document.getElementById('ModalForAddingCategoryClicked').submit();
+                    });
+                } else {
+
+                    //Check if duplicate categ name.
+                    var isDuplicate = false;
+                    for (var i = 0; i <= listOfUsernames.length; i++) {
+                        if (listOfUsernames[i] == document.getElementById('inputedCategoryName').value) {
+                            isDuplicate = true;
+                        }
+
+                        if (i + 1 == listOfUsernames.length) {
+                            if (!isDuplicate) {
+                                //Save To DB
+                                Swal.fire({
+                                    icon: 'success',
+                                    allowOutsideClick: false,
+                                    title: "Category has been added successfully.",
+                                    confirmButtonText: 'Great',
+                                }).then(() => {
+                                    document.getElementById('ModalForAddingCategoryClicked').submit();
+                                });
+                            } else {
+                                //Error Message
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: "Category name already exists.",
+                                    confirmButtonText: 'Ok',
+                                });
+                            }
                         }
                     }
+
                 }
-            }
+}
         }
 
         function CloseModal() {
