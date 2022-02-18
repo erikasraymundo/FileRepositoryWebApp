@@ -72,20 +72,20 @@
 
      //Check for special Characters(kenet)
    
-$("#name").keypress(function(event) {
-   var character = String.fromCharCode(event.keyCode);
-   if(! isValid(character)){
-      Swal.fire({
-         icon: 'error',
-         title: "File name could not contain special characters.",
-         confirmButtonText: 'Ok',
-      })
-   }
-   return isValid(character);
-});
-   function isValid(str) {
-         return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
-     }
+// $("#name").keypress(function(event) {
+//    var character = String.fromCharCode(event.keyCode);
+//    if(! isValid(character)){
+//       Swal.fire({
+//          icon: 'error',
+//          title: "File name could not contain special characters.",
+//          confirmButtonText: 'Ok',
+//       })
+//    }
+//    return isValid(character);
+// });
+//    function isValid(str) {
+//          return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+//      }
 
    var beingSubmitted = false;
 

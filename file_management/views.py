@@ -826,9 +826,17 @@ def printIndivualFilePDF(request, file_id):
         [Paragraph('<b>Details of the file:</b>', labelStyle)]
     ]
 
-    table5 = [
-        [Paragraph(file.description, contentStyle)]
-    ]
+    if file.description == '':
+        table5 = [
+                [Paragraph("No additional details are provided for this file.", contentStyle)]
+            ]
+    else:
+        table5 = [
+                [Paragraph(f"{file.description}", contentStyle)]
+            ]
+
+
+    
 
     pdf = SimpleDocTemplate(
         buff,

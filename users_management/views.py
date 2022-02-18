@@ -547,7 +547,11 @@ def UpdateAccountDetails(request):
     admin.address = request.POST['address']
     admin.email = request.POST['email']
     birthdate = request.POST['birthday']
-    admin.birthdate = datetime.datetime(int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
+    
+    try:
+        admin.birthdate = datetime.datetime(int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
+    except:
+        pass
     admin.gender = request.POST['group']
     admin.save()
     log = Log()
@@ -702,7 +706,12 @@ def SaveChangesOnEditUserAccount(request):
     user.email = request.POST['email']
     user.gender = request.POST['group']
     birthdate = request.POST['birthday']
-    user.birthdate = datetime.datetime(int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
+    #   05/19/2000
+    #  01234567890
+    try:
+        user.birthdate = datetime.datetime(int(birthdate[7:10]), int(birthdate[0:2]), int(birthdate[4:5]))
+    except:
+        pass
     if len(request.FILES) != 0:
         user.image = request.FILES['image']
     user.save()

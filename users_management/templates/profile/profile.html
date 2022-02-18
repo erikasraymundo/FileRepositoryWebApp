@@ -337,18 +337,17 @@
    </form>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-
-
-   
    year = new Date().getFullYear() - 18;
     var d = new Date();
     var date = (d.getMonth()+1) + "/" + d.getDate() +"/" + year;
+
 
     $("#birthday").datepicker({
         changeMonth: true,
         changeYear: true,
         yearRange: "1950:"+ year,
-        defaultDate: date
+        defaultDate: date,
+        setDate: {{bday}}
     });
 
    //For not allowing special characters.

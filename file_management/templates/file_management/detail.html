@@ -67,8 +67,11 @@
 
         <div class="flex-description spacing mb-2">
             <h4>Description:</h4>
-            <div>
+            <div>{% if file.description %}
                 <p>{{file.description}}</p>
+                {% else %}
+                <p>No additional details are provided for this file.</p>
+                {% endif %}
             </div>
         </div>
 
