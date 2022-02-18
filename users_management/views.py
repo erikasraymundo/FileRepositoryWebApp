@@ -549,7 +549,8 @@ def UpdateAccountDetails(request):
     birthdate = request.POST['birthday']
     
     try:
-        admin.birthdate = datetime.datetime(int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
+        admin.birthdate = datetime.datetime(
+        int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
     except:
         pass
     admin.gender = request.POST['group']
@@ -709,7 +710,8 @@ def SaveChangesOnEditUserAccount(request):
     #   05/19/2000
     #  01234567890
     try:
-        user.birthdate = datetime.datetime(int(birthdate[7:10]), int(birthdate[0:2]), int(birthdate[4:5]))
+        user.birthdate = datetime.datetime(
+        int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
     except:
         pass
     if len(request.FILES) != 0:
