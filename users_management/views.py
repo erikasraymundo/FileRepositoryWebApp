@@ -477,17 +477,11 @@ def profile(request):
     for user in users:
         listEmails.append(user.email)
 
-    forDate = logged_user
-    asd = forDate.birthdate
-    date = asd.isoformat()
-    dateToThrow = date[5:7] + '/' + date[8:10] + '/' + date[0:4]
-
     return render(request, 'profile/profile.html', {
         'user' : logged_user,
         'details' : User.objects.filter(pk = request.session.get('user_id'), is_active = 1 , ),
         'username': list,
         'emails': listEmails,
-        'bday': dateToThrow,
     })
 
 def UpdatePassword(request):
@@ -546,8 +540,7 @@ def UpdateAccountDetails(request):
     admin.last_name = request.POST['last_name']
     admin.address = request.POST['address']
     admin.email = request.POST['email']
-    birthdate = request.POST['birthday']
-    admin.birthdate = datetime.datetime(int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
+    admin.birthdate = request.POST['birthday']
     admin.gender = request.POST['group']
     admin.save()
     log = Log()
@@ -637,8 +630,7 @@ def AddUserAccount(request):
     user.address = request.POST['address']
     user.email = request.POST['email']
     user.gender = request.POST['group']
-    birthdate = request.POST['birthday']
-    user.birthdate = datetime.datetime(int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
+    user.birthdate = request.POST['birthday']
     user.date_joined =  timezone.now()
     user.is_superuser = False
     user.is_staff = False
@@ -670,15 +662,9 @@ def EditAccount(request):
     for user in users:
         list.append(user.username)
         listEmails.append(user.email)
-    
-    user2 = User.objects.get(pk = request.POST['PK'])
-    asd = user2.birthdate
-    date = asd.isoformat()
-    dateToThrow = date[5:7] + '/' + date[8:10] + '/' + date[0:4]
     return render(request, 'user-accounts/edit-account.html', {
         'user' : logged_user,
         'users' : User.objects.filter(pk = request.POST['PK']),
-        'bday' : dateToThrow,
         'invalidUsernames' : list,
         'emails' : listEmails,
     })
@@ -701,8 +687,7 @@ def SaveChangesOnEditUserAccount(request):
     user.address = request.POST['address']
     user.email = request.POST['email']
     user.gender = request.POST['group']
-    birthdate = request.POST['birthday']
-    user.birthdate = datetime.datetime(int(birthdate[6:10]), int(birthdate[0:2]), int(birthdate[3:5]))
+    user.birthdate = request.POST['birthday']
     if len(request.FILES) != 0:
         user.image = request.FILES['image']
     user.save()

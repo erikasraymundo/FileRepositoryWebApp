@@ -17,7 +17,7 @@
                <input type='text' value=" {{ detail.middle_name }}" style='display:none' id='initialmiddleName'>
                <input type='text' value=" {{ detail.last_name }}" style='display:none' id='initiallastname'>
                <input type='text' value=" {{ detail.address }}" style='display:none' id='initialaddress'>
-               <input type='text' value=" {{ bday }}" style='display:none' id='initialbday'>
+               <input type='text' value=" {{ detail.birthdate }}" style='display:none' id='initialbday'>
                <input type='text' value=" {{ detail.email }}" style='display:none' id='initialemail'>
             {% if detail.image %}
             <input type='text' value="{{ detail.image.url }}" style='display:none' id='holderOfImageFromDB'>
@@ -273,7 +273,7 @@
                      </svg>
                  </div>
                   <label> Select birthdate </label>
-                  <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" readonly autocomplete="off">
+                  <input type="text" name="birthday" id="birthday" placeholder="Select birthdate*" readonly autocomplete="off" value='{{detail.birthdate}}'>
                </div>
             </div>
             <style>
