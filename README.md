@@ -20,7 +20,7 @@ django-admin startproject sample_project<br>
 - Sewlyn Jay Faustino
 - Kenneth Ghell Faundo
 
-**Other Contributors
+**Other Contributors**
 - Red Johnpaul Cruz
 - Dorothy Joy Francisco
 - Ian Romero
