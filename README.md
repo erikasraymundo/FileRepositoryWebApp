@@ -1,11 +1,12 @@
 # file_repository_web_app
 
-**Paano mag-setup ng virtual environment file**
+**How to setup virtual environment?**
 
-CMD dapat<br>
+Open CMD<br>
 pip install virtualenv<br>
 virtualenv python_web_app_env<br>
 python_web_app_env\Scripts\activate<br>
-para magdeactivate ng virtual environment:<br>
+
+**To deactivate:**
 deactivate<br>
 django-admin startproject sample_project<br>
