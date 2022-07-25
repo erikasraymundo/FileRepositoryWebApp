@@ -1,4 +1,6 @@
-# File Repository Web App developed using Django (Front and Back-end)
+# File Repository Web App
+
+**Developed using Django for front-end and back-end.**
 
 **How to setup virtual environment?**
 
