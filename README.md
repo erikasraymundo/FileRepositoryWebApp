@@ -1,4 +1,4 @@
-# file_repository_web_app
+# File Repository Web App developed using Django (Front and Back-end)
 
 **How to setup virtual environment?**
 
